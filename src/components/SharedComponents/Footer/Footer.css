@@ -1,0 +1,240 @@
+/*speicific routing path footer hidden */
+div .hidden {
+  -webkit-animation: slide-down .5s ease-in;
+  -moz-animation: slide-down .5s ease-in;
+  animation-fill-mode: forwards;
+  display: none;
+}
+
+@-webkit-keyframes slide-down {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(100%);
+  }
+  0% {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: translateY(0);
+  }
+}
+
+@-moz-keyframes slide-down {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    -moz-transform: translateY(100%);
+  }
+  0% {
+    opacity: 1;
+    visibility: visible;
+    -moz-transform: translateY(0);
+  }
+}
+
+.footer {
+  width: 1132px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 29px;
+  padding-bottom: 30px;
+}
+.footer__nav {
+  display: flex;
+  justify-content: center;
+  margin: 0 65px 36px auto;
+}
+.footer__nav-section {
+  height: 130px;
+  box-sizing: border-box;
+}
+.footer__nav .footer__nav-section:first-child {
+  width: 200px;
+}
+
+.footer__nav .footer__nav-section:nth-child(2) {
+  padding: 0 0 0 51px;
+}
+.footer__nav .footer__nav-section:last-child {
+  padding-left: 51px;
+  padding-right: 0;
+  border: none;
+}
+
+.footer__nav-link {
+  border-right: 1px solid #666666;
+  width: auto;
+  height: 89px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.nav-link {
+  font-family: NanumSquareR,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.7;
+  letter-spacing: .8px;
+  text-align: left;
+  color: #9fa9b3;
+  cursor: pointer;
+  margin-right: 39px;
+}
+
+.nav-link.right {
+  margin-right: 0;
+}
+.footer__nav .footer__nav-section:first-child .footer__nav-link {
+  /* width: 258px; */
+  padding-right: 74.5px;
+}
+.footer__nav .footer__nav-section:nth-child(2) .footer__nav-link {
+  width: 150px;
+  padding-right: 51px;
+}
+.footer__nav .footer__nav-section:nth-child(2) .nav-link {
+  margin-right: 32px;
+}
+.footer__nav .footer__nav-section:last-child .footer__nav-link {
+  width: 75px;
+  border-right: none;
+}
+.footer__nav .footer__nav-section:last-child .nav-link {
+  margin-right: 0;
+}
+.footer__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.footer__link-button-list {
+  display: flex;
+  margin-right: 59px;
+}
+.link-button {
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 28px;
+  font-family: NanumSquare,sans-serif;
+  border: solid 1px #9fa9b3;
+  font-size: 15px;
+  font-weight: normal;
+  letter-spacing: -0.1px;
+  text-align: center;
+  color: #c9c9c9;
+  padding: 6.5px 15px;
+  background-color: transparent;
+  margin-right: 25px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer__logo__container {
+  /* float: left; */
+  height: 100%;
+  text-align: left;
+  margin-right: 79px;
+}
+
+.footer__logo {
+  width: 72.4px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.footer__copyright {
+  font-family: NanumSquareR,sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: 0.15px;
+  text-align: center;
+  color: #b5b5b5;
+}
+
+.footer__link__facebook {
+  width: 14px;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.footer__link__home {
+  width: 25px;
+  cursor: pointer;
+}
+
+a {
+  color: white;
+  cursor: hand;
+}
+
+a:hover, a:visited, a:active, a:link {
+  text-decoration: none;
+}
+
+.mobile-footer {
+  display: none;
+}
+@media (max-width: 576px) {
+  .footer {
+    display: none;
+  }
+  .mobile-footer {
+    display: block;
+    padding: 21px 16px 18px 16px;
+  }
+
+  .mobile-footer__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: NanumSquareR,sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #c9c9c9;
+  }
+
+  .mobile-footer .mobile-footer__link:first-child {
+    margin-bottom: 10px;
+  }
+
+  .mobile-footer .mobile-footer__link:nth-child(2) {
+    margin-bottom: 13px;
+    margin-right: 6px;
+  }
+
+  .mobile-footer__logo {
+    width: 35px;
+    margin-right: 20px;
+  }
+  .mobile-footer__copyright {
+    font-family: NanumSquareR,sans-serif;
+    font-size: 9px;
+    font-weight: normal;
+    line-height: 1.11;
+    letter-spacing: -.57px;
+    text-align: left;
+    color: #7d7d7d;
+    margin-right: 17px;
+  }
+  .mobile-footer__link__facebook {
+    width: 9px;
+    margin-right: 16px;
+  }
+
+  .mobile-footer__link__home {
+    width: 15px;
+  }
+
+}
