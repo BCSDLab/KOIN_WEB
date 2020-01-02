@@ -50,6 +50,14 @@ const userWithdrawl = token => {
   });
 }
 
+const loginCheck = token => {
+  return axios.get(`${API_PATH}/user/me`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+}
+
 export {
   refresh,
   login,
@@ -58,5 +66,6 @@ export {
   signUp,
   findPassword,
   modifyUserInfo,
-  userWithdrawl
+  userWithdrawl,
+  loginCheck
 }
