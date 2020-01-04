@@ -73,8 +73,6 @@ const Category = styled.div`
     ${CategoryName} {
       color: #f7931e;
     }
-    ${CategoryImage} {
-    }
   }
 `;
 
@@ -97,6 +95,7 @@ export default function CircleList({
   onMouseOutCategory,
   categoryIndex
 }) {
+  console.log(tag);
   return (
     <Container>
       <ListSection>

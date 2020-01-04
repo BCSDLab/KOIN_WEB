@@ -6,7 +6,7 @@ const GET_CIRCLE_LIST_ERROR = "GET_CIRCLE_ERROR";
 
 const GET_CIRCLE_LIST_BY_CATEGORY = "GET_CIRCLE_LIST_BY_CATEGORY";
 
-export const getCircleList = () => async dispatch => {
+export const getCircleList = tag => async dispatch => {
   dispatch({ type: GET_CIRCLE_LIST });
   try {
     const res = await infoAPI.getCircleList();
@@ -14,6 +14,10 @@ export const getCircleList = () => async dispatch => {
       type: GET_CIRCLE_LIST_SUCCESS,
       res
     });
+    dispatch({
+      type: GET_CIRCLE_LIST_BY_CATEGORY,
+      tag
+    })
   } catch (e) {
     dispatch({
       type: GET_CIRCLE_LIST_ERROR,
@@ -59,7 +63,7 @@ export default function circleReducer(state = initialState, action) {
       return {
         ...state,
         filteredCircleList:
-          action.tag === null
+          action.tag === "ALL"
             ? state.circleList
             : state.circleList.filter(circle => circle.category === action.tag)
       };

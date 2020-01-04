@@ -3,7 +3,7 @@ export default [
     title: "전체보기",
     img: "https://static.koreatech.in/assets/img/ic_club_all.png",
     on_img: "https://static.koreatech.in/assets/img/ic_club_all_on.png",
-    tag: null
+    tag: "ALL"
   },
   {
     title: "예술분야",
