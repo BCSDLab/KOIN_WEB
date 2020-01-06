@@ -9,11 +9,17 @@ const CardContainer = styled.div`
   border: solid 1px #d8d8d8;
   height: 280px;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 `;
 
 const CircleBackgroundWrapper = styled.div`
   background: #175c8e;
-  width: 356px;
+  width: 100%;
   height: 128px;
   overflow: hidden;
 `;
@@ -26,10 +32,11 @@ const CircleLogoWrapper = styled.div`
   background: #d8d8d8;
   position: relative;
   top: -40px;
-  left: 135px;
   border-radius: 42px;
   border: solid 1px #d8d8d8;
+  margin: 0 auto;
 `;
+
 const CircleLogoImage = styled.img`
   width: 85px;
   height: 85px;
