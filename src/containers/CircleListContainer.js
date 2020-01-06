@@ -5,11 +5,11 @@ import * as CATEGORY from '../static/circleCategory';
 import CircleList from '../components/CircleList';
 
 export default function CircleListContainer() {
-  const [tag, setTag] = useState(sessionStorage.getItem("circleCategory"));
+  const [tag, setTag] = useState(sessionStorage.getItem("circleCategory") || "ALL");
   const [categoryIndex, setCategoryIndex] = useState("ALL");
   const dispatch = useDispatch();
-  const { filteredCircleList, loading, error } = useSelector(state => state.circleReducer);
-
+  const { filteredData, loading, error } = useSelector(state => state.circleReducer.circles);
+  
   const selectCategory = useCallback(tag => {
     setTag(tag);
     sessionStorage.setItem("circleCategory", tag);
@@ -32,7 +32,7 @@ export default function CircleListContainer() {
     <CircleList
       tag={tag}
       categories={CATEGORY.default}
-      circleList={filteredCircleList}
+      circleList={filteredData}
       loading={loading}
       error={error}
       selectCategory={selectCategory}
