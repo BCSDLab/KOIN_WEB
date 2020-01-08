@@ -101,14 +101,38 @@ const faq = {
 
 export default function FaqContainer() {
   const [faqList, setFaqList] = useState(faq);
+  const [totalPageNum, setTotalPageNum] = useState(4);
+  const [nowPageNum, setNowPageNum] = useState(0);
 
+  const clickPrevButton = () => {
+    if(nowPageNum === 0){
+      alert("첫 페이지입니다.");
+    }
+    else setNowPageNum(nowPageNum - 1);
+  };
+
+  const clickNextButton = () => {
+    if(nowPageNum === 3){
+      alert("마지막 페이지입니다.");
+    }
+    else setNowPageNum(nowPageNum + 1);
+  };
+
+  const clickPageNum = (n) => {
+    //setNowPageNum(n);
+  };
 
   useEffect(() => {
-    console.log(faqList)
+
   });
 
   return (
     <FaqPage
-      faqList={faqList}/>
+      faqList={faqList}
+      totalPageNum={totalPageNum}
+      nowPageNum={nowPageNum}
+      clickPrevButton={clickPrevButton}
+      clickNextButton={clickNextButton}
+      clickPageNum={clickPageNum}/>
   )
 }
