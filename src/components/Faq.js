@@ -4,6 +4,10 @@ import styled from "styled-components";
 const Container = styled.div`
   border-top: #f7941e 5px solid;
   width:100%;
+  
+    @media (max-width: 576px) {
+      border-top: none;
+    }
 `;
 
 const Faqs = styled.div`
@@ -11,6 +15,12 @@ const Faqs = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 64px;
+  
+  @media (max-width: 576px) {
+    width: calc(100% - 32px);
+    min-width: 300px;
+    margin: 30px auto auto auto;
+  }
 `;
 
 const Title = styled.div`
@@ -23,6 +33,13 @@ const Title = styled.div`
   height: 59px;
   width: 100%;
   text-align: left;
+  
+  @media (max-width: 576px) {
+    height: 22px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: none;
+  }
 `;
 
 const Desc = styled.div`
@@ -34,6 +51,15 @@ const Desc = styled.div`
   font-size: 24px;
   height: 80px;
   margin-bottom: 12px;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+    height: 45px;
+    font-size: 18px;
+    line-height: 1.39;
+    letter-spacing: normal;
+    margin-bottom: 0;
+  }
 `;
 
 const AskButton = styled.button`
@@ -48,6 +74,16 @@ const AskButton = styled.button`
   color: white;
   font-size: 12px;
   text-decoration: none;
+  
+  @media (max-width: 576px) {
+    width: 73px;
+    font-size: 13px;
+    letter-spacing: normal;
+    padding: 9px 0;
+    top: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
 `;
 
 const Tab = styled.div`
@@ -100,6 +136,24 @@ const Tab = styled.div`
   input:checked ~ .tab-content {
      max-height: 10em;
    }
+   
+  @media (max-width: 576px) {
+    width: 100%;
+    display: block;
+    
+    label {
+      color: #175c8e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 16px;
+      line-height: 1.33;
+    }
+    
+    label b {
+      margin-right: 3px;
+    }
+  }
 `;
 
 const UnderArrow = styled.img.attrs({
@@ -109,6 +163,11 @@ const UnderArrow = styled.img.attrs({
   float: right;
   margin-right: 22px;
   margin-top: 17px;
+  
+  @media (max-width: 576px) {
+    margin: 0 0 0 13px;
+    width: 17px;
+  }
 `;
 
 const P = styled.p`
@@ -116,6 +175,13 @@ const P = styled.p`
   text-align: left;
   float: left;
   letter-spacing: -0.8px;
+  
+  @media (max-width: 576px) {
+    margin: 20px 16.5px;
+    line-height: 1.38;
+    font-size: 13px;
+    letter-spacing: normal;
+  }
 `;
 
 const TabContent = styled.div`
@@ -131,6 +197,10 @@ const TabContent = styled.div`
   margin-top: -1px;
   width: 1132px;
   background: #e4e4e4;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 const Answer = styled.b`
@@ -138,6 +208,10 @@ const Answer = styled.b`
   float: left;
   width: 17px;
   height: 30px;
+  
+  @media (max-width: 576px) {
+    height: auto;
+  }
 `;
 
 const Pagination = styled.div`
@@ -145,6 +219,13 @@ const Pagination = styled.div`
   margin-bottom: 40px;
   background: #ffffff;
   color: #858585;
+  
+  @media (max-width: 576px) {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+    margin-bottom: 70px;
+  }
 `;
 
 const ArrowButton = styled.button`
@@ -163,6 +244,11 @@ const ArrowButton = styled.button`
     background-color: #175c8e;
     color: white;
   }
+  
+  @media (max-width: 576px) {
+    width: 73px;
+    height: 30px;
+  }
 `;
 
 const Number = styled.button`
@@ -179,6 +265,10 @@ const Number = styled.button`
   &:hover {
     background-color: #175c8e;
     color: white;
+  }
+  
+  @media (max-width: 576px) {
+    margin: 0 2px;
   }
 `;
 

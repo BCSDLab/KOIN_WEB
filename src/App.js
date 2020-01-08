@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import IndexPage from './pages/IndexPage';
 import LoginPage from './pages/LoginPage';
+import FaqPage from "./pages/FaqPage";
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -24,6 +25,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={IndexPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/faq" component={FaqPage} />
       </Switch>
     </>
   );
