@@ -6,6 +6,7 @@ import SignUpPage from './pages/SignUpPage';
 import FindPasswordPage from './pages/FindPasswordPage';
 import CircleListPage from './pages/CircleListPage';
 import CircleDetailPage from './pages/CircleDetailPage';
+import DietPage from "./pages/DietPage";
 import Footer from './components/SharedComponents/Footer/Footer'
 import page404 from './pages/404';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -32,7 +33,7 @@ function App() {
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignUpPage} />
         <Route path="/findpw" component={FindPasswordPage} />
-
+        <Route path="/diet" component={DietPage} />
         <Route exact path="/circle" component={CircleListPage} />
         <Route path="/circle/:id" component={CircleDetailPage} />
         <Route component={page404} />
