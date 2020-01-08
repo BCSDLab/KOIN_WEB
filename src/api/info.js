@@ -14,7 +14,6 @@ const getCafeteriaMenu = date => {
 
 // FAQ
 const getFaqList = page => {
-  console.log(`${API_PATH}/faqs?page=${page}`);
   return axios.get(`${API_PATH}/faqs?page=${page}`);
 }
 

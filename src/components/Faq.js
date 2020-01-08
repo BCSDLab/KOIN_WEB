@@ -6,7 +6,7 @@ const Container = styled.div`
   width:100%;
 `;
 
-const Faq = styled.div`
+const Faqs = styled.div`
   width: 1132px;
   margin-left: auto;
   margin-right: auto;
@@ -182,7 +182,7 @@ const Number = styled.button`
   }
 `;
 
-export default function FaqPage(
+export default function Faq(
   {
     faqList,
     totalPageNum,
@@ -193,7 +193,7 @@ export default function FaqPage(
   }) {
   return (
     <Container>
-      <Faq>
+      <Faqs>
         <Title>
           FAQ
         </Title>
@@ -226,7 +226,7 @@ export default function FaqPage(
             </Tab>
           )
         })}
-      </Faq>
+      </Faqs>
       <Pagination>
         <ArrowButton onClick={clickPrevButton}>이전으로
         </ArrowButton>
@@ -234,8 +234,8 @@ export default function FaqPage(
           return (
             <span key={index}>
               <Number
-                onClick={clickPageNum(index)}
-                isNowPage={(nowPageNum === index)}>
+                onClick={clickPageNum(index + 1)}
+                isNowPage={(nowPageNum === index + 1)}>
                 {index + 1}
               </Number>
             </span>
