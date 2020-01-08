@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import FaqPage from "../pages/FaqPage";
+import Faq from "../components/Faq";
 import {getFaqList} from "../modules/faq"
 
 export default function FaqContainer() {
@@ -38,7 +38,7 @@ export default function FaqContainer() {
   }, [dispatch]);
 
   return (
-    <FaqPage
+    <Faq
       faqList={filteredData}
       loading={loading}
       error={error}
