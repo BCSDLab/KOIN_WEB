@@ -13,7 +13,8 @@ const getCafeteriaMenu = date => {
 }
 
 // FAQ
-const getFagList = page => {
+const getFaqList = page => {
+  console.log(`${API_PATH}/faqs?page=${page}`);
   return axios.get(`${API_PATH}/faqs?page=${page}`);
 }
 
@@ -81,7 +82,7 @@ const getVersion = type => {
 export {
   getBusInfo,
   getCafeteriaMenu,
-  getFagList,
+  getFaqList,
   getStoreList,
   getStoreInfo,
   getCircleList,
