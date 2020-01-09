@@ -1,9 +1,9 @@
 import React from 'react'
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import RoomCard from './RoomCard';
 import { NaverMap, Marker } from 'react-naver-maps';
-import { Redirect, Route, Link } from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
+import MarkerIcon from './MarkerIcon';
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -85,41 +85,9 @@ const ListCards = styled.div`
   }
 `;
 
-const StyledMarker = styled.div`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  margin-left: -115px;
-  
-  border-radius: 50% 50% 50% 0;
-  border: 4px solid #fff;
-  width: 20px;
-  height: 20px;
-  transform: rotate(-45deg);
-
-  &::after {
-    position: absolute;
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    margin-left: -5px;
-    margin-top: -5px;
-    background-color: #fff;
-  }
-
-  &:hover {
-    border: 4px solid red;
-  }
-`;
 export default function RoomList({
   roomList,
   loading,
-  marker,
-  onMouseOverMarker,
-  onMouseOutMarker,
   history
 }) {
   const navermaps = window.naver.maps;
@@ -133,22 +101,6 @@ export default function RoomList({
       position: navermaps.Position.TOP_LIFT
     },
     draggable: true
-  }
-  // html element string은 이벤트인식을 못해서 글로벌 등록해줌
-  // 잠시만 꼭 이렇게 해야하나? 그냥 StyledMarker에 애니메이션 달면 안되나?
-  // 확인 즉시 애니메이션 달것.
-  window.onMouseOutMarker = onMouseOutMarker;
-  window.onMouseOverMarker = onMouseOverMarker;
-
-  const setContentString = id => {
-    let contentString = ReactDOMServer.renderToString(
-      <StyledMarker>
-      </StyledMarker>
-    )
-    const eventStr = ` onmouseover="onMouseOverMarker(${id})" onmouseout="onMouseOutMarker()"`;
-    const lastIndex = contentString.lastIndexOf('"');
-    contentString = contentString.substring(0, lastIndex + 1).concat(eventStr, "></div>")
-    return contentString;
   }
   
   return (
@@ -171,9 +123,8 @@ export default function RoomList({
                   key={room.id}
                   position={{ lat: room.latitude, lng: room.longitude }}
                   title={room.name}
-                  animation={(marker.isActive && marker.id === room.id) ? navermaps.Animation.BOUNCE : null}
                   icon={{
-                    content: setContentString(room.id)
+                    content: ReactDOMServer.renderToString(<MarkerIcon />)
                   }}
                   onClick={() => history.push(`/room/${room.id}`)}
                 />
