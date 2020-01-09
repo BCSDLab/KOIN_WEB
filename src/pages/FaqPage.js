@@ -1,9 +1,8 @@
 import React from 'react'
+import FaqContainer from "../containers/FaqContainer";
 
-export default function FaqPage() {
+export default function LoginPage() {
   return (
-    <div>
-      
-    </div>
+    <FaqContainer />
   )
 }
