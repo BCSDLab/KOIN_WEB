@@ -1,6 +1,8 @@
 import React from 'react'
 import styled, { css } from "styled-components";
 import { NaverMap, Marker } from 'react-naver-maps';
+import ReactDOMServer from 'react-dom/server';
+import MarkerIcon from './MarkerIcon';
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -456,6 +458,9 @@ export default function RoomDetail({
               <Marker
                 title={room.name}
                 position={{ lat: room.latitude, lng: room.longitude }}
+                icon={{
+                  content: ReactDOMServer.renderToString(<MarkerIcon />)
+                }}
               />
             </NaverMap>
           </MapWrapper>
