@@ -7,15 +7,15 @@ const Container = styled.div`
 `;
 
 const CafeteriaContainer = styled.div`
-  margin: 63px auto 23px auto;
+  margin: 49px auto 10px auto;
   width: 1132px;
 `;
 
 const Title = styled.div`
   width: auto;
   height: 29px;
-  font-family: NanumSquare, serif;
-  font-size: 30px;
+  font-family: NanumSquare, sans-serif;
+  font-size: 24px;
   font-weight: 800;
   font-style: normal;
   font-stretch: normal;
@@ -30,26 +30,80 @@ const DateSelector = styled.div`
   margin-bottom: -4px;
 `;
 
-const ArrowBtnImg = styled.img`
-  width: 11px;
-  height: 16px;
-  font-size: 24px;
-  object-fit: contain;
+const Arrow = styled.span` 
+  width: 6.5px;
+  height: 6.5px;
+  border: solid #bbbbbb;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  transform: ${props => props.direction === "prev" ? "rotate(135deg)" : "rotate(-45deg)" };
+  -webkit-transform: ${props => props.direction === "prev" ? "rotate(135deg)" : "rotate(-45deg)" };
+  margin-bottom: 3.5px;
   cursor: pointer;
 `;
 
 const Date = styled.span`
-  height: 22px;
-  font-family: sans-serif;
-  font-size: 24px;
-  font-weight: 300;
+  height: 27px;
+  font-family: AppleSDGothicNeoB00, sans-serif;
+  font-size: 22px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.41;
+  letter-spacing: normal;
+  text-align: center;
+  color: #3a3a3a;
+  margin: 0 7px;
+`;
+
+const CafeteriaList = styled.button`
+  width: 158px;
+  height: 56px;
+  border: solid ${(props) => (props.cafeteria === "능수관"|| props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ) ? '#f7941e' :  '#175c8e' };
+  border-width: 3px 0 3px 0;
+  color: ${(props) => (props.cafeteria === "능수관"|| props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ) ? '#f7941e' :  '#175c8e' };
+  padding: 21px auto;
+  font-size: 16px;
+  font-weight: bold;
   font-style: normal;
   font-stretch: normal;
-  line-height: normal;
-  letter-spacing: -1.2px;
+  line-height: 1.5;
+  letter-spacing: -0.8px;
   text-align: center;
-  color: #252525;
-  margin: 0 26px;
+  margin: 50px 2px 0 1.5px;
+`;
+
+const Breakfast = styled.div`
+  margin-top: 35px;
+`;
+
+const TimeSection = styled.button`
+  width: 62px;
+  height: 24px;
+  border-radius: 13px;
+  border: solid 0.7px #c0c0c0;
+  font-family: AppleSDGothicNeoSB00,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #838383;
+  
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 1px;
+    width: 1132px;
+    background-color: #c0c0c0;
+    left: 0;
+    right: 0;
+    margin: 8px auto 0 auto;
+    z-index: -1;
+  }
 `;
 
 export default function CafeteriaMenu (
@@ -57,6 +111,8 @@ export default function CafeteriaMenu (
     date,
     clickPrev,
     clickNext,
+    cafeteriaList,
+    cafeteriaMenus
   }) {
   return (
     <Container>
@@ -65,19 +121,31 @@ export default function CafeteriaMenu (
           오늘의 식단
         </Title>
         <DateSelector>
-          <ArrowBtnImg
+          <Arrow
             onClick={clickPrev}
-            src="https://static.koreatech.in/upload/3694a4611fadea308631f50b8f825bf5.png"/>
+            direction="prev"/>
           <Date>
             {date.slice(0,4)}년 {date.slice(5,7)}월 {date.slice(8,10)}일
           </Date>
-          <ArrowBtnImg
+          <Arrow
             onClick={clickNext}
-            src="https://static.koreatech.in/upload/283d4f6aac521b58705fda13918b3a2a.png"/>
-
+            direction="next"/>
         </DateSelector>
+        {cafeteriaList.map((cafeteria) => {
+          return(
+            <CafeteriaList
+              key={cafeteria}
+              cafeteria={cafeteria}>
+              {cafeteria}
+            </CafeteriaList>
+          )
+        })}
+        <Breakfast>
+          <TimeSection>
+            아침
+          </TimeSection>
 
-
+        </Breakfast>
       </CafeteriaContainer>
     </Container>
   )
