@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import IndexPage from './pages/IndexPage';
 import LoginPage from './pages/LoginPage';
+import FaqPage from "./pages/FaqPage";
 import SignUpPage from './pages/SignUpPage';
 import FindPasswordPage from './pages/FindPasswordPage';
 import CircleListPage from './pages/CircleListPage';
@@ -86,10 +87,11 @@ function App() {
 
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
+    
+          <Route path="/faq" component={FaqPage} />
           <Route component={page404} />
         </Switch>
       </Main>
-      
       <Footer />
     </>
   );
