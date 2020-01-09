@@ -6,7 +6,7 @@ const Main = styled.div`
   width: 100%;
 `;
 
-export default function Diet() {
+export default function CafeteriaMenu() {
   return (
     <Main>
       식단

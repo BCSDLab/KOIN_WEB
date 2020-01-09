@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import Diet from "../components/Diet";
+import CafeteriaMenu from "../components/CafeteriaMenu";
 
-export default function DietContainer() {
+export default function CafeteriaMenuContainer() {
   return(
-    <Diet/>
+    <CafeteriaMenu/>
   )
 }
