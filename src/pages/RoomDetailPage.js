@@ -1,9 +1,8 @@
 import React from 'react'
+import RoomDetailContainer from '../containers/RoomDetailContainer';
 
-export default function RoomDetailPage() {
+export default function RoomDetailPage({ match }) {
   return (
-    <div>
-      
-    </div>
+    <RoomDetailContainer id={match.params.id} />
   )
 }
