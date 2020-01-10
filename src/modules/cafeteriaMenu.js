@@ -35,7 +35,7 @@ export default function cafeteriaMenuReducer(state = initialState, action) {
         ...state,
         cafeteriaMenus: {
           loading: true,
-          data: state.data,
+          data: state.cafeteriaMenus.data,
           error: null
         }
       };
