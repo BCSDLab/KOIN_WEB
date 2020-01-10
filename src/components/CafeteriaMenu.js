@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import styled from "styled-components"
 import CafeteriaMenuList from "./CafeteriaMenuList";
+import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -159,11 +160,18 @@ const MobileCafeteriaMenu = styled.div`
   display: none;
   @media(max-width: 576px){
     display: block;
+    padding-top: 101.5px;
   }
 `;
 
 const FixedTopBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 101.5px;
+  background-color: #FFFFFF;
+  //border-bottom: 1px rgba(23,92,142,0.3) solid;
 `;
 
 const TimeList = styled.div`
@@ -184,12 +192,12 @@ const TimeButton = styled.button`
   letter-spacing: -0.48px;
   text-align: center;
   color: #2b2b2b;
-  margin: 0 28px;
+  margin: 0 calc(7%);
 `;
 
 const CafeteriaSection = styled.span`
   height: 10px;
-  border: solid #175c8e;
+  border: solid ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
   border-width: 0 1.5px 0 1.5px;
   font-family: AppleSDGothicNeoSB00,sans-serif;
   font-size: 13px;
@@ -200,7 +208,7 @@ const CafeteriaSection = styled.span`
   text-align: center;
   padding: 0 12px;
   line-height: 1.15;
-  color: #175c8e;
+  color: ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
   background-color: #FFFFFF;
   z-index: 1;
   margin: 0 5.5px;
@@ -210,13 +218,17 @@ const CafeteriaSection = styled.span`
     display: block;
     position: absolute;
     height: 1px;
-    background-color: rgba(23,92,142,0.3); //23 92 142
+    background-color: rgba(
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 30 : 142 },
+    0.3);
     left: 0;
     right: 0;
     margin: 10px auto 0 auto;
     z-index: -1;
   }
-`
+`;
 
 export default function CafeteriaMenu(
   {
@@ -301,9 +313,19 @@ export default function CafeteriaMenu(
               <TimeButton>저녁</TimeButton>
             </TimeList>
           </FixedTopBar>
-          <CafeteriaSection>
-            한식
-          </CafeteriaSection>
+          {cafeteriaList.map((cafeteria)=> {
+            return(
+              <div key={cafeteria}>
+                <CafeteriaSection cafeteria={cafeteria}>
+                  {cafeteria}
+                </CafeteriaSection>
+                <CafeteriaMenuListMobile
+                  cafeteriaMenus={cafeteriaMenus}
+                  times={["BREAKFAST","LUNCH","DINNER"]}
+                  cafeteria={cafeteria}/>
+              </div>
+            )
+          })}
         </MobileCafeteriaMenu>
       </CafeteriaContainer>
     </Container>

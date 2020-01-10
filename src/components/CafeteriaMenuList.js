@@ -4,7 +4,6 @@ import styled from "styled-components";
 const MenusContainer = styled.div`
   display: grid;
   grid-template-columns: 163px 162px 163px 162px 163px 162px 160px;
-  grid-template-rows: 304.4px;
   position: relative;
   top: -7px;
   z-index: -1;
