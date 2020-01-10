@@ -57,19 +57,20 @@ const Info = styled.div`
 export default function CafeteriaMenuList({cafeteriaList, cafeteriaMenus, time}) {
   return(
     <MenusContainer>
-      {cafeteriaList.map((cafeteria) => {
+      {cafeteriaList.map((cafeteria,index) => {
         return(
-          <InnerContainer>
-            {cafeteriaMenus.map((menus) => {
+          <InnerContainer key={index}>
+            {cafeteriaMenus.map((menus, idx) => {
               if(menus.type===time){
                 if(menus.place===cafeteria){
                   return(
                     <Menus
+                      key={idx}
                       time={time}
                       cafeteria={cafeteria}>
-                      {menus.menu.map((menu)=> {
+                      {menus.menu.map((menu, i)=> {
                         return(
-                          <Menu>
+                          <Menu key={i}>
                             {menu}
                           </Menu>
                         )

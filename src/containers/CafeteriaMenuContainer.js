@@ -6,37 +6,36 @@ import {getCircleList} from "../modules/circle";
 
 export default function CafeteriaMenuContainer() {
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
-  const [today] = useState(new Date(Date.now() - timezoneOffset));
-  const [dateString, setDateString] = useState(today.toISOString());
+  const [today,setToday] = useState(new Date());
   const dispatch = useDispatch();
   const cafeteriaList = ["한식","일품식","양식","특식","능수관","수박여","2캠퍼스"];
-  const [apiToday, setApiToday] = useState(String(getApiDate(dateString)));
   const {data, loading, error} = useSelector(state => state.cafeteriaMenuReducer.cafeteriaMenus);
-  const [breakfast, setBreakfast] = useState([]);
-  const lunch = [];
-  const dinner = [];
 
   function getApiDate(dateString) {
     return String(dateString.slice(2,4)) + dateString.slice(5,7) + dateString.slice(8,10)
   }
 
-  const clickPrev = useCallback( dateString => {
-    today.setDate(today.getDate() - 1);
-    setDateString(today.toISOString());
-  }, [dispatch]);
+  const clickPrev = () => {
+    setToday(new Date(today.getTime() - 24*60*60*1000));
+    dispatchAction(new Date(today.getTime() - 24*60*60*1000 - timezoneOffset))
+  };
+
+  function dispatchAction(date){
+    dispatch(getCafeteriaMenu(getApiDate(date.toISOString())))
+  }
 
   const clickNext = () => {
-    today.setDate(today.getDate() + 1);
-    setDateString(today.toISOString());
+    setToday(new Date(today.getTime() + 24*60*60*1000));
+    dispatchAction(new Date(today.getTime() + 24*60*60*1000 - timezoneOffset))
   };
 
   useEffect(() => {
-    dispatch(getCafeteriaMenu(apiToday));
+    dispatch(getCafeteriaMenu(getApiDate(today.toISOString())));
   }, [dispatch]);
 
   return (
     <CafeteriaMenu
-      date={dateString}
+      date={today.toISOString()}
       clickPrev={clickPrev}
       clickNext={clickNext}
       cafeteriaList={cafeteriaList}
