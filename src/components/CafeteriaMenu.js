@@ -5,11 +5,21 @@ import CafeteriaMenuList from "./CafeteriaMenuList";
 const Container = styled.div`
   border-top: #f7941e 5px solid;
   width: 100%;
+  
+  @media(max-width: 576px){
+    border-top: none;
+  }
 `;
 
 const CafeteriaContainer = styled.div`
   margin: 49px auto 35px auto;
   width: 1132px;
+  
+  @media (max-width: 576px) {
+    width: calc(100% - 32px);
+    min-width: 300px;
+    margin: 30px auto auto auto;
+  }
 `;
 
 const Title = styled.div`
@@ -41,6 +51,11 @@ const Arrow = styled.span`
   -webkit-transform: ${props => props.direction === "prev" ? "rotate(135deg)" : "rotate(-45deg)"};
   margin-bottom: 3.5px;
   cursor: pointer;
+  
+  @media(max-width: 576px){
+    border: solid #989898;
+    border-width: 0 2.5px 2.5px 0;
+  }
 `;
 
 const Date = styled.span`
@@ -55,6 +70,19 @@ const Date = styled.span`
   text-align: center;
   color: #3a3a3a;
   margin: 0 7px;
+  
+  @media (max-width: 576px) {
+    height: 21px;
+    font-family: AppleSDGothicNeoM00,sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.11;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4f4f4f;
+  }
 `;
 
 const CafeteriaList = styled.button`
@@ -72,6 +100,10 @@ const CafeteriaList = styled.button`
   letter-spacing: -0.8px;
   text-align: center;
   margin: 50px 2px 0 1.5px;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const Breakfast = styled.div`
@@ -117,6 +149,75 @@ const Dinner = styled.div`
   margin-top: 24px;
 `;
 
+const PcCafeteriaMenu = styled.div`
+  @media(max-width: 576px){
+    display: none;
+  }
+`;
+
+const MobileCafeteriaMenu = styled.div`
+  display: none;
+  @media(max-width: 576px){
+    display: block;
+  }
+`;
+
+const FixedTopBar = styled.div`
+  height: 101.5px;
+`;
+
+const TimeList = styled.div`
+  margin-top: 30px;
+`;
+
+const TimeButton = styled.button`
+  width: 58px;
+  height: 24px;
+  border-radius: 12px;
+  border: solid 1px #dddddd;
+  font-family: AppleSDGothicNeoM00,sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: -0.48px;
+  text-align: center;
+  color: #2b2b2b;
+  margin: 0 28px;
+`;
+
+const CafeteriaSection = styled.span`
+  height: 10px;
+  border: solid #175c8e;
+  border-width: 0 1.5px 0 1.5px;
+  font-family: AppleSDGothicNeoSB00,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  padding: 0 12px;
+  line-height: 1.15;
+  color: #175c8e;
+  background-color: #FFFFFF;
+  z-index: 1;
+  margin: 0 5.5px;
+    
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 1px;
+    background-color: rgba(23,92,142,0.3); //23 92 142
+    left: 0;
+    right: 0;
+    margin: 10px auto 0 auto;
+    z-index: -1;
+  }
+`
+
 export default function CafeteriaMenu(
   {
     date,
@@ -128,56 +229,82 @@ export default function CafeteriaMenu(
   return (
     <Container>
       <CafeteriaContainer>
-        <Title>
-          오늘의 식단
-        </Title>
-        <DateSelector>
-          <Arrow
-            onClick={clickPrev}
-            direction="prev"/>
-          <Date>
-            {date.slice(0, 4)}년 {date.slice(5, 7)}월 {date.slice(8, 10)}일
-          </Date>
-          <Arrow
-            onClick={clickNext}
-            direction="next"/>
-        </DateSelector>
-        {cafeteriaList.map((cafeteria) => {
-          return (
-            <CafeteriaList
-              key={cafeteria}
-              cafeteria={cafeteria}>
-              {cafeteria}
-            </CafeteriaList>
-          )
-        })}
-        <Breakfast>
-          <TimeSection>
-            아침
-          </TimeSection>
-          <CafeteriaMenuList
-            cafeteriaList={cafeteriaList}
-            cafeteriaMenus={cafeteriaMenus}
-            time={"BREAKFAST"}/>
-        </Breakfast>
-        <Lunch>
-          <TimeSection>
-            점심
-          </TimeSection>
-          <CafeteriaMenuList
-            cafeteriaList={cafeteriaList}
-            cafeteriaMenus={cafeteriaMenus}
-            time={"LUNCH"}/>
-        </Lunch>
-        <Dinner>
-          <TimeSection>
-            저녁
-          </TimeSection>
-          <CafeteriaMenuList
-            cafeteriaList={cafeteriaList}
-            cafeteriaMenus={cafeteriaMenus}
-            time={"DINNER"}/>
-        </Dinner>
+        <PcCafeteriaMenu>
+          <Title>
+            오늘의 식단
+          </Title>
+          <DateSelector>
+            <Arrow
+              onClick={clickPrev}
+              direction="prev"/>
+            <Date>
+              {date.slice(0, 4)}년 {date.slice(5, 7)}월 {date.slice(8, 10)}일
+            </Date>
+            <Arrow
+              onClick={clickNext}
+              direction="next"/>
+          </DateSelector>
+          {cafeteriaList.map((cafeteria) => {
+            return (
+              <CafeteriaList
+                key={cafeteria}
+                cafeteria={cafeteria}>
+                {cafeteria}
+              </CafeteriaList>
+            )
+          })}
+          <Breakfast>
+            <TimeSection>
+              아침
+            </TimeSection>
+            <CafeteriaMenuList
+              cafeteriaList={cafeteriaList}
+              cafeteriaMenus={cafeteriaMenus}
+              time={"BREAKFAST"}/>
+          </Breakfast>
+          <Lunch>
+            <TimeSection>
+              점심
+            </TimeSection>
+            <CafeteriaMenuList
+              cafeteriaList={cafeteriaList}
+              cafeteriaMenus={cafeteriaMenus}
+              time={"LUNCH"}/>
+          </Lunch>
+          <Dinner>
+            <TimeSection>
+              저녁
+            </TimeSection>
+            <CafeteriaMenuList
+              cafeteriaList={cafeteriaList}
+              cafeteriaMenus={cafeteriaMenus}
+              time={"DINNER"}/>
+          </Dinner>
+        </PcCafeteriaMenu>
+
+        <MobileCafeteriaMenu>
+          <FixedTopBar>
+            <DateSelector>
+              <Arrow
+                onClick={clickPrev}
+                direction="prev"/>
+              <Date>
+                {date.slice(0, 4)}년 {date.slice(5, 7)}월 {date.slice(8, 10)}일
+              </Date>
+              <Arrow
+                onClick={clickNext}
+                direction="next"/>
+            </DateSelector>
+            <TimeList>
+              <TimeButton>아침</TimeButton>
+              <TimeButton>점심</TimeButton>
+              <TimeButton>저녁</TimeButton>
+            </TimeList>
+          </FixedTopBar>
+          <CafeteriaSection>
+            한식
+          </CafeteriaSection>
+        </MobileCafeteriaMenu>
       </CafeteriaContainer>
     </Container>
   )

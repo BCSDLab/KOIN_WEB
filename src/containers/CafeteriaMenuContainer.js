@@ -1,12 +1,11 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import CafeteriaMenu from "../components/CafeteriaMenu";
-import {getCafeteriaMenu} from "../modules/cafeteriaMenu"
-import {getCircleList} from "../modules/circle";
+import {getCafeteriaMenu} from "../modules/cafeteriaMenu";
 
 export default function CafeteriaMenuContainer() {
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
-  const [today,setToday] = useState(new Date());
+  const [today,setToday] = useState(new Date(Date.now() - timezoneOffset));
   const dispatch = useDispatch();
   const cafeteriaList = ["한식","일품식","양식","특식","능수관","수박여","2캠퍼스"];
   const {data, loading, error} = useSelector(state => state.cafeteriaMenuReducer.cafeteriaMenus);
@@ -17,7 +16,7 @@ export default function CafeteriaMenuContainer() {
 
   const clickPrev = () => {
     setToday(new Date(today.getTime() - 24*60*60*1000));
-    dispatchAction(new Date(today.getTime() - 24*60*60*1000 - timezoneOffset))
+    dispatchAction(new Date(today.getTime() - 24*60*60*1000))
   };
 
   function dispatchAction(date){
@@ -26,7 +25,7 @@ export default function CafeteriaMenuContainer() {
 
   const clickNext = () => {
     setToday(new Date(today.getTime() + 24*60*60*1000));
-    dispatchAction(new Date(today.getTime() + 24*60*60*1000 - timezoneOffset))
+    dispatchAction(new Date(today.getTime() + 24*60*60*1000))
   };
 
   useEffect(() => {

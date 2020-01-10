@@ -8,6 +8,11 @@ const MenusContainer = styled.div`
   position: relative;
   top: -7px;
   z-index: -1;
+  
+  @media (max-width: 576px) {
+    width: calc(100% - 32px);
+    min-width: 300px;
+  }
 `;
 
 const Menus = styled.div`
