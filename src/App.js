@@ -7,7 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import FindPasswordPage from './pages/FindPasswordPage';
 import CircleListPage from './pages/CircleListPage';
 import CircleDetailPage from './pages/CircleDetailPage';
-
+import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
 import Footer from './components/SharedComponents/Footer/Footer'
@@ -88,6 +88,7 @@ function App() {
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
     
+          <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route component={page404} />
         </Switch>
