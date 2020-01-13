@@ -12,6 +12,7 @@ import { createBrowserHistory } from "history";
 import logger from "redux-logger";
 import ReduxThunk from "redux-thunk";
 import { CookiesProvider } from "react-cookie";
+import { LastLocationProvider } from "react-router-last-location";
 
 const customHistory = createBrowserHistory();
 const store = createStore(
@@ -26,11 +27,13 @@ const store = createStore(
 
 ReactDOM.render(
   <Router history={customHistory}>
-    <Provider store={store}>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
-    </Provider>
+    <LastLocationProvider>
+      <Provider store={store}>
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
+      </Provider>
+    </LastLocationProvider>
   </Router>,
   document.getElementById("root")
 );
