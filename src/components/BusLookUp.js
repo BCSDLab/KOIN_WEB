@@ -4,6 +4,13 @@ import styled from "styled-components";
 const Container = styled.div`
   border-top: #f7941e 5px solid;
   width: 100%;
+  
+  @media (max-width: 576px) {
+    border-top: none;
+    padding-top: 3px;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const LookUp = styled.div`
@@ -11,6 +18,15 @@ const LookUp = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-top: 63px;
+  
+  @media (max-width: 576px) {
+    padding-left: 16px;
+    padding-right: 16px;
+    width: calc(100% - 32px);
+    margin-top: 26px;
+    height: 100%;
+    float: left;
+  }
 `;
 
 const Title = styled.div`
@@ -21,6 +37,11 @@ const Title = styled.div`
   font-family: NanumSquare, serif;
   font-weight: 800;
   margin-bottom: 27px;
+  
+  @media (max-width: 576px) {
+    font-size: 20px;
+    margin-bottom: 17px;
+  }
 `;
 
 const Desc = styled.div`
@@ -31,6 +52,11 @@ const Desc = styled.div`
   width: 55%;
   font-weight: 300;
   float: left;
+  
+  @media (max-width: 576px) {
+    font-size: 18px;
+    margin-top: 3px;
+  }
 `;
 
 const SelectForm = styled.div`
@@ -40,6 +66,13 @@ const SelectForm = styled.div`
   //bottom: 4px;
   float: right;
   font-size: 24px;
+  
+  @media (max-width: 576px) {
+    margin-top: 41px;
+    width: 100%;
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
 `;
 
 const DropDownContentsContainer = styled.div`
@@ -75,6 +108,10 @@ const DropDownBtn = styled.button`
   font-size: 24px;
   font-weight: 700;
   display: contents;
+  
+  @media (max-width: 576px) {
+    font-size: 20px;
+  }
 `;
 
 const ArrowImg = styled.img.attrs({
@@ -103,12 +140,26 @@ const CardsContainer = styled.div`
   display: grid;
   grid-template-columns: 370px 370px 370px;
   grid-column-gap: 9px;
+  
+  @media (max-width: 576px) {
+    float: left;
+    height: 100%;
+    margin-bottom: 40px;
+    display: block;
+  }
 `;
 
 const Cards = styled.div`
   width: 370px;
   height: 252px;
   color: white;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+    height: 100%;
+    float: left;
+    margin-bottom: 12px;
+  }
 `;
 
 const UpperCard = styled.div`
@@ -148,6 +199,10 @@ const Tag = styled.div`
 const Station = styled.span`
   font-size: 24px;
   letter-spacing: -1.2px;
+  
+  @media (max-width: 576px) {
+    font-size: 20px;  
+  }
 `;
 
 const BusName = styled.div`
@@ -170,6 +225,10 @@ const Time = styled.div`
   text-align: left;
   font-weight: 700;
   letter-spacing: -0.9px;
+  
+  @media (max-width: 576px) {
+    font-size: 18px
+  }
 `;
 
 const Type = styled.div`

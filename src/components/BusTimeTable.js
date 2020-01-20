@@ -3,6 +3,10 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width:100%;
+  
+  @media (max-width: 576px) {
+    float: left;
+  }
 `;
 
 const TimeTable = styled.div`
@@ -10,6 +14,13 @@ const TimeTable = styled.div`
   width: 1131px;
   margin-left: auto;
   margin-right: auto;
+  
+  @media (max-width: 576px) {
+    margin-top: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: calc(100% - 32px);
+  }
 `;
 
 const Title = styled.div`
@@ -22,12 +33,21 @@ const Title = styled.div`
   text-align: left;
   color: #252525;
   margin-bottom: 22px;
+  
+  @media (max-width: 576px) {
+    font-size: 18px;
+    margin-bottom: 28px;
+  }
 `;
 
 const BusTabs = styled.div`
   width: 100%;
   margin-bottom: 2%;
   display:flex;
+  
+  @media (max-width: 576px) {
+    width: calc(100%);
+  }
 `;
 
 const Tab = styled.div`
@@ -44,10 +64,19 @@ const Tab = styled.div`
   text-align: center;
   color: ${props => props.tab === props.selectedTab ? '#175c8e' : '#858585'};
   cursor: pointer;
+  
+  @media (max-width: 576px) {
+    font-size: 13px;
+    padding: 6px 0 5px;
+  }
 `;
 
 const SubInfo = styled.div`
   height: 58px;
+  
+  @media (max-width: 576px) {
+    margin-top: 27px;
+  }
 `;
 
 const DropDownButton = styled.button`
@@ -66,6 +95,10 @@ const DropDownButton = styled.button`
   width: 180px;
   text-align: left;
   background-color: #ffffff;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 const DropDownContents = styled.div`
@@ -82,6 +115,10 @@ const DropDownContents = styled.div`
   line-height: normal;
   letter-spacing: -0.8px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 const DropDown = styled.div`
@@ -132,6 +169,11 @@ const SubDesc = styled.div`
   color: #858585;
   float: right;
   padding-top: 2.5%;
+  
+  @media (max-width: 576px) {
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
 `;
 
 const Td = styled.td`
@@ -181,6 +223,17 @@ const Table = styled.table`
   
   tr:hover ${Td} {
     font-weight: 700;
+  }
+  
+  @media (max-width: 576px) {
+    overflow-x: scroll;
+    
+    ${Td} {
+      padding-top: 13px;
+      padding-bottom: 13px;
+      font-size: 12px;
+      min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
+}
   }
 `;
 
