@@ -11,10 +11,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createBrowserHistory } from "history";
 import logger from "redux-logger";
 import ReduxThunk from "redux-thunk";
-import { CookiesProvider } from "react-cookie";
 import { LastLocationProvider } from "react-router-last-location";
+import createSagaMiddleware from "redux-saga";
 
 const customHistory = createBrowserHistory();
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(
@@ -25,13 +27,13 @@ const store = createStore(
   )
 );
 
+// sagaMiddleware.run(rootSaga);
+
 ReactDOM.render(
   <Router history={customHistory}>
     <LastLocationProvider>
       <Provider store={store}>
-        <CookiesProvider>
-          <App />
-        </CookiesProvider>
+        <App history={customHistory} />
       </Provider>
     </LastLocationProvider>
   </Router>,
