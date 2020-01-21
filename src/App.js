@@ -13,6 +13,7 @@ import RoomDetailPage from './pages/RoomDetailPage';
 import Footer from './components/SharedComponents/Footer/Footer'
 import page404 from './pages/404';
 import styled, { createGlobalStyle } from 'styled-components';
+import BusPage from "./pages/BusPage";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -90,6 +91,7 @@ function App() {
     
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
+          <Route path="/bus" component={BusPage}/>
           <Route component={page404} />
         </Switch>
       </Main>

@@ -2,7 +2,7 @@ import {infoAPI} from "../api"
 
 const GET_FAQ_LIST = "GET_FAQ_LIST";
 const GET_FAQ_LIST_SUCCESS = "GET_FAQ_LIST_SUCCESS";
-const GET_FAQ_LIST_ERROR = "GET_FAQ_ERROR";
+const GET_FAQ_LIST_ERROR = "GET_FAQ_LIST_ERROR";
 
 export const getFaqList = page => async dispatch => {
   dispatch({ type: GET_FAQ_LIST });
