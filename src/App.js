@@ -11,7 +11,7 @@ import FindPasswordPage from './pages/UserPages/FindPasswordPage';
 import FaqPage from "./pages/FaqPage";
 import CircleListPage from './pages/CircleListPage';
 import CircleDetailPage from './pages/CircleDetailPage';
-
+import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
 import Footer from './components/SharedComponents/Footer/Footer'
@@ -23,6 +23,7 @@ import { updateAuthInfo } from './modules/auth';
 import { useDispatch } from 'react-redux';
 import PrivateRoute from './components/PrivateRoute';
 import Cookies from 'js-cookie';
+import BusPage from "./pages/BusPage";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -149,7 +150,9 @@ function App({ history }) {
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
     
+          <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
+          <Route path="/bus" component={BusPage}/>
           <Route component={page404} />
         </Switch>
       </Main>
