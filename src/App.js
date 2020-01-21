@@ -24,6 +24,7 @@ import { useDispatch } from 'react-redux';
 import PrivateRoute from './components/PrivateRoute';
 import Cookies from 'js-cookie';
 import BusPage from "./pages/BusPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -153,6 +154,7 @@ function App({ history }) {
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
+          <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
           <Route component={page404} />
         </Switch>
       </Main>
