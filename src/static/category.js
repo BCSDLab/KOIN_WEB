@@ -100,6 +100,13 @@ export default [
         'newFlag': false,
         'planFlag': false
       },
+      {
+        'title': '홍보게시판',
+        'tag': 6,
+        'link': '/board/promotion',
+        'newFlag': true,
+        'planFlag': false
+      }
     ]
   },
   /*
