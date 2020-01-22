@@ -3,6 +3,76 @@ import styled from "styled-components";
 import * as CATEGORY from "../../../static/category";
 import {Link} from "react-router-dom";
 
+const FooterNavSection = styled.div`
+  height: 130px;
+  box-sizing: border-box;
+`;
+
+const FooterNavLink = styled.div`
+  border-right: 1px solid #666666;
+  width: auto;
+  height: 89px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
+const NavLink = styled.div`
+  font-family: NanumSquareR,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.7;
+  letter-spacing: .8px;
+  text-align: left;
+  color: #9fa9b3;
+  cursor: pointer;
+  margin-right: ${props => props.isRight ? "0" : '39px'};
+`;
+
+const FooterNav = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 65px 36px auto;
+  
+  ${FooterNavSection}:first-child {
+    width: 200px;
+    
+    ${FooterNavLink} {
+      padding-right: 74.5px;
+    }
+  }
+  ${FooterNavSection}:nth-child(2) {
+    padding: 0 0 0 51px;
+    
+    ${FooterNavLink} {
+      width: 150px;
+      padding-right: 51px;
+    }
+    
+    ${NavLink} {
+      margin-right: 32px;
+    }
+  }
+  ${FooterNavSection}:last-child {
+    padding-left: 51px;
+    padding-right: 0;
+    border: none;
+    
+    ${FooterNavLink} {
+      width: 75px;
+      border-right: none;
+    }
+    
+    ${NavLink} {
+      margin-right: 0;
+    }
+  }
+`;
+
 const Container = styled.div`
   width: 100%;
   background-color: #3e3e3e;
@@ -59,41 +129,6 @@ const Container = styled.div`
       -moz-transform: translateY(0);
     }
   }
-  
-  .footer__nav {
-    display: flex;
-    justify-content: center;
-    margin: 0 65px 36px auto;
-  }
-  
-  .footer__nav-link {
-    border-right: 1px solid #666666;
-    width: auto;
-    height: 89px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-  
-  .nav-link {
-    font-family: NanumSquareR,sans-serif;
-    font-size: 13px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.7;
-    letter-spacing: .8px;
-    text-align: left;
-    color: #9fa9b3;
-    cursor: pointer;
-    margin-right: 39px;
-  }
-  
-  .nav-link.right {
-    margin-right: 0;
-  }
 `;
 
 const PcFooter = styled.div`
@@ -120,44 +155,26 @@ const SectionTitle = styled.div`
   margin-bottom: 24px;
 `;
 
-const FooterNavSection = styled.div`
-  height: 130px;
-  box-sizing: border-box;
-  
-  ${props => {
-  switch (props.sequence) {
-    case 0 : {
-      return 'width: 200px; .footer__nav-link{padding-right: 74.5px;}'
-    }
-    case 1 : {
-      return 'padding: 0 0 0 51px; .footer__nav-link{width: 150px; padding-right: 51px;} .nav-link{margin-right: 32px;}'
-    }
-    case 2 : {
-      return 'padding-left: 51px; padding-right: 0; border: none; .footer__nav-link{width: 75px; border-right: none;} .nav-link{margin-right: 0;}'
-    }
-    default : {
-      return null
-    }
-  }
-}}
-`;
+const FooterLinkFacebook = styled.img.attrs({
+  src: "https://static.koreatech.in/upload/fead6221d535ff547d4801081ee8f2e3.png"
+})`
+  width: 14px;
+  margin-right: 30px;
+  cursor: pointer;
+`
+
+const FooterLinkHome = styled.img.attrs({
+  src: "https://static.koreatech.in/upload/1aae9a021f0338527c28e5c3d0518fa1.png"
+})`
+  width: 25px;
+  cursor: pointer;
+`
 
 const FooterLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
-  
-  .footer__link__facebook {
-    width: 14px;
-    margin-right: 30px;
-    cursor: pointer;
-  }
-
-  .footer__link__home {
-    width: 25px;
-    cursor: pointer;
-  }
 `;
 
 const FooterLogoContainer = styled.div`
@@ -300,7 +317,7 @@ export default function Footer() {
   return (
     <Container>
       <PcFooter>
-        <div className="footer__nav">
+        <FooterNav>
           {category.map((section, index) => {
             return (
               <FooterNavSection
@@ -309,23 +326,24 @@ export default function Footer() {
                 <SectionTitle>
                   {section.title}
                 </SectionTitle>
-                <div className="footer__nav-link">
+                <FooterNavLink>
                   {section.submenu.map((menu, idx) => {
                     return (
                       <Link
                         key={idx}
                         to={'/' + menu.link}
-                        className="nav-link"
                         onClick={() => clickMenu(menu)}>
-                        {menu.title}
+                        <NavLink>
+                          {menu.title}
+                        </NavLink>
                       </Link>
                     )
                   })}
-                </div>
+                </FooterNavLink>
               </FooterNavSection>
             )
           })}
-        </div>
+        </FooterNav>
         <FooterLink>
           <FooterLogoContainer>
             <Link to='/'>
@@ -354,16 +372,9 @@ export default function Footer() {
             </LinkButton>
           </FooterLinkButtonList>
           <div>
-            <img
-              className="footer__link__facebook"
-              onClick={() => window.location = 'https://www.facebook.com/koreatech.in/'}
-              src="https://static.koreatech.in/upload/fead6221d535ff547d4801081ee8f2e3.png"
-              alt="FaceBook"/>
+            <FooterLinkFacebook onClick={() => window.location = 'https://www.facebook.com/koreatech.in/'}/>
             <Link to='/'>
-              <img
-                className="footer__link__home"
-                src="https://static.koreatech.in/upload/1aae9a021f0338527c28e5c3d0518fa1.png"
-                alt="Home"/>
+              <FooterLinkHome/>
             </Link>
           </div>
         </FooterLink>

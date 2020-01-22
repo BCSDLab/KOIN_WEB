@@ -86,6 +86,25 @@ const AskButton = styled.button`
   }
 `;
 
+const TabContent = styled.div`
+  max-height: 0;
+  overflow: hidden;
+  -webkit-transition: max-height .35s;
+  -o-transition: max-height .35s;
+  transition: max-height .35s;
+  color: #858585;
+  margin-left: 1px;
+  border: 1px solid #cbcbcb;
+  border-top: none;
+  margin-top: -1px;
+  width: 1132px;
+  background: #e4e4e4;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+  }
+`;
+
 const Tab = styled.div`
   position: relative;
   width: 1132px;
@@ -133,7 +152,7 @@ const Tab = styled.div`
     transition: all .35s;
   }
   
-  input:checked ~ .tab-content {
+  input:checked ~ ${TabContent} {
      max-height: 10em;
    }
    
@@ -181,25 +200,6 @@ const P = styled.p`
     line-height: 1.38;
     font-size: 13px;
     letter-spacing: normal;
-  }
-`;
-
-const TabContent = styled.div`
-  max-height: 0;
-  overflow: hidden;
-  -webkit-transition: max-height .35s;
-  -o-transition: max-height .35s;
-  transition: max-height .35s;
-  color: #858585;
-  margin-left: 1px;
-  border: 1px solid #cbcbcb;
-  border-top: none;
-  margin-top: -1px;
-  width: 1132px;
-  background: #e4e4e4;
-  
-  @media (max-width: 576px) {
-    width: 100%;
   }
 `;
 
@@ -310,7 +310,7 @@ export default function Faq(
                 </span>
                 <UnderArrow/>
               </label>
-              <TabContent className="tab-content">
+              <TabContent>
                 <P><Answer>A. </Answer>{faq.answer}</P>
               </TabContent>
             </Tab>
