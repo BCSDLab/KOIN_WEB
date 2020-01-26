@@ -1,8 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
-
 import Input from './Input';
-import Dialog from '../Dialog';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Advice = styled.div`
   height: 12px;
@@ -35,6 +34,14 @@ const StyledButton = css`
   text-align: center;
   color: #ffffff;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:disabled {
+    background: #e5eaf0;
+    border: solid 1px #d2dae2;
+  }
 `;
 
 const StyledDataButton = css`
@@ -155,17 +162,14 @@ const WithdrawButton = styled.button`
 
 export default function ModifyForm({
   userInfo,
-  visible,
-  dialogInfo,
-  loading,
+  authInProgress,
+  checkInProgress,
   dropdown,
   setDropdown,
   checkDuplication,
   onModify,
   onWithdraw,
   onChange,
-  onConfirm,
-  onCancel
 }) {
   return (
     <>
@@ -197,6 +201,7 @@ export default function ModifyForm({
         placeholder="비밀번호 확인 (필수)"
         onChange={onChange}
       />
+      <Advice>비밀번호를 입력하지 않으면 기존 비밀번호가 유지됩니다.</Advice>
       <Input
         type="text"
         name="name"
@@ -215,9 +220,15 @@ export default function ModifyForm({
         />
         <CheckButton
           type="button"
+          disabled={checkInProgress}
           onClick={() => checkDuplication(userInfo.nickname)}
         >
-          중복확인
+          {!checkInProgress && "중복확인"}
+          <ClipLoader
+            size={25}
+            color={"#175c8e"}
+            loading={checkInProgress}
+          />
         </CheckButton>
       </Row>
       <Input
@@ -247,8 +258,7 @@ export default function ModifyForm({
           onMouseOut={() => setDropdown(false)}
         >
           <DropdownButton type="button" value={userInfo.gender}>
-            {!userInfo.gender && '성별'}
-            {userInfo.gender && (userInfo.gender === "0" ? "남" : "여")}
+            {userInfo.gender === 0 ? "남" : (userInfo.gender === 1 ? "여" : "성별")}
             <DropdownIcon src={"https://static.koreatech.in/assets/img/bus_dropdown.png"} />
           </DropdownButton>
           <DropdownContentWrapper dropdown={dropdown}>
@@ -273,25 +283,27 @@ export default function ModifyForm({
       </Row>
       <Line />
       <ModifyButton
+        disabled={authInProgress}
         onClick={onModify}>
-        정보수정
+        {!authInProgress && "정보수정"}
+        <ClipLoader
+          size={25}
+          color={"#175c8e"}
+          loading={authInProgress}
+        />
       </ModifyButton>
       <WithdrawButton
         type="button"
+        disabled={authInProgress}
         onClick={onWithdraw}>
-        회원탈퇴
+        {!authInProgress && "회원탈퇴"}
+        <ClipLoader
+          size={25}
+          color={"#175c8e"}
+          loading={authInProgress}
+        />
       </WithdrawButton>
     </form>
-    <Dialog
-      title={dialogInfo.title}
-      confirmText="확인"
-      cancelText="취소"
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      visible={visible}
-      type={dialogInfo.type}>
-      {dialogInfo.contents}
-    </Dialog>
     </>
   )
 }

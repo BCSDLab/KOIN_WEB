@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { findPassword, resetError } from '../../modules/auth';
+import { findPassword } from '../../modules/auth';
 import FindPwForm from '../../components/UserComponents/FindPwForm';
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
+import { useToasts } from 'react-toast-notifications';
 
 export default function FindPasswordContainer() {
+  const { addToast } = useToasts();
   const dispatch = useDispatch();
   const [userId, setUserId] = useState("");
   const [findSuccess, setFindSuccess] = useState(false);
-  const { data, loading, error } = useSelector(state => state.authReducer.inquiry);
+  const { data, authInProgress, error } = useSelector(state => state.authReducer);
   const emailLocalPartRegex = /^[a-z_0-9]{1,12}$/;
-  const [dialog, setDialog] = useState(false);
-  const [dialogInfo, setDialogInfo] = useState({
-    type: "alert",
-    title: "",
-    contents: ""
-  })
   
   const onChange = e => {
     setUserId(e.target.value);
@@ -25,68 +21,60 @@ export default function FindPasswordContainer() {
   const onSubmit = e => {
     e.preventDefault();
     if (userId.indexOf("@koreatech.ac.kr") !== -1) {
-      setDialog(true);
-      setDialogInfo({
-        ...dialogInfo,
-        contents: "@koreatech.ac.kr은 빼고 입력해주세요."
-      })
+      addToast('계정명은 @koreatech.ac.kr을 빼고 입력해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     setUserId(userId.trim());
     if (!emailLocalPartRegex.test(userId)) {
-      setDialog(true);
-      setDialogInfo({
-        ...dialogInfo,
-        contents: "아우누리 계정 형식이 아닙니다."
-      })
+      addToast('아우누리 계정 형식이 아닙니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (!userId) {
-      setDialog(true);
-      setDialogInfo({
-        ...dialogInfo,
-        contents: "계정명을 입력하세요."
-      })
+      addToast('계정명을 입력해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     dispatch(findPassword(userId));
   }
 
-  const onConfirm = () => {
-    setDialog(false);
-  }
-
   useEffect(() => {
     if (error) {
-      setDialog(true);
       if (error.status === 404) {
-        setDialogInfo({
-          ...dialogInfo,
-          contents: "유효하지 않은 계정명입니다."
-        })
+        addToast('존재하지 않는 계정입니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
       } else if (error.status === 422) {
-        setDialogInfo({
-          ...dialogInfo,
-          contents: "계정 형식에 맞지 않습니다."
-        })
+        addToast('아우누리 계정 형식이 아닙니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
       } else {
-        setDialogInfo({
-          ...dialogInfo,
-          contents: "네트워크 연결을 확인해주세요.zz"
-        })
+        addToast('네트워크 연결을 확인해주세요.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
       }
     }
-    if (data) {
-      if (data.statusText === 'Created' && data.status === 201) {
-        setFindSuccess(true);
-        setDialog(true);
-        setDialogInfo({
-          ...dialogInfo,
-          contents: "아우누리 이메일로 비밀번호 변경 메일을 보냈습니다. 확인 부탁드립니다."
-        })
-      }
+  }, [error]);
+
+  useEffect(() => {
+    if (data && data.status === 201) {
+      addToast('비밀번호 초기화 메일을 전송했습니다. 아우누리에서 확인해주세요.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
+      setFindSuccess(true);
     }
-  }, [error, data]);
+  }, [data]);
 
   return (
     <Container>
@@ -94,10 +82,7 @@ export default function FindPasswordContainer() {
         userId={userId}
         onChange={onChange}
         onSubmit={onSubmit}
-        loading={loading}
-        dialogInfo={dialogInfo}
-        visible={dialog}
-        onConfirm={onConfirm}
+        authInProgress={authInProgress}
         findSuccess={findSuccess}
       />
       <CopyRight />

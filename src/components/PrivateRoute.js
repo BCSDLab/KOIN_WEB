@@ -6,7 +6,7 @@ import Dialog from './Dialog';
 
 export default function PrivateRoute({ component, dialog, onConfirm, setDialog, ...rest }) {
   const lastLocation = useLastLocation();
-  const { isLoggedIn } = useSelector(state => state.authReducer.user);
+  const { isLoggedIn } = useSelector(state => state.authReducer);
   const path = lastLocation ? lastLocation.pathname : "/";
 
   // 로그인 상태에서 접근하면 안되는 페이지: 로그인, 회원가입

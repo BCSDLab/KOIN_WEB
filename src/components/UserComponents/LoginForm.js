@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { ClipLoader } from "react-spinners";
 import styled from 'styled-components';
-import Dialog from '../Dialog';
 import Input from './Input';
 
 const AutoLoginField = styled.div`
@@ -118,18 +117,20 @@ const LoginButton = styled.button`
     height: 32px;
     font-size: 15px;
   }
+
+  &:disabled {
+    background: #e5eaf0;
+    border: solid 1px #d2dae2;
+  }
 `;
 
 function LoginForm({
   loginInfo,
   onChange,
   onSubmit,
-  loading,
+  authInProgress,
   autoLoginFlag,
-  onToggleAutoLoginFlag,
-  visible,
-  onConfirm,
-  dialogInfo
+  onToggleAutoLoginFlag
 }) {
   return (
     <>
@@ -152,12 +153,13 @@ function LoginForm({
           onChange={onChange}
         />
         <LoginButton
-          type="submit">
-          { !loading && "로그인" }
+          type="submit"
+          disabled={authInProgress}>
+          { !authInProgress && "로그인" }
           <ClipLoader
             size={25}
-            color={"#fff"}
-            loading={loading}
+            color={"#175c8e"}
+            loading={authInProgress}
           />
         </LoginButton>
       </form>
@@ -185,15 +187,6 @@ function LoginForm({
           회원가입
         </SignUpLink>
       </HelpField>
-      <Dialog
-        title={dialogInfo.title}
-        confirmText="확인"
-        onConfirm={onConfirm}
-        visible={visible}
-        length={1}
-        >
-        {dialogInfo.contents}
-      </Dialog>
     </>
   )
 }
