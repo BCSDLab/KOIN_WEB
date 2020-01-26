@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Input from './Input';
 import ClipLoader from "react-spinners/ClipLoader";
-import Dialog from "../Dialog";
 
 const StyledButton = styled.button`
   width: 389px;
@@ -23,7 +22,6 @@ const StyledButton = styled.button`
 
   &:disabled {
     background: #e5eaf0;
-    color: #d2dae2;
     border: solid 1px #d2dae2;
   }
 
@@ -52,11 +50,8 @@ export default function FindPwForm({
   userId,
   onChange,
   onSubmit,
-  loading,
-  findSuccess,
-  visible,
-  dialogInfo,
-  onConfirm
+  authInProgress,
+  findSuccess
 }) {
   return (
     <>
@@ -66,19 +61,11 @@ export default function FindPwForm({
         onChange={onChange}
         placeholder="아우누리 ID를 입력해주세요."
       />
-      <StyledButton onClick={onSubmit} disabled={findSuccess}>
-        {!loading && "비밀번호 찾기"}
-        <ClipLoader size={25} color={"#fff"} loading={loading} />
+      <StyledButton onClick={onSubmit} disabled={findSuccess || authInProgress}>
+        {!authInProgress && "비밀번호 찾기"}
+        <ClipLoader size={25} color={"#175c8e"} loading={authInProgress} />
       </StyledButton>
       <Advice>학교메일로 비밀번호 초기화 메일이 발송됩니다.</Advice>
-      <Dialog
-        theme="dark"
-        visible={visible}
-        type={dialogInfo.type}
-        confirmText="확인"
-        onConfirm={onConfirm}>
-        {dialogInfo.contents}
-      </Dialog>
     </>  
   );
 }

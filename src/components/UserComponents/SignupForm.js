@@ -1,10 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import Input from './Input';
-
-const FormWrapper = styled.form``;
 
 const Row = styled.div`
   display: flex;
@@ -37,6 +34,14 @@ const StyledButton = css`
   text-align: center;
   color: #ffffff;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:disabled {
+    background: #e5eaf0;
+    border: solid 1px #d2dae2;
+  }
 `;
 
 const StyledDataButton = css`
@@ -221,19 +226,6 @@ const TermsContent = styled.textarea`
   }
 `;
 
-const CopyRight = styled.div`
-  height: 13px;
-  font-family: NanumBarunGothic;
-  font-size: 13px;
-  letter-spacing: -0.7px;
-  text-align: center;
-  color: #7d7d7d;
-  margin-top: 25px;
-  @media (max-width: 576px) {
-    font-size: 11px;
-  }
-`;
-
 export default function SignupForm({
   userInfo,
   terms,
@@ -243,7 +235,8 @@ export default function SignupForm({
   checkTerms,
   dropdown,
   setDropdown,
-  loading
+  authInProgress,
+  checkInProgress
 }) {
   return (
     <>
@@ -294,9 +287,15 @@ export default function SignupForm({
           />
           <CheckButton
             type="button"
+            disabled={checkInProgress}
             onClick={() => checkDuplication(userInfo.nickname)}
           >
-            중복확인
+            {!checkInProgress && "중복확인"}
+            <ClipLoader
+              size={25}
+              color={"#175c8e"}
+              loading={checkInProgress}
+            />
           </CheckButton>
         </Row>
 
@@ -385,12 +384,15 @@ export default function SignupForm({
             코인 이용약관에 동의합니다.
           </TermsCheckText>
         </TermsWrapper>
-        <SignUpButton type="submit" onClick={onSubmit}>
-          {!loading && "회원가입"}
+        <SignUpButton
+          type="submit"
+          disabled={authInProgress}
+          onClick={onSubmit}>
+          {!authInProgress && "회원가입"}
           <ClipLoader
             size={25}
-            color={"#fff"}
-            loading={loading}
+            color={"#175c8e"}
+            loading={authInProgress}
           />
         </SignUpButton>
       </form>

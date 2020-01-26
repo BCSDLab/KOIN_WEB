@@ -5,14 +5,17 @@ import SignupForm from '../../components/UserComponents/SignupForm';
 import majorList from '../../static/major';
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
+import { useToasts } from 'react-toast-notifications';
 
 export default function SignUpContainer() {
+  const { addToast } = useToasts();
   const emailLocalPartRegex = /^[a-z_0-9]{1,12}$/;
   const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+  const studentNumberRegex = /^\d{10}$/;
   const passwordRegex = /[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]/g;
   const nicknameRegex = /admin|관리자/;
   const dispatch = useDispatch();
-  const { data, nicknameCheck, loading, error } = useSelector(state => state.authReducer.user);
+  const { data, authInProgress, checkInProgress, isAvailable, error} = useSelector(state => state.authReducer);
   const [dropdown, setDropdown] = useState(false);
   const [terms, setTerms] = useState({
     koin: false,
@@ -30,6 +33,8 @@ export default function SignUpContainer() {
     studentNumber: "",
     phoneNumber: "",
     major: "",
+    identity: 0,
+    isGraduated: ""
   });
 
   const onChange = e => {
@@ -46,7 +51,10 @@ export default function SignUpContainer() {
   const onSubmit = e => {
     e.preventDefault();
     if (userInfo.userId.indexOf("@koreatech.ac.kr") !== -1) {
-      alert("@koreatech.ac.kr을 빼고 입력해주세요.");
+      addToast('계정명은 @koreatech.ac.kr을 빼고 입력해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     setUserInfo({
@@ -54,43 +62,70 @@ export default function SignUpContainer() {
       userId: userInfo.userId.trim()
     });
     if (!emailLocalPartRegex.test(userInfo.userId)) {
-      alert("아우누리 계정 형식이 아닙니다.");
+      addToast('아우누리 계정 형식이 아닙니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (!userInfo.firstPassword || !userInfo.secondPassword || !userInfo.userId ) {
-      alert("필수정보는 반드시 입력해야 합니다.");
+      addToast('필수정보는 반드시 입력해야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (userInfo.firstPassword.length < 6 || userInfo.firstPassword > 18) {
-      alert("비밀번호는 6자 이상 18자 이하여야 합니다.");
+      addToast('비밀번호는 6자 이상 18자 이하여야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (userInfo.firstPassword !== userInfo.secondPassword) {
-      alert("입력하신 비밀번호가 일치하지 않습니다.");
+      addToast('입력하신 비밀번호가 일치하지 않습니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (!passwordRegex.test(userInfo.firstPassword)) {
-      alert("비밀번호는 하나 이상의 특수문자가 필요합니다.");
+      addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (!(terms.koin && terms.privacy)) {
-      alert("이용 약관에 모두 동의해주세요.");
+      addToast('이용 약관에 모두 동의해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
-    if (phoneNumberRegex.test(userInfo.phoneNumber)) {
-      alert("전화번호 양식을 지켜주세요. (Ex: 010-0000-0000)");
+    if (userInfo.phoneNumber && !phoneNumberRegex.test(userInfo.phoneNumber)) {
+      addToast('전화번호 양식을 지켜주세요. (Ex: 010-0000-0000)', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (userInfo.studentNumber) {
-      if (userInfo.studentNumber.length !== 10) {
-        alert("학번은 열자리 숫자여야 합니다.");
+      if (userInfo.studentNumber.length !== 10 || !studentNumberRegex.test(userInfo.studentNumber)) {
+        addToast('학번은 열자리 숫자여야 합니다.', {
+          appearance: 'warning',
+          autoDismiss: true
+        });
         return;
       }
       const year = userInfo.studentNumber.substring(0, 4);
       const majorCode = userInfo.studentNumber.substring(4, 7);
       
       if (year < 1992 || year > new Date().getFullYear()) {
-        alert("올바른 입학년도가 아닙니다.");
+        addToast('올바른 입학년도가 아닙니다.', {
+          appearance: 'warning',
+          autoDismiss: true
+        });
         return;
       }
       for(let major of majorList) {
@@ -98,7 +133,10 @@ export default function SignUpContainer() {
           break;
         } else {
           if (major.id === 7) {
-            alert("올바른 학부코드가 아닙니다.");
+            addToast('올바른 학부코드가 아닙니다.', {
+              appearance: 'warning',
+              autoDismiss: true
+            });
             return;
           } else {
             continue;
@@ -107,11 +145,28 @@ export default function SignUpContainer() {
       }
     }
     console.log(!userInfo.nickname);
-    if (userInfo.nickname && !nicknameCheck) {
-      alert("닉네임 중복확인을 해주세요.");
+    if (userInfo.nickname && !isAvailable) {
+      addToast('닉네임 중복확인을 해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
-    dispatch(signUp(userInfo));
+    const payload = {
+      // 필수정보
+      portal_account: userInfo.userId,
+      password: userInfo.firstPassword,
+      // 옵션
+      name: userInfo.name || undefined,
+      nickname: userInfo.nickname || undefined,
+      gender: userInfo.gender || undefined,
+      major: userInfo.major || undefined,
+      student_number: userInfo.studentNumber || undefined,
+      phone_number: userInfo.phoneNumber || undefined,
+      identity: userInfo.identity,
+      is_graduated: userInfo.identity === 4 ? true : false,
+    }
+    dispatch(signUp(payload));
   }
 
   const checkTerms = e => {
@@ -139,11 +194,17 @@ export default function SignUpContainer() {
 
   const checkDuplication = nickname => {
     if (nicknameRegex.test(nickname)) {
-      alert("사용할 수 없는 닉네임입니다.");
+      addToast('사용할 수 없는 닉네임입니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (!nickname) {
-      alert("닉네임을 입력해주세요.");
+      addToast('닉네임을 입력해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     dispatch(checkNickname(nickname));
@@ -179,13 +240,53 @@ export default function SignUpContainer() {
   }
 
   useEffect(() => {
-    console.log("gg");
+    if (data && data.status === 200) {
+      addToast('사용가능한 닉네임입니다.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
+      return;
+    }
+    if (data && data.status === 201) {
+      addToast('아우누리 이메일로 인증 메일을 발송했습니다. 확인 부탁드립니다.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
+      return;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      if (error.status === 409) {
+        addToast('이미 가입된 계정입니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else if (error.status === 422) {
+        addToast('형식에 맞지 않는 데이터가 있습니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else {
+        addToast('네트워크 연결을 확인해주세요.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    }
+  }, [error]);
+
+  useEffect(() => {
     setTerms({
       ...terms,
       all: terms.koin && terms.privacy
     })
+  }, [terms.koin, terms.privacy]);
+
+  useEffect(() => {
     setUserMajor();
-  }, [terms.koin, terms.privacy, userInfo.studentNumber]);
+  }, [userInfo.studentNumber]);
 
   return (
     <Container>
@@ -198,7 +299,8 @@ export default function SignUpContainer() {
         checkTerms={checkTerms}
         dropdown={dropdown}
         setDropdown={setDropdown}
-        loading={loading}
+        authInProgress={authInProgress}
+        checkInProgress={checkInProgress}
       />
       <CopyRight style={{ marginBottom: '50px' }}/>
     </Container>
