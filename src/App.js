@@ -17,6 +17,8 @@ import RoomDetailPage from './pages/RoomDetailPage';
 import Footer from './components/SharedComponents/Footer/Footer'
 import page404 from './pages/404';
 import TopnavContainer from './containers/TopnavContainer';
+import LostItemListPage from "./pages/LostItemListPage";
+import LostItemDetailPage from "./pages/LostItemDetailPage";
 
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
@@ -150,6 +152,9 @@ function App({ history }) {
 
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
+
+          <Route exact path="/lost" component={LostItemListPage}/>
+          <Route path="/lost/:id" component={LostItemDetailPage}/>
     
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
