@@ -9,7 +9,7 @@ export default function TopnavContainer() {
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [subMenu, setSubMenu] = useState(null);
-  const { token, data } = useSelector(state => state.authReducer.user);
+  const { token, data } = useSelector(state => state.authReducer);
   const [dialog, setDialog] = useState(false);
   const [dialogInfo, setDialogInfo] = useState({
     type: "alert",

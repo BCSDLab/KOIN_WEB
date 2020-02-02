@@ -19,7 +19,7 @@ export default [
       },
       {
         title: "식단",
-        link: "diet",
+        link: "cafeteria",
         newFlag: false,
         planFlag: false,
         tag: null
