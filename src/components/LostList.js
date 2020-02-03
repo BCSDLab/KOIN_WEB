@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Pagination from "./SharedComponents/Pagination";
 
 const Main = styled.div`
   width: 100%;
@@ -141,7 +142,14 @@ const Hit = styled.td`
   width: 106px;
 `;
 
-export default function LostList() {
+export default function LostList(
+  {
+    lostItems,
+    totalPageNum,
+    setPageData
+  }
+) {
+
   return (
     <Main>
       <Container>
@@ -167,32 +175,49 @@ export default function LostList() {
             </tr>
             </thead>
             <tbody>
-              <tr>
-                <Id>
-                  1
-                </Id>
-                <Category>
-                  분실물 습득
-                </Category>
-                <Title>
-                  제목이제목제목
-                  <CommentCount> [1]</CommentCount>
-                </Title>
-                <Nickname>
-                  최원빈입니닷
-                </Nickname>
-                <LostDate>
-                  2020-01-30
-                </LostDate>
-                <Date>
-                  2020.01.30
-                </Date>
-                <Hit>
-                  10
-                </Hit>
-              </tr>
+            {
+              lostItems.map((items) => {
+                return(
+                  <tr>
+                    <Id>
+                      {items.id}
+                    </Id>
+                    <Category>
+                      {items.type === 0 &&
+                        "분실물 습득"
+                      }
+                      {items.type === 1 &&
+                        "분실물 찾기"
+                      }
+                    </Category>
+                    <Title>
+                      {items.title}
+                      <CommentCount>
+                        {items.comment_count !== 0 &&
+                          " [" + items.comment_count + "]"
+                        }
+                      </CommentCount>
+                    </Title>
+                    <Nickname>
+                      {items.nickname}
+                    </Nickname>
+                    <LostDate>
+                      {items.date}
+                    </LostDate>
+                    <Date>
+                      {items.created_at.slice(0, 10).replace('-','.').replace('-','.')}
+                    </Date>
+                    <Hit>
+                      {items.hit}
+                    </Hit>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
+          <Pagination
+            totalPageNum={totalPageNum}
+            setPageData={setPageData}/>
         </List>
       </Container>
     </Main>
