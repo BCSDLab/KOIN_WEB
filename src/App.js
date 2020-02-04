@@ -14,6 +14,8 @@ import CircleDetailPage from './pages/CircleDetailPage';
 import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
+import StoreListPage from "./pages/StoreListPage";
+import StoreDetailPage from "./pages/StoreDetailPage";
 import Footer from './components/SharedComponents/Footer/Footer'
 import page404 from './pages/404';
 import TopnavContainer from './containers/TopnavContainer';
@@ -150,7 +152,10 @@ function App({ history }) {
 
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
-    
+
+          <Route exact path="/store" component={StoreListPage} />
+          <Route path="/store/:id" component={StoreDetailPage} />
+
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
