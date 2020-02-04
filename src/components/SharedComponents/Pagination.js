@@ -1,26 +1,23 @@
 import React, {useCallback, useState} from "react";
 import styled from "styled-components";
 import {getLostItems} from "../../modules/lost";
+import {Link} from "react-router-dom";
 
 const PaginationContainer = styled.div`
-  margin-top: 35px;
-  margin-bottom: 40px;
   background: #ffffff;
   color: #858585;
-  
+  width: 100%;
   @media (max-width: 576px) {
     display: flex;
     justify-content: center;
-    margin-top: 36px;
-    margin-bottom: 70px;
   }
 `;
 
 const ArrowButton = styled.button`
   border-radius: 0;
   padding: 7px 14px 7px 14px;
-  margin-left: 6px;
-  margin-right: 6px;
+  margin-left: 8px;
+  margin-right: 8px;
   background: #ffffff;
   border: 1px #edf0f3 solid;
   color: #858585;
@@ -60,10 +57,28 @@ const Number = styled.button`
   }
 `;
 
+const WriteBtn = styled.button`
+  float: right;
+  padding: 6px 20px;
+  color: white;
+  background-color: #175c8e;
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: -0.7px;
+  border: 1px solid #175c8e;
+  margin-top: -33px;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
+`;
+
 export default function Pagination(
   {
     totalPageNum,
-    setPageData
+    setPageData,
+    isWriteBtn,
+    writeBtnLink
   }
 ){
   const limit = 5;
@@ -108,6 +123,7 @@ export default function Pagination(
   };
 
   return (
+    <div>
     <PaginationContainer>
       <ArrowButton onClick={clickPrevButton}>이전으로
       </ArrowButton>
@@ -138,5 +154,14 @@ export default function Pagination(
       <ArrowButton onClick={clickNextButton}>다음으로
       </ArrowButton>
     </PaginationContainer>
+      {
+        isWriteBtn === true &&
+        <Link to={writeBtnLink}>
+          <WriteBtn>
+            글쓰기
+          </WriteBtn>
+        </Link>
+      }
+    </div>
   )
 }
