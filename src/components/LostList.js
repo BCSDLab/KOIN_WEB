@@ -138,6 +138,10 @@ const Table = styled.table`
       border-bottom: none;
     }
   }
+  
+  tr:hover td {
+    background: #f8fafb;
+  }
 `;
 
 const Id = styled.td`
@@ -267,10 +271,10 @@ export default function LostList(
   {
     lostItems,
     totalPageNum,
-    setPageData
+    setPageData,
+    history
   }
 ) {
-
   return (
     <Main>
       <Container>
@@ -298,9 +302,11 @@ export default function LostList(
             </tr>
             </thead>
             <tbody>
-            {lostItems.map((items) => {
+            {lostItems.map((items, id) => {
               return (
-                <tr>
+                <tr
+                  key={id}
+                  onClick={()=>history.push(`/lost/detail/${items.id}`)}>
                   <Id>
                     {items.id}
                   </Id>

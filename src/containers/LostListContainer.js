@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import LostList from "../components/LostList";
 import {getLostItems} from "../modules/lost";
 
-export default function LostListContainer() {
+export default function LostListContainer({history}) {
   const [totalPageNum, setTotalPageNum] = useState(1);
   const [maxDisplayPageNum, setMaxDisplayPageNum] = useState(1);
   const {data, loading, error} = useSelector(state => state.lostReducer.lostItems)
@@ -33,6 +33,7 @@ export default function LostListContainer() {
       lostItems={data.lostItems}
       totalPageNum={totalPageNum}
       setPageData={setPageData}
-      maxDisplayPageNum={maxDisplayPageNum}/>
+      maxDisplayPageNum={maxDisplayPageNum}
+      history={history}/>
   )
 }
