@@ -187,8 +187,11 @@ const ListWrapper = styled.div`
 
 export default function StoreList ({
   mobileFlag,
+  selectCategory,
+  selectFilter,
   tag,
   filter,
+  storeList
 }) {
 
   return (
@@ -208,6 +211,7 @@ export default function StoreList ({
                 key={value.tag}
                 index={index}
                 selected={tag === value.tag}
+                onClick={() => selectCategory(value.tag)}>
                 <CategoryImage src={value.image} />
                 {value.title}
               </Category>
@@ -217,6 +221,7 @@ export default function StoreList ({
         {/* Category 밑에 있는 것들 */}
         <FilterWrapper>
           <Counter>
+            총 <b>{ storeList.length }개의 업체가</b> 있습니다.
           </Counter>
           <CheckboxWrapper first>
             <Checkbox
