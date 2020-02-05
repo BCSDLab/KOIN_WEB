@@ -1,9 +1,9 @@
 import React from 'react'
-import LostListContainer from "../containers/LostListContainer";
+import LostItemListContainer from "../containers/LostItemListContainer";
 
 export default function LostItemListPage({history}) {
 
   return (
-    <LostListContainer history={history}/>
+    <LostItemListContainer history={history}/>
   )
 }

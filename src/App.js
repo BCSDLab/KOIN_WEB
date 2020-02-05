@@ -19,6 +19,7 @@ import page404 from './pages/404';
 import TopnavContainer from './containers/TopnavContainer';
 import LostItemListPage from "./pages/LostItemListPage";
 import LostItemDetailPage from "./pages/LostItemDetailPage";
+import LostItemRegisterPage from "./pages/LostItemRegisterPage";
 
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
@@ -154,7 +155,8 @@ function App({ history }) {
           <Route path="/room/:id" component={RoomDetailPage} />
 
           <Route exact path="/lost" component={LostItemListPage}/>
-          <Route path="/lost/:id" component={LostItemDetailPage}/>
+          <Route path="/lost/register" component={LostItemRegisterPage}/>
+          <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
     
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
