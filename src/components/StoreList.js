@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import storeCategory from '../static/storeCategory';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -25,7 +26,7 @@ const Header = styled.div`
   width: 100%;
   height: 32px;
   font-size: 30px;
-  font-family: NanumBarunGothic, serif;
+  font-family: NanumSquare, serif;
   font-weight: 800;
   letter-spacing: -1.5px;
   color: #175c8e;
@@ -63,9 +64,9 @@ const CategoryTitle = styled.div`
   align-items: center;
   color: #252525;
   font-size: 15px;
-  font-family: NanumBarunGothic, serif;
+  font-family: NanumSquare, serif;
   font-weight: 800;
-  line-height: 1.13;
+  letter-spacing: -0.8px;
   width: 182px;
   
   @media (max-width: 576px) {
@@ -118,24 +119,44 @@ const CategoryImage = styled.img`
 
 const FilterWrapper = styled.div`
   display: flex;
-  height: 25px;
-  margin-top: 20px;
+  height: 24px;
+  margin-top: 24px;
+  
+  @media (max-width: 576px) {
+    flex-wrap: wrap;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(100% - 32px);
+    height: auto;
+  }
 `;
 
-const Counter = styled.div`
+const Counter = styled.span`
+  flex: none;
   float: left;
   font-size: 12px;
   font-color: #858585;
   color: #858585;
   letter-spacing: -0.6px;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+    margin-bottom: 33px;
+    text-align: left;
+  }
 `;
 
 const CheckboxWrapper = styled.div`
   width: fit-content;
-  margin-left: ${props => props.first ? 'auto' : '33px'};
+  margin-left: ${props => props.first ? 'auto' : '25px'};
   color: #175c8e;
   letter-spacing: -0.6px;
   font-size: 12px;
+  
+  @media (max-width: 576px) {
+    margin-bottom: 15px;
+  }
 `;
 
 const Checkbox = styled.input.attrs({type: 'checkbox'})`
@@ -170,6 +191,31 @@ const CheckboxLabel = styled.label`
   }
 `;
 
+const ListHeaderMobile = styled.div`
+  background-color: #e6ecf2;
+  color: #a1a1a1;
+  line-height: 1.46;
+  width: 100%;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  
+  &::before {
+    content: "상점목록";
+    font-size: 13px;
+    margin-left: 16px;
+  }
+  &::after {
+    content: "\\00a0\\00a0\\00a0\\00a0 : 이벤트 진행중";
+    font-size: 10px;
+    line-height: 1.5;
+    margin-left: auto;
+    margin-right: 16px;
+    background: url("https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png") 0 50% no-repeat;
+    background-size: 10px;
+  }
+`;
+
 const ListWrapper = styled.div`
   width: 1131px;
   min-height: 58vh;
@@ -181,7 +227,180 @@ const ListWrapper = styled.div`
   grid-column-gap: 29px;
   grid-row-gap: 30px;
   grid-auto-rows: 176px;
+  
+  @media (max-width: 576px) {
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(100% - 32px);
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: 60px;
+    grid-row-gap: 14px;
+  }
 `
+
+const ListItem = styled.div`
+  border: 1px #175c8e solid;
+  padding: 22px 27px;
+  cursor: pointer;
+  position: relative;
+  color: #252525;
+  
+  &:hover {
+    border: 1px #f7941e solid;
+  }
+  
+  @media (max-width: 576px) {
+    width: auto;
+    height: auto;
+    padding: 0 16px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+    border: solid 1px #d2dae2;
+    display: flex;
+    align-items: center;
+    flex: none;
+    
+    &:hover {
+      border: 1px #f7941e solid;
+    }
+  }
+`;
+
+const ListItemTitle = styled.div`
+  text-align: left;
+  font-size: 20px;
+  height: 39px;
+  width: 100%;
+  letter-spacing: -1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
+  
+  ${ListItem}:hover & {
+    color: #f7941e;
+  }
+  
+  @media (max-width: 576px) {
+    height: auto;
+    width: auto;
+    max-width: 120px;
+    word-break: break-all;
+    text-overflow: unset;
+    overflow: unset;
+    white-space: unset;
+    font-family: NotoSansCJKKR;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #252525;
+    
+    ${ListItem}:hover & {
+      color: #202020;
+    }
+  }
+`;
+
+const ListItemEventDate = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 11px;
+  font-family: NanumBarunGothic;
+  font-size: 11px;
+  line-height: 1.09;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #175c8e;
+  text-align: center;
+  
+  ${ListItem}:hover & {
+    background-color:  #f7941e;
+  }
+  
+  &:before {
+  content: "이벤트";
+  }
+`;
+
+const ListItemEventLink = styled(Link)`
+  position: absolute;
+  bottom: 11px;
+  right: 11px;
+  font-family: NanumBarunGothic;
+  font-size: 11px;
+  color: #175c8e;
+  text-decoration: none;
+  line-height: 1.36;
+  letter-spacing: normal;
+  
+  ${ListItem}:hover & {
+    background-color:  #f7941e;
+  }
+`;
+
+const ListItemEventImage = styled.img`
+  width: 11px;
+  margin-left: 10px;
+`
+
+const ListItemPhone = styled.div`
+  text-align: left;
+  font-size: 13px;
+  height: 22px;
+  width: 100%;
+  letter-spacing: -0.7px;
+  
+  & span {
+    display: inline-block;
+    margin-left: 17px;
+    color: #858585;
+  }
+`;
+
+const ListItemTime = styled.div`
+  text-align: left;
+  font-size: 13px;
+  height: 32px;
+  width: 100%;
+  letter-spacing: -0.7px;
+  
+  & span {
+    display: inline-block;
+    margin-left: 17px;
+    color: #858585;
+  }
+`;
+
+const ListItemOptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 24px;
+  
+  @media (max-width: 576px) {
+    margin-left: auto;
+  }
+`;
+
+const ListItemOption = styled.span`
+  border: 1px #f7941e solid;
+  margin-right: 4px;
+  font-size: 11px;
+  border-radius: 20px;
+  padding: 5px 10px;
+  background: #f7931e;
+  color: white;
+  
+  @media (max-width: 576px) {
+    font-size: 11px;
+    background: transparent;
+    color: ${props => props.disabled ? "#d2dae2" : "#f7931e"};
+    margin: 0 6px;
+    padding: 0;
+    border: 0;
+  }
+`;
 
 
 
@@ -198,7 +417,7 @@ export default function StoreList ({
     <Container>
       <ListSection>
         <Header>
-          주변상점
+          주변 상점
         </Header>
         {/* Category 부분 */}
         <CategoryWrapper>
@@ -246,8 +465,43 @@ export default function StoreList ({
             <CheckboxLabel htmlFor="bank">계좌이체 가능</CheckboxLabel>
           </CheckboxWrapper>
         </FilterWrapper>
+        {!!mobileFlag && <ListHeaderMobile />}
         <ListWrapper>
+          {
+            storeList.map(store => (
+              <ListItem
+                key={store.id}>
+                <ListItemTitle>{store.name}</ListItemTitle>
+                {!mobileFlag ? (
+                  <>
+                    {!!store.event_articles.length && (
+                      <>
+                        <ListItemEventDate>시발</ListItemEventDate>
+                        <ListItemEventLink to={`/store/${store.permantLink}`}>이벤트 확인하러 가기 ></ListItemEventLink>
+                      </>
+                    )}
+                    <ListItemPhone>전화번호<span>{store.phone}</span></ListItemPhone>
+                    <ListItemTime>운영시간<span>{store.phone}</span></ListItemTime>
+                    <ListItemOptionWrapper>
+                      {!!store.delivery && <ListItemOption>#배달가능</ListItemOption>}
+                      {!!store.pay_card && <ListItemOption>#카드가능</ListItemOption>}
+                      {!!store.pay_bank && <ListItemOption>#계좌이체가능</ListItemOption>}
+                    </ListItemOptionWrapper>
+                  </>
+                ) : (
+                  <>
+                    {!!store.event_articles.length && <ListItemEventImage src="https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png"/>}
+                    <ListItemOptionWrapper>
+                      <ListItemOption disabled={!store.delivery}>배달</ListItemOption>
+                      <ListItemOption disabled={!store.pay_card}>카드</ListItemOption>
+                      <ListItemOption disabled={!store.pay_bank}>계좌이체</ListItemOption>
+                    </ListItemOptionWrapper>
+                  </>
+                )}
 
+              </ListItem>
+            ))
+          }
         </ListWrapper>
       </ListSection>
     </Container>
