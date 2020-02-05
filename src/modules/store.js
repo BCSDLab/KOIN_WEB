@@ -19,16 +19,20 @@ export const getStoreList = (tag, filter) => async dispatch => {
       type: GET_STORE_LIST_SUCCESS,
       res
     });
-    dispatch({
-      type: GET_STORE_LIST_BY_FILTER,
-      filter
-    })
   } catch (e) {
     dispatch({
       type: GET_STORE_LIST_ERROR,
       error: e
     });
   }
+  dispatch({
+    type: GET_STORE_LIST_BY_TAG,
+    tag
+  });
+  dispatch({
+    type: GET_STORE_LIST_BY_FILTER,
+    filter
+  });
 };
 
 export const getStoreListByFilter = filter => ({
@@ -90,7 +94,6 @@ export default function storeReducer(state = initialState, action) {
       return {
         ...state,
         stores: {
-          ...state.stores,
           loading: false,
           data: action.res.data.shops,
           filteredData: action.res.data.shops,
