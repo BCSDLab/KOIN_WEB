@@ -5,6 +5,7 @@ import circleReducer from './circle';
 import cafeteriaMenuReducer from "./cafeteriaMenu";
 import roomReducer from './room';
 import busReducer from "./bus";
+import timetableReducer from './timetable';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   cafeteriaMenuReducer,
   roomReducer,
   faqReducer,
-  busReducer
+  busReducer,
+  timetableReducer
 });
 
 export default rootReducer;
