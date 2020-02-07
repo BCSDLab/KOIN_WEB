@@ -50,6 +50,10 @@ const getAllLecture = id => {
   return axios.get(`${API_PATH}/lectures/?semester_date=${id}`);
 }
 
+const getAllSemester = () => {
+  return axios.get(`${API_PATH}/semesters`);
+}
+
 const addSubject = (token, body) => {
   return axios.post(`${API_PATH}/timetables`, body, {
     headers: {
@@ -89,6 +93,7 @@ export {
   getRoomList,
   getRoomInfo,
   getAllLecture,
+  getAllSemester,
   addSubject,
   removeSubject,
   getMyTimeTable,
