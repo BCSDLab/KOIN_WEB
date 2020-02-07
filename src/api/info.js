@@ -82,6 +82,12 @@ const getVersion = type => {
   return axios.get(`${API_PATH}/versions/${type}`);
 }
 
+// 분실물
+// 내 분실물을 받아오는 getMyLostItem은 사용하지 않아서 추가하지 않았습니다.
+const getLostItems = nowPageNum => {
+  return axios.get(`${API_PATH}/lost/lostItems?page=${nowPageNum}&limit=10`)
+}
+
 export {
   getBusInfo,
   getCafeteriaMenu,
@@ -97,5 +103,6 @@ export {
   addSubject,
   removeSubject,
   getMyTimeTable,
-  getVersion
+  getVersion,
+  getLostItems
 }

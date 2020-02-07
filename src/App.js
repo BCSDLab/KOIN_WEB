@@ -22,6 +22,8 @@ import TimeTablePage from "./pages/TimeTablePage";
 import BusPage from "./pages/BusPage";
 // Board Page
 
+import LostItemListPage from "./pages/LostItemListPage";
+import LostItemDetailPage from "./pages/LostItemDetailPage";
 // etc
 import TopnavContainer from './containers/TopnavContainer';
 import Footer from './components/SharedComponents/Footer/Footer'
@@ -153,6 +155,11 @@ function App({ history }) {
           <Route path="/circle/:id" component={CircleDetailPage} />
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
+
+
+          <Route exact path="/lost" component={LostItemListPage}/>
+          <Route path="/lost/:id" component={LostItemDetailPage}/>
+    
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
