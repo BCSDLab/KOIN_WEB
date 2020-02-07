@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+import { updateAuthInfo } from './modules/auth';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 
 import IndexPage from './pages/IndexPage';
-
+// User Page
 import LoginPage from './pages/UserPages/LoginPage';
 import SignUpPage from './pages/UserPages/SignUpPage';
 import ModifyInfoPage from './pages/UserPages/ModifyInfoPage';
 import FindPasswordPage from './pages/UserPages/FindPasswordPage';
-
+// Info Page
 import FaqPage from "./pages/FaqPage";
 import CircleListPage from './pages/CircleListPage';
 import CircleDetailPage from './pages/CircleDetailPage';
 import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
-import Footer from './components/SharedComponents/Footer/Footer'
-import page404 from './pages/404';
-import TopnavContainer from './containers/TopnavContainer';
-
-import styled, { createGlobalStyle } from 'styled-components';
-import { updateAuthInfo } from './modules/auth';
-import { useDispatch } from 'react-redux';
-import PrivateRoute from './components/PrivateRoute';
-import Cookies from 'js-cookie';
+import TimeTablePage from "./pages/TimeTablePage";
 import BusPage from "./pages/BusPage";
+// Board Page
+
+// etc
+import TopnavContainer from './containers/TopnavContainer';
+import Footer from './components/SharedComponents/Footer/Footer'
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import page404 from './pages/404';
+import PrivateRoute from './components/PrivateRoute';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -116,6 +119,7 @@ function App({ history }) {
       <Main>
         <Switch>
           <Route exact path="/" component={IndexPage} />
+          {/* User Page */}
           <PrivateRoute 
             path="/login"
             component={LoginPage}
@@ -144,16 +148,16 @@ function App({ history }) {
             dialog={dialog}
             onConfirm={onConfirm}
           />
-
+          {/* Info Page */}
           <Route exact path="/circle" component={CircleListPage} />
           <Route path="/circle/:id" component={CircleDetailPage} />
-
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
-    
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
+          <Route path="/timetable" component={TimeTablePage} />
+          
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
           <Route component={page404} />
         </Switch>
