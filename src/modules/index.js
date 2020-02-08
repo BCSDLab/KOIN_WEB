@@ -6,6 +6,8 @@ import cafeteriaMenuReducer from "./cafeteriaMenu";
 import roomReducer from './room';
 import busReducer from "./bus";
 import storeReducer from "./store";
+import timetableReducer from './timetable';
+import lostReducer from "./lost";
 
 const rootReducer = combineReducers({
   authReducer,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   roomReducer,
   faqReducer,
   busReducer,
-  storeReducer
+  storeReducer,
+  timetableReducer,
+  lostReducer
 });
 
 export default rootReducer;
