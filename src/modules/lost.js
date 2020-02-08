@@ -4,6 +4,10 @@ const GET_LOST_ITEMS = "GET_LOST_ITEMS";
 const GET_LOST_ITEMS_SUCCESS = "GET_LOST_ITEMS_SUCCESS";
 const GET_LOST_ITEMS_ERROR = "GET_LOST_ITEMS_ERROR";
 
+const REGISTER_LOST_ITEM = "REGISTER_LOST_ITEM";
+const REGISTER_LOST_ITEM_SUCCESS = "REGISTER_LOST_ITEM_SUCCESS";
+const REGISTER_LOST_ITEM_ERROR = "REGISTER_LOST_ITEM_ERROR";
+
 export const getLostItems = nowPageNum => async dispatch => {
   dispatch({ type: GET_LOST_ITEMS });
   try {
@@ -20,6 +24,32 @@ export const getLostItems = nowPageNum => async dispatch => {
   }
 };
 
+export const registerLostItem = payload => async dispatch => {
+  dispatch({ type: REGISTER_LOST_ITEM });
+  try {
+    const body = {
+      title : payload.title,
+      type: payload.type,
+      date: payload.date,
+      location: payload.location,
+      is_phone_open: payload.is_phone_open,
+      phone: payload.phoneNumber,
+      content: payload.content
+    };
+    const res = await infoAPI.registerLostItem(payload.token, body);
+    dispatch({
+      type: REGISTER_LOST_ITEM_SUCCESS,
+      res
+    });
+  }
+  catch (e) {
+    dispatch({
+      type: GET_LOST_ITEMS_ERROR,
+      error: e
+    });
+  }
+};
+
 const initialState = {
   lostItems: {
     loading: false,
@@ -28,7 +58,8 @@ const initialState = {
       lostItems:[]
     },
     error: null
-  }
+  },
+  data: null
 };
 
 export default function lostReducer(state = initialState, action) {
@@ -59,6 +90,21 @@ export default function lostReducer(state = initialState, action) {
           error: action.error
         }
       };
+    case REGISTER_LOST_ITEM:
+      return {
+        ...state,
+        data: null
+      };
+    case REGISTER_LOST_ITEM_SUCCESS:
+      return {
+        ...state,
+        data: action.res.data
+      };
+    case REGISTER_LOST_ITEM_ERROR:
+      return {
+        data: null,
+        error: action.error
+      }
     default:
       return state;
   }

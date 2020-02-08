@@ -238,13 +238,49 @@ const Wysiwyg = styled.div`
   margin-left: 25px;
 `;
 
+const Footer = styled.div`
+  margin-top: 23px;
+  height: 157px;
+  
+  button {
+    font-size: 13px;
+    color: white;
+    letter-spacing: -0.7px;
+    padding: 5px 26px;
+    cursor: pointer;
+  }
+  
+  ${GoListBtn} {
+    padding: 6px 13px;
+    margin-top: 0;
+  }
+`;
+
+const CancelBtn = styled.button`
+  margin-right: 6px;
+  background: #909090;
+  border: 1px solid #909090;
+`;
+
+const RegisterBtn = styled.button`
+  background: #175c8e;
+  border: 1px solid #175c8e;
+`;
+
 export default function LostItemRegister(
   {
     createdAt,
     type,
     clickType,
     phoneFlag,
-    phoneFlagChange
+    phoneFlagChange,
+    setTitle,
+    setDate,
+    setPlace,
+    editorRef,
+    history,
+    register,
+    setPhoneNumber
   }
 ) {
   return (
@@ -256,7 +292,10 @@ export default function LostItemRegister(
         </Header>
         <Form>
           <BoardHead>
-            <BoardTitleInput type="text" placeholder="제목을 입력하세요. ( 최대 255자 )"/>
+            <BoardTitleInput
+              type="text"
+              placeholder="제목을 입력하세요. ( 최대 255자 )"
+              onInput={e => setTitle(e.target.value)}/>
             <BoardInfo>
               <Author>{JSON.parse(sessionStorage.getItem('userInfo')).nickname}</Author>
               <CreatedAt>{createdAt}</CreatedAt>
@@ -299,7 +338,9 @@ export default function LostItemRegister(
               <span>분실일</span>
               }
             </p>
-            <LeftFormInput type="date"/>
+            <LeftFormInput
+              type="date"
+              onInput={e => setDate(e.target.value)}/>
 
             {/*Place*/}
             <p>
@@ -310,7 +351,9 @@ export default function LostItemRegister(
               <span>분실 장소</span>
               }
             </p>
-            <LeftFormInput placeholder={type ? "분실장소를 입력해주세요" : "습득장소를 입력해주세요"}/>
+            <LeftFormInput
+              placeholder={type ? "분실장소를 입력해주세요" : "습득장소를 입력해주세요"}
+              onInput={e => setPlace(e.target.value)}/>
 
             {/*Phone*/}
             <Phone>
@@ -346,7 +389,8 @@ export default function LostItemRegister(
               <LeftFormInput
                 type="text"
                 disabled={!phoneFlag}
-                value={phoneFlag ? JSON.parse(sessionStorage.getItem('userInfo')).phone_number : ''}
+                defaultValue={phoneFlag ? JSON.parse(sessionStorage.getItem('userInfo')).phone_number : ''}
+                onChange={e => setPhoneNumber(e.target.value)}
                 placeholder="ex)010-1234-1234"/>
             </Phone>
           </LeftForm>
@@ -354,12 +398,20 @@ export default function LostItemRegister(
         <Detail>
           <p>상세정보 입력</p>
           <Wysiwyg>
+            {/*<input type="text" name="contents" id="contents" hidden/>*/}
             <Editor
               useCommandShortcut={true}
               initialEditType='wysiwyg'
-              height="400px"/>
+              height="400px"
+              ref={editorRef}
+              />
           </Wysiwyg>
         </Detail>
+        <Footer>
+          <CancelBtn onClick={()=> history.push('/lost')}>취소</CancelBtn>
+          <RegisterBtn onClick={register}>등록</RegisterBtn>
+          <GoListBtn onClick={()=> history.push('/lost')}>목록으로</GoListBtn>
+        </Footer>
       </Container>
     </Main>
   )

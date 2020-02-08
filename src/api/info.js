@@ -84,6 +84,14 @@ const getLostItems = nowPageNum => {
   return axios.get(`${API_PATH}/lost/lostItems?page=${nowPageNum}&limit=10`)
 }
 
+const registerLostItem = (token, body) => {
+  return axios.post(`${API_PATH}/lost/lostItems`, body, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
 export {
   getBusInfo,
   getCafeteriaMenu,
@@ -99,5 +107,6 @@ export {
   removeSubject,
   getMyTimeTable,
   getVersion,
-  getLostItems
+  getLostItems,
+  registerLostItem
 }
