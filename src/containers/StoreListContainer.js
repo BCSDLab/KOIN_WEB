@@ -1,7 +1,8 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getStoreList, getStoreListByTag, getStoreListByFilter } from '../modules/store';
+import {getStoreList, shuffleStoreList, updateStoreFilter} from '../modules/store';
 import StoreList from '../components/StoreList';
+import Cookies from 'js-cookie';
 
 export default function StoreListContainer () {
   const [mobileFlag, setMobileFlag] = useState(true);
@@ -17,7 +18,7 @@ export default function StoreListContainer () {
       sessionStorage.setItem("storeCategory", nowTag);
       return nowTag
     });
-    dispatch(getStoreListByTag(tag));
+    dispatch(updateStoreFilter(tag));
   }, [setTag]);
 
   const selectFilter = useCallback( index => {
@@ -25,18 +26,23 @@ export default function StoreListContainer () {
       const selectedIndex = index ? index * 2 : 1;
       const nowFilter = prevState ^ selectedIndex;
       sessionStorage.setItem("storeFilter", nowFilter ? nowFilter : prevState);
-      dispatch(getStoreListByFilter(nowFilter));
+      dispatch(updateStoreFilter(undefined,nowFilter));
       return nowFilter
     });
   }, [setFilter]);
 
   useEffect(() => {
-    sessionStorage.setItem("storeNewFlag", false);
+    return () => Cookies.set("storeNewFlag", true);
   }, []);
 
   useEffect(() => {
-    dispatch(getStoreList(tag, filter));
-    console.log("sibal")
+    if(Cookies.get("storeNewFlag") === "true" || filteredData.length === 0) {
+      dispatch(getStoreList(tag, filter));
+      console.log("refresh StoreList");
+    } else if (Cookies.get("storeNewFlag") !== "false") {
+      dispatch(shuffleStoreList());
+      console.log("shuffle StoreList");
+    }
   }, [dispatch]);
 
   useLayoutEffect(() => {

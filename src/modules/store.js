@@ -4,8 +4,11 @@ const GET_STORE_LIST = "GET_STORE_LIST";
 const GET_STORE_LIST_SUCCESS = "GET_STORE_LIST_SUCCESS";
 const GET_STORE_LIST_ERROR = "GET_STORE_ERROR";
 
-const GET_STORE_LIST_BY_TAG = "GET_STORE_LIST_BY_TAG";
-const GET_STORE_LIST_BY_FILTER = "GET_STORE_LIST_BY_FILTER";
+const UPDATE_STORE_FILTER = "UPDATE_STORE_FILTER";
+
+const SHUFFLE_STORE_LIST = "SHUFFLE_STORE_LIST";
+
+const FILTER_STORE_LIST = "FILTER_STORE_LIST";
 
 const GET_STORE_DETAIL_INFO = "GET_STORE_DETAIL_INFO";
 const GET_STORE_DETAIL_INFO_SUCCESS = "GET_STORE_DETAIL_INFO_SUCCESS";
@@ -25,25 +28,40 @@ export const getStoreList = (tag, filter) => async dispatch => {
       error: e
     });
   }
+  dispatch(shuffleStoreList());
   dispatch({
-    type: GET_STORE_LIST_BY_TAG,
-    tag
-  });
-  dispatch({
-    type: GET_STORE_LIST_BY_FILTER,
+    type: UPDATE_STORE_FILTER,
+    tag,
     filter
   });
+  dispatch({type: FILTER_STORE_LIST});
 };
 
-export const getStoreListByFilter = filter => ({
-  type: GET_STORE_LIST_BY_FILTER,
-  filter
-});
+export const shuffleStoreList = () => (dispatch, getState) => {
+  const data = getState().storeReducer.stores.data.concat();
 
-export const getStoreListByTag = tag => ({
-  type: GET_STORE_LIST_BY_TAG,
-  tag
-});
+  for(let i = data.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [data[i], data[j]] = [data[j], data[i]];
+  }
+  console.log(data)
+  dispatch({
+    type: SHUFFLE_STORE_LIST,
+    data
+  })
+}
+
+export const updateStoreFilter = (tag, filter) => dispatch => {
+  dispatch({
+    type: UPDATE_STORE_FILTER,
+    tag,
+    filter
+  });
+  dispatch({
+    type: FILTER_STORE_LIST
+  });
+}
+
 
 export const getStoreDetailInfo = id => async dispatch => {
   dispatch({ type: GET_STORE_DETAIL_INFO });
@@ -96,7 +114,7 @@ export default function storeReducer(state = initialState, action) {
         stores: {
           loading: false,
           data: action.res.data.shops,
-          filteredData: action.res.data.shops,
+          filteredData: [],
           error: null
         }
       };
@@ -111,7 +129,25 @@ export default function storeReducer(state = initialState, action) {
           error: action.error
         }
       };
-    case GET_STORE_LIST_BY_FILTER:
+    case SHUFFLE_STORE_LIST:
+      return {
+        ...state,
+        stores: {
+          ...state.stores,
+          data: action.data,
+          filteredData: [],
+        }
+      };
+    case UPDATE_STORE_FILTER:
+      return {
+        ...state,
+        stores: {
+          ...state.stores,
+          filter: action.filter === undefined ? state.stores.filter : action.filter,
+          tag: action.tag === undefined ? state.stores.tag : action.tag
+        }
+      };
+    case FILTER_STORE_LIST:
       return {
         ...state,
         stores: {
@@ -122,22 +158,6 @@ export default function storeReducer(state = initialState, action) {
           filteredData:
             state.stores.data.filter(store =>
                 (state.stores.tag === "ALL" || store.category === state.stores.tag) &&
-              ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & action.filter) === action.filter
-            ),
-          error: null
-        }
-      };
-    case GET_STORE_LIST_BY_TAG:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          loading: false,
-          data: state.stores.data,
-          tag: action.tag,
-          filteredData:
-            state.stores.data.filter(store =>
-              (action.tag === "ALL" || store.category === action.tag) &&
               ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & state.stores.filter) === state.stores.filter
             ),
           error: null
