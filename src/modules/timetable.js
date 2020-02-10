@@ -32,6 +32,8 @@ export const RESET_LAYOUT = "RESET_LAYOUT";
 export const RESET_SELECTED_LAYOUT = "RESET_SELECTED_LAYOUT";
 export const RESET_COLORS = "RESET_COLORS";
 export const SELECT_SEMESTER = "SELECT_SEMESTER";
+export const UPDATE_SHEET_TYPE = "UPDATE_SHEET_TYPE";
+export const TOGGLE_SHEET_OPEN = "TOGGLE_SHEET_OPEN";
 
 export const initState = () => ({ type: INIT_STATE });
 export const setSemester = payload => ({ type: SELECT_SEMESTER, payload });
@@ -346,6 +348,7 @@ export const removeLecture = payload => async (dispatch, getState) => {
   let removeCode = myLectures[index].code + myLectures[index].lecture_class;
   try {
     if (token) {
+      console.log(token, id);
       const res = await infoAPI.removeSubject(token, id);
       console.log(res);
     }
@@ -375,6 +378,7 @@ export const removeLecture = payload => async (dispatch, getState) => {
     });
     dispatch(updateGrades());
   } catch (e) {
+    console.log(e);
     dispatch({
       type: REMOVE_LECTURE_ERROR,
       error: e.response
@@ -399,6 +403,8 @@ export const updateGrades = () => (dispatch, getState) => {
   })
 }
 
+export const updateSheetType = payload => ({ type: UPDATE_SHEET_TYPE, payload });
+export const toggleSheetOpen = () => ({ type: TOGGLE_SHEET_OPEN });
 const initialState = {
   data: null, // 전체 데이터
   isLectureLoading: false,
@@ -421,7 +427,9 @@ const initialState = {
   colorIndex: 0,
   removedColors: [],
 
-  infoSheetFlag: false,
+  isOpen: false,
+  isInfoSheet: false,
+  selectedMyLecture: null
 }
 
 export default function timetableReducer(state = initialState, action) {
@@ -552,6 +560,17 @@ export default function timetableReducer(state = initialState, action) {
       return {
         ...state,
         layout: []
+      }
+    case UPDATE_SHEET_TYPE:
+      return {
+        ...state,
+        isInfoSheet: action.payload.flag,
+        selectedMyLecture: action.payload.lecture
+      }
+    case TOGGLE_SHEET_OPEN:
+      return {
+        ...state,
+        isOpen: !state.isOpen
       }
     default:
       return state;
