@@ -22,10 +22,14 @@ const StyledInput = styled.input`
     border: 1px solid #d2dae2;
     color: #b5c1cd;
   }
-  
   @media (max-width: 576px) {
-    width: calc(100% - 40px);
-    height: 32px;
+    width: 320px;
+    height: 36px;
+    padding-left: 16px;
+
+    &::placeholder {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -38,7 +42,7 @@ export default function Input({
   onChange,
   disabled,
   width,
-  ref
+  ref,
 }) {
   return (
     <StyledInput

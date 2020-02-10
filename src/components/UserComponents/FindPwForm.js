@@ -26,10 +26,11 @@ const StyledButton = styled.button`
   }
 
   @media (max-width: 576px) {
-    width: calc(100% - 20px);
+    width: 320px;
     padding: 0;
-    height: 34px;
-    font-size: 15px;    
+    height: 36px;
+    font-size: 15px;
+    margin: 0 auto;  
   }
 `;
 

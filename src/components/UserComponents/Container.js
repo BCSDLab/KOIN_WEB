@@ -13,6 +13,10 @@ const StyledContainer = styled.div`
 const FormWrapper = styled.div`
   width: 390px;
   margin: 0 auto;
+  
+  @media (max-width: 576px) {
+    width: 360px;
+  }
 `;
 
 const StyledLink = styled(Link)`
