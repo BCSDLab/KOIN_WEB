@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
 import IndexPage from './pages/IndexPage';
@@ -51,32 +51,34 @@ const GlobalStyle = createGlobalStyle`
     url('https://static.koreatech.in/assets/font/NanumSquareR.svg#NanumGothic') format('svg');
     src:local(※), url('https://static.koreatech.in/assets/font/NanumSquareR.woff') format('woff');
   }
-
-  body {
-    padding: 0;
-    text-align: center;
-    font-family: "NanumBarunGothic", serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    -webkit-touch-callout: none;
-    user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    min-width: 1148px;
-
-    @media (max-width: 576px) {
-      max-width: 576px;
-      min-width: 360px;
-      height: 100%;
-    }
-  }
-
   * {
     outline: none;
   }
+`;
+
+const AppWrapper = styled.div`
+  padding: 0;
+  text-align: center;
+  font-family: NanumBarunGothic, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  min-width: 1148px;
+
+  @media (max-width: 576px) {
+    max-width: 576px;
+    min-width: 360px;
+    height: 100%;
+  }
+
+  max-height: ${props => props.nowFooterMenu[1] ? '600px' : '100%'};
+  overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
 const Main = styled.main`
@@ -92,7 +94,8 @@ const Main = styled.main`
 function App({ history }) {
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState(false);
-  
+  const [currentPath, setCurrentPath] = useState(history.location.pathname);
+  const { nowFooterMenu } = useSelector(state => state.commonReducer);
   const onConfirm = path => {
     setDialog(false);
     if (path) history.push(path);
@@ -114,10 +117,17 @@ function App({ history }) {
 
   }, []);
 
+  useEffect(() => {
+    history.listen((location, action) => {
+      // action: push, pop...
+      setCurrentPath(location.pathname);
+    })
+  });
+
   return (
-    <>
+    <AppWrapper nowFooterMenu={nowFooterMenu}>
       <GlobalStyle />
-      <TopnavContainer />
+      <TopnavContainer history={history} path={currentPath} />
       <Main>
         <Switch>
           <Route exact path="/" component={IndexPage} />
@@ -168,9 +178,9 @@ function App({ history }) {
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
           <Route component={page404} />
         </Switch>
+        <Footer path={currentPath} />
       </Main>
-      <Footer />
-    </>
+    </AppWrapper>
   );
 }
 
