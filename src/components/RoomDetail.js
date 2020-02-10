@@ -358,8 +358,8 @@ export default function RoomDetail({
 }) {
   const navermaps = window.naver.maps;
   const mapOptions = {
-    maxZoom: 15,
-    minZoom: 10,
+    maxZoom: 18,
+    minZoom: 14,
     logoControl: false,
     zoomControl: true,
     scrollWheel: false,
@@ -453,7 +453,7 @@ export default function RoomDetail({
                 height: '100%'
               }}
               defaultCenter={{ lat: room.latitude, lng: room.longitude }}
-              defaultZoom={12}
+              defaultZoom={16}
               {...mapOptions}>
               <Marker
                 title={room.name}
