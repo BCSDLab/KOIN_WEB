@@ -6,6 +6,11 @@ import Input from './Input';
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
+  
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 0 auto;
+  }
 `;
 
 const Advice = styled.div`
@@ -20,7 +25,8 @@ const Advice = styled.div`
   margin-left: 5px;
 
   @media (max-width: 576px) {
-    margin-bottom: 12px;
+    width: 320px;
+    margin: 0 auto 12px auto;
   }
 `;
 
@@ -60,7 +66,7 @@ const StyledDataButton = css`
   border: 1px solid #d2dae2;
 
   @media (max-width: 576px) {
-    width: 165px;
+    width: 155px;
     font-size: 14px;
     height: 36px;
   }
@@ -74,9 +80,10 @@ const SignUpButton = styled.button`
   margin-top: 28px;
 
   @media (max-width: 576px) {
-    width: calc(100% - 8px);
+    width: 320px;
     padding: 0;
-    height: 34px;
+    margin: 28px auto 0 auto;
+    height: 36px;
     font-size: 15px;
   }
 `;
@@ -88,7 +95,8 @@ const CheckButton = styled.button`
   margin-left: 6px;
 
   @media (max-width: 576px) {
-   height: 36px; 
+    width: 100px;
+    height: 36px; 
   }
 `;
 
@@ -104,7 +112,7 @@ const MajorButton = styled.button`
   padding: 0 0 0 20px;
 
   @media (max-width: 576px) {
-    padding: 0 0 0 10px;
+    padding: 0 0 0 16px;
   }
 `;
 
@@ -148,18 +156,28 @@ const DropdownContent = styled.button`
   }
 
   @media (max-width: 576px) {
-    width: 165px;
+    width: 155px;
   }
 `;
 
 const Line = styled.hr`
   border: 0.5px solid #d2dae2;
   margin: 20px 0;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 20px auto;
+  }
 `;
 
 const TermsWrapper = styled.div`
   text-align: left;
   margin-bottom: 6px;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 0 auto 8px auto;
+  }
 `;
 
 const TermsCheckText = styled.label`
@@ -204,6 +222,11 @@ const TermsTitle = styled.div`
   padding-top: 12px;
   margin-bottom: 11px;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 0 auto 12px auto;
+  }
 `;
 
 const TermsContent = styled.textarea`
@@ -221,8 +244,10 @@ const TermsContent = styled.textarea`
   height: 102px;
 
   @media (max-width: 576px) {
-    width: calc(100% - 50px);
+    box-sizing: border-box;
+    width: 320px;
     height: 90px;
+    margin: 0 auto;
   }
 `;
 
@@ -318,7 +343,7 @@ export default function SignupForm({
             type="button"
             name="major"
             value={userInfo.major}>
-            {!userInfo.major && "학부 (학번 입력시 자동입력)"}
+            {!userInfo.major && "학부 (자동입력)"}
             {userInfo.major && userInfo.major}
           </MajorButton>
           <DropdownWrapper
