@@ -77,12 +77,24 @@ const Container = styled.div`
   width: 100%;
   background-color: #3e3e3e;
   color: white;
-  display: table;
+  display: ${props => {
+    switch(props.path) {
+      case '/login':
+      case '/signup':
+      case '/modifyinfo':
+      case '/findpw':
+      case '/timetable':
+        return 'none';
+      default:
+        return 'table';
+    }
+  }};
   position: relative;
   bottom: 0;
   font-size: 13px;
   height: 288px;
   vertical-align: middle;
+  margin-bottom: 58px;
  
   div .hidden {
     -webkit-animation: slide-down .5s ease-in;
@@ -295,7 +307,7 @@ const MobileFooterLinkHome = styled.img.attrs({
   width: 15px;
 `;
 
-export default function Footer() {
+export default function Footer({ path }) {
   const category = CATEGORY.default;
 
   const clickMenu = (menu) => {
@@ -304,7 +316,7 @@ export default function Footer() {
       sessionStorage.setItem("nowBoardId", menu.tag);
     } else {
       if (menu.planFlag === false && menu.title !== null) {
-        if (menu.link === 'market/sell')
+        if (menu.link === '/market/sell')
           sessionStorage.setItem("nowMarketId", 0);
         else sessionStorage.setItem("nowMarketId", 1);
         sessionStorage.setItem("nowMarketPageNum", 1);
@@ -315,7 +327,7 @@ export default function Footer() {
   };
 
   return (
-    <Container>
+    <Container path={path}>
       <PcFooter>
         <FooterNav>
           {category.map((section, index) => {
@@ -331,7 +343,7 @@ export default function Footer() {
                     return (
                       <Link
                         key={idx}
-                        to={'/' + menu.link}
+                        to={menu.link}
                         onClick={() => clickMenu(menu)}>
                         <NavLink>
                           {menu.title}

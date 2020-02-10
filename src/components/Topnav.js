@@ -1,18 +1,16 @@
 import React from 'react'
-import styled, { css, keyframes} from 'styled-components';
-import { Link, NavLink } from 'react-router-dom';
-import Dialog from './Dialog';
+import styled, { keyframes} from 'styled-components';
+import { Link } from 'react-router-dom';
+import MobileTopnav from './MobileTopnav';
 
-const SlideDown = keyframes`
-  100% {
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transform: translateY(-100%);
-  }
+const SlideEnter = keyframes`
   0% {
+    opacity: 0;
+    -webkit-transform: translateX(-100%);
+  }
+  100% {
     opacity: 1;
-    visiblilty: visible;
-    -webkit-transform: translateY(0);
+    -webkit-transform: translateX(0);
   }
 `;
 
@@ -24,6 +22,23 @@ const Container = styled.div`
   font-weight: 800;
   background: #175c8e;
   color: #fff;
+  -webkit-animation: ${SlideEnter} .3s ease-out;
+  -moz-animation: ${SlideEnter} .3s ease-out;
+  display: ${props => {
+    switch(props.path) {
+      case '/login':
+      case '/signup':
+      case '/modifyinfo':
+      case '/findpw':
+        if (props.mobileMenu) return 'block';
+        return 'none';
+      default:
+        return 'block';
+    }
+  }};
+  @media (max-width: 576px) {
+    height: 56px;
+  }
 `;
 
 const Row = styled.div`
@@ -165,21 +180,77 @@ const AuthLinkButton = styled.div`
   }
 `;
 
+const MobileRow = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+`;
+
+const MenuIcon = styled.img`
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+`;
+
+const RouteIcon = styled.img`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+`;
+
+const Title = styled.div`
+  font-size: 16px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+`;
+
 export default function Topnav({
   categories,
   menu,
   subMenu,
+  path,
   onMouseOverMenu,
   token,
   userInfo,
   onLogout,
-  visible,
-  onConfirm,
-  dialogInfo
+  mobileMenu,
+  setMobileMenu,
+  onClickMultiPurposBtn
 }) {
+  const getTitle = () => {
+    if (path === '/timetable') return '시간표';
+    else if (path === '/cafeteria') return '식단';
+    else if (path === '/bus') return '버스/교통';
+    else if (path === '/faq') return 'FAQ';
+    else if (!path.indexOf('/room')) return '복덕방';
+    else if (!path.indexOf('/circle')) return '동아리';
+    else if (!path.indexOf('/store')) return '주변상점';
+
+    else if (!path.indexOf('/board/free')) return '자유게시판';
+    else if (!path.indexOf('/borad/anonymous')) return '익명게시판';
+    else if (!path.indexOf('/board/notice')) return '공지게시판';
+    else if (!path.indexOf('/board/jog')) return '취업게시판';
+    else if (!path.indexOf('/board/question')) return '질문게시판';
+    else if (!path.indexOf('/borad/promotion')) return '홍보게시판';
+    else if (!path.indexOf('/lost')) return '분실물';
+
+    else if (!path.indexOf('/market/sell')) return '팝니다';
+    else if (!path.indexOf('/market/buy')) return '삽니다';
+  }
   return (
-    <Container>
-      <Row>
+    <Container path={path} mobileMenu={mobileMenu}>
+      {window.innerWidth > 576 && <Row>
         <StyledLink to="/">
           <KOINLogoImage />
         </StyledLink>
@@ -226,15 +297,46 @@ export default function Topnav({
             정보수정
           </AuthLinkButton>
         </Link>}
-      </Row>
-      <Dialog
-        theme="dark"
-        type={dialogInfo.type}
-        visible={visible}
-        confirmText="확인"
-        onConfirm={onConfirm}>
-        {dialogInfo.contents}
-      </Dialog>
+      </Row>}
+      {window.innerWidth <= 576 &&
+        <MobileRow>
+          {!mobileMenu &&
+            <MenuIcon
+              src={"https://static.koreatech.in/assets/img/menu.png"}
+              onClick={() => setMobileMenu(true)} />}
+          {mobileMenu &&
+            <MenuIcon
+              src={"https://static.koreatech.in/assets/img/back-menu.png"}
+              onClick={() => setMobileMenu(false)} />}
+          <Title>
+            {!mobileMenu && getTitle()}
+            {mobileMenu && '전체 서비스'}
+          </Title>
+          {!mobileMenu && <RouteIcon
+            src={"https://static.koreatech.in/assets/img/mobile__create.png"}
+            onClick={onClickMultiPurposBtn}
+          />}          
+        </MobileRow>
+      }
+      {window.innerWidth <= 576 &&
+        <MobileTopnav
+          mobileMenu={mobileMenu}
+          token={token}
+          userInfo={userInfo}
+          categories={categories}
+          onLogout={onLogout}
+          setMobileMenu={setMobileMenu}
+        />
+      }
+
+      {/* <MobileTopnav
+        mobileMenu={mobileMenu}
+        token={token}
+        userInfo={userInfo}
+        categories={categories}
+        onLogout={onLogout}
+        setMobileMenu={setMobileMenu}
+      /> */}
     </Container>
   )
 }
