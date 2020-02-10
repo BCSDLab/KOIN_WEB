@@ -63,7 +63,7 @@ const addSubject = (token, body) => {
 }
 
 const removeSubject = (token, id) => {
-  return axios.delete(`${API_PATH}/timetables?id=${id}`, {
+  return axios.delete(`${API_PATH}/timetable?id=${id}`, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
