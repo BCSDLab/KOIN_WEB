@@ -30,6 +30,7 @@ import Footer from './components/SharedComponents/Footer/Footer'
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
+import BoardPage from './pages/BoardPages/BoardPage';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -176,6 +177,9 @@ function App({ history }) {
           <Route path="/timetable" component={TimeTablePage} />
           
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
+          {/* Board page */}
+          <Route exact path="/board/:type" component={BoardPage} />
+          <Route path="/board/:type/:id" component={BoardPage} />
           <Route component={page404} />
         </Switch>
         <Footer path={currentPath} />
