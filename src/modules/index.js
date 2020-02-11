@@ -8,6 +8,7 @@ import busReducer from "./bus";
 import timetableReducer from './timetable';
 import lostReducer from "./lost";
 import commonReducer from './common';
+import boardReducer from './board';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   busReducer,
   timetableReducer,
   lostReducer,
-  commonReducer
+  commonReducer,
+  boardReducer
 });
 
 export default rootReducer;
