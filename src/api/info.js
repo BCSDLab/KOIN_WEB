@@ -92,6 +92,46 @@ const registerLostItem = (token, body) => {
   })
 }
 
+const getSpecificLostItem = (token, id) => {
+  return axios.get(`${API_PATH}/lost/lostItems/${id}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
+const adjustLostComment = (token, itemId, id, body) => {
+  return axios.put(`${API_PATH}/lost/lostItems/${itemId}/comments/${id}`, body, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
+const deleteLostComment = (token, itemId, id) => {
+  return axios.delete(`${API_PATH}/lost/lostItems/${itemId}/comments/${id}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
+const registerLostComment = (token, itemId, body) => {
+  return axios.post(`${API_PATH}/lost/lostItems/${itemId}/comments`, body, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
+const deleteLostItem  = (token, id) => {
+  return axios.delete(`${API_PATH}/lost/lostItems/${id}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
 export {
   getBusInfo,
   getCafeteriaMenu,
@@ -108,5 +148,10 @@ export {
   getMyTimeTable,
   getVersion,
   getLostItems,
-  registerLostItem
+  registerLostItem,
+  getSpecificLostItem,
+  adjustLostComment,
+  deleteLostComment,
+  registerLostComment,
+  deleteLostItem
 }
