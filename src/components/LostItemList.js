@@ -267,7 +267,7 @@ const MobileWrite = styled.img.attrs({
   }
 `;
 
-export default function LostList(
+export default function LostItemList(
   {
     lostItems,
     totalPageNum,

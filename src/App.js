@@ -24,6 +24,8 @@ import BusPage from "./pages/BusPage";
 
 import LostItemListPage from "./pages/LostItemListPage";
 import LostItemDetailPage from "./pages/LostItemDetailPage";
+import LostItemRegisterPage from "./pages/LostItemRegisterPage";
+
 // etc
 import TopnavContainer from './containers/TopnavContainer';
 import Footer from './components/SharedComponents/Footer/Footer'
@@ -168,7 +170,8 @@ function App({ history }) {
 
 
           <Route exact path="/lost" component={LostItemListPage}/>
-          <Route path="/lost/:id" component={LostItemDetailPage}/>
+          <Route path="/lost/register" component={LostItemRegisterPage}/>
+          <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
     
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />

@@ -1,9 +1,8 @@
 import React from 'react'
+import LostItemRegisterContainer from "../containers/LostItemRegisterContainer";
 
-export default function LostItemRegisterPage() {
+export default function LostItemRegisterPage({history}) {
   return (
-    <div>
-      
-    </div>
+    <LostItemRegisterContainer history={history}/>
   )
 }
