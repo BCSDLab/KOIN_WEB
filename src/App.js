@@ -179,7 +179,13 @@ function App({ history }) {
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
           {/* Board page */}
           <Route exact path="/board/:type" component={BoardPage} />
-          <Route path="/board/:type/:id" component={BoardPage} />
+          <PrivateRoute
+            path="/board/:type/:id"
+            component={BoardPage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
           <Route component={page404} />
         </Switch>
         <Footer path={currentPath} />
