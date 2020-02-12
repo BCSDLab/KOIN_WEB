@@ -1,53 +1,7 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Pagination from '../SharedComponents/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
-
-const List = styled.div`
-  width: 834px;
-  float: left;
-  margin-right: 40px;
-  margin-bottom: 60px;
-
-  @media (max-width: 576px) {
-    width: 100%;
-    min-height: calc(100vh - 115px);
-    margin: 0;
-  }
-`;
-
-const Header = styled.div`
-  width: 100%;
-  height: 40px;
-  margin-bottom: 20px;
-
-  @media (max-width: 576px) {
-    display: none;
-  }
-`;
-
-const Title = styled.div`
-  float: left;
-  font-family: NanumSquare, serif;
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  color: #175c8e;
-  cursor: pointer;
-`;
-
-const RegisterButton = styled.button`
-  float: right;
-  padding: 6px 20px;
-  color: white;
-  background-color: #175c8e;
-  font-size: 13px;
-  cursor: pointer;
-  letter-spacing: -0.7px;
-  border: 1px solid #175c8e;
-  position: relative;
-  top: 1px;
-`;
 
 const Table = styled.div`
   border-top: 2px solid #175c8e;
@@ -109,13 +63,22 @@ const TableBodyRow = styled.div`
   }
 `;
 
+const PostTitleStyle = css`
+  width: 422px;
+  font-size: 15px;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const TableBodyContent = styled.div`
   height: 100%;
   color: #252525;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  ${props => props.title && PostTitleStyle};
   @media (max-width: 576px) {
     display: none;
   }
@@ -203,7 +166,6 @@ const MobilePostInfoText = styled.span`
 export default function Posts({
   history,
   path,
-  title,
   posts,
   loading,
   totalPageNum,
@@ -506,75 +468,65 @@ export default function Posts({
       return [`${String(year)}.${String(month)}.${String(date)}`, false];
     }
   }
-
   return (
     <>
-      <List>
-        <Header>
-          <Title>{title}</Title>
-          <RegisterButton
-            type="button"
-            onClick={() => history.push(`${path}/register`)}>
-            글쓰기
-          </RegisterButton>
-        </Header>
-        <Table>
-          <TableHead>
-            <TableHeadRow>
-              <TableHeadContent style={{ width: '85px' }}>번호</TableHeadContent>
-              <TableHeadContent style={{ width: '422px' }}>제목</TableHeadContent>
-              <TableHeadContent style={{ width: '149px' }}>작성자</TableHeadContent>
-              <TableHeadContent style={{ width: '70px' }}>날짜</TableHeadContent>
-              <TableHeadContent style={{ width: '108px' }}>조회수</TableHeadContent>
-            </TableHeadRow>
-          </TableHead>
-          <div>
-            {loading && 
-              <LoaderWrapper>
-                <ClipLoader
-                  color={"#175c8e"}
-                  size={200}
-                  loading={loading}
-                />
-              </LoaderWrapper>
-            }
-            {!loading && posts && posts.map((post, index) => 
-              <TableBodyRow key={index} onClick={() => history.push(`${path}/${post.id}`)}>
-                <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
-                <TableBodyContent style={{ width: '422px', justifyContent: 'start' }}>
+      <Table>
+        <TableHead>
+          <TableHeadRow>
+            <TableHeadContent style={{ width: '85px' }}>번호</TableHeadContent>
+            <TableHeadContent style={{ width: '422px' }}>제목</TableHeadContent>
+            <TableHeadContent style={{ width: '149px' }}>작성자</TableHeadContent>
+            <TableHeadContent style={{ width: '70px' }}>날짜</TableHeadContent>
+            <TableHeadContent style={{ width: '108px' }}>조회수</TableHeadContent>
+          </TableHeadRow>
+        </TableHead>
+        <div>
+          {loading && 
+            <LoaderWrapper>
+              <ClipLoader
+                color={"#175c8e"}
+                size={200}
+                loading={loading}
+              />
+            </LoaderWrapper>
+          }
+          {!loading && posts && posts.map((post, index) => 
+            <TableBodyRow key={index} onClick={() => history.push(`${path}/${post.id}`)}>
+              <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
+              <TableBodyContent title="true">
+                <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
+                <span>{convertTitle(post.title)}</span>
+                {post.comment_count !== 0 && <CommentCount>[{post.comment_count}]</CommentCount>}
+                {setDate(post.created_at)[1] &&
+                  <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
+                }
+              </TableBodyContent>
+              <TableBodyContent style={{ width: '149px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
+              <TableBodyContent style={{ width: '70px', fontSize: '15px' }}>{setDate(post.created_at)[0]}</TableBodyContent>
+              <TableBodyContent style={{ width: '108px' }}>{post.hit}</TableBodyContent>
+              <MobilePostWrapper key={index} onClick={() => history.push(`${path}/${post.id}`)}>
+                <MobilePostTitle>
                   <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
-                  <span style={{ fontSize: '15px' }}>{convertTitle(post.title)}</span>
-                  {post.comment_count !== 0 && <CommentCount>[{post.comment_count}]</CommentCount>}
-                  {setDate(post.created_at)[1] &&
-                    <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
-                  }
-                </TableBodyContent>
-                <TableBodyContent style={{ width: '149px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
-                <TableBodyContent style={{ width: '70px', fontSize: '15px' }}>{setDate(post.created_at)[0]}</TableBodyContent>
-                <TableBodyContent style={{ width: '108px' }}>{post.hit}</TableBodyContent>
-                <MobilePostWrapper key={index} onClick={() => history.push(`${path}/${post.id}`)}>
-                  <MobilePostTitle>
-                    <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
-                    <span>{convertTitle(post.title)}</span>
-                    {post.comment_count !== 0 && <span style={{ color: '#175c8e' }}>[{post.comment_count}]</span>}
-                  </MobilePostTitle>
-                  <MobilePostInfo>
-                    <MobilePostInfoText>조회 {post.hit} · </MobilePostInfoText>
-                    <MobilePostInfoText>{post.nickname || post.author}</MobilePostInfoText>
-                    <MobilePostInfoText style={{fontWeight: "300", float: 'right' }}>{setDate(post.created_at)[0]}</MobilePostInfoText>
-                  </MobilePostInfo>
-                </MobilePostWrapper>
-              </TableBodyRow>
-            )}
-          </div>
-        </Table>
-        <Pagination
-          totalPageNum={totalPageNum}
-          setPageData={getPostList}
-          isWriteBtn={true}
-          writeBtnLink={`${path}/register`}
-        />
-      </List>
+                  <span>{convertTitle(post.title)}</span>
+                  {post.comment_count !== 0 && <span style={{ color: '#175c8e' }}>[{post.comment_count}]</span>}
+                </MobilePostTitle>
+                <MobilePostInfo>
+                  <MobilePostInfoText>조회 {post.hit} · </MobilePostInfoText>
+                  <MobilePostInfoText>{post.nickname || post.author}</MobilePostInfoText>
+                  <MobilePostInfoText style={{fontWeight: "300", float: 'right' }}>{setDate(post.created_at)[0]}</MobilePostInfoText>
+                </MobilePostInfo>
+              </MobilePostWrapper>
+            </TableBodyRow>
+          )}
+        </div>
+      </Table>
+      <Pagination
+        totalPageNum={totalPageNum}
+        setPageData={getPostList}
+        isWriteBtn={true}
+        writeBtnLink={`${path}/register`}
+        path={path}
+      />
     </>
   )
 }
