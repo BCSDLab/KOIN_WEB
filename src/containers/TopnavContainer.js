@@ -3,19 +3,18 @@ import Topnav from '../components/Topnav';
 import * as CATEGORY from '../static/category';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../modules/auth';
-import Cookies from 'js-cookie';
+import { useToasts } from 'react-toast-notifications';
+import MobileFooterMenu from '../components/MobileFooterMenu';
+import { toggleSheetOpen } from '../modules/timetable';
+import { updateFooterMenu } from '../modules/common';
 
-export default function TopnavContainer() {
+export default function TopnavContainer({ history, path }) {
+  const { addToast } = useToasts();
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [subMenu, setSubMenu] = useState(null);
-  const { token, data } = useSelector(state => state.authReducer.user);
-  const [dialog, setDialog] = useState(false);
-  const [dialogInfo, setDialogInfo] = useState({
-    type: "alert",
-    title: "",
-    contents: ""
-  })
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const { token, data, userInfo } = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
   const onMouseOverMenu = (menu) => {
@@ -27,34 +26,47 @@ export default function TopnavContainer() {
     dispatch(logout(sessionStorage.getItem("token")));
   }
 
-  const onConfirm = () => {
-    setDialog(false);
+  const onClickMultiPurposBtn = () => {
+    if (path === '/timetable') {
+      dispatch(toggleSheetOpen());
+    }
+  }
+
+  const onClickFooterMenu = idx => {
+    dispatch(updateFooterMenu(idx));
   }
 
   useEffect(() => {
-    if (data) {
-      if (data.status === 200 && data.statusText === 'OK') {
-        setDialog(true);
-        setDialogInfo({
-          ...dialogInfo,
-          contents: "성공적으로 로그아웃했습니다."
-        })
-      }
+    if (data && data.data.success === 'logout') {
+      addToast('성공적으로 로그아웃했습니다.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
     }
   }, [data]);
 
   return (
-    <Topnav
-      categories={categories}
-      menu={menu}
-      subMenu={subMenu}
-      onMouseOverMenu={onMouseOverMenu}
-      token={token}
-      userInfo={data}
-      onLogout={onLogout}
-      visible={dialog}
-      onConfirm={onConfirm}
-      dialogInfo={dialogInfo}
-    />
+    <>
+      <Topnav
+        categories={categories}
+        menu={menu}
+        subMenu={subMenu}
+        path={path}
+        onMouseOverMenu={onMouseOverMenu}
+        token={token}
+        userInfo={userInfo}
+        onLogout={onLogout}
+        mobileMenu={mobileMenu}
+        setMobileMenu={setMobileMenu}
+        onClickMultiPurposBtn={onClickMultiPurposBtn}
+      />
+      <MobileFooterMenu
+        history={history}
+        path={path}
+        mobileMenu={mobileMenu}
+        setMobileMenu={setMobileMenu}
+        onClickFooterMenu={onClickFooterMenu}
+      />
+    </>
   )
 }

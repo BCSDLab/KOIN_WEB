@@ -5,49 +5,49 @@ export default [
     submenu: [
       {
         title: "주변상점",
-        link: "store",
+        link: "/store",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "버스/교통",
-        link: "bus",
+        link: "/bus",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "식단",
-        link: "diet",
+        link: "/cafeteria",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "FAQ",
-        link: "faq",
+        link: "/faq",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "동아리",
-        link: "circle",
+        link: "/circle",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "복덕방",
-        link: "room",
+        link: "/room",
         newFlag: false,
         planFlag: false,
         tag: null
       },
       {
         title: "시간표",
-        link: "timetable",
+        link: "/timetable",
         newFlag: true,
         planFlag: false,
         tag: null

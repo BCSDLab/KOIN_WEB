@@ -10,10 +10,9 @@ const AutoLoginField = styled.div`
   text-align: left;
 
   @media (max-width: 576px) {
-    width: calc(100% - 24px);
-    margin-left: 12px;
-    margin-right: 12px;
+    width: 320px;
     height: 52px;
+    margin: 0 auto;
   }
 `;
 
@@ -70,6 +69,11 @@ const HelpField = styled.div`
   font-size: 12px;
   letter-spacing: -0.6px;
   color: #858585;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 0 auto;
+  }
 `;
 
 const FindUserIdLink = styled.a`
@@ -111,10 +115,10 @@ const LoginButton = styled.button`
   align-items: center;
 
   @media (max-width: 576px) {
-    width: calc(100% - 20px);
+    width: 320px;
     padding: 0;
     margin: 0 auto;
-    height: 32px;
+    height: 36px;
     font-size: 15px;
   }
 

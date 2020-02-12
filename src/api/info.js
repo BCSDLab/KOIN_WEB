@@ -50,6 +50,10 @@ const getAllLecture = id => {
   return axios.get(`${API_PATH}/lectures/?semester_date=${id}`);
 }
 
+const getAllSemester = () => {
+  return axios.get(`${API_PATH}/semesters`);
+}
+
 const addSubject = (token, body) => {
   return axios.post(`${API_PATH}/timetables`, body, {
     headers: {
@@ -59,7 +63,7 @@ const addSubject = (token, body) => {
 }
 
 const removeSubject = (token, id) => {
-  return axios.delete(`${API_PATH}/timetables?id=${id}`, {
+  return axios.delete(`${API_PATH}/timetable?id=${id}`, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
@@ -143,6 +147,7 @@ export {
   getRoomList,
   getRoomInfo,
   getAllLecture,
+  getAllSemester,
   addSubject,
   removeSubject,
   getMyTimeTable,
