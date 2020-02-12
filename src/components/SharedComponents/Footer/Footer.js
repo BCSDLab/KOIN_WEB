@@ -94,7 +94,6 @@ const Container = styled.div`
   font-size: 13px;
   height: 288px;
   vertical-align: middle;
-  margin-bottom: 58px;
  
   div .hidden {
     -webkit-animation: slide-down .5s ease-in;
@@ -114,6 +113,7 @@ const Container = styled.div`
 
   @media (max-width: 576px) {
     height: 110px;
+    margin-bottom: 58px;
    }
    
    @-webkit-keyframes slide-down {
