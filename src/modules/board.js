@@ -38,6 +38,7 @@ export const CHECK_PERMISSION = "CHECK_PERMISSION";
 export const CHECK_PERMISSION_SUCCESS = "CHECK_PERMISSION_SUCCESS";
 export const CHECK_PERMISSION_ERROR = "CHECK_PERMISSION_ERROR";
 
+export const CLEAR_STATE = "CLEAR_STATE";
 export const getPosts = payload => ({ type: GET_POSTS, payload });
 export const getHotPosts = () => ({ type: GET_HOT_POSTS });
 export const getPost = payload => ({ type: GET_POST, payload });
@@ -46,7 +47,7 @@ export const registerPost = payload => ({ type: REGISTER_POST, payload });
 export const editPost = payload => ({ type: EDIT_POST, payload });
 export const deletePost = payload => ({ type: DELETE_POST, payload });
 export const checkPermission = payload => ({ type: CHECK_PERMISSION, payload });
-
+export const clearState = () => ({ type: CLEAR_STATE });
 const initialState = {
   data: null,
   error: null,
@@ -63,7 +64,7 @@ const initialState = {
   post: {
     data: null,
     loading: false,
-    error: null
+    error: null,
   },
   totalPageNum: 0,
   boardId: 1,
@@ -80,13 +81,14 @@ export default function boardReducer(state = initialState, action) {
     case GET_POSTS:
       return {
         ...state,
+        data: null,
+        error: null,
         posts: {
           ...state.posts,
           loading: true
         }
       }
     case GET_POSTS_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         posts: {
@@ -137,6 +139,8 @@ export default function boardReducer(state = initialState, action) {
     case GET_POST:
       return {
         ...state,
+        data: null,
+        error: null,
         post: {
           ...state.post,
           loading: true
@@ -146,6 +150,7 @@ export default function boardReducer(state = initialState, action) {
       return {
         ...state,
         post: {
+          ...state.post,
           data: action.payload.data,
           loading: false,
           error: null
@@ -155,6 +160,7 @@ export default function boardReducer(state = initialState, action) {
       return {
         ...state,
         post: {
+          ...state.post,
           data: null,
           loading: false,
           error: action.error
@@ -163,58 +169,102 @@ export default function boardReducer(state = initialState, action) {
     case REGISTER_POST:
       return {
         ...state,
-      }
-    case REGISTER_POST_SUCCESS:
-      return {
-        ...state,
-      }
-    case REGISTER_POST_ERROR:
-      return {
-        ...state,
-      }
-    case EDIT_POST:
-      return {
-        ...state,
-
-      }
-    case EDIT_POST_SUCCESS:
-      return {
-        ...state,
-      }
-    case EDIT_POST_ERROR:
-      return {
-        ...state,
-
-      }
-    case DELETE_POST:
-      return {
-        ...state,
-      }
-    case DELETE_POST_SUCCESS:
-      return {
-        ...state,
-      }
-    case DELETE_POST_ERROR:
-      return {
-        ...state,
-      }
-    case CHECK_PERMISSION:
-      return {
-        ...state,
         data: null,
         error: null
       }
-    case CHECK_PERMISSION_SUCCESS:
+    case REGISTER_POST_SUCCESS:
       return {
         ...state,
         data: action.payload,
         error: null
       }
-    case CHECK_PERMISSION_ERROR:
+    case REGISTER_POST_ERROR:
       return {
         ...state,
         data: null,
         error: action.error
+      }
+    case EDIT_POST:
+      return {
+        ...state,
+        data: null,
+        error: null,
+        post: {
+          ...state.post,
+          loading: true
+        }
+      }
+    case EDIT_POST_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        post: {
+          loading: false,
+          data: action.payload.data,
+          error: null
+        }
+      }
+    case EDIT_POST_ERROR:
+      return {
+        ...state,
+        data: null,
+        error: action.error,
+        post: {
+          loading: false,
+          data: null,
+          error: null
+        }
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        data: null,
+        error: null,
+      }
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        error: null
+      }
+    case DELETE_POST_ERROR:
+      return {
+        ...state,
+        data: null,
+        error: action.error
+      }
+    case CHECK_PERMISSION:
+      return {
+        ...state,
+        data: null,
+        error: null,
+        post: {
+          ...state.post,
+        }
+      }
+    case CHECK_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        error: null,
+        post: {
+          ...state.post,
+        }
+      }
+    case CHECK_PERMISSION_ERROR:
+      return {
+        ...state,
+        data: null,
+        error: action.error,
+        post: {
+          ...state.post,
+        }
+      }
+    case CLEAR_STATE:
+      return {
+        ...state,
+        data: null,
+        error: null,
       }
     default:
       return state;
