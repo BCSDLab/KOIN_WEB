@@ -272,7 +272,8 @@ export default function LostItemList(
     lostItems,
     totalPageNum,
     setPageData,
-    history
+    history,
+    path
   }
 ) {
   return (
@@ -363,7 +364,8 @@ export default function LostItemList(
             totalPageNum={totalPageNum}
             setPageData={setPageData}
             isWriteBtn={true}
-            writeBtnLink={'/lost/register'}/>
+            writeBtnLink={'/lost/register'}
+            path={path}/>
           <MobileWrite/>
         </List>
       </Container>
