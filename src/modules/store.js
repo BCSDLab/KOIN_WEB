@@ -51,7 +51,7 @@ export const shuffleStoreList = () => (dispatch, getState) => {
   })
 }
 
-export const updateStoreFilter = (tag, filter) => dispatch => {
+export const filterStoreList = (tag, filter) => dispatch => {
   dispatch({
     type: UPDATE_STORE_FILTER,
     tag,
@@ -152,13 +152,10 @@ export default function storeReducer(state = initialState, action) {
         ...state,
         stores: {
           ...state.stores,
-          loading: false,
-          data: state.stores.data,
-          filter: action.filter,
           filteredData:
             state.stores.data.filter(store =>
-                (state.stores.tag === "ALL" || store.category === state.stores.tag) &&
-              ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & state.stores.filter) === state.stores.filter
+              (state.stores.tag === "ALL" || store.category === state.stores.tag) &&
+                ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & state.stores.filter) === state.stores.filter
             ),
           error: null
         }

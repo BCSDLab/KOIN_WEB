@@ -1,6 +1,6 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {getStoreList, shuffleStoreList, updateStoreFilter} from '../modules/store';
+import {getStoreList, shuffleStoreList, filterStoreList} from '../modules/store';
 import StoreList from '../components/StoreList';
 import Cookies from 'js-cookie';
 
@@ -16,9 +16,9 @@ export default function StoreListContainer () {
     setTag(prevState => {
       const nowTag = prevState === tag ? "ALL" : tag;
       sessionStorage.setItem("storeCategory", nowTag);
+      dispatch(filterStoreList(nowTag, undefined));
       return nowTag
     });
-    dispatch(updateStoreFilter(tag));
   }, [setTag]);
 
   const selectFilter = useCallback( index => {
@@ -26,7 +26,7 @@ export default function StoreListContainer () {
       const selectedIndex = index ? index * 2 : 1;
       const nowFilter = prevState ^ selectedIndex;
       sessionStorage.setItem("storeFilter", nowFilter ? nowFilter : prevState);
-      dispatch(updateStoreFilter(undefined,nowFilter));
+      dispatch(filterStoreList(undefined,nowFilter));
       return nowFilter
     });
   }, [setFilter]);
@@ -40,7 +40,7 @@ export default function StoreListContainer () {
       dispatch(getStoreList(tag, filter));
       console.log("refresh StoreList");
     } else if (Cookies.get("storeNewFlag") !== "false") {
-      dispatch(shuffleStoreList());
+      dispatch(filterStoreList());
       console.log("shuffle StoreList");
     }
   }, [dispatch]);
