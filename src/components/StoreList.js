@@ -238,12 +238,13 @@ const ListWrapper = styled.div`
   }
 `
 
-const ListItem = styled.div`
+const ListItem = styled(Link)`
   border: 1px #175c8e solid;
   padding: 22px 27px;
   cursor: pointer;
   position: relative;
   color: #252525;
+  text-decoration: none;
   
   &:hover {
     border: 1px #f7941e solid;
@@ -470,6 +471,7 @@ export default function StoreList ({
           {
             storeList.map(store => (
               <ListItem
+                to={`/store/${store.permalink}`}
                 key={store.id}>
                 <ListItemTitle>{store.name}</ListItemTitle>
                 {!mobileFlag ? (
