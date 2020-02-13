@@ -247,7 +247,14 @@ export default function StoreDetail ({
             <>
               <StoreMenuTitle>MENU</StoreMenuTitle>
               <StoreMenuCardWrapper>
-                {store.menus.map(menu => (
+                {store.menus.map(
+                  menu => {
+                    return menu.price_type.map(
+                        price => ({...price, name: menu.name})
+                    )
+                  }
+                ).flat(1)
+                .map(menu => (
                   <StoreMenuCard key={menu.name + menu.size}>
                     { menu.name } { menu.size !== '기본' && menu.size }
                     <span>{!!menu.price && menu.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</span>

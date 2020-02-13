@@ -14,8 +14,6 @@ const GET_STORE_DETAIL_INFO = "GET_STORE_DETAIL_INFO";
 const GET_STORE_DETAIL_INFO_SUCCESS = "GET_STORE_DETAIL_INFO_SUCCESS";
 const GET_STORE_DETAIL_INFO_ERROR = "GET_STORE_DETAIL_INFO_ERROR";
 
-const FLAT_STORE_DETAIL_INFO_MENU = "FLAT_STORE_DETAIL_INFO_MENU";
-
 export const getStoreList = (tag, filter) => async dispatch => {
   dispatch({ type: GET_STORE_LIST });
   try {
@@ -73,9 +71,6 @@ export const getStoreDetailInfo = id => async dispatch => {
       type: GET_STORE_DETAIL_INFO_SUCCESS,
       res
     })
-    dispatch({
-      type: FLAT_STORE_DETAIL_INFO_MENU
-    });
   } catch(e) {
     dispatch({
       type: GET_STORE_DETAIL_INFO_ERROR,
@@ -190,23 +185,6 @@ export default function storeReducer(state = initialState, action) {
           loading: false,
           data: null,
           error: action.error
-        }
-      }
-    case FLAT_STORE_DETAIL_INFO_MENU:
-      return {
-        ...state,
-        store: {
-          ...state.store,
-          data: {
-            ...state.store.data,
-            menus: state.store.data.menus.map(
-              menu => {
-                return menu.price_type.map(
-                  price => ({...price, name: menu.name})
-                )
-              }
-            ).flat(1)
-          }
         }
       }
     default:
