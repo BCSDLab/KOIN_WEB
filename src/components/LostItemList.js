@@ -366,7 +366,7 @@ export default function LostItemList(
             isWriteBtn={true}
             writeBtnLink={'/lost/register'}
             path={path}/>
-          <MobileWrite/>
+          <MobileWrite onClick={() => history.push('/lost/register')}/>
         </List>
       </Container>
     </Main>
