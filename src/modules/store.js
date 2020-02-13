@@ -90,6 +90,7 @@ const initialState = {
   },
   store: {
     loading: false,
+    image: [],
     data: null,
     error: null
   }
@@ -164,6 +165,7 @@ export default function storeReducer(state = initialState, action) {
       return {
         ...state,
         store: {
+          ...state.store,
           loading: true,
           data: null,
           error: null,
@@ -174,6 +176,7 @@ export default function storeReducer(state = initialState, action) {
         ...state,
         store: {
           loading: false,
+          image: action.res.data.image_urls,
           data: action.res.data,
           error: null
         }
@@ -182,6 +185,7 @@ export default function storeReducer(state = initialState, action) {
       return {
         ...state,
         store: {
+          ...state.store,
           loading: false,
           data: null,
           error: action.error

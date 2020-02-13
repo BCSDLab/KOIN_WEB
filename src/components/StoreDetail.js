@@ -7,6 +7,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   min-height: calc(100vh - 84px);
+  margin: auto;
 
   @media (max-width: 576px) {
     border: none;
@@ -239,7 +240,7 @@ export default function StoreDetail ({
                 <StoreInfoImage
                   key={img}
                   src={img}
-                  onClick={selectImage} />
+                  onClick={() => selectImage(img)} />
               ))}
             </StoreInfoImageWrapper>
           </StoreInfo>
