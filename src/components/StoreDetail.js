@@ -20,6 +20,12 @@ const DetailSection = styled.div`
   height: 120%;
   min-height: 700px;
   display: inline-block;
+  
+  @media (max-width: 576px) {
+    width: calc(100% - 32px);
+    margin: 30px auto;
+    font-size: 20px;
+  }
 `;
 
 const Header = styled.div`
@@ -32,6 +38,10 @@ const Header = styled.div`
   color: #175c8e;
   letter-spacing: -1.5px;
   cursor: pointer;
+  
+  @media (max-width: 576px) {
+    display: none;
+  }
 `;
 
 const StoreInfo = styled.div`
@@ -44,12 +54,23 @@ const StoreInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+    padding: 0 0 30px 0;
+    height: auto;
+  }
 `;
 
 const StoreInfoDetail = styled.div`
   height: 330px;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 576px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const StoreTitle = styled.div`
@@ -58,6 +79,11 @@ const StoreTitle = styled.div`
   letter-spacing: -1.5px;
   color: #252525;
   margin-bottom: 18px;
+  
+  @media (max-width: 576px) {
+    font-weight: bold;
+    letter-spacing: normal;
+  }
 `;
 
 const StoreEventBadge = styled.div`
@@ -75,6 +101,11 @@ const StoreEventBadge = styled.div`
   
   &::before {
     content: "이벤트"
+  }
+  
+  @media (max-width: 576px) {
+    margin-left: 12px;
+    padding: 0 5px;
   }
 `;
 
@@ -95,11 +126,33 @@ const StoreInfoDetailText = styled.div`
     display: block;
     margin-bottom: 1px;
   }
+  
+  @media (max-width: 576px) {
+    & span {
+      margin-right: 5px;
+    }
+    
+    & br:nth-child(2) {
+      margin-bottom: -4px;
+    }
+  }
 `;
 
 const StoreInfoImageWrapper = styled.div`
   width: 330px;
   height: 330px;
+  
+  @media (max-width: 576px) {
+    display: flex;
+    width: calc(100% + 16px);
+    height: 159px;
+    cursor: initial;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    margin-top: 25px;
+    margin-left: 16px;
+  }
 `;
 
 const StoreInfoImage = styled.img`
@@ -110,6 +163,16 @@ const StoreInfoImage = styled.img`
   
   &:nth-child(n+2) {
     display: none;
+  }
+  
+  @media (max-width: 576px) {
+    width: 159px;
+    height: 159px;
+    
+    & + & {
+      display: block;
+      margin-left 10px;
+    }
   }
 `;
 
@@ -126,10 +189,24 @@ const StoreInfoTagWrapper = styled.div`
     background: #f7931e;
     color: white;
   }
+  
+  @media (max-width: 576px) {
+    margin: 15px 0 30px;
+    
+    & span {
+      height: 14px;
+    }
+  }
 `
 
 const StoreInfoButtonWrapper = styled.div`
   margin-bottom: 13px;
+  
+  @media (max-width: 576px) {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
 `;
 
 const StoreInfoButton = styled.a`
@@ -146,6 +223,14 @@ const StoreInfoButton = styled.a`
   
   & + & {
     margin-left: 3px;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 6px 12px;
+    
+    & + & {
+      margin-left: 5px;
+    }
   }
 `;
 
@@ -167,6 +252,12 @@ const StoreMenuCardWrapper = styled.div`
   grid-column-gap: 14px;
   height: 100%;
   margin-bottom: 24px;
+  
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 60px;
+    margin-bottom: 0;
+  }
 `;
 
 const StoreMenuCard = styled.div`
@@ -192,6 +283,19 @@ const StoreMenuCard = styled.div`
     font-family: Verdana, NanumSquare;
     letter-spacing: -0.8px;
     color: #175c8e;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 0 12px;
+    line-height: 1;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    
+    & span {
+      font-size: 13px;
+    }
   }
 `
 
@@ -224,6 +328,9 @@ export default function StoreDetail ({
                 {store.delivery_price.toLocaleString()}원
                 <br/>
                 <span>기타정보</span>
+                {store.description ?
+                  store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />') :
+                  '-'}
               </StoreInfoDetailText>
               <StoreInfoTagWrapper>
                 {store.delivery && <span>#배달가능</span>}
