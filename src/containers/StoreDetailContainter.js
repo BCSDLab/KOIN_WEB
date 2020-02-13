@@ -15,7 +15,7 @@ export default function StoreDetailContainer ({ id }) {
   const selectImage = useCallback(
     (selectedImage) => setSelectedImage(selectedImage), []
   )
-  const [setShow, DarkBackgroundProvider] = useDarkenBackground(<StorePoster image={image} selectedImage={selectedImage} selectImage={selectImage} />);
+  const [setShow, DarkBackgroundProvider] = useDarkenBackground(StorePoster, {image, selectedImage, selectImage});
 
   useEffect(() => {
     dispatch(getStoreDetailInfo(id));

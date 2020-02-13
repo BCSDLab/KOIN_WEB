@@ -16,20 +16,25 @@ const DarkBackground = styled.div`
   z-index: 1;
 `;
 
-export default function useDarkenBackground (Child) {
+export default function useDarkenBackground (Child, props) {
   const [show, setShow] = useState(false);
-  const { Provider: DarkBackgroundProvider, Consumer: DarkBackgroundConsumer } = createContext({show, setShow});
+  const close = useCallback(() => setShow(false), []);
+  const { Provider: DarkBackgroundProvider, Consumer: DarkBackgroundConsumer } = createContext({show, close});
 
   const Provider = (Background) => ({children}) => {
     return (
-     <DarkBackgroundProvider value={{show, setShow}}>
+     <DarkBackgroundProvider value={{show, close}}>
        {children}
 
        {createPortal((
          <div className="dark-background__container">
            <DarkBackgroundConsumer>
-             {({show}) => show && (
-               <Background>{Child}</Background>
+             {({show, close}) => show && (
+               <Background>
+                 <Child
+                   close={close}
+                   {...props}/>
+               </Background>
              )}
            </DarkBackgroundConsumer>
          </div>
