@@ -2,8 +2,11 @@ import React, { useState, useEffect, createRef } from "react";
 import LostItemRegister from "../components/LostItemRegister";
 import {useDispatch} from "react-redux";
 import {registerLostItem } from "../modules/lost";
+import {boardAPI, marketAPI} from "../api";
+import { useToasts } from 'react-toast-notifications';
 
 export default function LostItemRegisterContainer({history}) {
+  const { addToast } = useToasts();
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
   const [type, setType] = useState(0);
@@ -13,6 +16,7 @@ export default function LostItemRegisterContainer({history}) {
   const [place, setPlace] = useState('');
   const [phoneNumber, setPhoneNumber] = useState(JSON.parse(sessionStorage.getItem('userInfo')).phone_number);
   const dispatch = useDispatch();
+  const editorRef = createRef();
 
   const createdAt = today.toISOString().slice(0,10).replace('-','. ').replace('-','. ');
 
@@ -28,7 +32,7 @@ export default function LostItemRegisterContainer({history}) {
     let registerPlace = place;
     let registerPhoneNumber = phoneNumber;
     let registerDate = date;
-    let contents = editorRef.current.getInstance().getHtml();
+    let contents = editorRef.current.state.value;
 
     if(title === '' || contents === '') {
       alert('제목이나 내용을 추가해주세요.');
@@ -61,7 +65,43 @@ export default function LostItemRegisterContainer({history}) {
     })
   };
 
-  const editorRef = createRef();
+  function imageUpload ()  {
+
+    const _this = this;
+    const editor = editorRef.current;
+    let formData = new FormData();
+    let fileInput = document.createElement('input');
+    const range = editor.getEditor().getSelection();
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('style', 'display: none');
+    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+
+    fileInput.addEventListener('change', async () => {
+      formData.append('image', fileInput.files[0]);
+      try {
+        const result = await marketAPI.uploadImage(sessionStorage.getItem("token"), formData)
+        _this.quill.insertEmbed(range.index, 'image', result.data.url[0]);
+      } catch(e) {
+        addToast("이미지의 크기가 너무 큽니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    });
+    fileInput.click();
+  }
+
+  const modules = {
+    toolbar: {
+      container: [
+        [{'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline','strike', 'blockquote'],
+        [{'color': []}, {'background':[]}],
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        ['image', 'video']
+      ]
+    }
+  }
 
   return (
     <LostItemRegister
@@ -77,6 +117,8 @@ export default function LostItemRegisterContainer({history}) {
       history={history}
       register={register}
       setPhoneNumber={setPhoneNumber}
+      modules={modules}
+      imageUpload={imageUpload}
       />
   )
 }

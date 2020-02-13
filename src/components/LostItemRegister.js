@@ -1,9 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
-import 'codemirror/lib/codemirror.css';
-import 'tui-editor/dist/tui-editor.min.css';
-import 'tui-editor/dist/tui-editor-contents.min.css';
-import { Editor } from '@toast-ui/react-editor'
+import '../static/quill.snow.css';
+import ReactQuill from "react-quill";
 
 const Main = styled.div`
   width: 100%;
@@ -267,6 +265,44 @@ const RegisterBtn = styled.button`
   border: 1px solid #175c8e;
 `;
 
+const MobileMenus = styled.div`
+  display: none;
+  
+  @media(max-width: 576px){
+    display: block;
+  }
+`;
+
+const MobileCancelBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.36;
+  letter-spacing: -0.7px;
+  text-align: left;
+  color: #ffffff;
+  background-color: #175c8e;
+  border: none;
+  padding-left: 0;
+`;
+
+const MobileRegisterBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.36;
+  letter-spacing: -0.7px;
+  text-align: left;
+  color: #ffffff;
+  background-color: #175c8e;
+  border: none;
+  padding-right: 0;
+`;
+
 export default function LostItemRegister(
   {
     createdAt,
@@ -280,9 +316,15 @@ export default function LostItemRegister(
     editorRef,
     history,
     register,
-    setPhoneNumber
+    setPhoneNumber,
+    modules,
+    imageUpload
   }
 ) {
+  useEffect(() => {
+    editorRef.current.editor.getModule("toolbar").addHandler('image', imageUpload);
+  }, [editorRef]);
+
   return (
     <Main>
       <Container>
@@ -399,12 +441,11 @@ export default function LostItemRegister(
           <p>상세정보 입력</p>
           <Wysiwyg>
             {/*<input type="text" name="contents" id="contents" hidden/>*/}
-            <Editor
-              useCommandShortcut={true}
-              initialEditType='wysiwyg'
-              height="400px"
+            <ReactQuill
               ref={editorRef}
-              />
+              modules={modules}
+              style={{ height: '400px' }}
+            />
           </Wysiwyg>
         </Detail>
         <Footer>
@@ -412,6 +453,14 @@ export default function LostItemRegister(
           <RegisterBtn onClick={register}>등록</RegisterBtn>
           <GoListBtn onClick={()=> history.push('/lost')}>목록으로</GoListBtn>
         </Footer>
+        <MobileMenus>
+          <MobileCancelBtn onClick={()=> history.push('/lost')}>
+            취소
+          </MobileCancelBtn>
+          <MobileRegisterBtn onClick={()=> history.push('/lost')}>
+            등록
+          </MobileRegisterBtn>
+        </MobileMenus>
       </Container>
     </Main>
   )
