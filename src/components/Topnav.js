@@ -22,8 +22,6 @@ const Container = styled.div`
   font-weight: 800;
   background: #175c8e;
   color: #fff;
-  -webkit-animation: ${SlideEnter} .3s ease-out;
-  -moz-animation: ${SlideEnter} .3s ease-out;
   display: ${props => {
     switch(props.path) {
       case '/login':
@@ -36,8 +34,11 @@ const Container = styled.div`
         return 'block';
     }
   }};
+
   @media (max-width: 576px) {
     height: 56px;
+    -webkit-animation: ${SlideEnter} .3s ease-out;
+    -moz-animation: ${SlideEnter} .3s ease-out;
   }
 `;
 
@@ -45,6 +46,10 @@ const Row = styled.div`
   width: 1132px;
   height: 100%;
   margin: 0 auto;
+
+  @media (max-width: 576px) {
+    display: none;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -57,6 +62,11 @@ const KOINLogoImage = styled.img.attrs({
 })`
   width: 79.6px;
   height: 44px;
+
+  @media (max-width: 576px) {
+    width: 58px;
+    height: 32px;
+  }
 `;
 
 const MegaMenuItem = styled.button`
@@ -181,11 +191,16 @@ const AuthLinkButton = styled.div`
 `;
 
 const MobileRow = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  text-align: center;
+  display: none;
+
+  @media (max-width: 576px) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    text-align: center;
+  }
 `;
 
 const MenuIcon = styled.img`
@@ -212,12 +227,10 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
 `;
 
 export default function Topnav({
   categories,
-  menu,
   subMenu,
   path,
   onMouseOverMenu,
@@ -226,7 +239,8 @@ export default function Topnav({
   onLogout,
   mobileMenu,
   setMobileMenu,
-  onClickMultiPurposBtn
+  onClickMultiPurposBtn,
+  onClickFooterMenu
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
@@ -238,19 +252,36 @@ export default function Topnav({
     else if (!path.indexOf('/store')) return '주변상점';
 
     else if (!path.indexOf('/board/free')) return '자유게시판';
-    else if (!path.indexOf('/borad/anonymous')) return '익명게시판';
-    else if (!path.indexOf('/board/notice')) return '공지게시판';
-    else if (!path.indexOf('/board/jog')) return '취업게시판';
+    else if (!path.indexOf('/board/anonymous')) return '익명게시판';
+    else if (!path.indexOf('/board/notice')) return '공지사항';
+    else if (!path.indexOf('/board/job')) return '취업게시판';
     else if (!path.indexOf('/board/question')) return '질문게시판';
-    else if (!path.indexOf('/borad/promotion')) return '홍보게시판';
+    else if (!path.indexOf('/board/promotion')) return '홍보게시판';
     else if (!path.indexOf('/lost')) return '분실물';
 
     else if (!path.indexOf('/market/sell')) return '팝니다';
     else if (!path.indexOf('/market/buy')) return '삽니다';
   }
+
+  const setRoutingButtonVisible = () => {
+    switch(path) {
+      case '/timetable':
+      case '/board/free':
+      case '/board/job':
+      case '/board/anonymous':
+      case '/board/question':
+      case '/board/promotion':
+      case '/lost':
+      case '/market/buy':
+      case '/market/sell':
+        return true;
+      default: return false;
+    }
+  }
+
   return (
     <Container path={path} mobileMenu={mobileMenu}>
-      {window.innerWidth > 576 && <Row>
+      <Row>
         <StyledLink to="/">
           <KOINLogoImage />
         </StyledLink>
@@ -297,46 +328,43 @@ export default function Topnav({
             정보수정
           </AuthLinkButton>
         </Link>}
-      </Row>}
-      {window.innerWidth <= 576 &&
-        <MobileRow>
-          {!mobileMenu &&
-            <MenuIcon
-              src={"https://static.koreatech.in/assets/img/menu.png"}
-              onClick={() => setMobileMenu(true)} />}
-          {mobileMenu &&
-            <MenuIcon
-              src={"https://static.koreatech.in/assets/img/back-menu.png"}
-              onClick={() => setMobileMenu(false)} />}
-          <Title>
-            {!mobileMenu && getTitle()}
-            {mobileMenu && '전체 서비스'}
-          </Title>
-          {!mobileMenu && <RouteIcon
+      </Row>
+      
+      <MobileRow>
+        <MenuIcon
+          src={mobileMenu
+            ? "https://static.koreatech.in/assets/img/back-menu.png"
+            : "https://static.koreatech.in/assets/img/menu.png"}
+          onClick={mobileMenu
+            ? () => { setMobileMenu(false); onClickFooterMenu(1); }
+            : () => { setMobileMenu(true); onClickFooterMenu(1); }}
+        />
+        <Title>
+          {path === '/' && !mobileMenu && <KOINLogoImage />}
+          {path !== '/' && !mobileMenu && getTitle()}
+          {mobileMenu && '전체 서비스'}
+        </Title>
+        {(!mobileMenu && setRoutingButtonVisible()) &&
+          <RouteIcon
             src={"https://static.koreatech.in/assets/img/mobile__create.png"}
             onClick={onClickMultiPurposBtn}
-          />}          
-        </MobileRow>
-      }
-      {window.innerWidth <= 576 &&
-        <MobileTopnav
-          mobileMenu={mobileMenu}
-          token={token}
-          userInfo={userInfo}
-          categories={categories}
-          onLogout={onLogout}
-          setMobileMenu={setMobileMenu}
-        />
-      }
-
-      {/* <MobileTopnav
+          />
+        }
+        {!mobileMenu && path === '/' &&
+          <RouteIcon
+            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            onClick={onClickMultiPurposBtn}
+          />
+        }
+      </MobileRow>
+      <MobileTopnav
         mobileMenu={mobileMenu}
         token={token}
         userInfo={userInfo}
         categories={categories}
         onLogout={onLogout}
         setMobileMenu={setMobileMenu}
-      /> */}
+      />
     </Container>
   )
 }

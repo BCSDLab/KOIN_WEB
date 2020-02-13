@@ -77,6 +77,11 @@ const Container = styled.div`
   width: 100%;
   background-color: #3e3e3e;
   color: white;
+  position: relative;
+  bottom: 0;
+  font-size: 13px;
+  height: 288px;
+  vertical-align: middle;
   display: ${props => {
     switch(props.path) {
       case '/login':
@@ -89,12 +94,7 @@ const Container = styled.div`
         return 'table';
     }
   }};
-  position: relative;
-  bottom: 0;
-  font-size: 13px;
-  height: 288px;
-  vertical-align: middle;
- 
+
   div .hidden {
     -webkit-animation: slide-down .5s ease-in;
     -moz-animation: slide-down .5s ease-in;
@@ -312,8 +312,8 @@ export default function Footer({ path }) {
 
   const clickMenu = (menu) => {
     if (menu.tag !== null) {
-      sessionStorage.setItem("nowBoardPageNum", 1);
-      sessionStorage.setItem("nowBoardId", menu.tag);
+      sessionStorage.setItem("boardPageNum", 1);
+      sessionStorage.setItem("boardId", menu.tag);
     } else {
       if (menu.planFlag === false && menu.title !== null) {
         if (menu.link === '/market/sell')

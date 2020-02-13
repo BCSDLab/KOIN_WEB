@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import styled from "styled-components";
 import {getLostItems} from "../../modules/lost";
 import {Link} from "react-router-dom";
@@ -10,12 +10,13 @@ const PaginationContainer = styled.div`
   @media (max-width: 576px) {
     display: flex;
     justify-content: center;
+    margin-bottom: 40px;
   }
 `;
 
 const ArrowButton = styled.button`
   border-radius: 0;
-  padding: 7px 14px 7px 14px;
+  padding: 7px 14px;
   margin-left: 8px;
   margin-right: 8px;
   background: #ffffff;
@@ -33,6 +34,7 @@ const ArrowButton = styled.button`
   @media (max-width: 576px) {
     width: 73px;
     height: 30px;
+    padding: 7px 10px;
   }
 `;
 
@@ -78,26 +80,68 @@ export default function Pagination(
     totalPageNum,
     setPageData,
     isWriteBtn,
-    writeBtnLink
+    writeBtnLink,
+    path
   }
 ){
   const limit = 5;
+  const setPageByStorage = () => {
+    if (sessionStorage.getItem("boardPageNum")) {
+      let p = path.split('/');
+      if (p[1] === 'board') {
+        let boardPageNum = JSON.parse(sessionStorage.getItem("boardPageNum"));
+        if (p[2] === 'free') {
+          return boardPageNum[0];
+        } else if (p[2] === 'job') {
+          return boardPageNum[1];
+        } else if (p[2] === 'anonymous') {
+          return boardPageNum[2];
+        } else if (p[2] === 'notice') {
+          return boardPageNum[3];
+        } else if (p[2] === 'question') {
+          return boardPageNum[4];
+        } else if (p[2] === 'promotion') {
+          return boardPageNum[5];
+        } else {
+          return 1;
+        }
+      }
+    } else {
+      return 1;
+    }
+  }
   const [nowPageNum,setNowPageNum] = useState(1);
 
+  // 분실물, 중고장터 로직 추가 필요
   const clickPrevButton = () => {
     if (nowPageNum === 1) {
       alert("첫 페이지입니다.");
-    } else setPage(nowPageNum - 1);
+    } else {
+      let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+      boardPageNum[path] = nowPageNum - 1;
+      sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      setPage(nowPageNum - 1);
+      
+    }
   };
 
+  // 분실물, 중고장터 로직 추가 필요
   const clickNextButton = () => {
     if (nowPageNum === totalPageNum) {
       alert("마지막 페이지입니다.");
-    } else setPage(nowPageNum + 1);
+    } else {
+      let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+      boardPageNum[path] = nowPageNum + 1;
+      sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      setPage(nowPageNum + 1);
+    }
   };
 
   const clickPageNum = (n) => () => {
     setPage(n)
+    let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+    boardPageNum[path] = n;
+    sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
   };
 
   const displayCorrectionNum = () => {
@@ -121,6 +165,40 @@ export default function Pagination(
     setPageData(page);
     setNowPageNum(page);
   };
+
+  useEffect(() => {
+    // 세션에 페이지 데이터가 없다면 페이지 1 있다면 세션에서 받아와서 초기화.
+    switch (path) {
+      case 'lost':
+        console.log("분실물 진입");
+        if (!sessionStorage.getItem("lpn")) {
+          setNowPageNum(1);
+        } else {
+          const lostPageNum = JSON.parse(sessionStorage.getItem("lpn"));
+          setNowPageNum(lostPageNum);
+        }
+        break;
+      case 'buy':
+      case 'sell':
+        console.log("중고장터 진입");
+        if (!sessionStorage.getItem("mpn")) {
+          setNowPageNum(1);
+        } else {
+          const marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
+          setNowPageNum(marketPageNum[path]);
+        }
+        break;
+      default:
+        console.log("게시판 진입");
+        if (!sessionStorage.getItem("bpn")) {
+          setNowPageNum(1);
+        } else {
+          const boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+          setNowPageNum(boardPageNum[path]);
+        }
+        break;
+    }
+  }, [path]); 
 
   return (
     <div>
