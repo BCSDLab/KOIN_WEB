@@ -29,6 +29,8 @@ export default function TopnavContainer({ history, path }) {
   const onClickMultiPurposBtn = () => {
     if (path === '/timetable') {
       dispatch(toggleSheetOpen());
+    } else {
+      history.push(`${path}/register`);
     }
   }
 
@@ -49,7 +51,6 @@ export default function TopnavContainer({ history, path }) {
     <>
       <Topnav
         categories={categories}
-        menu={menu}
         subMenu={subMenu}
         path={path}
         onMouseOverMenu={onMouseOverMenu}
@@ -59,6 +60,7 @@ export default function TopnavContainer({ history, path }) {
         mobileMenu={mobileMenu}
         setMobileMenu={setMobileMenu}
         onClickMultiPurposBtn={onClickMultiPurposBtn}
+        onClickFooterMenu={onClickFooterMenu}
       />
       <MobileFooterMenu
         history={history}
