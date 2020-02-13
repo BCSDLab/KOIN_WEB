@@ -108,13 +108,13 @@ const CommentContent = styled.div`
 `;
 
 const CommentAdjustInput = styled.div`
-  width: 786px;
+  width: calc(100% -  72px);
   padding-left: 20px;
   padding-right: 20px;
   
   textarea {
     height: 29px;
-    width: 1057px;
+    width: 100%;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 13px;

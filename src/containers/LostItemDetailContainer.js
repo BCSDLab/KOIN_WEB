@@ -10,7 +10,6 @@ export default function LostItemDetailContainer({history}) {
   const [newFlag, setNewFlag] = useState(false);
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
-  const [reviseInputFlag, setReviseInputFlag] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -112,8 +111,6 @@ export default function LostItemDetailContainer({history}) {
       history={history}
       specificData={specificData}
       newFlag={newFlag}
-      reviseInputFlag={reviseInputFlag}
-      setReviseInputFlag={setReviseInputFlag}
       adjustComment={adjustComment}
       selectedId={selectedId}
       setSelectedId={setSelectedId}
