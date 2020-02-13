@@ -404,28 +404,32 @@ export default function BusTimeTable(
                   <Td>09:55</Td>
                 </tr>
                 <tr>
-                  <Td>10:30</Td>
-                  <Td>10:50</Td>
+                  <Td>10:35</Td>
+                  <Td>10:55</Td>
                 </tr>
                 <tr>
-                  <Td>11:45</Td>
-                  <Td>12:00</Td>
+                  <Td>11:35</Td>
+                  <Td>11:55</Td>
                 </tr>
                 <tr>
-                  <Td>12:35</Td>
-                  <Td>12:55</Td>
+                  <Td>12:25</Td>
+                  <Td>12:45</Td>
                 </tr>
                 <tr>
-                  <Td>14:00</Td>
-                  <Td>14:20</Td>
+                  <Td>13:15</Td>
+                  <Td>13:35</Td>
+                </tr>
+                <tr>
+                  <Td>14:05</Td>
+                  <Td>14:25</Td>
                 </tr>
                 <tr>
                   <Td>15:05</Td>
                   <Td>15:25</Td>
                 </tr>
                 <tr>
-                  <Td>16:00</Td>
-                  <Td>16:20</Td>
+                  <Td>16:05</Td>
+                  <Td>16:25</Td>
                 </tr>
                 <tr>
                   <Td>16:55</Td>
@@ -444,8 +448,8 @@ export default function BusTimeTable(
                   <Td>20:20</Td>
                 </tr>
                 <tr>
-                  <Td>21:25</Td>
                   <Td>21:05</Td>
+                  <Td>21:25</Td>
                 </tr>
                 <tr>
                   <Td>21:55</Td>

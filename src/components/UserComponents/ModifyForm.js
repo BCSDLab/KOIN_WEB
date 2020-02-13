@@ -15,13 +15,19 @@ const Advice = styled.div`
   margin-left: 5px;
 
   @media (max-width: 576px) {
-    margin-bottom: 12px;
+    width: 320px;
+    margin: 0 auto 12px auto;
   }
 `;
 
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 0 auto;
+  }
 `;
 
 const StyledButton = css`
@@ -42,6 +48,13 @@ const StyledButton = css`
     background: #e5eaf0;
     border: solid 1px #d2dae2;
   }
+
+  @media (max-width: 576px) {
+    width: 320px;
+    height: 36px;
+    margin: 0 auto 12px auto;
+    font-size: 15px;
+  }
 `;
 
 const StyledDataButton = css`
@@ -60,7 +73,7 @@ const StyledDataButton = css`
   border: 1px solid #d2dae2;
 
   @media (max-width: 576px) {
-    width: 165px;
+    width: 155px;
     font-size: 14px;
     height: 36px;
   }
@@ -73,7 +86,10 @@ const CheckButton = styled.button`
   margin-left: 6px;
 
   @media (max-width: 576px) {
-   height: 36px; 
+    width: 100px;
+    margin-left: 6px;
+    height: 36px;
+    font-size: 12px;
   }
 `;
 
@@ -89,7 +105,7 @@ const MajorButton = styled.button`
   padding: 0 0 0 20px;
 
   @media (max-width: 576px) {
-    padding: 0 0 0 10px;
+    padding: 0 0 0 16px;
   }
 `;
 
@@ -133,13 +149,18 @@ const DropdownContent = styled.button`
   }
 
   @media (max-width: 576px) {
-    width: 165px;
+    width: 155px;
   }
 `;
 
 const Line = styled.hr`
   border: 0.5px solid #d2dae2;
   margin: 20px 0;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    margin: 20px auto;
+  }
 `;
 
 const ModifyButton = styled.button`
@@ -250,7 +271,7 @@ export default function ModifyForm({
           type="button"
           name="major"
           value={userInfo.major}>
-          {!userInfo.major && "학부 (학번 입력시 자동입력)"}
+          {!userInfo.major && "학부 (자동입력)"}
           {userInfo.major && userInfo.major}
         </MajorButton>
         <DropdownWrapper

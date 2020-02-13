@@ -92,7 +92,7 @@ const IconImage = styled.img`
 export default React.memo(function LectureTableHelper({ selectLecturesByMajor, searchLecturesByName }) {
   const [searchWord, setSearchWord] = useState('');
   const [dropdown, setDropdown] = useState(false);
-  const majors = ["전체", "컴퓨터공학부", "전기ㆍ전자ㆍ통신공학부", "에너지신소재화학공학부", "기계공학부", "디자인ㆍ건축공학부", "산업경영학부", "교양학부", "HRD학과", "융합학과"];
+  const majors = ["전체", "컴퓨터공학부", "메카트로닉스공학부", "전기ㆍ전자ㆍ통신공학부", "에너지신소재화학공학부", "기계공학부", "디자인ㆍ건축공학부", "산업경영학부", "교양학부", "HRD학과", "융합학과"];
   const [selectedMajor, setSelectedMajor] = useState("전체");
 
   const onSearchWordChange = e => {

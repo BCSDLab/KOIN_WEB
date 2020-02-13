@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
 import IndexPage from './pages/IndexPage';
@@ -26,12 +26,15 @@ import BusPage from "./pages/BusPage";
 
 import LostItemListPage from "./pages/LostItemListPage";
 import LostItemDetailPage from "./pages/LostItemDetailPage";
+import LostItemRegisterPage from "./pages/LostItemRegisterPage";
+
 // etc
 import TopnavContainer from './containers/TopnavContainer';
 import Footer from './components/SharedComponents/Footer/Footer'
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
+import BoardPage from './pages/BoardPages/BoardPage';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -53,32 +56,34 @@ const GlobalStyle = createGlobalStyle`
     url('https://static.koreatech.in/assets/font/NanumSquareR.svg#NanumGothic') format('svg');
     src:local(※), url('https://static.koreatech.in/assets/font/NanumSquareR.woff') format('woff');
   }
-
-  body {
-    padding: 0;
-    text-align: center;
-    font-family: "NanumBarunGothic", serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    -webkit-touch-callout: none;
-    user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    min-width: 1148px;
-
-    @media (max-width: 576px) {
-      max-width: 576px;
-      min-width: 360px;
-      height: 100%;
-    }
-  }
-
   * {
     outline: none;
   }
+`;
+
+const AppWrapper = styled.div`
+  padding: 0;
+  text-align: center;
+  font-family: NanumBarunGothic, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  min-width: 1148px;
+
+  @media (max-width: 576px) {
+    max-width: 576px;
+    min-width: 360px;
+    height: 100%;
+  }
+
+  max-height: ${props => props.nowFooterMenu[1] ? '600px' : '100%'};
+  overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
 const Main = styled.main`
@@ -94,7 +99,8 @@ const Main = styled.main`
 function App({ history }) {
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState(false);
-  
+  const [currentPath, setCurrentPath] = useState(history.location.pathname);
+  const { nowFooterMenu } = useSelector(state => state.commonReducer);
   const onConfirm = path => {
     setDialog(false);
     if (path) history.push(path);
@@ -116,10 +122,17 @@ function App({ history }) {
 
   }, []);
 
+  useEffect(() => {
+    history.listen((location, action) => {
+      // action: push, pop...
+      setCurrentPath(location.pathname);
+    })
+  });
+
   return (
-    <>
+    <AppWrapper nowFooterMenu={nowFooterMenu}>
       <GlobalStyle />
-      <TopnavContainer />
+      <TopnavContainer history={history} path={currentPath} />
       <Main>
         <Switch>
           <Route exact path="/" component={IndexPage} />
@@ -162,7 +175,9 @@ function App({ history }) {
           <Route path="/store/:id" component={StoreDetailPage} />
 
           <Route exact path="/lost" component={LostItemListPage}/>
-          <Route path="/lost/:id" component={LostItemDetailPage}/>
+          <Route path="/lost/register" component={LostItemRegisterPage}/>
+          <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
+    
 
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
@@ -170,11 +185,20 @@ function App({ history }) {
           <Route path="/timetable" component={TimeTablePage} />
           
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
+          {/* Board page */}
+          <Route exact path="/board/:type" component={BoardPage} />
+          <PrivateRoute
+            path="/board/:type/:id"
+            component={BoardPage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
           <Route component={page404} />
         </Switch>
+        <Footer path={currentPath} />
       </Main>
-      <Footer />
-    </>
+    </AppWrapper>
   );
 }
 

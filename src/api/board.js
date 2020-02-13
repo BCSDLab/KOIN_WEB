@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_PATH = process.env.REACT_APP_API_PATH;
 
 const getArticleList = (page, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.get(`${API_PATH}/articles?page=${page}&boardId=${boardId}`);
   } else {
     return axios.get(`${API_PATH}/temp/articles?page=${page}`);
@@ -11,7 +11,7 @@ const getArticleList = (page, boardId) => {
 }
 
 const getArticle = (articleId, token, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.get(`${API_PATH}/articles/${articleId}`, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -32,7 +32,7 @@ const getIndexPageArticleList = boardId => {
 
 // 게시글 생성, 삭제, 수정
 const registerArticle = (token, body, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.post(`${API_PATH}/articles`, body, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -60,7 +60,7 @@ const removeAnonymousArticle = (articleId, password) => {
 }
 
 const reviseArticle = (articleId, token, body, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.put(`${API_PATH}/articles/${articleId}`, body, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -73,7 +73,7 @@ const reviseArticle = (articleId, token, body, boardId) => {
 
 // 코멘트 생성, 삭제, 수정
 const registerComment = (articleId, token, body, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.post(`${API_PATH}/articles/${articleId}/comments`, body, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -85,7 +85,7 @@ const registerComment = (articleId, token, body, boardId) => {
 }
 
 const removeComment = (articleId, commentId, token, boardId, password) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.delete(`${API_PATH}/articles/${articleId}/comments/${commentId}`, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -101,7 +101,7 @@ const removeComment = (articleId, commentId, token, boardId, password) => {
 }
 
 const reviseComment = (articleId, commentId, token, body, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.put(`${API_PATH}/articles/${articleId}/comments/${commentId}`, body, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -117,7 +117,7 @@ const uploadAnonymousArticleImage = formData => {
 }
 
 const checkArticleAuthority = (token, body, boardId) => {
-  if (boardId !== -1) {
+  if (boardId !== '-1') {
     return axios.post(`${API_PATH}/articles/grant/check`, body, {
       headers: {
         "Authorization": `Bearer ${token}`

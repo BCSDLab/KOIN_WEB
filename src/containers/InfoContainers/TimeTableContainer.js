@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllLecture, getAllSemester } from "../../modules/timetable";
+import { getAllLecture, getAllSemester, updateSheetType } from "../../modules/timetable";
 import TimeTable from "../../components/TimeTableComponents/TimeTable";
 import MobileTimeTable from '../../components/TimeTableComponents/MobileTimeTable';
 import {
@@ -30,7 +30,10 @@ export default function TimeTableContainer() {
     selectedSemester,
     myTimeTableGrade,
     isLectureLoading,
-    isMyLectureLoading
+    isMyLectureLoading,
+    isInfoSheet,
+    selectedMyLecture,
+    isOpen
   } = useSelector(state => state.timetableReducer);
   const [localLectures, setLocalLectures] = useState(lectures);
   const [localMyLectures, setLocalMyLectures ] = useState(myLectures);
@@ -60,11 +63,11 @@ export default function TimeTableContainer() {
 
   // 강의 제거
   const removeLectureFromMyTable = useCallback((index, id) => {
-      dispatch(removeLecture({
-        index,
-        token: sessionStorage.getItem("token"),
-        id: id
-      }));
+    dispatch(removeLecture({
+      index,
+      token: sessionStorage.getItem("token"),
+      id
+    }));
   }, [dispatch]);
 
   // 학기 선택할 때 강의 저장
@@ -200,36 +203,6 @@ export default function TimeTableContainer() {
     saveLecture();
   }, [saveLecture]);
 
-  
-
-  // useEffect(() => {
-  //   if (selectedSemester) {
-  //     dispatch(getAllLecture(selectedSemester)); // 강의 목록 초기화
-  //     // 시간표 초기화
-  //     dispatch(resetLayout());
-  //     if (!sessionStorage.getItem("token")) {
-  //       let timetableData = Cookies.get('timetable') ? JSON.parse(Cookies.get('timetable')) : {};
-  //       timetableData[selectedSemester] = myLectures;
-  //       console.log(timetableData);
-  //       Cookies.set("timetable", timetableData, { expires: 3 });
-  //       !Object.keys(timetableData).length && dispatch(
-  //         searchMyLectures({
-  //           lectures: timetableData[selectedSemester],
-  //           mobile: false
-  //         })
-  //       );
-  //     } else {
-  //       dispatch(
-  //         getMyLectures({
-  //           token: sessionStorage.getItem("token"),
-  //           mobile: false,
-  //           semester: selectedSemester
-  //         })
-  //       );
-  //     }
-  //   }
-  // }, [dispatch, selectedSemester]);
-
   useEffect(() => {
     window.addEventListener('resize', () => {
       console.log(window.innerWidth);
@@ -277,6 +250,17 @@ export default function TimeTableContainer() {
           layout={layout}
           initStateBySemester={initStateBySemester}
 
+          lectures={localLectures}
+          myLectures={localMyLectures}
+          nowLectureIdx={nowLectureIdx}
+          isInfoSheet={isInfoSheet}
+          isOpen={isOpen}
+          selectedMyLecture={selectedMyLecture}
+          selectLectureInTotalTable={selectLectureInTotalTable}
+          addLectureOnMyTable={addLectureOnMyTable}
+          removeLectureFromMyTable={removeLectureFromMyTable}
+          selectLecturesByMajor={selectLecturesByMajor}
+          searchLecturesByName={searchLecturesByName}
         />
       }
     </div>

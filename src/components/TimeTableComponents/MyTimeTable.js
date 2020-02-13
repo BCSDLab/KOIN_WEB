@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components';
 import domtoimage from 'dom-to-image';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -7,6 +7,10 @@ import { useToasts } from 'react-toast-notifications';
 
 const Container = styled.div`
   width: 336px;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 const Header = styled.div`
@@ -14,6 +18,12 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+
+  @media (max-width: 576px) {
+    width: 320px;
+    height: 50px;
+    margin: 0 auto;
+  }
 `;
 
 const IconImage = styled.img`
@@ -32,11 +42,21 @@ const SaveButton = styled.button`
   align-items: center;
   color: #fdfdfd;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 151px;
+    height: 31px;
+    font-size: 12px;
+  }
 `;
 
 const DropdownWrapper = styled.div`
   width: 166px;
   position: relative;
+
+  @media (max-width: 576px) {
+    width: 151px;
+  }
 `;
 
 const DropdownButton = styled.button`
@@ -50,6 +70,12 @@ const DropdownButton = styled.button`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 151px;
+    height: 31px;
+    font-size: 14px;
+  }
 `;
 
 const DropdownContentWrapper = styled.div`
@@ -57,6 +83,10 @@ const DropdownContentWrapper = styled.div`
   top: 49px;
   width: 100%;
   z-index: 5;
+
+  @media (max-width: 576px) {
+    top: 34px;
+  }
 `;
 
 const DropdownContent = styled.button`
@@ -79,11 +109,24 @@ const DropdownContent = styled.button`
     font-weight: bold;
     color: #252525;
   }
+
+  @media (max-width: 576px) {
+    width: 151px;
+    height: 31px;
+    font-size: 14px;
+    padding: 0 0 0 10px;
+  }
 `;
 
 const TableWrapper = styled.div`
   position: relative;
   height: 416px;
+
+  @media (max-width: 576px) {
+    height: ${props => props.isOpen ? '856px' : '603px'};
+    /* 856 = 546 + 310, 603 = 546 + 57 */
+    overflow: scroll;
+  }
 `;
 
 const TableBodyRow = styled.tr`
@@ -107,6 +150,19 @@ const Table = styled.table`
     height: 42px;
     border-bottom: 1px solid #dadada;
   }
+
+  @media (max-width: 576px) {
+    width: 100%;
+
+    & thead {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 0px;
+    }
+
+    & tbody ${TableBodyRow}:last-child {
+      height: 29px;
+      border-bottom: 1px rgba(218, 218, 218, 0.3) solid;
+    }
+  }
 `;
 
 const TableHeadContent = styled.td`
@@ -117,6 +173,12 @@ const TableHeadContent = styled.td`
   text-align: center;
   background-color: #f1f1f1;
   color: #555;
+
+  @media (max-width: 576px) {
+    height: 21px;
+    font-size: 11px;
+    border: none;
+  }
 `;
 
 const TableBodyContent = styled.td`
@@ -126,6 +188,11 @@ const TableBodyContent = styled.td`
   border-left: 1px solid #dadada;
   color: #252525;
   box-sizing: border-box;
+
+  @media (max-width: 576px) {
+    font-size: 9px;
+    height: 29px;
+  }
 `;
 
 const LectureSection = styled.div`
@@ -159,17 +226,21 @@ const LectureInfo = styled.div`
 export default React.memo(function MyTimeTable({
   selectedLayout,
   layout,
+  isOpen,
   totalSemesters,
   selectedSemester,
   initStateBySemester,
-  mobile
+  mobile,
+  selectLectureFromMyTable
 }) {
   const tableRef = useRef();
   const [isSaving, setIsSaving] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const days = ["", "", "월요일", "화요일", "수요일", "목요일", "금요일"];
-  const timeAlias = ["01A", "01B", "02A", "02B", "03A", "03B", "04A", "04B", "05A", "05B", "06A", "06B", "07A", "07B", "08A", "08B", "09A", "09B"];
-  const times = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
+  let timeAlias = ["01A", "01B", "02A", "02B", "03A", "03B", "04A", "04B", "05A", "05B", "06A", "06B", "07A", "07B", "08A", "08B", "09A", "09B"];
+  let times = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
+  const mobileTimeAlias = ["10A", "10B", "11A"];
+  const mobileTimes = ["18:00", "18:30", "19:00"];
   const { addToast } = useToasts();
 
   const saveTimeTable = useCallback(async () => {
@@ -310,7 +381,8 @@ export default React.memo(function MyTimeTable({
         </SaveButton>
       </Header>
       <TableWrapper
-        ref={tableRef}>
+        ref={tableRef}
+        isOpen={isOpen}>
         <Table>
           <thead>
             <tr>
@@ -349,6 +421,7 @@ export default React.memo(function MyTimeTable({
                       ...renderSelectBox(idx + 2, index),
                       ...fillBackground(idx + 2, index)
                     }}
+                    onClick={() => window.innerWidth <= 576 ? selectLectureFromMyTable(idx + 2, index) : null}
                     >
                     <LectureSection>
                       <LectureTitle>{styleLectureTitle(idx + 2, index)}</LectureTitle>
@@ -358,15 +431,16 @@ export default React.memo(function MyTimeTable({
                 )}
               </TableBodyRow>
             )}
-            <TableBodyRow>
-              <TableBodyContent rowSpan="2" colSpan="2">그 이후</TableBodyContent>
-              {[...Array(5)].map((item, index) => 
-                <TableBodyContent
-                  key={index}
-                  style={{...fillBackground(index + 2, 18), ...renderSelectBox(index + 2, 18)}}>
-                </TableBodyContent>
-              )}
-            </TableBodyRow>
+            {window.innerWidth > 576 && (<TableBodyRow>
+                <TableBodyContent rowSpan="2" colSpan="2">그 이후</TableBodyContent>
+                {[...Array(5)].map((item, index) => 
+                  <TableBodyContent
+                    key={index}
+                    style={{...fillBackground(index + 2, 18), ...renderSelectBox(index + 2, 18)}}>
+                  </TableBodyContent>
+                )}
+              </TableBodyRow>)
+            }
           </tbody>
         </Table>
       </TableWrapper>
