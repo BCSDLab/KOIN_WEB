@@ -8,8 +8,6 @@ import HotPosts from '../../components/BoardComponents/HotPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotPosts } from '../../modules/board';
 import styled from 'styled-components';
-import Header from '../../components/BoardComponents/Header';
-import withPost from '../../components/BoardComponents/withPost';
 
 const Container = styled.div`
   margin: 61px auto 0 auto;
@@ -39,6 +37,7 @@ export default function BoardPage({ history, match }) {
   const { data, loading, error } = useSelector(state => state.boardReducer.hotPosts);
   const { id } = match.params;
 
+
   useEffect(() => {
     dispatch(getHotPosts());
   }, [dispatch]);
@@ -47,17 +46,11 @@ export default function BoardPage({ history, match }) {
     <>
       <Container>
         <Row>
-          <Header
-            match={match}
-            history={history}
-          />
           {!id && <Route exact path={match.path} component={(PostListContainer)} />}
           {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
-          {id === 'revise' && <Route path={match.path} component={PostEditContainer} />}
+          {id === 'edit' && <Route path={match.path} component={PostEditContainer} />}
           {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
         </Row>
-        
-        
       </Container>
       <HotPosts
         hotPosts={data}
