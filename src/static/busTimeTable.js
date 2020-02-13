@@ -75,23 +75,27 @@ export default {
       },
       {
         hour: 9,
-        minute: 45
+        minute: 35
       },
       {
         hour: 10,
-        minute: 30
+        minute: 35
       },
       {
         hour: 11,
-        minute: 45
+        minute: 35
       },
       {
         hour: 12,
         minute: 35
       },
       {
+        hour: 13,
+        minute: 15
+      },
+      {
         hour: 14,
-        minute: 0
+        minute: 5
       },
       {
         hour: 15,
@@ -99,7 +103,7 @@ export default {
       },
       {
         hour: 16,
-        minute: 0
+        minute: 5
       },
       {
         hour: 16,
