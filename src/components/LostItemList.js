@@ -276,6 +276,16 @@ export default function LostItemList(
     path
   }
 ) {
+  function goRegister() {
+    if(sessionStorage.getItem('userInfo')){
+      history.push('/lost/register');
+    }
+    else {
+      if(window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')){
+        history.push('/login');
+      }
+    }
+  }
   return (
     <Main>
       <Container>
@@ -366,7 +376,7 @@ export default function LostItemList(
             isWriteBtn={true}
             writeBtnLink={'/lost/register'}
             path={path}/>
-          <MobileWrite onClick={() => history.push('/lost/register')}/>
+          <MobileWrite onClick={() => goRegister()}/>
         </List>
       </Container>
     </Main>
