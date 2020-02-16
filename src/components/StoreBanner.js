@@ -1,8 +1,10 @@
 import React from 'react';
-import styled, { css } from 'styled';
+import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
 
 const StoreBannerWrapper = styled(Link)`
+  display: block;
+  text-decoration: none;
   height: 91px;
   position: relative;
   background-color: #f7941e;
@@ -18,7 +20,8 @@ const StoreBannerWrapper = styled(Link)`
   `};
   
   @media (max-width: 576px) {
-    margin: 16px 0;
+    width: ${props => props.expand ? '100%' : 'calc(100% - 32px)'};
+    margin: 0 auto;
     height: 106px;
   }
 `;
@@ -73,20 +76,24 @@ const StoreBannerDate = styled.div`
 `;
 
 export default function StoreBanner ({
-  to,
-  title,
-  child,
-  period
+  promotionData,
+  expand
 }) {
-  const second = Math.random() >= 0.5;
+  const startDate = new Date(promotionData.start_date);
+  const endDate = new Date(promotionData.end_date);
+  const startMonth = startDate.getMonth() + 1;
+  const endMonth = endDate.getMonth() + 1;
+  const period = `${startMonth}월 ${startDate.getDate()}일 ~ ` +
+    ( startMonth !== endMonth ? `${endMonth}월 ${endDate.getDate()}일` : `${endDate.getDate()}일`);
 
   return (
     <StoreBannerWrapper
-      second={second}
-      to={to}>
-      <StoreBannerTitle>{title}</StoreBannerTitle>
-      <StoreBannerSummary>{child}</StoreBannerSummary>
-      <StoreBannerDate><span>기간 :</span></StoreBannerDate>
+      to={`/bpard/promotion/${promotionData.id}`}
+      second={promotionData.second ? 1 : 0}
+      expand={expand ? 1 : 0}>
+      <StoreBannerTitle>{promotionData.title}</StoreBannerTitle>
+      <StoreBannerSummary>{promotionData.event_title}</StoreBannerSummary>
+      <StoreBannerDate><span>기간 :</span>{period}</StoreBannerDate>
     </StoreBannerWrapper>
   )
 }
