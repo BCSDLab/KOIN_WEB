@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {getStoreList, filterStoreList, getRandomPromotion} from '../modules/store';
 import StoreList from '../components/StoreList';
-import Cookies from 'js-cookie';
 import StoreBanner from "../components/StoreBanner";
 
 export default function StoreListContainer () {
@@ -41,14 +40,16 @@ export default function StoreListContainer () {
   }, [history]);
 
   useEffect(() => {
-    return () => Cookies.set("storeNewFlag", true);
-  }, []);
+    return () => {
+      sessionStorage.setItem("storeNewFlag", JSON.stringify(true));
+    };
+  }, [dispatch]);
 
   useEffect(() => {
-    if(Cookies.get("storeNewFlag") === "true" || filteredData.length === 0) {
+    if(JSON.parse(sessionStorage.getItem("storeNewFlag")) === true || filteredData.length === 0) {
       dispatch(getStoreList(tag, filter));
       console.log("refresh StoreList");
-    } else if (Cookies.get("storeNewFlag") !== "false") {
+    } else if (JSON.parse(sessionStorage.getItem("storeNewFlag")) !== false) {
       dispatch(filterStoreList());
       console.log("shuffle StoreList");
     }
