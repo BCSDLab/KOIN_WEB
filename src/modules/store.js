@@ -232,7 +232,8 @@ export default function storeReducer(state = initialState, action) {
         stores: {
           ...state.stores,
           promotionData: state.stores.promotionData ?
-            Object.assign(action.res.data, {second: action.res.data.id === state.stores.promotionData.id}) :
+            // !==는 XOR 연산자 대체
+            Object.assign(action.res.data, {second: (action.res.data.id !== state.stores.promotionData.id) !== state.stores.promotionData.second}) :
             action.res.data,
           promotionLoading: false,
           promotionError: null

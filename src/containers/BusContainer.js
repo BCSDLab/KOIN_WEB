@@ -5,6 +5,7 @@ import BusTimeTable from "../components/BusTimeTable";
 import setBusTime from "../modules/setBusTime";
 import {getBusInfo} from "../modules/bus";
 import {semesterTimeTable, vacationTimeTable} from "../static/shuttleBusTimeTable";
+import useInterval from "../hooks/useInterval";
 
 export default function BusContainer() {
 
@@ -73,26 +74,6 @@ export default function BusContainer() {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
     setBusTime(departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },1000);
-
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest function.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));

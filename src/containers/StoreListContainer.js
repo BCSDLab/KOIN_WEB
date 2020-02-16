@@ -1,6 +1,7 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import useInterval from "../hooks/useInterval";
 import {getStoreList, filterStoreList, getRandomPromotion} from '../modules/store';
 import StoreList from '../components/StoreList';
 import StoreBanner from "../components/StoreBanner";
@@ -39,6 +40,8 @@ export default function StoreListContainer () {
     history.push(`/board/promotion/${link}`);
   }, [history]);
 
+  useInterval(()=> {dispatch(getRandomPromotion())}, 5000)
+
   useEffect(() => {
     return () => {
       sessionStorage.setItem("storeNewFlag", JSON.stringify(true));
@@ -53,6 +56,7 @@ export default function StoreListContainer () {
       dispatch(filterStoreList());
       console.log("shuffle StoreList");
     }
+    dispatch(getRandomPromotion())
   }, [dispatch]);
 
   useLayoutEffect(() => {
