@@ -1,4 +1,4 @@
-import { infoAPI } from "../api";
+import {infoAPI, promotionAPI} from "../api";
 
 const GET_STORE_LIST = "GET_STORE_LIST";
 const GET_STORE_LIST_SUCCESS = "GET_STORE_LIST_SUCCESS";
@@ -14,7 +14,11 @@ const GET_STORE_DETAIL_INFO = "GET_STORE_DETAIL_INFO";
 const GET_STORE_DETAIL_INFO_SUCCESS = "GET_STORE_DETAIL_INFO_SUCCESS";
 const GET_STORE_DETAIL_INFO_ERROR = "GET_STORE_DETAIL_INFO_ERROR";
 
-export const getStoreList = (tag, filter) => async dispatch => {
+const GET_STORE_PROMOTION = "GET_STORE_PROMOTION";
+const GET_STORE_PROMOTION_SUCCESS = "GET_STORE_PROMOTION_SUCCESS";
+const GET_STORE_PROMOTION_ERROR = "GET_STORE_PROMOTION_ERROR";
+
+  export const getStoreList = (tag, filter) => async dispatch => {
   dispatch({ type: GET_STORE_LIST });
   try {
     const res = await infoAPI.getStoreList();
@@ -79,6 +83,23 @@ export const getStoreDetailInfo = id => async dispatch => {
   }
 };
 
+export const getRandomPromotion = () => async dispatch => {
+  dispatch({ type: GET_STORE_PROMOTION });
+  try {
+    const res = await promotionAPI.getRandomPendingPromotion();
+
+    dispatch({
+      type: GET_STORE_PROMOTION_SUCCESS,
+      res
+    })
+  } catch(e) {
+    dispatch({
+      type: GET_STORE_PROMOTION_ERROR,
+      error: e
+    })
+  }
+};
+
 const initialState = {
   stores: {
     loading: false,
@@ -86,7 +107,10 @@ const initialState = {
     tag: "ALL",
     filter: 0,
     filteredData: [],
-    error: null
+    error: null,
+    promotionData: null,
+    promotionLoading: false,
+    promotionError: null
   },
   store: {
     loading: false,
@@ -113,6 +137,7 @@ export default function storeReducer(state = initialState, action) {
       return {
         ...state,
         stores: {
+          ...state.stores,
           loading: false,
           data: action.res.data.shops,
           filteredData: [],
@@ -189,6 +214,38 @@ export default function storeReducer(state = initialState, action) {
           loading: false,
           data: null,
           error: action.error
+        }
+      }
+    case GET_STORE_PROMOTION:
+      return {
+        ...state,
+        stores: {
+          ...state.stores,
+          promotionData: state.stores.promotionData ? state.stores.promotionData : null,
+          promotionLoading: true,
+          promotionError: null
+        }
+      }
+    case GET_STORE_PROMOTION_SUCCESS:
+      return {
+        ...state,
+        stores: {
+          ...state.stores,
+          promotionData: state.stores.promotionData ?
+            Object.assign(action.res.data, {second: action.res.data.id === state.stores.promotionData.id}) :
+            action.res.data,
+          promotionLoading: false,
+          promotionError: null
+        }
+      }
+    case GET_STORE_PROMOTION_ERROR:
+      return {
+        ...state,
+        stores: {
+          ...state.stores,
+          promotionData: null,
+          promotionLoading: false,
+          promotionError: action.error
         }
       }
     default:
