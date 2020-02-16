@@ -50,6 +50,7 @@ export const checkPermission = payload => ({ type: CHECK_PERMISSION, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
 export const registerComment = payload => ({ type: REGISTER_COMMENT, payload});
 export const deleteComment = payload => ({ type: DELETE_COMMENT, payload});
+export const editComment = payload => ({ type: EDIT_COMMENT, payload});
 
 const initialState = {
   data: null,
@@ -279,24 +280,6 @@ export default function boardReducer(state = initialState, action) {
           error: null
         }
       }
-    case EDIT_COMMENT:
-      return {
-        ...state,
-        data: null,
-        error: null,
-      }
-    case EDIT_COMMENT_SUCCESS:
-      return {
-        ...state,
-        data: action.payload,
-        error: null,
-      }
-    case EDIT_COMMENT_ERROR:
-      return {
-        ...state,
-        data: null,
-        error: action.error
-      }
     case DELETE_COMMENT:
       return {
         ...state,
@@ -338,6 +321,30 @@ export default function boardReducer(state = initialState, action) {
         },
       }
     case REGISTER_COMMENT_ERROR:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: action.error
+        },
+      }
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: null
+        },
+      }
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comment: {
+          data: action.payload,
+          error: null
+        },
+      }
+    case EDIT_COMMENT_ERROR:
       return {
         ...state,
         comment: {

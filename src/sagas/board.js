@@ -255,6 +255,30 @@ function* deleteComment({payload}){
   }
 }
 
+function* editComment({payload}) {
+  const body = {
+    'content': payload.content
+  };
+
+  if(payload.board_id !== -1) {
+    body['password'] = payload.password;
+  }
+
+  const { token, boardId, articleId, commentId } = payload;
+  try {
+    const res = yield call(boardAPI.reviseComment, articleId, commentId, token, body, boardId)
+    yield put({
+      type: EDIT_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: EDIT_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
+
 function* watchFetchData() {
   yield takeEvery(GET_POSTS, getPosts);
   yield takeEvery(GET_HOT_POSTS, getHotPosts);
@@ -265,6 +289,7 @@ function* watchFetchData() {
   yield takeEvery(CHECK_PERMISSION, checkPermission);
   yield takeEvery(REGISTER_COMMENT, registerComment);
   yield takeEvery(DELETE_COMMENT, deleteComment);
+  yield takeEvery(EDIT_COMMENT, editComment);
 }
 
 export default function* boardSaga() {

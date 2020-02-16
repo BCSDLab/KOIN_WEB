@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Post from '../../components/BoardComponents/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPost, checkPermission, deletePost, registerComment, deleteComment, clearState } from '../../modules/board';
+import { getPost, checkPermission, deletePost, registerComment, deleteComment, editComment, clearState } from '../../modules/board';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
@@ -235,6 +235,30 @@ export default function PostDetailContainer({
     }
   };
 
+  const adjustArticleComment = (token, id, comment, password) => {
+    const boardId = sessionStorage.getItem("boardId");
+
+    if(boardId === '-1'){
+      dispatch(editComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "commentId": id,
+        "password": password,
+        "content": comment
+      }));
+    }
+    else {
+      dispatch(editComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "commentId": id,
+        "content": comment
+      }));
+    }
+  }
+
   return (
     <>
       <Header
@@ -261,7 +285,8 @@ export default function PostDetailContainer({
         onClickEditButton={onClickEditButton}
         onClickDeleteButton={onClickDeleteButton}
         registerArticleComment={registerArticleComment}
-        deleteArticleComment={deleteArticleComment}>
+        deleteArticleComment={deleteArticleComment}
+        adjustArticleComment={adjustArticleComment}>
         <ButtonGroup
           match={match}
           history={history}

@@ -376,8 +376,14 @@ export default function Comment(
   }
 
   function adjust(id) {
-    setSelectedId(0);
-    adjustComment(sessionStorage.getItem('token'), id, document.getElementById("target").value);
+    if (sessionStorage.getItem('boardId') === '-1') {
+      setSelectedId(0);
+      adjustComment(sessionStorage.getItem('token'), id, document.getElementById("target").value, document.getElementById("anonymousPW").value);
+    }
+    else {
+      setSelectedId(0);
+      adjustComment(sessionStorage.getItem('token'), id, document.getElementById("target").value);
+    }
   }
   return (
     <>

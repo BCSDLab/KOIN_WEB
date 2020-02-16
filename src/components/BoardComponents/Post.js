@@ -181,7 +181,8 @@ export default function Post({
   onClickEditButton,
   onClickDeleteButton,
   registerArticleComment,
-  deleteArticleComment
+  deleteArticleComment,
+  adjustArticleComment
 }) {
   const convertNoticeTag = (type) => {
     switch(type) {
@@ -557,7 +558,7 @@ export default function Post({
 
           // dispatch를 발생시키는 댓글 관련 함수들
           registerComment={registerArticleComment}
-          adjustComment={null}
+          adjustComment={adjustArticleComment}
           deleteComment={deleteArticleComment}
 
           // 원문 바로가기
