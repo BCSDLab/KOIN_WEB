@@ -326,7 +326,7 @@ const ListItemEventDate = styled.div`
   }
 `;
 
-const ListItemEventLink = styled(Link)`
+const ListItemEventLink = styled.div`
   position: absolute;
   bottom: 11px;
   right: 11px;
@@ -338,7 +338,7 @@ const ListItemEventLink = styled(Link)`
   letter-spacing: normal;
   
   ${ListItem}:hover & {
-    background-color:  #f7941e;
+    color:  #f7941e;
   }
 `;
 
@@ -413,6 +413,7 @@ export default function StoreList ({
   tag,
   filter,
   storeList,
+  handleStoreEvent,
   children
 }) {
 
@@ -483,7 +484,7 @@ export default function StoreList ({
                     {!!store.event_articles.length && (
                       <>
                         <ListItemEventDate>시발</ListItemEventDate>
-                        <ListItemEventLink to={`/store/${store.permantLink}`}>이벤트 확인하러 가기 ></ListItemEventLink>
+                        <ListItemEventLink onClick={e => handleStoreEvent(e, store.event_articles[0].id)}>이벤트 확인하러 가기 ></ListItemEventLink>
                       </>
                     )}
                     <ListItemPhone>전화번호<span>{store.phone}</span></ListItemPhone>

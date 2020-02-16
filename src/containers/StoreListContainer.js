@@ -1,5 +1,6 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {getStoreList, filterStoreList, getRandomPromotion} from '../modules/store';
 import StoreList from '../components/StoreList';
 import Cookies from 'js-cookie';
@@ -13,6 +14,8 @@ export default function StoreListContainer () {
   const dispatch = useDispatch();
   const { filteredData, loading, error, promotionData } = useSelector(state => state.storeReducer.stores);
 
+  const history = useHistory();
+
   const selectCategory = useCallback( tag => {
     setTag(prevState => {
       const nowTag = prevState === tag ? "ALL" : tag;
@@ -20,7 +23,7 @@ export default function StoreListContainer () {
       dispatch(filterStoreList(nowTag, undefined));
       return nowTag
     });
-  }, [setTag]);
+  }, [dispatch]);
 
   const selectFilter = useCallback( index => {
     setFilter(prevState => {
@@ -30,7 +33,12 @@ export default function StoreListContainer () {
       dispatch(filterStoreList(undefined,nowFilter));
       return nowFilter
     });
-  }, [setFilter]);
+  }, [dispatch]);
+
+  const handleStoreEvent = useCallback((event, link) => {
+    event.preventDefault();
+    history.push(`/board/promotion/${link}`);
+  }, [history]);
 
   useEffect(() => {
     return () => Cookies.set("storeNewFlag", true);
@@ -53,7 +61,7 @@ export default function StoreListContainer () {
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize)
-  }, [])
+  }, []);
 
 
 
