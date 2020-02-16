@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 
 
@@ -140,12 +140,27 @@ const CommentAdjustBtn = styled.button`
   left: 5px;
   resize: none;
   color: white;
-  background: #175c8e;
+  background: ${props => props.delete ? "#d32525" : "#175c8e"};
   padding: 5px 14px;
   padding-bottom: 4px;
-  border: 1px #175c8e solid;
+  border: 1px ${props => props.delete ? "#d32525" : "#175c8e"} solid;
   border-radius: 0;
   cursor: pointer;
+  margin-left: ${props => props.delete? "5px": ""};
+`;
+
+const CommentAnonymousPW = styled.input`
+  width: 140px;
+  border: 1px #d2dae2 solid;
+  color: #858585;
+  background-color: #ffffff;
+  padding: 2px 14px 4px;
+  margin-top: 3px;
+  margin-right: 5px;
+  
+  &::placeholder {
+    font-size: 12px;
+  }
 `;
 
 const CommentAdjustWhiteBtn = styled.button`
@@ -258,6 +273,16 @@ const N = styled.img.attrs({
   top: 0;
 `;
 
+const AnonymousInput = styled.input`
+  position: relative;
+  top: 16px;
+  padding: 7px 8px;
+  font-size: 13px;
+  border: 1px #bbbbbb solid;
+  width: ${props => props.pw ? "80px": "70px"};
+  margin-right: 5px;
+`;
+
 export default function Comment(
   {
     history,
@@ -270,17 +295,15 @@ export default function Comment(
     registerComment,
     deleteComment,
 
-    // 수정 중인 댓글의 id. state를 통해 관리. 0 === 대상없음
-    selectedId,
-    setSelectedId,
-
-    // 타이핑 중인 댓글. id와 마찬가지로 state와 setState에서 관리
-    comment,
-    setComment,
-
     // 원문 바로가기
-    originalLink
+    originalLink,
+
+    // 익명게시판
+    isAnonymousFlag
   }) {
+  const [selectedId,setSelectedId] = useState(0);
+  const [comment, setComment] = useState("");
+
   function changeTime(time) {
     let times = time.split(" ");
     let date = times[0].split("-");
@@ -318,16 +341,30 @@ export default function Comment(
   }
 
   function register() {
-    registerComment(sessionStorage.getItem("token"));
+    if(sessionStorage.getItem('boardId') === '-1'){
+      let anonymousData = {
+        "nickname": document.getElementById("nickname").value,
+        "password": document.getElementById("password").value
+      }
+      registerComment(sessionStorage.getItem("token"), comment, anonymousData)
+    }
+    else {
+      registerComment(sessionStorage.getItem("token"), comment);
+    }
     document.getElementById("comment").value = "";
   }
 
   function checkToken() {
-    if ((sessionStorage.getItem("token")) === null) {
+    if ((sessionStorage.getItem("token")) === null && sessionStorage.getItem('boardId') !== '-1') {
       if (window.confirm('로그인해야 작성하실 수 있습니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
     }
+  }
+
+  function adjust(id) {
+    setSelectedId(0);
+    adjustComment(sessionStorage.getItem('token'), id, document.getElementById("target").value);
   }
 
   return (
@@ -353,18 +390,30 @@ export default function Comment(
                 <CommentRemoveBtn onClick={() => deleteComment(sessionStorage.getItem('token'), comment.id)}/>
                 }
               </CommentInfo>
+
+              {/* 수정 미 선택시 */}
               {selectedId !== comment.id &&
               <CommentContent dangerouslySetInnerHTML={{__html: comment.content}}/>
               }
+
+              {/* 수정 중인 댓글*/}
               {selectedId === comment.id &&
               <CommentAdjustInput>
                 <textarea id="target" defaultValue={comment.content}/>
+                {isAnonymousFlag &&
+                  <CommentAnonymousPW
+                    placeholder="비밀번호를 입력해주세요"
+                    type="password"/>
+                }
                 <CommentAdjustWhiteBtn onClick={() => setSelectedId(0)}>취소</CommentAdjustWhiteBtn>
                 <CommentAdjustBtn
-                  onClick={() => adjustComment(sessionStorage.getItem('token'), comment.id, document.getElementById("target").value)}>수정</CommentAdjustBtn>
+                  onClick={() => adjust(comment.id)}>수정</CommentAdjustBtn>
+                {isAnonymousFlag &&
+                  <CommentAdjustBtn delete>삭제</CommentAdjustBtn>
+                }
               </CommentAdjustInput>
               }
-              {(comment.grantEdit && (selectedId !== comment.id)) &&
+              {((comment.grantEdit && (selectedId !== comment.id)) || (isAnonymousFlag) && (selectedId !== comment.id)) &&
               <CommentAdjustWhiteBtn
                 onClick={() => setSelectedId(comment.id)}
                 outside>
@@ -375,6 +424,21 @@ export default function Comment(
           )
         })}
         <CommentWrite>
+          {isAnonymousFlag &&
+            <>
+              <AnonymousInput
+                type="text"
+                placeholder="댓글 닉네임"
+                id="nickname"
+                />
+              <AnonymousInput
+                pw
+                type="password"
+                placeholder="댓글 비밀번호"
+                id="password"
+                />
+            </>
+          }
           <WriteBox>
             <textarea
               typeof="text"

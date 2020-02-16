@@ -1,6 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
+import Comment from "../SharedComponents/Comment";
 
 const PostHead = styled.div`
   border-top: 2px solid #175c8e;
@@ -178,7 +179,9 @@ export default function Post({
   password,
   onChangePassword,
   onClickEditButton,
-  onClickDeleteButton
+  onClickDeleteButton,
+  registerArticleComment,
+  deleteArticleComment
 }) {
   const convertNoticeTag = (type) => {
     switch(type) {
@@ -546,7 +549,25 @@ export default function Post({
       <PostBody>
         {parse(post.content)}
       </PostBody>
-      </div>}      
+        <Comment
+          history={history}
+
+          // 게시글 정보
+          specificData={post}
+
+          // dispatch를 발생시키는 댓글 관련 함수들
+          registerComment={registerArticleComment}
+          adjustComment={null}
+          deleteComment={deleteArticleComment}
+
+          // 원문 바로가기
+          originalLink={null}
+
+          // 익명게시판
+          isAnonymousFlag={type==='anonymous'}
+        />
+      </div>
+      }
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Post from '../../components/BoardComponents/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPost, checkPermission, deletePost } from '../../modules/board';
+import { getPost, checkPermission, deletePost, registerComment, deleteComment } from '../../modules/board';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
@@ -12,7 +12,7 @@ export default function PostDetailContainer({
 }) {
   const { addToast } = useToasts();
   const dispatch = useDispatch();
-  const { data, error, post } = useSelector(state => state.boardReducer);
+  const { data, error, post, comment } = useSelector(state => state.boardReducer);
   const [isMyPost, setIsMyPost] = useState(false);
   const [password, setPassword] = useState('');
   const [buttonFlag, setButtonFlag] = useState(0);
@@ -127,6 +127,34 @@ export default function PostDetailContainer({
     }
   }, [data]);
 
+  useEffect(()=> {
+    if(comment){
+      if(comment.data){
+        // 댓글 작성 시
+        dispatch(getPost({
+          id: match.params.id,
+          token: sessionStorage.getItem("token") || undefined,
+          boardId: sessionStorage.getItem("boardId")
+        }));
+        addToast("댓글을 등록했습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+      }
+      if(comment.delete){
+        dispatch(getPost({
+          id: match.params.id,
+          token: sessionStorage.getItem("token") || undefined,
+          boardId: sessionStorage.getItem("boardId")
+        }));
+        addToast("댓글을 삭제했습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+      }
+    }
+  },[comment])
+
   useEffect(() => {
     // 게시글 삭제 에러 시
     if (error) {
@@ -148,6 +176,53 @@ export default function PostDetailContainer({
       }
     }
   }, [error]);
+
+  // 댓글 관련 함수
+  const registerArticleComment = (token, comment, anonymousData) => {
+    const boardId = sessionStorage.getItem("boardId");
+
+    if(boardId === '-1'){
+      dispatch(registerComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "content": comment,
+        "nickname": anonymousData.nickname,
+        "password": anonymousData.password,
+      }));
+    }
+    else {
+      dispatch(registerComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "content": comment
+      }));
+    }
+  };
+
+  const deleteArticleComment = (token, id, password) => {
+    const boardId = sessionStorage.getItem("boardId");
+
+    if(boardId === '-1'){
+      dispatch(deleteComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "id": id,
+        "password": password
+      }));
+    }
+    else {
+      dispatch(deleteComment({
+        "token": token,
+        "boardId": boardId,
+        "articleId": match.params.id,
+        "id": id,
+        "password": password
+      }));
+    }
+  };
 
   return (
     <>
@@ -173,7 +248,9 @@ export default function PostDetailContainer({
         password={password}
         onChangePassword={onChangePassword}
         onClickEditButton={onClickEditButton}
-        onClickDeleteButton={onClickDeleteButton}>
+        onClickDeleteButton={onClickDeleteButton}
+        registerArticleComment={registerArticleComment}
+        deleteArticleComment={deleteArticleComment}>
         <ButtonGroup
           match={match}
           history={history}

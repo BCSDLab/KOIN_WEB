@@ -48,13 +48,14 @@ export const registerLostItem = payload => async dispatch => {
   dispatch({ type: REGISTER_LOST_ITEM });
   try {
     const body = {
-      title : payload.title,
-      type: payload.type,
-      date: payload.date,
-      location: payload.location,
-      is_phone_open: payload.is_phone_open,
-      phone: payload.phoneNumber,
-      content: payload.content
+      "title": payload.title,
+      "type": payload.type,
+      "date": payload.date,
+      "location": payload.location,
+      "is_phone_open": payload.is_phone_open,
+      "phone": payload.phoneNumber,
+      "content": payload.content,
+      "Image_urls": "'https://koreatech.in'"
     };
     const res = await infoAPI.registerLostItem(payload.token, body);
     dispatch({
