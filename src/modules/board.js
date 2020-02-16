@@ -71,7 +71,8 @@ const initialState = {
   },
   comment: {
     data: null,
-    delete: null
+    delete: null,
+    error: null
   },
   totalPageNum: 0,
   boardId: 1,
@@ -272,6 +273,11 @@ export default function boardReducer(state = initialState, action) {
         ...state,
         data: null,
         error: null,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     case EDIT_COMMENT:
       return {
@@ -295,49 +301,49 @@ export default function boardReducer(state = initialState, action) {
       return {
         ...state,
         comment: {
-          delete: state.comment.delete
+          delete: null,
+          error: null
         },
-        error: null
       }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
         comment: {
-          delete: action.payload
+          delete: action.payload,
+          error: null
         },
-        error: null
       }
     case DELETE_COMMENT_ERROR:
       return {
         ...state,
         comment: {
-          delete: null
+          delete: null,
+          error: action.error
         },
-        error: action.error
       }
     case REGISTER_COMMENT:
       return {
         ...state,
         comment: {
           data: null,
+          error: null
         },
-        error: null
       }
     case REGISTER_COMMENT_SUCCESS:
       return {
         ...state,
         comment: {
           data: action.payload,
+          error: null
         },
-        error: null
       }
     case REGISTER_COMMENT_ERROR:
       return {
         ...state,
         comment: {
           data: null,
+          error: action.error
         },
-        error: action.error
       }
     default:
       return state;

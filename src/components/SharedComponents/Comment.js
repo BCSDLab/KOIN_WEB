@@ -341,17 +341,30 @@ export default function Comment(
   }
 
   function register() {
-    if(sessionStorage.getItem('boardId') === '-1'){
-      let anonymousData = {
-        "nickname": document.getElementById("nickname").value,
-        "password": document.getElementById("password").value
+    if(comment.length) {
+      if (sessionStorage.getItem('boardId') === '-1') {
+        let id = document.getElementById("nickname").value;
+        let pw = document.getElementById("password").value;
+        if(id.length && pw.length){
+          let anonymousData = {
+            "nickname": id,
+            "password": pw
+          };
+          registerComment(sessionStorage.getItem("token"), comment, anonymousData)
+        }
+        else {
+          alert("닉네임과 비밀번호는 필수입니다.");
+          return;
+        }
+      } else {
+        registerComment(sessionStorage.getItem("token"), comment);
       }
-      registerComment(sessionStorage.getItem("token"), comment, anonymousData)
+      document.getElementById("comment").value = "";
+      document.getElementById("nickname").value = "";
+      document.getElementById("password").value = "";
+      setComment("");
     }
-    else {
-      registerComment(sessionStorage.getItem("token"), comment);
-    }
-    document.getElementById("comment").value = "";
+    else alert("내용을 입력해주세요.");
   }
 
   function checkToken() {
@@ -366,7 +379,6 @@ export default function Comment(
     setSelectedId(0);
     adjustComment(sessionStorage.getItem('token'), id, document.getElementById("target").value);
   }
-
   return (
     <>
       <BoardSubInfo>
@@ -403,13 +415,17 @@ export default function Comment(
                 {isAnonymousFlag &&
                   <CommentAnonymousPW
                     placeholder="비밀번호를 입력해주세요"
-                    type="password"/>
+                    type="password"
+                    id="anonymousPW"
+                    />
                 }
                 <CommentAdjustWhiteBtn onClick={() => setSelectedId(0)}>취소</CommentAdjustWhiteBtn>
                 <CommentAdjustBtn
                   onClick={() => adjust(comment.id)}>수정</CommentAdjustBtn>
                 {isAnonymousFlag &&
-                  <CommentAdjustBtn delete>삭제</CommentAdjustBtn>
+                  <CommentAdjustBtn
+                    delete
+                    onClick={() => deleteComment(sessionStorage.getItem('token'), comment.id, document.getElementById("anonymousPW").value)}>삭제</CommentAdjustBtn>
                 }
               </CommentAdjustInput>
               }

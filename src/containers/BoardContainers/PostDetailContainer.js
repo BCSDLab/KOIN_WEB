@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Post from '../../components/BoardComponents/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPost, checkPermission, deletePost, registerComment, deleteComment } from '../../modules/board';
+import { getPost, checkPermission, deletePost, registerComment, deleteComment, clearState } from '../../modules/board';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
@@ -140,7 +140,10 @@ export default function PostDetailContainer({
           appearance: 'success',
           autoDismiss: true
         });
+        dispatch(clearState());
       }
+
+      // 삭제 시
       if(comment.delete){
         dispatch(getPost({
           id: match.params.id,
@@ -151,6 +154,15 @@ export default function PostDetailContainer({
           appearance: 'success',
           autoDismiss: true
         });
+        dispatch(clearState());
+      }
+
+      if(comment.error){
+        addToast("권한이 없습니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+        dispatch(clearState());
       }
     }
   },[comment])
@@ -219,7 +231,6 @@ export default function PostDetailContainer({
         "boardId": boardId,
         "articleId": match.params.id,
         "id": id,
-        "password": password
       }));
     }
   };
