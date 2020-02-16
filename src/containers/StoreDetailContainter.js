@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { getStoreDetailInfo } from "../modules/store";
 import StoreDetail from "../components/StoreDetail";
 import StorePoster from "../components/StorePoster";
+import StoreBanner from "../components/StoreBanner";
 import Cookies from "js-cookie";
 
 
@@ -22,16 +23,10 @@ export default function StoreDetailContainer ({ id }) {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if(data !== null) {
-      console.log('image updated');
-    }
-  }, [data]);
-
-  useEffect(() => {
     Cookies.set("storeNewFlag", false);
   }, []);
 
-  const selectAnyway = useCallback(
+  const handleClickImage = useCallback(
     (selectedImage) => {
       setSelectedImage(selectedImage);
       setShow(true);
@@ -42,7 +37,15 @@ export default function StoreDetailContainer ({ id }) {
     <DarkBackgroundProvider>
       <StoreDetail
         store={data}
-        selectImage={selectAnyway}/>
+        selectImage={handleClickImage}>
+        {
+          data !== null && data.event_articles.length !== 0 && (
+            <StoreBanner
+              promotionData={data.event_articles[0]}
+              expand={true} />
+          )
+        }
+      </StoreDetail>
     </DarkBackgroundProvider>
   )
 }

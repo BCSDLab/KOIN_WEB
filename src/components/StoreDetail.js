@@ -51,6 +51,7 @@ const StoreInfo = styled.div`
   padding: 39px 0;
   box-sizing: border-box;
   border-bottom: solid 1px #ececec;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -234,13 +235,15 @@ const StoreInfoButton = styled.a`
   }
 `;
 
+
+
 const StoreMenuTitle = styled.div`
   text-align: left;
   font-size: 20px;
   letter-spacing: -1px;
   line-height: 1.69;
   color: #252525;
-  margin: 24px 0 12px;
+  margin: 63px 0 12px;
   font-weight: 700;
 `;
 
@@ -301,7 +304,8 @@ const StoreMenuCard = styled.div`
 
 export default function StoreDetail ({
   store,
-  selectImage
+  selectImage,
+  children
 }) {
   return (
     <Container>
@@ -351,6 +355,8 @@ export default function StoreDetail ({
               ))}
             </StoreInfoImageWrapper>
           </StoreInfo>
+          {/* 배너 */}
+          { children }
           {!!store.menus.length && (
             <>
               <StoreMenuTitle>MENU</StoreMenuTitle>

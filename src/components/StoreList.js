@@ -46,10 +46,11 @@ const CategoryWrapper = styled.div`
   height: 142px;
   border-top: 2px #175c8e solid;
   border-bottom: 1px #175c8e solid;
+  margin-bottom: 25px;
   
   @media (max-width: 576px) {
     justify-content: center;
-    width: calc(100% - 10px);
+    width: calc(100% - 34px);
     padding: 10px 0 14px;
     margin-left: auto;
     margin-right: auto;
@@ -120,11 +121,11 @@ const CategoryImage = styled.img`
 const FilterWrapper = styled.div`
   display: flex;
   height: 24px;
-  margin-top: 24px;
+  margin-top: 20px;
   
   @media (max-width: 576px) {
     flex-wrap: wrap;
-    margin-top: 15px;
+    margin-top: 24px;
     margin-left: auto;
     margin-right: auto;
     width: calc(100% - 32px);
@@ -411,7 +412,8 @@ export default function StoreList ({
   selectFilter,
   tag,
   filter,
-  storeList
+  storeList,
+  children
 }) {
 
   return (
@@ -439,6 +441,7 @@ export default function StoreList ({
           }
         </CategoryWrapper>
         {/* Category 밑에 있는 것들 */}
+        { children }
         <FilterWrapper>
           <Counter>
             총 <b>{ storeList.length }개의 업체가</b> 있습니다.
@@ -466,6 +469,7 @@ export default function StoreList ({
             <CheckboxLabel htmlFor="bank">계좌이체 가능</CheckboxLabel>
           </CheckboxWrapper>
         </FilterWrapper>
+        {/* 상점 리스트 */}
         {!!mobileFlag && <ListHeaderMobile />}
         <ListWrapper>
           {

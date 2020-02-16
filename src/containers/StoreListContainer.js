@@ -1,8 +1,9 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {getStoreList, shuffleStoreList, filterStoreList} from '../modules/store';
+import {getStoreList, filterStoreList, getRandomPromotion} from '../modules/store';
 import StoreList from '../components/StoreList';
 import Cookies from 'js-cookie';
+import StoreBanner from "../components/StoreBanner";
 
 export default function StoreListContainer () {
   const [mobileFlag, setMobileFlag] = useState(true);
@@ -10,7 +11,7 @@ export default function StoreListContainer () {
   // 이진수로 체크한다. 계좌이체 / 카드결제 / 배달 순
   const [filter, setFilter] = useState(Number(sessionStorage.getItem("storeFilter")) || 0);
   const dispatch = useDispatch();
-  const { filteredData, loading, error } = useSelector(state => state.storeReducer.stores);
+  const { filteredData, loading, error, promotionData } = useSelector(state => state.storeReducer.stores);
 
   const selectCategory = useCallback( tag => {
     setTag(prevState => {
@@ -56,11 +57,19 @@ export default function StoreListContainer () {
 
 
 
-  return <StoreList
-    mobileFlag={mobileFlag}
-    tag={tag}
-    filter={filter}
-    storeList = {filteredData}
-    selectCategory={selectCategory}
-    selectFilter={selectFilter} />
+  return (
+    <StoreList
+      mobileFlag={mobileFlag}
+      tag={tag}
+      filter={filter}
+      storeList = {filteredData}
+      selectCategory={selectCategory}
+      selectFilter={selectFilter}
+      handleStoreEvent={handleStoreEvent} >
+      {promotionData !== null && promotionData !== undefined && (
+        <StoreBanner
+          promotionData={promotionData} />
+      )}
+    </StoreList>
+  )
 }
