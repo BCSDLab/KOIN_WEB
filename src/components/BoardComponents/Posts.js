@@ -491,7 +491,7 @@ export default function Posts({
             </LoaderWrapper>
           }
           {!loading && posts && posts.map((post, index) => 
-            <TableBodyRow key={index} onClick={() => history.push(`${path}/${post.id}`)}>
+            <TableBodyRow key={index} onClick={() => history.push(`/board/${path}/${post.id}`)}>
               <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
               <TableBodyContent title="true">
                 <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
