@@ -15,7 +15,12 @@ export default function LostItemListContainer({history}) {
   };
 
   useEffect(() => {
-    dispatch(getLostItems(1));
+    if (!sessionStorage.getItem("lpn")) {
+      dispatch(getLostItems(1));
+      sessionStorage.setItem("lpn", 1);
+    } else {
+      dispatch(getLostItems(JSON.parse(sessionStorage.getItem("lpn"))));
+    }
   },[dispatch]);
 
   useEffect(() => {
