@@ -374,9 +374,9 @@ export default function LostItemList(
             totalPageNum={totalPageNum}
             setPageData={setPageData}
             isWriteBtn={true}
-            writeBtnLink={'/lost/register'}
-            path={path}/>
-          <MobileWrite onClick={() => goRegister()}/>
+            path={"lost"}
+            writeBtnLink={'/lost/register'}/>
+          <MobileWrite/>
         </List>
       </Container>
     </Main>

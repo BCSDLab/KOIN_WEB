@@ -4,13 +4,13 @@ import { getPosts } from '../../modules/board';
 import Posts from '../../components/BoardComponents/Posts';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
+import { useLastLocation } from 'react-router-last-location';
 
 export default function PostListContainer({ history, match }) {
   const dispatch = useDispatch();
   const { posts, totalPageNum, displayPageNum, displayMinNum } = useSelector(state => state.boardReducer);
   const [boardId, setBoardId] = useState(0);
-  const [path, setPath] = useState('');
-
+  const lastLocation = useLastLocation();
   const getPostList = page => {
     console.log(page);
     dispatch(getPosts({
@@ -41,13 +41,11 @@ export default function PostListContainer({ history, match }) {
     }
   }, []);
 
-  // 게시판 -> 다른 게시판 이동 시 path 변경.
+  // 게시판 -> 다른 게시판 이동 시 data 변경.
   useEffect(() => {
-    if (match) {
-      if (match.url !== path) {
+    if (lastLocation && !lastLocation.pathname.indexOf('/board')) {
+      if (!lastLocation.pathname.includes(match.url)) {
         console.log("게시판 -> 다른 게시판");
-        console.log(match.params.type);
-        setPath(match.url);
         const boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
         getPostList(boardPageNum[match.params.type]);
       }
