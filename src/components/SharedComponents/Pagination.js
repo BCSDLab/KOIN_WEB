@@ -85,31 +85,6 @@ export default function Pagination(
   }
 ){
   const limit = 5;
-  const setPageByStorage = () => {
-    if (sessionStorage.getItem("boardPageNum")) {
-      let p = path.split('/');
-      if (p[1] === 'board') {
-        let boardPageNum = JSON.parse(sessionStorage.getItem("boardPageNum"));
-        if (p[2] === 'free') {
-          return boardPageNum[0];
-        } else if (p[2] === 'job') {
-          return boardPageNum[1];
-        } else if (p[2] === 'anonymous') {
-          return boardPageNum[2];
-        } else if (p[2] === 'notice') {
-          return boardPageNum[3];
-        } else if (p[2] === 'question') {
-          return boardPageNum[4];
-        } else if (p[2] === 'promotion') {
-          return boardPageNum[5];
-        } else {
-          return 1;
-        }
-      }
-    } else {
-      return 1;
-    }
-  }
   const [nowPageNum,setNowPageNum] = useState(1);
 
   // 분실물, 중고장터 로직 추가 필요
@@ -117,9 +92,24 @@ export default function Pagination(
     if (nowPageNum === 1) {
       alert("첫 페이지입니다.");
     } else {
-      let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
-      boardPageNum[path] = nowPageNum - 1;
-      sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      switch (path) {
+        case 'lost':
+          sessionStorage.setItem("lpn", JSON.stringify(nowPageNum - 1));
+          break;
+        case 'buy':
+        case 'sell':
+          let marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
+          marketPageNum[path] = nowPageNum - 1;
+          sessionStorage.setItem("mpn", JSON.stringify(marketPageNum));
+          break;
+        case 'search':
+          break;
+        default:
+          let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+          boardPageNum[path] = nowPageNum - 1;
+          sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+          break;
+      }
       setPage(nowPageNum - 1);
       
     }
@@ -130,18 +120,48 @@ export default function Pagination(
     if (nowPageNum === totalPageNum) {
       alert("마지막 페이지입니다.");
     } else {
-      let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
-      boardPageNum[path] = nowPageNum + 1;
-      sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      switch (path) {
+        case 'lost':
+          sessionStorage.setItem("lpn", JSON.stringify(nowPageNum + 1));
+          break;
+        case 'buy':
+        case 'sell':
+          let marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
+          marketPageNum[path] = nowPageNum + 1;
+          sessionStorage.setItem("mpn", JSON.stringify(marketPageNum));
+          break;
+        case 'search':
+          break;
+        default:
+          let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+          boardPageNum[path] = nowPageNum + 1;
+          sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+          break;
+      }
       setPage(nowPageNum + 1);
     }
   };
 
   const clickPageNum = (n) => () => {
     setPage(n)
-    let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
-    boardPageNum[path] = n;
-    sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+    switch (path) {
+      case 'lost':
+        sessionStorage.setItem("lpn", JSON.stringify(n));
+        break;
+      case 'buy':
+      case 'sell':
+        let marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
+        marketPageNum[path] = n;
+        sessionStorage.setItem("mpn", JSON.stringify(marketPageNum));
+        break;
+      case 'search':
+        break;
+      default:
+        let boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+        boardPageNum[path] = n;
+        sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+        break;
+    }
   };
 
   const displayCorrectionNum = () => {
@@ -170,7 +190,6 @@ export default function Pagination(
     // 세션에 페이지 데이터가 없다면 페이지 1 있다면 세션에서 받아와서 초기화.
     switch (path) {
       case 'lost':
-        console.log("분실물 진입");
         if (!sessionStorage.getItem("lpn")) {
           setNowPageNum(1);
         } else {
@@ -180,7 +199,6 @@ export default function Pagination(
         break;
       case 'buy':
       case 'sell':
-        console.log("중고장터 진입");
         if (!sessionStorage.getItem("mpn")) {
           setNowPageNum(1);
         } else {
@@ -188,8 +206,10 @@ export default function Pagination(
           setNowPageNum(marketPageNum[path]);
         }
         break;
+      case 'search':
+        setNowPageNum(1);
+        break;
       default:
-        console.log("게시판 진입");
         if (!sessionStorage.getItem("bpn")) {
           setNowPageNum(1);
         } else {
