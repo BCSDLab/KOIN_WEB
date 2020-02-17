@@ -51,9 +51,6 @@ export const registerComment = payload => ({ type: REGISTER_COMMENT, payload });
 export const editComment = payload => ({ type: EDIT_COMMENT, payload });
 export const deleteComment = payload => ({ type: DELETE_COMMENT, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
-export const registerComment = payload => ({ type: REGISTER_COMMENT, payload});
-export const deleteComment = payload => ({ type: DELETE_COMMENT, payload});
-export const editComment = payload => ({ type: EDIT_COMMENT, payload});
 
 const initialState = {
   data: null,
@@ -272,53 +269,6 @@ export default function boardReducer(state = initialState, action) {
           ...state.post,
         }
       }
-    case REGISTER_COMMENT:
-      return {
-        ...state,
-      }
-    case REGISTER_COMMENT_SUCCESS:
-      return {
-        ...state,
-      }
-    case REGISTER_COMMENT_ERROR:
-      return {
-        ...state
-      }
-    case EDIT_COMMENT:
-      return {
-        ...state,
-      }
-    case EDIT_COMMENT_SUCCESS:
-      return {
-        ...state,
-      }
-    case EDIT_COMMENT_ERROR:
-      return {
-        ...state
-      }
-    case DELETE_COMMENT:
-      return {
-        ...state,
-      }
-    case DELETE_COMMENT_SUCCESS:
-      return {
-        ...state,
-      }
-    case DELETE_COMMENT_ERROR:
-      return {
-        ...state
-      }
-    case CLEAR_STATE:
-      return {
-        ...state,
-        data: null,
-        error: null,
-        comment: {
-          data: null,
-          delete: null,
-          error: null
-        }
-      }
     case DELETE_COMMENT:
       return {
         ...state,
@@ -390,6 +340,17 @@ export default function boardReducer(state = initialState, action) {
           data: null,
           error: action.error
         },
+      }
+    case CLEAR_STATE:
+      return {
+        ...state,
+        data: null,
+        error: null,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     default:
       return state;

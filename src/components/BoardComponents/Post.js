@@ -180,9 +180,9 @@ export default function Post({
   onChangePassword,
   onClickEditButton,
   onClickDeleteButton,
-  registerArticleComment,
-  deleteArticleComment,
-  adjustArticleComment
+  registerComment,
+  editComment,
+  deleteComment,
 }) {
   const convertNoticeTag = (type) => {
     switch(type) {
@@ -557,9 +557,9 @@ export default function Post({
           specificData={post}
 
           // dispatch를 발생시키는 댓글 관련 함수들
-          registerComment={registerArticleComment}
-          adjustComment={adjustArticleComment}
-          deleteComment={deleteArticleComment}
+          registerComment={registerComment}
+          editComment={editComment}
+          deleteComment={deleteComment}
 
           // 원문 바로가기
           originalLink={null}
