@@ -34,6 +34,7 @@ export default function LostItemListContainer({history}) {
       totalPageNum={totalPageNum}
       setPageData={setPageData}
       maxDisplayPageNum={maxDisplayPageNum}
-      history={history}/>
+      history={history}
+      path={'lost'}/>
   )
 }

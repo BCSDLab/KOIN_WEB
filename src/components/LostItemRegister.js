@@ -1,24 +1,36 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
-import 'codemirror/lib/codemirror.css';
-import 'tui-editor/dist/tui-editor.min.css';
-import 'tui-editor/dist/tui-editor-contents.min.css';
-import { Editor } from '@toast-ui/react-editor'
+import '../static/quill.snow.css';
+import ReactQuill from "react-quill";
 
 const Main = styled.div`
   width: 100%;
   border-top: #f7941e 5px solid;
+  
+  @media(max-width: 576px){
+    border-top: none;
+  }
 `;
 
 const Container = styled.div`
   width: 1132px;
   margin-left: auto;
   margin-right: auto;
+  
+  @media(max-width: 576px){
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const Header = styled.div`
   height: 116px;
   border-bottom: #175c8e 4px solid;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const Title = styled.div`
@@ -83,13 +95,30 @@ const Form = styled.div`
   button {
     cursor: pointer;
   }
-
+  
+  @media(max-width: 576px){
+    width: 100%;
+    height: 100%;
+    
+    input::placeholder {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: rgba(227, 227, 227, 0.87);
+    }
+  }
 `;
 
 const BoardHead = styled.div`
   border-bottom: 1px solid #175c8e;
   width: 100%;
   text-align: left;
+  
+  @media(max-width: 576px){
+    height: 56.5px;
+    border: none;
+  }
 `;
 
 const BoardTitleInput = styled.input`
@@ -109,6 +138,19 @@ const BoardTitleInput = styled.input`
   &::placeholder {
     color: #bec9d5;
   }
+  
+  @media(max-width: 576px){
+    width: calc(100% - 32px);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+    padding-top: 15px;
+    padding-bottom: 17.5px;
+    padding-right: 16px;
+    padding-left: 16px;
+    border-bottom: 1px solid #ececec;
+  }
 `;
 
 const BoardInfo = styled.div`
@@ -116,6 +158,10 @@ const BoardInfo = styled.div`
   padding-bottom: 27px;
   padding-left: 20px;
   padding-right: 20px;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const Author = styled.div`
@@ -154,6 +200,20 @@ const StateSelect = styled.div`
     letter-spacing: -0.8px;
     font-size: 15px;
   }
+  
+  @media(max-width: 576px){
+    margin: 0;
+    width: calc(100% - 32px);
+    height: 57px;
+    border-bottom: 1px solid #ececec;
+    padding: 0 16px 0 16px;
+    display: flex;
+    align-items: center;
+    
+    p {
+      display: none;
+    }
+  }
 `;
 
 const CheckBoxes = styled.div`
@@ -163,7 +223,36 @@ const CheckBoxes = styled.div`
     margin-right: ${props => props.phone ? "19px" : "28px"};
   }
   
-  
+  @media(max-width: 576px){
+    input[type=radio] + label {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: #252525;
+      width: auto;
+      padding-left: 30px;
+      margin-right: 30px;
+      padding-top: 2px;
+    }
+    
+    input[type=radio] + label:before {
+      content: "";
+      border: none;
+      width:24px;
+      height: 24px;
+      background-image: url("https://static.koreatech.in/assets/img/mobile__unchecked.png");
+      background-size: cover;
+    }
+    
+    input[type=radio]:checked + label:before {
+      content: "";
+      border: none;
+      width: 24px;
+      height: 24px;
+      background-image: url("https://static.koreatech.in/assets/img/mobile__checked.png");
+    }
+  }
 `;
 
 const LeftForm = styled.div`
@@ -192,6 +281,36 @@ const LeftForm = styled.div`
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  
+  @media(max-width: 576px){
+    width: 100%;
+    height: 209px;
+    margin-left: 0;
+    
+    p, span {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: #252525;
+      padding: 0;
+      margin: 0;
+      height: auto;
+      width: 30%;
+    }
+  }
+`;
+
+const LeftFormTitle = styled.div`
+  @media(max-width: 576px){
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(100% - 32px);
+    height: 57px;
+    border-bottom: 1px solid #ececec;
+    padding: 0 16px 0 16px;
+  }
 `;
 
 const LeftFormInput = styled.input`
@@ -202,6 +321,38 @@ const LeftFormInput = styled.input`
   padding-right: 19px;
   background-color: #ffffff;
   border: solid 1px #d2dae2;
+  
+  @media(max-width: 576px){
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.5;
+    letter-spacing: -0.8px;
+    color: #252525;
+    border: none;
+    padding: 0;
+    width: initial;
+    height: initial;
+  }
+`;
+
+const Place = styled.div`
+  @media(max-width: 576px){
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: calc(100% - 32px);
+    height: 57px;
+    border-bottom: 1px solid #ececec;
+    padding: 0 16px 0 16px;
+    
+    input::placeholder {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: rgba(227, 227, 227, 0.87);
+    }
+  }
 `;
 
 const Phone = styled.div`
@@ -217,6 +368,77 @@ const Phone = styled.div`
     margin-bottom: 15px;
     padding-top: 0;
   }
+  
+  @media(max-width: 576px){
+    border-bottom: 1px solid #ececec;
+    padding: 0 16px 0 16px;
+    height: 77px;
+    margin-top: 15px;
+    
+    span {
+      margin-bottom: 0;
+      padding: 0;
+      border: none;
+      width: 30%;
+      justify-content: flex-start;
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: #252525;
+    }
+    
+    ${CheckBoxes} {
+      display: inline-block;
+      width: auto;
+    }
+    
+    input[type=radio] + label {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: #252525;
+      width: auto;
+      margin-right: 15px;
+      padding-left: 30px;
+      padding-top: 2px;
+    }
+    
+    ${LeftFormInput} {
+      padding: 0;
+      width: 70%;
+      height: 22px;
+      margin-left: 30%;
+      margin-top: 16px;
+      border: none;
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: #252525;
+    }
+    
+    input::placeholder {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.5;
+      letter-spacing: -0.8px;
+      color: rgba(227, 227, 227, 0.87);
+    }
+  }
+`;
+
+const P = styled.p`
+  letter-spacing: -0.8px;
+  text-align: left;
+  color: #252525;
+  font-size: 15px;
+  margin-left: 25px;
+  
+  @media(max-width: 576px){
+    display:none;
+  }
 `;
 
 const Detail = styled.div`
@@ -224,18 +446,19 @@ const Detail = styled.div`
   margin-top: 26px;
   height: 522px;
   border-bottom: 1px #175c8e solid;
-  
-  p {
-    letter-spacing: -0.8px;
-    text-align: left;
-    color: #252525;
-    font-size: 15px;
-    margin-left: 25px;
+
+  @media(max-width: 576px){
+    margin-top: 0;
+    height: 100%;
   }
 `;
 
 const Wysiwyg = styled.div`
   margin-left: 25px;
+  
+  @media(max-width: 576px){
+    margin: 0;
+  }
 `;
 
 const Footer = styled.div`
@@ -254,6 +477,10 @@ const Footer = styled.div`
     padding: 6px 13px;
     margin-top: 0;
   }
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const CancelBtn = styled.button`
@@ -265,6 +492,44 @@ const CancelBtn = styled.button`
 const RegisterBtn = styled.button`
   background: #175c8e;
   border: 1px solid #175c8e;
+`;
+
+const MobileMenus = styled.div`
+  display: none;
+  
+  @media(max-width: 576px){
+    display: block;
+  }
+`;
+
+const MobileCancelBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  left: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.36;
+  letter-spacing: -0.7px;
+  text-align: left;
+  color: #ffffff;
+  background-color: #175c8e;
+  border: none;
+  padding-left: 0;
+`;
+
+const MobileRegisterBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.36;
+  letter-spacing: -0.7px;
+  text-align: left;
+  color: #ffffff;
+  background-color: #175c8e;
+  border: none;
+  padding-right: 0;
 `;
 
 export default function LostItemRegister(
@@ -280,9 +545,15 @@ export default function LostItemRegister(
     editorRef,
     history,
     register,
-    setPhoneNumber
+    setPhoneNumber,
+    modules,
+    imageUpload
   }
 ) {
+  useEffect(() => {
+    editorRef.current.editor.getModule("toolbar").addHandler('image', imageUpload);
+  }, [editorRef]);
+
   return (
     <Main>
       <Container>
@@ -330,30 +601,34 @@ export default function LostItemRegister(
           </StateSelect>
           <LeftForm>
             {/*Date*/}
-            <p>
-              {type === 0 &&
-              <span>습득일</span>
-              }
-              {type === 1 &&
-              <span>분실일</span>
-              }
-            </p>
-            <LeftFormInput
-              type="date"
-              onInput={e => setDate(e.target.value)}/>
+            <LeftFormTitle>
+              <p>
+                {type === 0 &&
+                <span>습득일</span>
+                }
+                {type === 1 &&
+                <span>분실일</span>
+                }
+              </p>
+              <LeftFormInput
+                type="date"
+                onInput={e => setDate(e.target.value)}/>
+            </LeftFormTitle>
 
             {/*Place*/}
-            <p>
-              {type === 0 &&
-              <span>습득 장소</span>
-              }
-              {type === 1 &&
-              <span>분실 장소</span>
-              }
-            </p>
-            <LeftFormInput
-              placeholder={type ? "분실장소를 입력해주세요" : "습득장소를 입력해주세요"}
-              onInput={e => setPlace(e.target.value)}/>
+            <Place>
+              <p>
+                {type === 0 &&
+                <span>습득 장소</span>
+                }
+                {type === 1 &&
+                <span>분실 장소</span>
+                }
+              </p>
+              <LeftFormInput
+                placeholder={type ? "분실장소를 입력해주세요" : "습득장소를 입력해주세요"}
+                onInput={e => setPlace(e.target.value)}/>
+            </Place>
 
             {/*Phone*/}
             <Phone>
@@ -396,15 +671,14 @@ export default function LostItemRegister(
           </LeftForm>
         </Form>
         <Detail>
-          <p>상세정보 입력</p>
+          <P>상세정보 입력</P>
           <Wysiwyg>
             {/*<input type="text" name="contents" id="contents" hidden/>*/}
-            <Editor
-              useCommandShortcut={true}
-              initialEditType='wysiwyg'
-              height="400px"
+            <ReactQuill
               ref={editorRef}
-              />
+              modules={modules}
+              style={{ height: '400px' }}
+            />
           </Wysiwyg>
         </Detail>
         <Footer>
@@ -412,6 +686,14 @@ export default function LostItemRegister(
           <RegisterBtn onClick={register}>등록</RegisterBtn>
           <GoListBtn onClick={()=> history.push('/lost')}>목록으로</GoListBtn>
         </Footer>
+        <MobileMenus>
+          <MobileCancelBtn onClick={()=> history.push('/lost')}>
+            취소
+          </MobileCancelBtn>
+          <MobileRegisterBtn onClick={register}>
+            등록
+          </MobileRegisterBtn>
+        </MobileMenus>
       </Container>
     </Main>
   )

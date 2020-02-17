@@ -51,6 +51,9 @@ export const registerComment = payload => ({ type: REGISTER_COMMENT, payload });
 export const editComment = payload => ({ type: EDIT_COMMENT, payload });
 export const deleteComment = payload => ({ type: DELETE_COMMENT, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
+export const registerComment = payload => ({ type: REGISTER_COMMENT, payload});
+export const deleteComment = payload => ({ type: DELETE_COMMENT, payload});
+export const editComment = payload => ({ type: EDIT_COMMENT, payload});
 
 const initialState = {
   data: null,
@@ -69,6 +72,11 @@ const initialState = {
     data: null,
     loading: false,
     error: null,
+  },
+  comment: {
+    data: null,
+    delete: null,
+    error: null
   },
   totalPageNum: 0,
   boardId: 1,
@@ -305,6 +313,83 @@ export default function boardReducer(state = initialState, action) {
         ...state,
         data: null,
         error: null,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
+      }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        comment: {
+          delete: null,
+          error: null
+        },
+      }
+    case DELETE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comment: {
+          delete: action.payload,
+          error: null
+        },
+      }
+    case DELETE_COMMENT_ERROR:
+      return {
+        ...state,
+        comment: {
+          delete: null,
+          error: action.error
+        },
+      }
+    case REGISTER_COMMENT:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: null
+        },
+      }
+    case REGISTER_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comment: {
+          data: action.payload,
+          error: null
+        },
+      }
+    case REGISTER_COMMENT_ERROR:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: action.error
+        },
+      }
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: null
+        },
+      }
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+        comment: {
+          data: action.payload,
+          error: null
+        },
+      }
+    case EDIT_COMMENT_ERROR:
+      return {
+        ...state,
+        comment: {
+          data: null,
+          error: action.error
+        },
       }
     default:
       return state;
