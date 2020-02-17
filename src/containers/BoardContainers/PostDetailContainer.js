@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Post from '../../components/BoardComponents/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPost, checkPermission, deletePost } from '../../modules/board';
+import { getPost, checkPermission, deletePost, deleteComment, editComment, registerComment } from '../../modules/board';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
@@ -15,6 +15,13 @@ export default function PostDetailContainer({
   const { data, error, post } = useSelector(state => state.boardReducer);
   const [isMyPost, setIsMyPost] = useState(false);
   const [password, setPassword] = useState('');
+  const [comment, setComment] = useState('');
+  const [selectedId, setSelectedId] = useState(0);
+  const [path, setPath] = useState();
+  const [tempInfo, setTempInfo] = useState({
+    nickname: '',
+    password: ''
+  });
   const [buttonFlag, setButtonFlag] = useState(0);
   const onClickDeleteButton = useCallback(() => {
     if (match.params.type !== 'anonymous') {
@@ -67,12 +74,39 @@ export default function PostDetailContainer({
     }
   }, [match, dispatch, password]);
 
+  const onClickDeleteCommentButton = (token, id) => {
+    dispatch(deleteComment({
+      token,
+      postId: match.params.id,
+      id
+    }));
+  }
+
+  const onClickEditCommentButton = (token, id, content) => {
+    dispatch(editComment({
+      token: sessionStorage.getItem("token"),
+      postId: match.params.id,
+      id,
+      content
+    }));
+  }
+
+  const onClickRegisterCommentButton = token => {
+    dispatch(registerComment({
+      token,
+      postId: match.params.id,
+      content: comment
+    }))
+  }
+
   const onChangePassword = e => {
     setPassword(e.target.value);
   }
 
   useEffect(() => {
+    console.log("게시글 진입");
     if (match) {
+      setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPost({
         id: match.params.id,
@@ -89,6 +123,21 @@ export default function PostDetailContainer({
       }
     }
   }, []);
+
+  // 게시글에서 게시글 이동
+  useEffect(() => {
+    if (path) {
+      if (path !== match.url) {
+        console.log("게시글 -> 다른 게시글");
+        setPath(match.url);
+        dispatch(getPost({
+          id: match.params.id,
+          token: sessionStorage.getItem("token") || undefined,
+          boardId: sessionStorage.getItem("boardId")
+        }))
+      }
+    }
+  }, [match]);
 
   useEffect(() => {
     if (data) {
@@ -173,7 +222,16 @@ export default function PostDetailContainer({
         password={password}
         onChangePassword={onChangePassword}
         onClickEditButton={onClickEditButton}
-        onClickDeleteButton={onClickDeleteButton}>
+        onClickDeleteButton={onClickDeleteButton}
+        
+        comment={comment}
+        setComment={setComment}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        registerComment={onClickRegisterCommentButton}
+        adjustComment={onClickEditCommentButton}
+        deleteComment={onClickDeleteCommentButton}
+        >
         <ButtonGroup
           match={match}
           history={history}
