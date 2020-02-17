@@ -18,6 +18,8 @@ import CircleDetailPage from './pages/CircleDetailPage';
 import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
+import StoreListPage from "./pages/StoreListPage";
+import StoreDetailPage from "./pages/StoreDetailPage";
 import TimeTablePage from "./pages/TimeTablePage";
 import BusPage from "./pages/BusPage";
 // Board Page
@@ -33,6 +35,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
 import BoardPage from './pages/BoardPages/BoardPage';
+import SearchResultPage from './pages/SearchResultPage';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -169,11 +172,14 @@ function App({ history }) {
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
 
+          <Route exact path="/store" component={StoreListPage} />
+          <Route path="/store/:id" component={StoreDetailPage} />
 
           <Route exact path="/lost" component={LostItemListPage}/>
           <Route path="/lost/register" component={LostItemRegisterPage}/>
           <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
     
+
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
@@ -189,6 +195,7 @@ function App({ history }) {
             dialog={dialog}
             onConfirm={onConfirm}
           />
+          <Route path="/search" component={SearchResultPage} />
           <Route component={page404} />
         </Switch>
         <Footer path={currentPath} />

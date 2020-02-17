@@ -272,9 +272,20 @@ export default function LostItemList(
     lostItems,
     totalPageNum,
     setPageData,
-    history
+    history,
+    path
   }
 ) {
+  function goRegister() {
+    if(sessionStorage.getItem('userInfo')){
+      history.push('/lost/register');
+    }
+    else {
+      if(window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')){
+        history.push('/login');
+      }
+    }
+  }
   return (
     <Main>
       <Container>

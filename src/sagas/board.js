@@ -21,6 +21,7 @@ import {
   CHECK_PERMISSION,
   CHECK_PERMISSION_SUCCESS,
   CHECK_PERMISSION_ERROR,
+
   REGISTER_COMMENT,
   REGISTER_COMMENT_SUCCESS,
   REGISTER_COMMENT_ERROR,
@@ -240,7 +241,72 @@ function* checkPermission({ payload }) {
   }
 }
 
+function* registerComment({payload}) {
+  const body = {
+    'content': payload.content
+  };
 
+  if(payload.board_id !== -1) {
+    body['nickname'] = payload.nickname;
+    body['password'] = payload.password;
+  }
+
+  const { token, boardId, articleId } = payload;
+
+  try {
+    const res = yield call(boardAPI.registerComment, articleId, token, body, boardId)
+    yield put({
+      type: REGISTER_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: REGISTER_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
+
+function* deleteComment({payload}){
+  const { id, token, boardId, articleId, password } = payload;
+
+  try {
+    const res = yield call(boardAPI.removeComment, articleId, id, token, boardId, password)
+    yield put({
+      type: DELETE_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: DELETE_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
+
+function* editComment({payload}) {
+  const body = {
+    'content': payload.content
+  };
+
+  if(payload.board_id !== -1) {
+    body['password'] = payload.password;
+  }
+
+  const { token, boardId, articleId, commentId } = payload;
+  try {
+    const res = yield call(boardAPI.reviseComment, articleId, commentId, token, body, boardId)
+    yield put({
+      type: EDIT_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: EDIT_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
 
 function* watchFetchData() {
   yield takeEvery(GET_POSTS, getPosts);
