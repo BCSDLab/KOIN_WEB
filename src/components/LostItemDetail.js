@@ -361,7 +361,7 @@ export default function LostItemDetail(
           <Comment
             history={history}
             specificData={specificData}
-            adjustComment={adjustComment}
+            editComment={adjustComment}
             registerComment={registerComment}
             deleteComment={deleteComment}
             />

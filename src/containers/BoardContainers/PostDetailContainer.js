@@ -15,13 +15,7 @@ export default function PostDetailContainer({
   const { data, error, post, comment } = useSelector(state => state.boardReducer);
   const [isMyPost, setIsMyPost] = useState(false);
   const [password, setPassword] = useState('');
-  const [comment, setComment] = useState('');
-  const [selectedId, setSelectedId] = useState(0);
   const [path, setPath] = useState();
-  const [tempInfo, setTempInfo] = useState({
-    nickname: '',
-    password: ''
-  });
   const [buttonFlag, setButtonFlag] = useState(0);
   const onClickDeleteButton = useCallback(() => {
     if (match.params.type !== 'anonymous') {
@@ -74,29 +68,61 @@ export default function PostDetailContainer({
     }
   }, [match, dispatch, password]);
 
-  const onClickDeleteCommentButton = (token, id) => {
-    dispatch(deleteComment({
-      token,
-      postId: match.params.id,
-      id
-    }));
+  const onRegisterComment = (comment, tempInfo) => {
+    const boardId = sessionStorage.getItem("boardId");
+    if (boardId === '-1') {
+      dispatch(registerComment({
+        token: sessionStorage.getItem("token"),
+        postId: match.params.id,
+        body: {
+          content: comment,
+          nickname: tempInfo.nickname,
+          password: tempInfo.password
+        },
+        boardId: sessionStorage.getItem("boardId")
+      }));
+    } else {
+      dispatch(registerComment({
+        token: sessionStorage.getItem("token"),
+        postId: match.params.id,
+        body: {
+          content: comment
+        }
+      }));
+    }
   }
 
-  const onClickEditCommentButton = (token, id, content) => {
+  const onDeleteComment = (id, password) => {
+    const boardId = sessionStorage.getItem("boardId");
+    if (boardId === '-1') {
+      dispatch(deleteComment({
+        token: sessionStorage.getItem("token"),
+        boardId,
+        postId: match.params.id,
+        id,
+        password
+      }));
+    } else {
+      dispatch(deleteComment({
+        token: sessionStorage.getItem("token"),
+        boardId,
+        postId: match.params.id,
+        id
+      }));
+    }
+  }
+
+  const onEditComment = (id, content, password) => {
+    const boardId = sessionStorage.getItem("boardId");
+    let body = { content }
+    if (boardId === '-1') body['password'] = password
     dispatch(editComment({
       token: sessionStorage.getItem("token"),
+      boardId,
       postId: match.params.id,
       id,
-      content
+      body
     }));
-  }
-
-  const onClickRegisterCommentButton = token => {
-    dispatch(registerComment({
-      token,
-      postId: match.params.id,
-      content: comment
-    }))
   }
 
   const onChangePassword = e => {
@@ -189,7 +215,6 @@ export default function PostDetailContainer({
           appearance: 'success',
           autoDismiss: true
         });
-        dispatch(clearState());
       }
 
       // 삭제 시
@@ -203,7 +228,6 @@ export default function PostDetailContainer({
           appearance: 'success',
           autoDismiss: true
         });
-        dispatch(clearState());
       }
 
       if(comment.error){
@@ -211,7 +235,6 @@ export default function PostDetailContainer({
           appearance: 'error',
           autoDismiss: true
         });
-        dispatch(clearState());
       }
     }
   },[comment])
@@ -238,76 +261,6 @@ export default function PostDetailContainer({
     }
   }, [error]);
 
-  // 댓글 관련 함수
-  const registerArticleComment = (token, comment, anonymousData) => {
-    const boardId = sessionStorage.getItem("boardId");
-
-    if(boardId === '-1'){
-      dispatch(registerComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "content": comment,
-        "nickname": anonymousData.nickname,
-        "password": anonymousData.password,
-      }));
-    }
-    else {
-      dispatch(registerComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "content": comment
-      }));
-    }
-  };
-
-  const deleteArticleComment = (token, id, password) => {
-    const boardId = sessionStorage.getItem("boardId");
-
-    if(boardId === '-1'){
-      dispatch(deleteComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "id": id,
-        "password": password
-      }));
-    }
-    else {
-      dispatch(deleteComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "id": id,
-      }));
-    }
-  };
-
-  const adjustArticleComment = (token, id, comment, password) => {
-    const boardId = sessionStorage.getItem("boardId");
-
-    if(boardId === '-1'){
-      dispatch(editComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "commentId": id,
-        "password": password,
-        "content": comment
-      }));
-    }
-    else {
-      dispatch(editComment({
-        "token": token,
-        "boardId": boardId,
-        "articleId": match.params.id,
-        "commentId": id,
-        "content": comment
-      }));
-    }
-  }
-
   return (
     <>
       <Header
@@ -333,9 +286,9 @@ export default function PostDetailContainer({
         onChangePassword={onChangePassword}
         onClickEditButton={onClickEditButton}
         onClickDeleteButton={onClickDeleteButton}
-        registerArticleComment={registerArticleComment}
-        deleteArticleComment={deleteArticleComment}
-        adjustArticleComment={adjustArticleComment}>
+        registerComment={onRegisterComment}
+        editComment={onEditComment}
+        deleteComment={onDeleteComment}>
         <ButtonGroup
           match={match}
           history={history}
