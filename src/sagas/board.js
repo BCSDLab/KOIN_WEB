@@ -20,7 +20,17 @@ import {
   DELETE_POST_ERROR,
   CHECK_PERMISSION,
   CHECK_PERMISSION_SUCCESS,
-  CHECK_PERMISSION_ERROR
+  CHECK_PERMISSION_ERROR,
+  CLEAR_STATE,
+  REGISTER_COMMENT,
+  REGISTER_COMMENT_SUCCESS,
+  REGISTER_COMMENT_ERROR,
+  EDIT_COMMENT,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_ERROR,
+  DELETE_COMMENT,
+  DELETE_COMMENT_SUCCESS,
+  DELETE_COMMENT_ERROR
 } from '../modules/board';
 import { boardAPI } from '../api';
 import Cookies from 'js-cookie';
@@ -94,15 +104,16 @@ function* getHotPosts() {
 }
 
 function* registerPost({ payload }) {
-  const { token, title, content, boardId, tempNick, tempPw } = payload;
-  let body = {};
+  const { token, title, content, boardId, tempNickname, tempPassword } = payload;
+  const history = yield getContext('history');
 
-  if (boardId === -1) {
+  let body = {};
+  if (boardId === '-1') {
     body = {
       title,
       content,
-      nickname: tempNick,
-      password: tempPw
+      nickname: tempNickname,
+      password: tempPassword
     } 
   } else {
     body = {
@@ -117,6 +128,7 @@ function* registerPost({ payload }) {
       type: REGISTER_POST_SUCCESS,
       payload: res
     })
+    history.goBack();
   } catch (e) {
     yield put({
       type: REGISTER_POST_ERROR,
@@ -126,43 +138,53 @@ function* registerPost({ payload }) {
 }
 
 function* deletePost({ payload }) {
-  const { id, token, tempPassword } = payload;
+  const { id, token, tempPassword, boardId } = payload;
+  const history = yield getContext('history');
   try {
-    const res = yield call(boardAPI.removeArticle, id, token || tempPassword);
+    const res = yield call(boardId === '-1' ? boardAPI.removeAnonymousArticle : boardAPI.removeArticle, id, boardId === '-1' ? tempPassword : token);
     yield put({
       type: DELETE_POST_SUCCESS,
       payload: res
-    })
+    });
+    history.goBack();
   } catch (e) {
     yield put({
       type: DELETE_POST_ERROR,
       error: e.response
-    })
+    });
   }
 }
 
 function* editPost({ payload }) {
   const { title, id, token, boardId, content, tempPassword } = payload;
+  const history = yield getContext('history');
   let body = {
     board_id: boardId,
     title,
     content
   };
 
-  if (boardId === -1) {
-    body.password = tempPassword;
+  if (boardId === '-1') {
+    body = {
+      title,
+      content,
+      password: tempPassword
+    }
   } 
   try {
     const res = yield call(boardAPI.reviseArticle, id, token, body, boardId);
     yield put({
       type: EDIT_POST_SUCCESS,
       payload: res
-    })
+    });
+    history.goBack();
   } catch (e) {
     yield put({
       type: EDIT_POST_ERROR,
       error: e.response
-    })
+    });
+  } finally {
+    yield put({ type: CLEAR_STATE });
   }
 }
 
@@ -172,22 +194,90 @@ function* checkPermission({ payload }) {
     let body = {
       article_id: id
     }
-    if (boardId === -1) body['password'] = tempPassword;
+    if (boardId === '-1') body['password'] = tempPassword;
     const res = yield call(boardAPI.checkArticleAuthority, token, body, boardId);
     console.log(res);
     yield put({
       type: CHECK_PERMISSION_SUCCESS,
       payload: res
+    });
+  } catch (e) {
+    console.log(e);
+    yield put({
+      type: CHECK_PERMISSION_ERROR,
+      error: e.response
+    });
+  } finally {
+    yield put({ type: CLEAR_STATE });
+  }
+}
+
+function* registerComment({payload}) {
+  const body = {
+    'content': payload.content
+  };
+
+  if(payload.board_id !== -1) {
+    body['nickname'] = payload.nickname;
+    body['password'] = payload.password;
+  }
+
+  const { token, boardId, articleId } = payload;
+
+  try {
+    const res = yield call(boardAPI.registerComment, articleId, token, body, boardId)
+    yield put({
+      type: REGISTER_COMMENT_SUCCESS,
+      payload: res
     })
   } catch (e) {
     yield put({
-      type: CHECK_PERMISSION_ERROR,
+      type: REGISTER_COMMENT_ERROR,
       error: e.response
     })
   }
 }
 
+function* deleteComment({payload}){
+  const { id, token, boardId, articleId, password } = payload;
 
+  try {
+    const res = yield call(boardAPI.removeComment, articleId, id, token, boardId, password)
+    yield put({
+      type: DELETE_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: DELETE_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
+
+function* editComment({payload}) {
+  const body = {
+    'content': payload.content
+  };
+
+  if(payload.board_id !== -1) {
+    body['password'] = payload.password;
+  }
+
+  const { token, boardId, articleId, commentId } = payload;
+  try {
+    const res = yield call(boardAPI.reviseComment, articleId, commentId, token, body, boardId)
+    yield put({
+      type: EDIT_COMMENT_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: EDIT_COMMENT_ERROR,
+      error: e.response
+    })
+  }
+}
 
 function* watchFetchData() {
   yield takeEvery(GET_POSTS, getPosts);
@@ -197,6 +287,9 @@ function* watchFetchData() {
   yield takeEvery(EDIT_POST, editPost);
   yield takeEvery(DELETE_POST, deletePost);
   yield takeEvery(CHECK_PERMISSION, checkPermission);
+  yield takeEvery(REGISTER_COMMENT, registerComment);
+  yield takeEvery(DELETE_COMMENT, deleteComment);
+  yield takeEvery(EDIT_COMMENT, editComment);
 }
 
 export default function* boardSaga() {

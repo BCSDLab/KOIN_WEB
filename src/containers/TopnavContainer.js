@@ -12,6 +12,9 @@ export default function TopnavContainer({ history, path }) {
   const { addToast } = useToasts();
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
+  const [searchWord, setSearchWord] = useState('');
+  const [searchWordList, setSearchWordList] = useState(null);
+  const [searchBar, setSearchBar] = useState(false);
   const [subMenu, setSubMenu] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const { token, data, userInfo } = useSelector(state => state.authReducer);
@@ -29,12 +32,69 @@ export default function TopnavContainer({ history, path }) {
   const onClickMultiPurposBtn = () => {
     if (path === '/timetable') {
       dispatch(toggleSheetOpen());
+    } else {
+      history.push(`${path}/register`);
     }
   }
 
   const onClickFooterMenu = idx => {
     dispatch(updateFooterMenu(idx));
   }
+
+  const onClickSearchButton = searchWord => {
+    // 검색
+    if (!searchWord || !searchWord.length) {
+      addToast("검색어를 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    }
+    if (sessionStorage.getItem("search-query")) {
+      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+      if (searchQuery.includes(searchWord)) {
+        searchQuery.splice(searchQuery.indexOf(searchWord), 1);
+        searchQuery.unshift(searchWord);
+      } else {
+        if (searchQuery.length === 5) {
+          searchQuery.pop();
+        } 
+        searchQuery.unshift(searchWord);
+      }
+      setSearchWordList(searchQuery);
+      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+    } else {
+      let searchQuery = [searchWord];
+      setSearchWordList(searchQuery);
+      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+    }
+    history.push(`/search?q=${searchWord}`);
+    setSearchWord('');
+    setSearchBar(false);
+  }
+
+  const onClickDeleteSearchWordBtn = searchWord => {
+    console.log(searchWord);
+    if (!searchWord) {
+      sessionStorage.removeItem('search-query');
+      setSearchWordList(null);
+    } else {
+      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+      searchQuery.splice(searchQuery.indexOf(searchWord), 1);
+      setSearchWordList(searchQuery);
+      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+    }
+  }
+
+  const onChangeSearchWord = e => {
+    setSearchWord(e.target.value);
+  }
+
+  useEffect(() => {
+    if (sessionStorage.getItem("search-query")) {
+      setSearchWordList(JSON.parse(sessionStorage.getItem('search-query')));
+    }
+  }, []);
 
   useEffect(() => {
     if (data && data.data.success === 'logout') {
@@ -49,7 +109,6 @@ export default function TopnavContainer({ history, path }) {
     <>
       <Topnav
         categories={categories}
-        menu={menu}
         subMenu={subMenu}
         path={path}
         onMouseOverMenu={onMouseOverMenu}
@@ -57,8 +116,16 @@ export default function TopnavContainer({ history, path }) {
         userInfo={userInfo}
         onLogout={onLogout}
         mobileMenu={mobileMenu}
+        searchWord={searchWord}
+        searchWordList={searchWordList}
+        searchBar={searchBar}
         setMobileMenu={setMobileMenu}
+        setSearchBar={setSearchBar}
         onClickMultiPurposBtn={onClickMultiPurposBtn}
+        onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
+        onClickFooterMenu={onClickFooterMenu}
+        onClickSearchButton={onClickSearchButton}
+        onChangeSearchWord={onChangeSearchWord}
       />
       <MobileFooterMenu
         history={history}

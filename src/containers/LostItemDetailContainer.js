@@ -2,17 +2,17 @@ import React, {useState, useEffect} from "react";
 import LostItemDetail from "../components/LostItemDetail";
 import {useDispatch, useSelector} from "react-redux";
 import {getSpecificLostItem, adjustLostComment, deleteLostComment, registerLostComment, deleteLostItem} from "../modules/lost";
+import { useToasts } from 'react-toast-notifications';
 
 export default function LostItemDetailContainer({history}) {
-  const {specificData} = useSelector(state => state.lostReducer);
+  const {specificData, error} = useSelector(state => state.lostReducer);
   const dispatch = useDispatch();
   const path = history.location.pathname.split('/')[3];
   const [newFlag, setNewFlag] = useState(false);
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
-  const [reviseInputFlag, setReviseInputFlag] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
   const [comment, setComment] = useState("");
+  const { addToast } = useToasts();
 
   const checkNewFlag = () => {
     let todayDate = today.toISOString().slice(0,10);
@@ -40,7 +40,6 @@ export default function LostItemDetailContainer({history}) {
           "token": token ? sessionStorage.getItem('token') : ""
         }));
       });
-      setSelectedId(0);
     }
   };
 
@@ -56,17 +55,19 @@ export default function LostItemDetailContainer({history}) {
           "token": token ? sessionStorage.getItem('token') : ""
         }));
       });
-      setSelectedId(0);
     }
   };
 
-  const registerComment = (token) => {
+  const registerComment = (token, comment) => {
     dispatch(registerLostComment({
       "token": token,
       "itemId": path,
       "content": comment
     })).then(() => {
-      alert('댓글이 등록되었습니다.');
+      addToast('댓글이 등록되었습니다.',{
+        appearance: 'success',
+        autoDismiss: true
+      });
       dispatch(getSpecificLostItem({
         id: path,
         "token": token ? sessionStorage.getItem('token') : ""
@@ -82,7 +83,10 @@ export default function LostItemDetailContainer({history}) {
         "token": sessionStorage.getItem("token"),
         "id": path
       })).then(() => {
-        alert('삭제되었습니다.');
+        addToast('삭제되었습니다.',{
+          appearance: 'success',
+          autoDismiss: true
+        });
         history.push('/lost');
       })
     }
@@ -103,6 +107,28 @@ export default function LostItemDetailContainer({history}) {
   },[dispatch]);
 
   useEffect(() => {
+    // 게시글 삭제 에러 시
+    if (error) {
+      if (error.status === 401) {
+        addToast("인증에 실패했습니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else if (error.status === 412) {
+        addToast("전달한 데이터가 형식에 맞지 않습니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else {
+        addToast("게시글 삭제가 실패했습니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    }
+  }, [error]);
+
+  useEffect(() => {
     console.log(specificData);
     checkNewFlag();
   }, [specificData]);
@@ -112,14 +138,8 @@ export default function LostItemDetailContainer({history}) {
       history={history}
       specificData={specificData}
       newFlag={newFlag}
-      reviseInputFlag={reviseInputFlag}
-      setReviseInputFlag={setReviseInputFlag}
       adjustComment={adjustComment}
-      selectedId={selectedId}
-      setSelectedId={setSelectedId}
       deleteComment={deleteComment}
-      comment={comment}
-      setComment={setComment}
       registerComment={registerComment}
       deleteItem={deleteItem}
       reviseItem={reviseItem}
