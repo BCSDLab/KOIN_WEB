@@ -9,6 +9,7 @@ import timetableReducer from './timetable';
 import lostReducer from "./lost";
 import commonReducer from './common';
 import boardReducer from './board';
+import searchReducer from './search';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   timetableReducer,
   lostReducer,
   commonReducer,
-  boardReducer
+  boardReducer,
+  searchReducer,
 });
 
 export default rootReducer;

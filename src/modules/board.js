@@ -39,15 +39,19 @@ export const CHECK_PERMISSION_SUCCESS = "CHECK_PERMISSION_SUCCESS";
 export const CHECK_PERMISSION_ERROR = "CHECK_PERMISSION_ERROR";
 
 export const CLEAR_STATE = "CLEAR_STATE";
+
 export const getPosts = payload => ({ type: GET_POSTS, payload });
 export const getHotPosts = () => ({ type: GET_HOT_POSTS });
 export const getPost = payload => ({ type: GET_POST, payload });
-
 export const registerPost = payload => ({ type: REGISTER_POST, payload });
 export const editPost = payload => ({ type: EDIT_POST, payload });
 export const deletePost = payload => ({ type: DELETE_POST, payload });
 export const checkPermission = payload => ({ type: CHECK_PERMISSION, payload });
+export const registerComment = payload => ({ type: REGISTER_COMMENT, payload });
+export const editComment = payload => ({ type: EDIT_COMMENT, payload });
+export const deleteComment = payload => ({ type: DELETE_COMMENT, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
+
 const initialState = {
   data: null,
   error: null,
@@ -259,6 +263,42 @@ export default function boardReducer(state = initialState, action) {
         post: {
           ...state.post,
         }
+      }
+    case REGISTER_COMMENT:
+      return {
+        ...state,
+      }
+    case REGISTER_COMMENT_SUCCESS:
+      return {
+        ...state,
+      }
+    case REGISTER_COMMENT_ERROR:
+      return {
+        ...state
+      }
+    case EDIT_COMMENT:
+      return {
+        ...state,
+      }
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+      }
+    case EDIT_COMMENT_ERROR:
+      return {
+        ...state
+      }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+      }
+    case DELETE_COMMENT_SUCCESS:
+      return {
+        ...state,
+      }
+    case DELETE_COMMENT_ERROR:
+      return {
+        ...state
       }
     case CLEAR_STATE:
       return {
