@@ -33,6 +33,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
 import BoardPage from './pages/BoardPages/BoardPage';
+import SearchResultPage from './pages/SearchResultPage';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -189,6 +190,7 @@ function App({ history }) {
             dialog={dialog}
             onConfirm={onConfirm}
           />
+          <Route path="/search" component={SearchResultPage} />
           <Route component={page404} />
         </Switch>
         <Footer path={currentPath} />

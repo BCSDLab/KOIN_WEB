@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { keyframes} from 'styled-components';
 import { Link } from 'react-router-dom';
 import MobileTopnav from './MobileTopnav';
+import SearchBar from './SearchComponents/SearchBar';
 
 const SlideEnter = keyframes`
   0% {
@@ -46,7 +47,8 @@ const Row = styled.div`
   width: 1132px;
   height: 100%;
   margin: 0 auto;
-
+  display: flex;
+  align-items: center;
   @media (max-width: 576px) {
     display: none;
   }
@@ -129,6 +131,13 @@ const MegaMenuPanelContent = styled.div`
   position: relative;
 `;
 
+const MenuWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+`;
+
 const MegaMenu = styled.div`
   overflow: hidden;
   float: left;
@@ -171,6 +180,11 @@ const MenuItemLink = styled(Link)`
   }
 `;
 
+const AuthButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const AuthLinkButton = styled.div`
   color: #a0d2f6;
   font-weight: normal;
@@ -181,7 +195,7 @@ const AuthLinkButton = styled.div`
   line-height: 1.35;
   font-size: 15px;
   color: #a0d2f6;
-  padding: 31.5px 20px 31.5px 20px;
+  padding: 30px 20px 30px 20px;
   cursor: pointer;
   
   &:hover {
@@ -229,6 +243,14 @@ const Title = styled.div`
   align-items: center;
 `;
 
+const SearchIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  padding: 28px 14px 28px 0;
+  /* float: right; */
+  cursor: pointer;
+`;
+
 export default function Topnav({
   categories,
   subMenu,
@@ -238,9 +260,16 @@ export default function Topnav({
   userInfo,
   onLogout,
   mobileMenu,
+  searchWord,
+  searchWordList,
+  searchBar,
   setMobileMenu,
+  setSearchBar,
   onClickMultiPurposBtn,
-  onClickFooterMenu
+  onClickDeleteSearchWordBtn,
+  onClickFooterMenu,
+  onClickSearchButton,
+  onChangeSearchWord,
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
@@ -261,6 +290,7 @@ export default function Topnav({
 
     else if (!path.indexOf('/market/sell')) return '팝니다';
     else if (!path.indexOf('/market/buy')) return '삽니다';
+    else if (!path.indexOf('/search')) return '검색 결과';
   }
 
   const setRoutingButtonVisible = () => {
@@ -285,51 +315,74 @@ export default function Topnav({
         <StyledLink to="/">
           <KOINLogoImage />
         </StyledLink>
-        <MegaMenu>
-          {categories.map((category, index) => (
-            <MegaMenuItem
-              key={index}
-              onMouseOver={() => onMouseOverMenu(category.title)}>
-              {category.title}
-            </MegaMenuItem>
-          ))}
-          <MegaMenuPanelContainer>
-            <MegaMenuContainer>
-              <MegaMenuPanelContent>
-                {subMenu && subMenu.map((sub, index) => (
-                  <MenuItem
-                    index={index}
-                    key={index}>
-                    <MenuItemLink to={sub.link}>
-                      {sub.title}
-                    </MenuItemLink>
-                  </MenuItem>
-                ))}
-              </MegaMenuPanelContent>
-            </MegaMenuContainer>
-          </MegaMenuPanelContainer>
-        </MegaMenu>
-        {!token && <Link to="/login">
-          <AuthLinkButton>
-              로그인
-          </AuthLinkButton>   
-        </Link>}
-        
-        {token && <AuthLinkButton onClick={onLogout}>
-          로그아웃
-        </AuthLinkButton>}
-        {!token && <Link to="/signup">
-          <AuthLinkButton>
-            회원가입
-          </AuthLinkButton>
-        </Link>}
-        {token && <Link to="/modifyinfo">
-          <AuthLinkButton>
-            정보수정
-          </AuthLinkButton>
-        </Link>}
+        <MenuWrapper>
+          {!searchBar && <MegaMenu>
+            {categories.map((category, index) => (
+              <MegaMenuItem
+                key={index}
+                onMouseOver={() => onMouseOverMenu(category.title)}>
+                {category.title}
+              </MegaMenuItem>
+            ))}
+            <MegaMenuPanelContainer>
+              <MegaMenuContainer>
+                <MegaMenuPanelContent>
+                  {subMenu && subMenu.map((sub, index) => (
+                    <MenuItem
+                      index={index}
+                      key={index}>
+                      <MenuItemLink to={sub.link}>
+                        {sub.title}
+                      </MenuItemLink>
+                    </MenuItem>
+                  ))}
+                </MegaMenuPanelContent>
+              </MegaMenuContainer>
+            </MegaMenuPanelContainer>
+          </MegaMenu>}
+          {searchBar &&
+            <SearchBar
+              searchWord={searchWord}
+              searchWordList={searchWordList}
+              setSearchBar={setSearchBar}
+              onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
+              onChangeSearchWord={onChangeSearchWord}
+              onClickSearchButton={onClickSearchButton}
+            />
+          }
+          {!searchBar && <SearchIcon
+            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            onClick={() => setSearchBar(true)}
+          />}
+        </MenuWrapper>
+        <AuthButtonGroup>
+        {!token ? (
+          <>
+            <Link to="/signup">
+              <AuthLinkButton>
+                회원가입
+              </AuthLinkButton>
+            </Link>
+            <Link to="/login">
+              <AuthLinkButton>
+                  로그인
+              </AuthLinkButton>   
+            </Link>
+          </>
+        ) :(
+          <>
+            <Link to="/modifyinfo">
+              <AuthLinkButton>
+                정보수정
+              </AuthLinkButton>
+            </Link>
+            <AuthLinkButton onClick={onLogout} style={{ marginRight: 0 }}>
+              로그아웃
+            </AuthLinkButton>
+          </>
+        )}
+        </AuthButtonGroup>
       </Row>
-      
       <MobileRow>
         <MenuIcon
           src={mobileMenu
@@ -350,10 +403,20 @@ export default function Topnav({
             onClick={onClickMultiPurposBtn}
           />
         }
-        {!mobileMenu && path === '/' &&
+        {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
           <RouteIcon
             src={"http://static.koreatech.in/assets/img/ic-search.png"}
-            onClick={onClickMultiPurposBtn}
+            onClick={() => setSearchBar(true)}
+          />
+        }
+        {searchBar && !mobileMenu &&
+          <SearchBar
+            searchWord={searchWord}
+            searchWordList={searchWordList}
+            setSearchBar={setSearchBar}
+            onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
+            onChangeSearchWord={onChangeSearchWord}
+            onClickSearchButton={onClickSearchButton}
           />
         }
       </MobileRow>
