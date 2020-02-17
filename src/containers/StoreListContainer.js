@@ -39,6 +39,16 @@ export default function StoreListContainer () {
     event.preventDefault();
     history.push(`/board/promotion/${link}`);
   }, [history]);
+  
+  const convertEventDDay = useCallback(endDate => {
+    const nowTime = Date.now();
+    const endTime = new Date(endDate).getTime();
+    const DDay = Math.ceil((endTime - nowTime) / (1000 * 3600 * 24));
+
+    return DDay > 7 ?
+      '진행중' :
+      `마감 D-${DDay}`
+  }, []);
 
   useInterval(()=> {dispatch(getRandomPromotion())}, 5000)
 
@@ -78,7 +88,8 @@ export default function StoreListContainer () {
       storeList = {filteredData}
       selectCategory={selectCategory}
       selectFilter={selectFilter}
-      handleStoreEvent={handleStoreEvent} >
+      handleStoreEvent={handleStoreEvent}
+      convertEventDDay={convertEventDDay} >
       {promotionData !== null && promotionData !== undefined && (
         <StoreBanner
           promotionData={promotionData} />

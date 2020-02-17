@@ -79,7 +79,17 @@ const CategoryTitle = styled.div`
   }
 `;
 
-const Category = styled.div`
+const CategoryMenuWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  @media (max-width: 576px) {
+    width: 330px;
+  }
+`;
+
+const CategoryMenu = styled.div`
   flex: none;
   display: flex;
   justify-content: center;
@@ -102,7 +112,7 @@ const Category = styled.div`
     letter-spacing: -0.8px;
     width: 64px;
     padding-top: 11px;
-    margin-right: ${props => props.index === 4 || props.index === 8 ? 0 : '5px'};
+    margin-right: ${props => props.index === 4 || props.index === 8 ? 0 : '2px'};
   }
 `;
 
@@ -414,6 +424,7 @@ export default function StoreList ({
   filter,
   storeList,
   handleStoreEvent,
+  convertEventDDay,
   children
 }) {
 
@@ -428,18 +439,20 @@ export default function StoreList ({
           <CategoryTitle>
             CATEGORY
           </CategoryTitle>
-          {
-            storeCategory.map( (value, index) => (
-              <Category
-                key={value.tag}
-                index={index}
-                selected={tag === value.tag}
-                onClick={() => selectCategory(value.tag)}>
-                <CategoryImage src={value.image} />
-                {value.title}
-              </Category>
-            ))
-          }
+          <CategoryMenuWrapper>
+            {
+              storeCategory.map( (value, index) => (
+                <CategoryMenu
+                  key={value.tag}
+                  index={index}
+                  selected={tag === value.tag}
+                  onClick={() => selectCategory(value.tag)}>
+                  <CategoryImage src={value.image} />
+                  {value.title}
+                </CategoryMenu>
+              ))
+            }
+          </CategoryMenuWrapper>
         </CategoryWrapper>
         {/* Category 밑에 있는 것들 */}
         { children }
@@ -483,7 +496,7 @@ export default function StoreList ({
                   <>
                     {!!store.event_articles.length && (
                       <>
-                        <ListItemEventDate>시발</ListItemEventDate>
+                        <ListItemEventDate> {convertEventDDay(store.event_articles[0].end_date)}</ListItemEventDate>
                         <ListItemEventLink onClick={e => handleStoreEvent(e, store.event_articles[0].id)}>이벤트 확인하러 가기 ></ListItemEventLink>
                       </>
                     )}

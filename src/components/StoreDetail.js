@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -58,7 +57,9 @@ const StoreInfo = styled.div`
   
   @media (max-width: 576px) {
     flex-direction: column;
-    padding: 0 0 30px 0;
+    padding: 0 0 16px 0;
+    border: 0;
+    margin-bottom: 0;
     height: auto;
   }
 `;
@@ -245,6 +246,10 @@ const StoreMenuTitle = styled.div`
   color: #252525;
   margin: 63px 0 12px;
   font-weight: 700;
+  
+  @media (max-width: 576px) {
+    margin-top: 31px;
+  }
 `;
 
 const StoreMenuCardWrapper = styled.div`
@@ -305,18 +310,22 @@ const StoreMenuCard = styled.div`
 export default function StoreDetail ({
   store,
   selectImage,
+  convertEventDDay,
+  history,
   children
 }) {
   return (
     <Container>
       {store && (
         <DetailSection>
-          <Header>주변 상점</Header>
+          <Header onClick={() => history.push('/store')}>
+            주변 상점
+          </Header>
           <StoreInfo>
             <StoreInfoDetail>
               <StoreTitle>
                 { store.name }
-                {!!store.event_articles.length && <StoreEventBadge>{store.event_articles[0].end_date}</StoreEventBadge>}
+                {!!store.event_articles.length && <StoreEventBadge>{convertEventDDay(store.event_articles[0].end_date)}</StoreEventBadge>}
               </StoreTitle>
               <StoreInfoDetailText>
                 <span>전화번호</span>
@@ -342,8 +351,16 @@ export default function StoreDetail ({
                 {store.pay_bank && <span>#계좌이체가능</span>}
               </StoreInfoTagWrapper>
               <StoreInfoButtonWrapper>
-                <StoreInfoButton type="primary">전화하기</StoreInfoButton>
-                <StoreInfoButton type="secondary">상점목록</StoreInfoButton>
+                <StoreInfoButton
+                  href={`tel:${store.phone}`}
+                  type="primary">
+                  전화하기
+                </StoreInfoButton>
+                <StoreInfoButton
+                  type="secondary"
+                  onClick={() => history.push('/store')}>
+                  상점목록
+                </StoreInfoButton>
               </StoreInfoButtonWrapper>
             </StoreInfoDetail>
             <StoreInfoImageWrapper>
