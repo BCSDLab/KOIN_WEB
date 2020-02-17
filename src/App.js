@@ -18,6 +18,8 @@ import CircleDetailPage from './pages/CircleDetailPage';
 import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
 import RoomListPage from './pages/RoomListPage';
 import RoomDetailPage from './pages/RoomDetailPage';
+import StoreListPage from "./pages/StoreListPage";
+import StoreDetailPage from "./pages/StoreDetailPage";
 import TimeTablePage from "./pages/TimeTablePage";
 import BusPage from "./pages/BusPage";
 // Board Page
@@ -170,11 +172,14 @@ function App({ history }) {
           <Route exact path="/room" component={RoomListPage} />
           <Route path="/room/:id" component={RoomDetailPage} />
 
+          <Route exact path="/store" component={StoreListPage} />
+          <Route path="/store/:id" component={StoreDetailPage} />
 
           <Route exact path="/lost" component={LostItemListPage}/>
           <Route path="/lost/register" component={LostItemRegisterPage}/>
           <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
     
+
           <Route path="/cafeteria" component={CafeteriaMenuPage} />
           <Route path="/faq" component={FaqPage} />
           <Route path="/bus" component={BusPage}/>
