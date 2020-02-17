@@ -363,6 +363,7 @@ export default function LostItemList(
             totalPageNum={totalPageNum}
             setPageData={setPageData}
             isWriteBtn={true}
+            path={"lost"}
             writeBtnLink={'/lost/register'}/>
           <MobileWrite/>
         </List>
