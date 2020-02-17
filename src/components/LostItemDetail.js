@@ -275,11 +275,7 @@ export default function LostItemDetail(
     specificData,
     newFlag,
     adjustComment,
-    selectedId,
-    setSelectedId,
     deleteComment,
-    comment,
-    setComment,
     registerComment,
     deleteItem,
     reviseItem
@@ -368,10 +364,6 @@ export default function LostItemDetail(
             adjustComment={adjustComment}
             registerComment={registerComment}
             deleteComment={deleteComment}
-            selectedId={selectedId}
-            setSelectedId={setSelectedId}
-            comment={comment}
-            setComment={setComment}
             />
           <Link to={'/lost'}>
             <WriteBtn>
