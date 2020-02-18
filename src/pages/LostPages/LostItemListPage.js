@@ -1,5 +1,5 @@
 import React from 'react'
-import LostItemListContainer from "../containers/LostItemListContainer";
+import LostItemListContainer from "../../containers/LostContainers/LostItemListContainer";
 
 export default function LostItemListPage({history}) {
 

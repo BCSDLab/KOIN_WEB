@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import Comment from "./SharedComponents/Comment";
+import Comment from "../SharedComponents/Comment";
+import parse from "html-react-parser"
 
 const Main = styled.div`
   width: 100%;
@@ -269,6 +270,36 @@ const BoardContent = styled.div`
   }
 `;
 
+const MobileTopnavBtn = styled.div`
+  display: none;
+  
+  @media(max-width: 576px){
+    display: block;
+  }
+  
+  img {
+    width: 24px;
+    height: 24px;
+    background-color: #175c8e;
+  }
+`;
+
+const MobileBackBtn = styled.img.attrs({
+  src: "https://static.koreatech.in/assets/img/back-menu.png"
+})`
+  position: absolute;
+  top: 16px;
+  left: 16px;
+`
+
+const MobileRegisterBtn = styled.img.attrs({
+  src: "https://static.koreatech.in/assets/img/mobile__create.png"
+})`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+`
+
 export default function LostItemDetail(
   {
     history,
@@ -355,7 +386,8 @@ export default function LostItemDetail(
             </table>
           </ItemInfo>
           <BoardContent>
-            <div dangerouslySetInnerHTML={{__html: specificData.content}}>
+            <div>
+              {parse(specificData.content)}
             </div>
           </BoardContent>
           <Comment
@@ -370,6 +402,12 @@ export default function LostItemDetail(
               목록으로
             </WriteBtn>
           </Link>
+          <MobileTopnavBtn>
+            <MobileBackBtn onClick={()=> history.push('/lost')}/>
+            {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&
+              <MobileRegisterBtn onClick={() => history.push('/lost/revise')}/>
+            }
+          </MobileTopnavBtn>
         </ItemDetail>
       </Container>
     </Main>

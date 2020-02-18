@@ -28,6 +28,10 @@ const DELETE_LOST_ITEM = "DELETE_LOST_ITEM";
 const DELETE_LOST_ITEM_SUCCESS = "DELETE_LOST_ITEM_SUCCESS";
 const DELETE_LOST_ITEM_ERROR = "DELETE_LOST_ITEM_ERROR";
 
+const REVISE_LOST_ITEM = "REVISE_LOST_ITEM";
+const REVISE_LOST_ITEM_SUCCESS = "REVISE_LOST_ITEM_SUCCESS";
+const REVISE_LOST_ITEM_ERROR = "REVISE_LOST_ITEM_ERROR";
+
 export const getLostItems = nowPageNum => async dispatch => {
   dispatch({ type: GET_LOST_ITEMS });
   try {
@@ -55,7 +59,6 @@ export const registerLostItem = payload => async dispatch => {
       "is_phone_open": payload.is_phone_open,
       "phone": payload.phoneNumber,
       "content": payload.content,
-      "Image_urls": "'https://koreatech.in'"
     };
     const res = await infoAPI.registerLostItem(payload.token, body);
     dispatch({
@@ -148,6 +151,31 @@ export const deleteLostItem = (param) => async dispatch => {
       type: DELETE_LOST_ITEM_ERROR,
       error: e
     });
+  }
+};
+
+export const reviseLostItem = (payload) => async dispatch => {
+  dispatch({ type: REVISE_LOST_ITEM});
+  try {
+    let body = {
+      title: payload.title,
+      type: payload.type,
+      date: payload.date,
+      location: payload.location,
+      is_phone_open: payload.is_phone_open,
+      phone: payload.phoneNumber,
+      content: payload.content
+    }
+    const res = await infoAPI.adjustLostItem(payload.token, payload.id, body)
+    dispatch({
+      type: REVISE_LOST_ITEM_SUCCESS,
+      res
+    });
+  } catch (e) {
+    dispatch({
+      type: DELETE_LOST_COMMENT_ERROR,
+      error: e
+    })
   }
 };
 
@@ -312,6 +340,21 @@ export default function lostReducer(state = initialState, action) {
         data: action.res.data
       };
     case DELETE_LOST_ITEM_ERROR:
+      return {
+        data: null,
+        error: action.error
+      };
+    case REVISE_LOST_ITEM:
+      return {
+        ...state,
+        data: null
+      };
+    case REVISE_LOST_ITEM_SUCCESS:
+      return {
+        ...state,
+        data: action.res.data
+      };
+    case REVISE_LOST_ITEM_ERROR:
       return {
         data: null,
         error: action.error
