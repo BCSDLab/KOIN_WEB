@@ -1,8 +1,8 @@
 import React, { useState, useEffect, createRef } from "react";
-import LostItemRegister from "../components/LostItemRegister";
+import LostItemRegister from "../../components/LostComponents/LostItemRegister";
 import {useDispatch} from "react-redux";
-import {registerLostItem } from "../modules/lost";
-import {boardAPI, marketAPI} from "../api";
+import {registerLostItem } from "../../modules/lost";
+import {marketAPI} from "../../api";
 import { useToasts } from 'react-toast-notifications';
 
 export default function LostItemRegisterContainer({history}) {

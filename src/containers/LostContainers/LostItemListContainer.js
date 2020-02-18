@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {useSelector, useDispatch} from 'react-redux';
-import LostItemList from "../components/LostItemList";
-import {getLostItems} from "../modules/lost";
+import LostItemList from "../../components/LostComponents/LostItemList";
+import {getLostItems} from "../../modules/lost";
 
 export default function LostItemListContainer({history}) {
   const [totalPageNum, setTotalPageNum] = useState(1);

@@ -24,9 +24,10 @@ import TimeTablePage from "./pages/TimeTablePage";
 import BusPage from "./pages/BusPage";
 // Board Page
 
-import LostItemListPage from "./pages/LostItemListPage";
-import LostItemDetailPage from "./pages/LostItemDetailPage";
-import LostItemRegisterPage from "./pages/LostItemRegisterPage";
+import LostItemListPage from "./pages/LostPages/LostItemListPage";
+import LostItemDetailPage from "./pages/LostPages/LostItemDetailPage";
+import LostItemRegisterPage from "./pages/LostPages/LostItemRegisterPage";
+import LostItemRevisePage from "./pages/LostPages/LostItemRevisePage";
 
 // etc
 import TopnavContainer from './containers/TopnavContainer';
@@ -178,6 +179,7 @@ function App({ history }) {
           <Route exact path="/lost" component={LostItemListPage}/>
           <Route path="/lost/register" component={LostItemRegisterPage}/>
           <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
+          <Route path="/lost/revise" component={LostItemRevisePage}/>
     
 
           <Route path="/cafeteria" component={CafeteriaMenuPage} />

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import styled from "styled-components";
-import '../static/quill.snow.css';
+import '../../static/quill.snow.css';
 import ReactQuill from "react-quill";
 
 const Main = styled.div`
@@ -698,3 +698,7 @@ export default function LostItemRegister(
     </Main>
   )
 }
+
+export { Main, Container, Footer, Author, BoardHead, BoardInfo, BoardTitleInput,
+  CancelBtn, CheckBoxes, CreatedAt, Detail, Form, GoListBtn, Header, LeftForm, LeftFormInput, LeftFormTitle
+, MobileCancelBtn, MobileMenus, MobileRegisterBtn, P, Phone, Place, RegisterBtn, StateSelect, Title, Wysiwyg }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import LostItemDetail from "../components/LostItemDetail";
+import LostItemDetail from "../../components/LostComponents/LostItemDetail";
 import {useDispatch, useSelector} from "react-redux";
-import {getSpecificLostItem, adjustLostComment, deleteLostComment, registerLostComment, deleteLostItem} from "../modules/lost";
+import {getSpecificLostItem, adjustLostComment, deleteLostComment, registerLostComment, deleteLostItem} from "../../modules/lost";
 import { useToasts } from 'react-toast-notifications';
 
 export default function LostItemDetailContainer({history}) {
@@ -11,7 +11,6 @@ export default function LostItemDetailContainer({history}) {
   const [newFlag, setNewFlag] = useState(false);
   const offset = new Date().getTimezoneOffset() * 60000;
   const today = new Date(Date.now() - offset);
-  const [comment, setComment] = useState("");
   const { addToast } = useToasts();
 
   const checkNewFlag = () => {
@@ -43,24 +42,24 @@ export default function LostItemDetailContainer({history}) {
     }
   };
 
-  const deleteComment = (token, id) => {
+  const deleteComment = (id) => {
     if(window.confirm('삭제하시겠습니까?')){
       dispatch(deleteLostComment({
-        "token": token,
+        "token": sessionStorage.getItem('token'),
         "itemId": path,
         "id": id
       })).then(() => {
         dispatch(getSpecificLostItem({
           id: path,
-          "token": token ? sessionStorage.getItem('token') : ""
+          "token": sessionStorage.getItem('token') ? sessionStorage.getItem('token') : ""
         }));
       });
     }
   };
 
-  const registerComment = (token, comment) => {
+  const registerComment = (comment) => {
     dispatch(registerLostComment({
-      "token": token,
+      "token": sessionStorage.getItem('token'),
       "itemId": path,
       "content": comment
     })).then(() => {
@@ -70,10 +69,8 @@ export default function LostItemDetailContainer({history}) {
       });
       dispatch(getSpecificLostItem({
         id: path,
-        "token": token ? sessionStorage.getItem('token') : ""
-      })).then(() => {
-        setComment("");
-      });
+        "token": sessionStorage.getItem('token') ? sessionStorage.getItem('token') : ""
+      }))
     });
   };
 
@@ -130,6 +127,7 @@ export default function LostItemDetailContainer({history}) {
 
   useEffect(() => {
     console.log(specificData);
+    sessionStorage.setItem("specificId", path);
     checkNewFlag();
   }, [specificData]);
 

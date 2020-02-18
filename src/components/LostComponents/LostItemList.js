@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Pagination from "./SharedComponents/Pagination";
+import Pagination from "../SharedComponents/Pagination";
 import {Link} from "react-router-dom";
 
 const Main = styled.div`
