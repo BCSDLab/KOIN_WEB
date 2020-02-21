@@ -170,11 +170,20 @@ export default function IndexCafeteria(
                       {index === type &&
                         <>
                           {menu &&
-                            menu.map((dish) => {
+                            menu.map((dish,id) => {
                             return(
-                              <Menu>
-                                {dish}
-                              </Menu>
+                              <>
+                                {id < 7 &&
+                                  <Menu>
+                                    {dish}
+                                  </Menu>
+                                }
+                                {id === 7 &&
+                                  <Menu>
+                                    ...
+                                  </Menu>
+                                }
+                              </>
                             )
                           })}
                           {!menu &&
