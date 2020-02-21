@@ -36,6 +36,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
 import BoardPage from './pages/BoardPages/BoardPage';
+import MarketPage from './pages/MarketPages/MarketPage';
 import SearchResultPage from './pages/SearchResultPage';
 
 const GlobalStyle = createGlobalStyle`
@@ -193,6 +194,15 @@ function App({ history }) {
           <PrivateRoute
             path="/board/:type/:id"
             component={BoardPage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
+          {/* Market page */}
+          <Route exact path="/market/:type" component={MarketPage} />
+          <PrivateRoute
+            path="/market/:type/:id"
+            component={MarketPage}
             setDialog={setDialog}
             dialog={dialog}
             onConfirm={onConfirm}

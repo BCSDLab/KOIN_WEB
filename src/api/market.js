@@ -45,7 +45,7 @@ const removeItem = (itemId, token) => {
 }
 
 const reviseItem = (itemId, body, token) => {
-  return axios.put(`${API_PATH}/market/item/${itemId}`, body, {
+  return axios.put(`${API_PATH}/market/items/${itemId}`, body, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
