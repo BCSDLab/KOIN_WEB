@@ -5,7 +5,7 @@ import setBusTime from "../../modules/setBusTime";
 import {getBusInfo} from "../../modules/bus";
 import {useDispatch, useSelector} from "react-redux";
 
-export default function IndexBusContainer() {
+export default function IndexBusContainer({history}) {
   const dispatch = useDispatch();
   const busTypes = ["shuttle","daesung","cityBus"];
   const [selectedType, setSelectedType] = useState("shuttle");
@@ -56,6 +56,7 @@ export default function IndexBusContainer() {
       daesungTime={daesungTime}
       fastestShuttleTime={fastestShuttleTime}
       fastestDaesungTime={fastestDaesungTime}
-      cityBusData={data}/>
+      cityBusData={data}
+      history={history}/>
   )
 }

@@ -212,7 +212,8 @@ export default function IndexBus(
     daesungTime,
     fastestShuttleTime,
     fastestDaesungTime,
-    cityBusData
+    cityBusData,
+    history
   }) {
   function getShiftBtn(type) {
     if(type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_reverse.png';
@@ -310,7 +311,7 @@ export default function IndexBus(
   }
   return (
     <Container>
-      <BusTitle>
+      <BusTitle onClick={() => history.push('/bus')}>
         실시간 버스
       </BusTitle>
       {busTypes.map((type, index) => {
@@ -341,21 +342,21 @@ export default function IndexBus(
                 </DestinationShiftRow>
                 <Info>
                   <Type>
-                    <BusIcon/>
-                    <span>{getTypeName(type)}</span>
+                    <BusIcon onClick={() => history.push('/bus')}/>
+                    <span onClick={() => history.push('/bus')}>{getTypeName(type)}</span>
                   </Type>
                   <Time>
                     <BusTypeChangeIcon
                       src={getLeftIcon(type)}
                       onClick={() => changeType(type,"prev")}/>
-                    <LeftTime>
+                    <LeftTime onClick={() => history.push('/bus')}>
                       {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time) }
                     </LeftTime>
                     <BusTypeChangeIcon
                       src={getRightIcon(type)}
                       onClick={() => changeType(type, "next")}/>
                   </Time>
-                  <TimeDetail>
+                  <TimeDetail onClick={() => history.push('/bus')}>
                     {detailString(shuttleTime,daesungTime,cityBusData.remain_time, type)}
                   </TimeDetail>
                 </Info>
