@@ -40,22 +40,38 @@ export default function PostEditContainer({ history, match }) {
   }
 
   const onClickEditButton = () => {
-    if (!password.length) {
-      addToast("비밀번호를 입력해주세요.", {
-        appearance: "warning",
-        autoDismiss: true
-      })
-      return ;
-    }
-    if (password === sessionStorage.getItem("tempPassword")) {
+    const boardId = sessionStorage.getItem("boardId");
+
+    if (boardId !== '-1') {
       dispatch(editPost({
-        content,
-        title,
+        body: {
+          title,
+          content,
+          board_id: boardId
+        },
+        boardId,
         id: sessionStorage.getItem("postId"),
-        boardId: sessionStorage.getItem("boardId"),
-        token: sessionStorage.getItem("token"),
-        tempPassword: sessionStorage.getItem("tempPassword")
-      }));
+        token: sessionStorage.getItem("token")
+      }))
+    } else {
+      if (!password.length || !password) {
+        addToast("비밀번호를 입력해주세요.", {
+          appearance: "warning",
+          autoDismiss: true
+        })
+        return ;
+      }
+      if (password === sessionStorage.getItem("tempPassword")) {
+        dispatch(editPost({
+          body: {
+            title,
+            content,
+            password
+          },
+          id: sessionStorage.getItem("postId"),
+          boardId
+        }))
+      }
     }
   }
 
@@ -84,7 +100,7 @@ export default function PostEditContainer({ history, match }) {
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
       try {
-        const result = sessionStorage.getItem("boardId") !== -1 
+        const result = sessionStorage.getItem("boardId") !== '-1'
           ? await marketAPI.uploadImage(sessionStorage.getItem("token"), formData)
           : await boardAPI.uploadAnonymousArticleImage(formData);
         _this.quill.insertEmbed(range.index, 'image', result.data.url[0]);
@@ -104,11 +120,11 @@ export default function PostEditContainer({ history, match }) {
       alert("선택된 게시글이 없습니다.");
       history.goBack();
     }
-    if (sessionStorage.getItem("boardId") === -1 && !sessionStorage.getItem("tempPassword")) {
+    if (sessionStorage.getItem("boardId") === '-1' && !sessionStorage.getItem("tempPassword")) {
       alert("잘못된 접근입니다.");
       history.goBack();
     }
-
+    
     dispatch(checkPermission({
       token: sessionStorage.getItem("token"),
       id: sessionStorage.getItem("postId"),
