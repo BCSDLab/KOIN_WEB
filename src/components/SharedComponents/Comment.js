@@ -400,14 +400,14 @@ export default function Comment(
   return (
     <>
       <BoardSubInfo>
-        댓글 <SubInfo>{specificData.comment_count}개 </SubInfo>
+        댓글 <SubInfo>{specificData.comment_count || specificData.comments.length}개 </SubInfo>
         <Bar>|</Bar> 조회수 <SubInfo>{specificData.hit}</SubInfo>
         {originalLink &&
           <a href={originalLink}>원문 바로가기</a>
         }
       </BoardSubInfo>
       <BoardComment>
-        {specificData.comments.map((comment, idx) => {
+        {specificData.comments && specificData.comments.map((comment, idx) => {
           return (
             <CommentLine key={idx}>
               <CommentInfo>
