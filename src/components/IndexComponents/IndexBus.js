@@ -192,7 +192,6 @@ const TimeDetail = styled.div`
   color: #252525;
   padding-top: 3px;
   text-align: center;
-  cursor: pointer;
   
   @media(max-width: 576px){
     font-size: 11px;
@@ -356,7 +355,7 @@ export default function IndexBus(
                       src={getRightIcon(type)}
                       onClick={() => changeType(type, "next")}/>
                   </Time>
-                  <TimeDetail onClick={() => history.push('/bus')}>
+                  <TimeDetail>
                     {detailString(shuttleTime,daesungTime,cityBusData.remain_time, type)}
                   </TimeDetail>
                 </Info>

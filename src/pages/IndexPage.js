@@ -1,6 +1,8 @@
 import React from 'react'
-import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import styled from "styled-components";
+
+import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
+import IndexCafeteriaContainer from "../containers/IndexContainers/indexCafeteriaContainer";
 
 const Container = styled.div`
   width: 1132px;
@@ -13,10 +15,25 @@ const Container = styled.div`
   }
 `;
 
+const IndexRow = styled.div`
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const CardList = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export default function IndexPage({history}) {
   return (
     <Container>
-      <IndexBusContainer history={history}/>
+      <IndexRow>
+        <CardList>
+          <IndexBusContainer history={history}/>
+          <IndexCafeteriaContainer history={history}/>
+        </CardList>
+      </IndexRow>
     </Container>
   )
 }
