@@ -42,7 +42,7 @@ export default function IndexBusContainer({history}) {
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
     setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
-  },[])
+  },[arrival])
 
   return (
     <IndexBus

@@ -246,13 +246,15 @@ export default function IndexBus(
     return Math.floor(val / 1000) % 60;
   };
   const timeToString = (time) => {
-    return (
-      time === 0 ? "운행정보없음"
-        : time === "미운행" ? "미운행"
-        : hour(time) === 0 ? minute(time) + "분 " + second(time) + "초 남음"
-          : minute(time) === 0 ? second(time) + "초 남음"
-            : hour(time) + "시간 " + minute(time) + "분 " + second(time) + "초 남음"
-    )
+    if(time === 0){
+      return "운행정보없음"
+    } else if (time === "미운행"){
+      return "미운행"
+    } else if(hour(time) === 0){
+      return minute(time) + "분 " + second(time) + "초 남음"
+    } else if(hour(time) === 0 && minute(time) === 0){
+      return second(time) + "초 남음"
+    } else return hour(time) + "시간 " + minute(time) + "분 " + second(time) + "초 남음"
   };
   function changeType(type, direction) {
     switch (type) {
