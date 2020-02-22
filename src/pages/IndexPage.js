@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/indexCafeteriaContainer";
+import IndexRecommendContainer from "../containers/IndexContainers/IndexRecommendContainer";
 
 const Container = styled.div`
   width: 1132px;
@@ -16,8 +17,10 @@ const Container = styled.div`
 `;
 
 const IndexRow = styled.div`
+  margin-top: 40px;
   width: 100%;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const CardList = styled.div`
@@ -30,6 +33,7 @@ export default function IndexPage({history}) {
     <Container>
       <IndexRow>
         <CardList>
+          <IndexRecommendContainer history={history}/>
           <IndexBusContainer history={history}/>
           <IndexCafeteriaContainer history={history}/>
         </CardList>
