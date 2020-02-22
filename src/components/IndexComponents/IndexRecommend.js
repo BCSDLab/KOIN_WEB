@@ -19,6 +19,10 @@ const Title = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #175c8e;
+  
+  @media(max-width: 576px){
+    font-size: 18px;
+  }
 `;
 
 const RecommendCard = styled.div`
@@ -31,6 +35,13 @@ const RecommendCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
+  @media(max-width: 576px){
+    height: 154px;
+    max-width: 100%;
+    width: 544px;
+    padding: 21px 27px;
+  }
 `;
 
 const StoreName = styled.div`
@@ -119,6 +130,10 @@ const Tag = styled.button`
   text-align: center;
   color: #ffffff;
   margin-right: 5px;
+  
+  @media(max-width: 576px){
+    padding: 0 5px;
+  }
 `;
 
 const SubInfo = styled.div`

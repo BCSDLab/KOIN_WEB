@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  
+  @media(max-width: 576px){
+    max-width: 100%;
+  }
 `;
 
 const Title = styled.div`
@@ -17,6 +19,10 @@ const Title = styled.div`
   text-align: left;
   color: #175c8e;
   cursor: pointer;
+  
+  @media(max-width: 576px){
+    font-size: 18px;
+  }
 `;
 
 const CafeteriaCard = styled.div`
@@ -26,6 +32,12 @@ const CafeteriaCard = styled.div`
   padding: 15px 15px 0 15px;
   border: solid 1px #175c8e;
   box-sizing: border-box;
+  
+  @media(max-width: 576px){
+    max-width: 100%;
+    width: 544px;
+    height: 154px;
+  }
 `;
 
 const CafeteriaCategory = styled.div`
