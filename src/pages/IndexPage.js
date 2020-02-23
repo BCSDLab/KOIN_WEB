@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 
+import IndexTopBoardContainer from "../containers/IndexContainers/IndexTopBoardContainer";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/IndexCafeteriaContainer";
 import IndexRecommendContainer from "../containers/IndexContainers/IndexRecommendContainer";
-import {h} from "react-naver-maps/dist/hocs-cc75d7f3";
 
 const Container = styled.div`
   width: 1132px;
@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const IndexRow = styled.div`
-  margin-top: 40px;
+  margin-top: ${props => props.top ? "0" : "40px"};
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -58,12 +58,15 @@ export default function IndexPage({history}) {
 
   return (
     <Container>
-
       {mobileFlag &&
         <IndexRow>
           <IndexBusContainer history={history}/>
         </IndexRow>
       }
+
+      <IndexRow top>
+        <IndexTopBoardContainer history={history}/>
+      </IndexRow>
 
       <IndexRow>
         <CardList>
