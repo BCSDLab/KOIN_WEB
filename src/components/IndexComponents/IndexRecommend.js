@@ -163,7 +163,7 @@ export default function IndexRecommend(
         <>
         <div>
           <InfoHead>
-            <StoreName>
+            <StoreName onClick={() => history.push(`/store/${storeData.permalink}`)}>
               {storeData.name}
             </StoreName>
             <RefreshBtn onClick={() => clickRefresh()}/>

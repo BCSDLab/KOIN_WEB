@@ -156,7 +156,7 @@ export default function IndexCafeteria(
   }
   return (
     <Container>
-      <Title>오늘의 식단</Title>
+      <Title onClick={() => history.push('/cafeteria')}>오늘의 식단</Title>
       <CafeteriaCard>
         <CafeteriaCategory>
           {cafeteriaList.map((cafeteria, index) => {
