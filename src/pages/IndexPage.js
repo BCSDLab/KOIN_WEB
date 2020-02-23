@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 
@@ -77,14 +76,5 @@ export default function IndexPage({history}) {
         </CardList>
       </IndexRow>
     </Container>
-=======
-import React from 'react'
-
-export default function IndexPage() {
-  return (
-    <div>
-      
-    </div>
->>>>>>> develop
   )
 }

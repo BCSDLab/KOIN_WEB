@@ -487,6 +487,25 @@ export default function IndexTopBoard(
       ];
     }
   }
+  function clickList(id, boardId) {
+    sessionStorage.setItem("boardId",boardId);
+    if(boardId === 1) {
+      history.push(`board/free/${id}`);
+    }
+    else if(boardId === 2) {
+      history.push(`board/job/${id}`);
+    }
+    else if(boardId === 10) {
+      history.push(`board/question/${id}`);
+    }
+    else if(boardId === 1) {
+      history.push(`board/free/${id}`);
+    }
+    else if(boardId === -1) {
+      history.push(`board/anonymous/${id}`);
+    }
+    else history.push(`board/notice/${id}`);
+  }
   return(
     <Container>
       <MobileTab>
@@ -503,7 +522,7 @@ export default function IndexTopBoard(
                 <>
                   {index < 4 &&
                     <Contents>
-                      <ContentsInfo>
+                      <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
                         <Rank>{index + 1}</Rank>
                         <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
                         <ContentTitle>{convertTitle(board.title)}</ContentTitle>
