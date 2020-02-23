@@ -75,15 +75,14 @@ const WriteBtn = styled.button`
   }
 `;
 
-export default function Pagination(
-  {
-    totalPageNum,
-    setPageData,
-    isWriteBtn,
-    writeBtnLink,
-    path
-  }
-){
+export default function Pagination({
+  totalPageNum,
+  setPageData,
+  isWriteBtn,
+  writeBtnLink,
+  path,
+  isMyItems
+}) {
   const limit = 5;
   const [nowPageNum,setNowPageNum] = useState(1);
 
@@ -220,6 +219,11 @@ export default function Pagination(
     }
   }, [path]); 
 
+  useEffect(() => {
+    if (isMyItems) {
+      setNowPageNum(1);
+    }
+  }, [isMyItems]);
   return (
     <div>
     <PaginationContainer>

@@ -22,7 +22,7 @@ export default function PostRegisterContainer({ history, match }) {
     title: '',
     content: ''
   });
-  const nickname = sessionStorage.getItem("boardId") !== -1 && JSON.parse(sessionStorage.getItem("userInfo")).nickname;
+  const nickname = sessionStorage.getItem("boardId") !== '-1' && sessionStorage.getItem("userInfo") && JSON.parse(sessionStorage.getItem("userInfo")).nickname;
   const modules = {
     toolbar: {
       container: [
@@ -58,15 +58,59 @@ export default function PostRegisterContainer({ history, match }) {
 
   const onClickRegisterButton = () => {
     const { title, content } = post;
-    dispatch(registerPost({
-      title,
-      content,
-      boardId: sessionStorage.getItem("boardId"),
-      id: sessionStorage.getItem("postId"),
-      token: sessionStorage.getItem("token"),
-      tempNickname: tempInfo.nickname,
-      tempPassword: tempInfo.password
-    }));
+    const boardId = sessionStorage.getItem("boardId");
+
+    if (!title.length || !title) {
+      addToast("제목을 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    }
+    if (!content.length || !content) {
+      addToast("내용을 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    }
+    if (boardId !== '-1') {
+      dispatch(registerPost({
+        body: {
+          board_id: boardId,
+          title,
+          content
+        },
+        token: sessionStorage.getItem("token"),
+        boardId
+      }))
+    } else {
+      const { nickname, password } = tempInfo;
+      if (!nickname.length || !nickname) {
+        addToast("닉네임을 입력해주세요.", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
+      if (!password.length || !password) {
+        addToast("비밀번호를 입력해주세요.", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
+      dispatch(registerPost({
+        body: {
+          title,
+          content,
+          nickname,
+          password
+        },
+        token: sessionStorage.getItem("token"),
+        boardId
+      }));
+    }
   }
 
   const onClickCancelButton = () => {
@@ -94,7 +138,7 @@ export default function PostRegisterContainer({ history, match }) {
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
       try {
-        const result = sessionStorage.getItem("boardId") !== -1 
+        const result = sessionStorage.getItem("boardId") !== '-1'
           ? await marketAPI.uploadImage(sessionStorage.getItem("token"), formData)
           : await boardAPI.uploadAnonymousArticleImage(formData);
         _this.quill.insertEmbed(range.index, 'image', result.data.url[0]);
@@ -107,14 +151,6 @@ export default function PostRegisterContainer({ history, match }) {
     });
     fileInput.click();
   }
-
-  // useEffect(() => {
-  //   if (sessionStorage.getItem("boardId") !== -1) {
-  //     if (!sessionStorage.getItem("userInfo")) {
-  //       alert("닉네임이 필요합니다.");
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     console.log(data);

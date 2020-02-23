@@ -11,6 +11,7 @@ import lostReducer from "./lost";
 import commonReducer from './common';
 import boardReducer from './board';
 import searchReducer from './search';
+import marketReducer from './market';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   commonReducer,
   boardReducer,
   searchReducer,
+  marketReducer
 });
 
 export default rootReducer;

@@ -8,8 +8,8 @@ export default function PrivateRoute({ component, dialog, onConfirm, setDialog, 
   const lastLocation = useLastLocation();
   const { isLoggedIn } = useSelector(state => state.authReducer);
   const path = lastLocation ? lastLocation.pathname : "/";
-  
-  if (Number.isInteger(parseInt(rest.computedMatch.params.id))) {
+
+  if (Number.isInteger(parseInt(rest.computedMatch.params.id)) || rest.computedMatch.params.type === 'anonymous') {
     return (
       <Route
         component={component}

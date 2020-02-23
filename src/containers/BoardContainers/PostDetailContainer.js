@@ -39,7 +39,7 @@ export default function PostDetailContainer({
         token: sessionStorage.getItem("token"),
         id: match.params.id,
         boardId: sessionStorage.getItem("boardId"),
-        tempPassword: password
+        password
       }));
     }
   }, [match, dispatch, password]);
@@ -188,7 +188,7 @@ export default function PostDetailContainer({
             token: sessionStorage.getItem("token"),
             boardId: sessionStorage.getItem("boardId"),
             id: match.params.id,
-            tempPassword: password
+            password
           }));
         }
       }
