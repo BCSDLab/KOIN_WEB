@@ -31,6 +31,9 @@ import {
   DELETE_COMMENT,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_ERROR,
+  GET_LATEST_ITEMS,
+  GET_LATEST_ITEMS_SUCCESS,
+  GET_LATEST_ITEMS_ERROR,
   CLEAR_STATE
 } from "../modules/market";
 
@@ -244,6 +247,22 @@ function* checkPermission({ payload }) {
   }
 }
 
+function* getLatestItems({ payload }) {
+  try {
+    const res = yield call(marketAPI.getIndexPageItemList, 1);
+    console.log(res);
+    yield put({
+      type: GET_LATEST_ITEMS_SUCCESS,
+      payload: res
+    })
+  } catch (e) {
+    yield put({
+      type: GET_LATEST_ITEMS_ERROR,
+      error: e.response
+    })
+  }
+}
+
 function* watchFetchData() {
   yield takeEvery(GET_ITEMS, getItems);
   yield takeLatest(GET_ITEM, getItem);
@@ -255,6 +274,7 @@ function* watchFetchData() {
   yield takeEvery(EDIT_COMMENT, editComment);
   yield takeEvery(DELETE_COMMENT, deleteComment);
   yield takeEvery(CHECK_PERMISSION, checkPermission);
+  yield takeEvery(GET_LATEST_ITEMS, getLatestItems);
 }
 
 export default function* marketSaga() {
