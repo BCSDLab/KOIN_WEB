@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getCircleList, getCircleListByCategory } from '../modules/circle';
-import * as CATEGORY from '../static/circleCategory';
-import CircleList from '../components/CircleList';
+import { getCircleList, getCircleListByCategory } from '../../modules/circle';
+import * as CATEGORY from '../../static/circleCategory';
+import CircleList from '../../components/InfoComponents/CircleList';
 
 export default function CircleListContainer() {
   const [tag, setTag] = useState(sessionStorage.getItem("circleCategory") || "ALL");

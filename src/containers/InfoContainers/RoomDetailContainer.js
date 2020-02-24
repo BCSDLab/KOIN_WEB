@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getRoomDetailInfo } from '../modules/room';
-import RoomDetail from '../components/RoomDetail';
-import options from '../static/roomOptions';
+import { getRoomDetailInfo } from '../../modules/room';
+import RoomDetail from '../../components/InfoComponents/RoomDetail';
+import options from '../../static/roomOptions';
 
 export default function RoomDetailContainer({ id }) {
   const dispatch = useDispatch();

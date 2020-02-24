@@ -1,5 +1,5 @@
 import React from 'react'
-import CircleDetailContainer from '../containers/CircleDetailContainer';
+import CircleDetailContainer from '../../containers/InfoContainers/CircleDetailContainer';
 
 export default function CircleDetailPage({ match }) {
   return (
