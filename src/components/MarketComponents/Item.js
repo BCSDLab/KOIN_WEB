@@ -315,7 +315,10 @@ export default function Item({
   loading,
   isMyItem,
   onClickEditButton,
-  onClickDeleteButton
+  onClickDeleteButton,
+  registerComment,
+  editComment,
+  deleteComment
 }) {
   const setState = state => {
     const marketId = JSON.parse(sessionStorage.getItem("marketId"));
@@ -433,7 +436,10 @@ export default function Item({
           </Body>
           <Comment
             history={history}
-            specificData={item}          
+            specificData={item}
+            registerComment={registerComment}
+            editComment={editComment}
+            deleteComment={deleteComment}
           />
         </>
       }

@@ -67,7 +67,7 @@ const initialState = {
   },
   comment: {
     data: null,
-    loading: false,
+    delete: false,
     error: null
   },
   totalPageNum: 0,
@@ -247,38 +247,81 @@ export default function marketReducer(state= initialState, action) {
     case REGISTER_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     case REGISTER_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          ...state.comment,
+          data: action.payload,
+        }
       }
     case REGISTER_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
       }
     case EDIT_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }        
       }
     case EDIT_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          ...state.comment,
+          data: action.payload
+        }
       }
     case EDIT_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
       }
     case DELETE_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: action.payload,
+          error: null
+        }
       }
     case DELETE_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
       }
     case CLEAR_STATE:
       return {
