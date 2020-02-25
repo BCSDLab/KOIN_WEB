@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -163,7 +163,8 @@ export default function IndexCafeteria(
             return (
               <CafeteriaList
                 selected={selected === index}
-                onClick={() => setSelected(index)}>
+                onClick={() => setSelected(index)}
+                key={index}>
                 {cafeteria}
               </CafeteriaList>
             )
@@ -174,17 +175,17 @@ export default function IndexCafeteria(
           <MenuContainer>
             {allMenus.map((menus,idx) => {
               return (
-                <>
+                <Fragment key={idx}>
                   {selected === idx &&
                     menus.map((menu,index) => {
                     return (
-                      <>
+                      <Fragment key={index}>
                       {index === type &&
                         <>
                           {menu &&
                             menu.map((dish,id) => {
                             return(
-                              <>
+                              <Fragment key={id}>
                                 {id < 7 &&
                                   <Menu>
                                     {dish}
@@ -195,7 +196,7 @@ export default function IndexCafeteria(
                                     ...
                                   </Menu>
                                 }
-                              </>
+                              </Fragment>
                             )
                           })}
                           {!menu &&
@@ -204,9 +205,9 @@ export default function IndexCafeteria(
                             </NoMenu>
                           }
                         </>}
-                      </>
+                      </Fragment>
                     )})}
-                </>
+                </Fragment>
               )})
             }
           </MenuContainer>

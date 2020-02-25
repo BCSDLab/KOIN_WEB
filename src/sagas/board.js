@@ -6,6 +6,9 @@ import {
   GET_HOT_POSTS,
   GET_HOT_POSTS_SUCCESS,
   GET_HOT_POSTS_ERROR,
+  GET_NEW_POSTS,
+  GET_NEW_POSTS_SUCCESS,
+  GET_NEW_POSTS_ERROR,
   GET_POST,
   GET_POST_SUCCESS,
   GET_POST_ERROR,
@@ -98,6 +101,33 @@ function* getHotPosts() {
   } catch (e) {
     yield put({
       type: GET_HOT_POSTS_ERROR,
+      error: e.response
+    })
+  }
+}
+
+function* getNewPosts() {
+  try {
+    const notice = yield call(boardAPI.getIndexPageArticleList, 4);
+    const job = yield call(boardAPI.getIndexPageArticleList, 2);
+    const free = yield call(boardAPI.getIndexPageArticleList, 1);
+    const anonymous = yield call(boardAPI.getIndexPageArticleList, -1);
+    const question = yield call(boardAPI.getIndexPageArticleList, 10);
+
+    const res = {
+      "notice": notice.data,
+      "job": job.data,
+      "free": free.data,
+      "anonymous": anonymous.data.articles,
+      "question": question.data
+    }
+    yield put({
+      type: GET_NEW_POSTS_SUCCESS,
+      payload: res
+    });
+  } catch (e) {
+    yield put({
+      type: GET_NEW_POSTS_ERROR,
       error: e.response
     })
   }
@@ -236,6 +266,7 @@ function* checkPermission({ payload }) {
 function* watchFetchData() {
   yield takeEvery(GET_POSTS, getPosts);
   yield takeEvery(GET_HOT_POSTS, getHotPosts);
+  yield takeEvery(GET_NEW_POSTS, getNewPosts);
   yield takeLatest(GET_POST, getPost);
   yield takeEvery(REGISTER_POST, registerPost);
   yield takeEvery(EDIT_POST, editPost);
