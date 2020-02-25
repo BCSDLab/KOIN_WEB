@@ -19,9 +19,9 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
+  const [isCityBus, setIsCityBus] = useState(false)
 
   useInterval(() => {
-    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
     setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },1000);
 
@@ -43,6 +43,18 @@ export default function IndexBusContainer({history}) {
     dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
     setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },[arrival])
+
+  useEffect(() => {
+    if(selectedType === "cityBus"){
+      dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
+      setIsCityBus(true);
+    }
+    else setIsCityBus(false);
+  },[selectedType]);
+
+  useInterval(() => {
+    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
+  }, (isCityBus? 1000 : null));
 
   return (
     <IndexBus
