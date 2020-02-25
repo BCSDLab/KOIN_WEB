@@ -356,9 +356,11 @@ export default function IndexBus(
                       src={getRightIcon(type)}
                       onClick={() => changeType(type, "next")}/>
                   </Time>
+                  {cityBusData &&
                   <TimeDetail>
-                    {detailString(shuttleTime,daesungTime,cityBusData.remain_time, type)}
+                    {detailString(shuttleTime, daesungTime, cityBusData.remain_time, type)}
                   </TimeDetail>
+                  }
                 </Info>
               </BusCard>
             }
