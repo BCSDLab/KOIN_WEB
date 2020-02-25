@@ -277,15 +277,15 @@ export default function LostItemList(
   }
 ) {
   function goRegister() {
-    if(sessionStorage.getItem('userInfo')){
+    if (sessionStorage.getItem('userInfo')) {
       history.push('/lost/register');
-    }
-    else {
-      if(window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')){
+    } else {
+      if (window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
     }
   }
+
   return (
     <Main>
       <Container>
@@ -294,11 +294,9 @@ export default function LostItemList(
             <HeadTitle>
               분실물
             </HeadTitle>
-            <Link to={'/lost/register'}>
-              <WriteBtn>
-                글쓰기
-              </WriteBtn>
-            </Link>
+            <WriteBtn onClick={() => goRegister()}>
+              글쓰기
+            </WriteBtn>
           </div>
           <Table>
             <thead>
@@ -317,7 +315,7 @@ export default function LostItemList(
               return (
                 <tr
                   key={id}
-                  onClick={()=>history.push(`/lost/detail/${items.id}`)}>
+                  onClick={() => history.push(`/lost/detail/${items.id}`)}>
                   <Id>
                     {items.id}
                   </Id>
