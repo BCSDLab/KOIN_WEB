@@ -146,7 +146,7 @@ export default function IndexTopBoard(
     else if (id === 8) return "[취업]";
     else if (id === 9) return "[코인]";
     else if (id === 10) return "[질문]";
-    else if (id === -1) return "[익명]";
+    else if (id === undefined) return "[익명]";
     else return "";
   }
   function convertTitle(string) {
@@ -404,22 +404,37 @@ export default function IndexTopBoard(
     string = string.replace(/&amp;/g, '&');
     return string;
   }
-  function changeTime (time) {
-    let times = time.split(" ");
-    let date = times[0].split("-");
-    let tim = times[1].split(":");
-    let created = new Date();
-    created.setFullYear(date[0]);
-    created.setMonth(date[1] - 1);
-    created.setDate(date[2]);
-    created.setHours(tim[0]);
-    created.setMinutes(tim[1]);
-    created.setSeconds(tim[2]);
-    return created;
+  function changeTime (time, newFlag) {
+    if(!newFlag) {
+      let times = time.split(" ")
+      let date = times[0].split("-");
+      let tim = times[1].split(":");
+      let created = new Date();
+      created.setFullYear(date[0]);
+      created.setMonth(date[1] - 1);
+      created.setDate(date[2]);
+      created.setHours(tim[0]);
+      created.setMinutes(tim[1]);
+      created.setSeconds(tim[2]);
+      return created;
+    }
+    else {
+      let times = time.split("T")
+      let date = times[0].split("-");
+      let tim = times[1].split(":");
+      let created = new Date();
+      created.setFullYear(date[0]);
+      created.setMonth(date[1] - 1);
+      created.setDate(date[2]);
+      created.setHours(tim[0]);
+      created.setMinutes(tim[1]);
+      created.setSeconds(tim[2]);
+      return created;
+    }
   }
-  function computedTime (time) {
+  function computedTime (time, newFlag) {
     let today = new Date();
-    let created = changeTime(time);
+    let created = changeTime(time, newFlag);
     if (
       Math.ceil((today - created) / 1000 / 60) < 60 &&
       Math.ceil((today - created) / 1000 / 60) > 0
@@ -501,7 +516,7 @@ export default function IndexTopBoard(
     else if(boardId === 1) {
       history.push(`board/free/${id}`);
     }
-    else if(boardId === -1) {
+    else if(boardId === undefined) {
       history.push(`board/anonymous/${id}`);
     }
     else history.push(`board/notice/${id}`);
@@ -527,11 +542,11 @@ export default function IndexTopBoard(
                         <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
                         <ContentTitle>{convertTitle(board.title)}</ContentTitle>
                         <Comment>[{board.comment_count}]</Comment>
-                        {computedTime(board.created_at)[1] &&
+                        {computedTime(board.created_at, false)[1] &&
                           <N/>
                         }
                       </ContentsInfo>
-                      <Time>{computedTime(board.created_at)[0].substring(0, 10)}</Time>
+                      <Time>{computedTime(board.created_at, false)[0].substring(0, 10)}</Time>
                     </Contents>
                   }
                 </Fragment>
@@ -545,42 +560,23 @@ export default function IndexTopBoard(
           최근게시물
         </Title>
         <NewBoardContent>
-          <Contents>
-            <ContentsInfo>
-              <BoardTitle>[자유]</BoardTitle>
-              <ContentTitle>글제목</ContentTitle>
-              <Comment>[10]</Comment>
-              <N/>
-            </ContentsInfo>
-            <Time>2020.02.10</Time>
-          </Contents>
-          <Contents>
-            <ContentsInfo>
-              <BoardTitle>[자유]</BoardTitle>
-              <ContentTitle>글제목</ContentTitle>
-              <Comment>[10]</Comment>
-              <N/>
-            </ContentsInfo>
-            <Time>2020.02.10</Time>
-          </Contents>
-          <Contents>
-            <ContentsInfo>
-              <BoardTitle>[자유]</BoardTitle>
-              <ContentTitle>글제목</ContentTitle>
-              <Comment>[10]</Comment>
-              <N/>
-            </ContentsInfo>
-            <Time>2020.02.10</Time>
-          </Contents>
-          <Contents>
-            <ContentsInfo>
-              <BoardTitle>[자유]</BoardTitle>
-              <ContentTitle>글제목</ContentTitle>
-              <Comment>[10]</Comment>
-              <N/>
-            </ContentsInfo>
-            <Time>2020.02.10</Time>
-          </Contents>
+          {newBoardList &&
+            newBoardList.map((board, index) => {
+              return (
+                <Contents key={index}>
+                  <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
+                    <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
+                    <ContentTitle>{convertTitle(board.title)}</ContentTitle>
+                    <Comment>[{board.comment_count}]</Comment>
+                    {computedTime(board.created_at, true)[1] &&
+                      <N/>
+                    }
+                  </ContentsInfo>
+                  <Time>{computedTime(board.created_at, true)[0].substring(0, 10)}</Time>
+                </Contents>
+              )
+            })
+          }
         </NewBoardContent>
       </NewBoard>
     </Container>

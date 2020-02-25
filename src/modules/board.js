@@ -71,11 +71,11 @@ const initialState = {
     error: null
   },
   newPosts: {
-    notice: null,
-    free: null,
-    job: null,
-    anonymous: null,
-    question: null,
+    notice: [],
+    free: [],
+    job: [],
+    anonymous: [],
+    question: [],
     loading: false,
     error: null
   },

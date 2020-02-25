@@ -5,15 +5,14 @@ import {getHotPosts, getNewPosts} from "../../modules/board";
 
 export default function IndexTopBoardContainer({history}) {
   const dispatch = useDispatch();
-  const { hotPosts, newPosts, loading, error } = useSelector(state => state.boardReducer);
+  const { hotPosts, loading, error } = useSelector(state => state.boardReducer);
+  const { free, job, anonymous, question } = useSelector(state => state.boardReducer.newPosts);
   const [hotBoardList, setHotBoardList] = useState([]);
-  const [stack, setStack] = useState(0);
-  const [newBoardList, setNewBoardList] = useState([]);
+  const [newBoardList, setNewBoardList] = useState();
 
   useEffect(() => {
     dispatch(getHotPosts());
     dispatch(getNewPosts());
-    setStack(1);
   }, []);
 
   useEffect(() => {
@@ -21,18 +20,29 @@ export default function IndexTopBoardContainer({history}) {
   },[hotPosts.data])
 
   useEffect(() => {
+    setNewBoard(free.concat(job).concat(anonymous).concat(question))
+  },[free])
 
-  }, [newPosts.data])
+  function setNewBoard(list) {
+    let articles = list;
+    articles.map((data,id) => {
+      articles[id].created_at = (data.created_at.replace(' ','T'))
+    });
+    // 시간 순 정렬
+    setNewBoardList(articles.sort(function(a,b){
+      return new Date(b.created_at) - new Date(a.created_at)
+    }).splice(0, 4));
+  }
 
   useEffect(() => {
-
-  },[stack])
+    console.log(newBoardList)
+  },[newBoardList])
 
   return(
     <IndexTopBoard
       history={history}
       hotBoardList={hotBoardList}
-      newBoardList={[]}
+      newBoardList={newBoardList}
     />
   )
 }
