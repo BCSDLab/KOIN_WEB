@@ -250,7 +250,7 @@ export default function IndexBoardList(
       case undefined:
         return history.push(`/board/anonymous/${id}`)
       case 10:
-        return history.push(`/board/question.${id}`)
+        return history.push(`/board/question/${id}`)
       default:
         return history.push(`/board/notice/${id}`)
     }
@@ -263,7 +263,8 @@ export default function IndexBoardList(
             return (
               <BoardName
                 onClick={() => selectBoard(idx)}
-                isSelected={selectedBoard === idx}>
+                isSelected={selectedBoard === idx}
+                key={idx}>
                 {board}
               </BoardName>
             )
@@ -277,9 +278,9 @@ export default function IndexBoardList(
       <ArticleList>
         {articles &&
         <>
-          {articles.map((article) => {
+          {articles.map((article, index) => {
             return (
-              <Article>
+              <Article key={index}>
                 <ArticleTitleContainer onClick={() => clickArticle(article.board_id, article.id)}>
                   <Type>
                     {articleType(article.board_id)}

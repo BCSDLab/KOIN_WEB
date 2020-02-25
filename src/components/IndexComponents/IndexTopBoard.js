@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -519,7 +519,7 @@ export default function IndexTopBoard(
           {hotBoardList &&
             hotBoardList.map((board, index) => {
               return (
-                <>
+                <Fragment key={index}>
                   {index < 4 &&
                     <Contents>
                       <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
@@ -534,7 +534,7 @@ export default function IndexTopBoard(
                       <Time>{computedTime(board.created_at)[0].substring(0, 10)}</Time>
                     </Contents>
                   }
-                </>
+                </Fragment>
               )
             })
           }
