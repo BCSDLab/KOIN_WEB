@@ -1,5 +1,5 @@
 import React from 'react'
-import FaqContainer from "../containers/FaqContainer";
+import FaqContainer from "../../containers/InfoContainers/FaqContainer";
 
 export default function LoginPage() {
   return (

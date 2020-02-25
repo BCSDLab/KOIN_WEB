@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import RoomList from '../components/RoomList';
+import RoomList from '../../components/InfoComponents/RoomList';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRoomList } from '../modules/room';
+import { getRoomList } from '../../modules/room';
 
 export default function RoomListContainer({ history }) {
   const dispatch = useDispatch();

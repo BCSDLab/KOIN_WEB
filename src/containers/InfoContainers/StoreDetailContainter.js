@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import useDarkenBackground from "../hooks/useDarkenBackground";
+import useDarkenBackground from "../../hooks/useDarkenBackground";
 import { useHistory } from "react-router-dom";
 import {useSelector, useDispatch} from 'react-redux';
-import { getStoreDetailInfo } from "../modules/store";
-import StoreDetail from "../components/StoreDetail";
-import StorePoster from "../components/StorePoster";
-import StoreBanner from "../components/StoreBanner";
+import { getStoreDetailInfo } from "../../modules/store";
+import StoreDetail from "../../components/InfoComponents/StoreDetail";
+import StorePoster from "../../components/InfoComponents/StorePoster";
+import StoreBanner from "../../components/InfoComponents/StoreBanner";
 import Cookies from "js-cookie";
 
 

@@ -4,12 +4,12 @@ import Header from '../../components/MarketComponents/Header';
 import ButtonGroup from '../../components/MarketComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
 import Item from '../../components/MarketComponents/Item';
-import { getItem, checkPermission, deleteItem } from '../../modules/market';
+import { getItem, checkPermission, deleteItem, registerComment, editComment, deleteComment } from '../../modules/market';
 
 export default function MarketItemContainer({ history, match }) {
   const { addToast } = useToasts();
   const dispatch = useDispatch();
-  const { item, data, error } = useSelector(state => state.marketReducer);
+  const { item, data, error, comment } = useSelector(state => state.marketReducer);
   const [path, setPath] = useState();
   const [isMyItem, setIsMyItem] = useState(false);
 
@@ -21,6 +21,49 @@ export default function MarketItemContainer({ history, match }) {
     dispatch(deleteItem({
       id: match.params.id,
       token: sessionStorage.getItem("token")
+    }));
+  }
+
+  const onReigsterComment = content => {
+    if (!content.length || !content) {
+      addToast("내용을 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
+    }
+    dispatch(registerComment({
+      token: sessionStorage.getItem("token"),
+      itemId: match.params.id,
+      body: {
+        content
+      },
+    }));
+  }
+
+  const onEditComment = (id, content) => {
+    if (!content.length || !content) {
+      addToast("내용을 입력해주세요.", {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return;
+    }
+    dispatch(editComment({
+      token: sessionStorage.getItem("token"),
+      itemId: match.params.id,
+      id,
+      body: {
+        content
+      }
+    }));
+  }
+
+  const onDeleteComment = id => {
+    dispatch(deleteComment({
+      token: sessionStorage.getItem("token"),
+      itemId: match.params.id,
+      id,
     }));
   }
 
@@ -59,6 +102,41 @@ export default function MarketItemContainer({ history, match }) {
     }
   }, [data]);
 
+  useEffect(()=> {
+    if(comment){
+      if(comment.data){
+        // 댓글 작성 시
+        dispatch(getItem({
+          id: match.params.id,
+          token: sessionStorage.getItem("token") || undefined,
+        }));
+        addToast("댓글을 등록했습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+      }
+
+      // 삭제 시
+      if(comment.delete){
+        dispatch(getItem({
+          id: match.params.id,
+          token: sessionStorage.getItem("token") || undefined,
+        }));
+        addToast("댓글을 삭제했습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+      }
+
+      if(comment.error){
+        addToast("권한이 없습니다.", {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    }
+  },[comment])
+
   useEffect(() => {
     if (error) {
       if (error.status === 412) {
@@ -89,6 +167,9 @@ export default function MarketItemContainer({ history, match }) {
         isMyItem={isMyItem}
         onClickEditButton={onClickEditButton}
         onClickDeleteButton={onClickDeleteButton}
+        registerComment={onReigsterComment}
+        editComment={onEditComment}
+        deleteComment={onDeleteComment}
       />
     </>
     

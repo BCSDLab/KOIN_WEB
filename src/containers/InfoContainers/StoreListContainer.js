@@ -1,10 +1,10 @@
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import useInterval from "../hooks/useInterval";
-import {getStoreList, filterStoreList, getRandomPromotion} from '../modules/store';
-import StoreList from '../components/StoreList';
-import StoreBanner from "../components/StoreBanner";
+import useInterval from "../../hooks/useInterval";
+import {getStoreList, filterStoreList, getRandomPromotion} from '../../modules/store';
+import StoreList from '../../components/InfoComponents/StoreList';
+import StoreBanner from "../../components/InfoComponents/StoreBanner";
 
 export default function StoreListContainer () {
   const [mobileFlag, setMobileFlag] = useState(true);

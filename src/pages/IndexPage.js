@@ -6,6 +6,7 @@ import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/IndexCafeteriaContainer";
 import IndexRecommendContainer from "../containers/IndexContainers/IndexRecommendContainer";
 import IndexBoardListContainer from "../containers/IndexContainers/IndexBoardListContainer";
+import IndexMarketContainer from '../containers/IndexContainers/IndexMarketContainer';
 
 const Container = styled.div`
   width: 1132px;
@@ -93,6 +94,9 @@ export default function IndexPage({history}) {
         </BoardList>
       </IndexRow>
 
+      <IndexRow>
+        <IndexMarketContainer history={history}/>
+      </IndexRow>
     </Container>
   )
 }

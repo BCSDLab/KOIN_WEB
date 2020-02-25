@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {useSelector, useDispatch} from 'react-redux';
-import Faq from "../components/Faq";
-import {getFaqList} from "../modules/faq"
+import Faq from "../../components/InfoComponents/Faq";
+import {getFaqList} from "../../modules/faq"
 
 export default function FaqContainer() {
   const [totalPageNum] = useState(4);

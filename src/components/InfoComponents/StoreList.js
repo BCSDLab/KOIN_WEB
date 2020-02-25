@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import storeCategory from '../static/storeCategory';
+import storeCategory from '../../static/storeCategory';
 import { Link } from "react-router-dom";
 
 const Container = styled.div`

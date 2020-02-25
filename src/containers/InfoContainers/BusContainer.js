@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react'
 import {useSelector, useDispatch} from 'react-redux';
-import BusLookUp from "../components/BusLookUp";
-import BusTimeTable from "../components/BusTimeTable";
-import setBusTime from "../modules/setBusTime";
-import {getBusInfo} from "../modules/bus";
-import {semesterTimeTable, vacationTimeTable} from "../static/shuttleBusTimeTable";
-import useInterval from "../hooks/useInterval";
+import BusLookUp from "../../components/InfoComponents/BusLookUp";
+import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
+import setBusTime from "../../modules/setBusTime";
+import {getBusInfo} from "../../modules/bus";
+import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
+import useInterval from "../../hooks/useInterval";
 
 export default function BusContainer() {
 

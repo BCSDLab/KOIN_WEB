@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import CafeteriaMenu from "../components/CafeteriaMenu";
-import {getCafeteriaMenu} from "../modules/cafeteriaMenu";
+import CafeteriaMenu from "../../components/InfoComponents/CafeteriaMenu";
+import {getCafeteriaMenu} from "../../modules/cafeteriaMenu";
 
 export default function CafeteriaMenuContainer() {
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;

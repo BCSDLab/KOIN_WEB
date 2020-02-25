@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getCircleDetailInfo } from '../modules/circle';
-import CircleDetail from '../components/CircleDetail';
+import { getCircleDetailInfo } from '../../modules/circle';
+import CircleDetail from '../../components/InfoComponents/CircleDetail';
 
 export default function CircleDetailContainer({ id }) {
   const dispatch = useDispatch();

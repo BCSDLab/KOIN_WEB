@@ -1,5 +1,5 @@
 import React from 'react'
-import RoomDetailContainer from '../containers/RoomDetailContainer';
+import RoomDetailContainer from '../../containers/InfoContainers/RoomDetailContainer';
 
 export default function RoomDetailPage({ match }) {
   return (

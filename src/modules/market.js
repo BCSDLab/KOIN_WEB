@@ -38,6 +38,9 @@ export const DELETE_COMMENT = "market/DELETE_COMMENT";
 export const DELETE_COMMENT_SUCCESS = "market/DELETE_COMMENT_SUCCESS";
 export const DELETE_COMMENT_ERROR = "market/DELETE_COMMENT_ERROR";
 
+export const GET_LATEST_ITEMS = "GET_LATEST_ITEMS";
+export const GET_LATEST_ITEMS_SUCCESS = "GET_LATEST_ITEMS_SUCCESS";
+export const GET_LATEST_ITEMS_ERROR = "GET_LATEST_ITEMS_ERROR";
 export const CLEAR_STATE = "market/CLEAR_STATE";
 
 export const getItems = payload => ({ type: GET_ITEMS, payload });
@@ -50,6 +53,7 @@ export const checkPermission = payload => ({ type: CHECK_PERMISSION, payload });
 export const registerComment = payload => ({ type: REGISTER_COMMENT, payload });
 export const editComment = payload => ({ type: EDIT_COMMENT, payload });
 export const deleteComment = payload => ({ type: DELETE_COMMENT, payload });
+export const getLatestItems = payload => ({ type: GET_LATEST_ITEMS, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
 
 const initialState = {
@@ -67,7 +71,7 @@ const initialState = {
   },
   comment: {
     data: null,
-    loading: false,
+    delete: false,
     error: null
   },
   totalPageNum: 0,
@@ -86,8 +90,9 @@ export default function marketReducer(state= initialState, action) {
         data: null,
         error: null,
         items: {
-          ...state.items,
-          loading: true
+          data: null,
+          loading: true,
+          error: null
         }
       }
     case GET_ITEMS_SUCCESS:
@@ -247,38 +252,108 @@ export default function marketReducer(state= initialState, action) {
     case REGISTER_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     case REGISTER_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          ...state.comment,
+          data: action.payload,
+        }
       }
     case REGISTER_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
       }
     case EDIT_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }        
       }
     case EDIT_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          ...state.comment,
+          data: action.payload
+        }
       }
     case EDIT_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
       }
     case DELETE_COMMENT:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: null
+        }
       }
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: action.payload,
+          error: null
+        }
       }
     case DELETE_COMMENT_ERROR:
       return {
         ...state,
+        comment: {
+          data: null,
+          delete: null,
+          error: action.error
+        }
+      }
+    case GET_LATEST_ITEMS:
+      return {
+        ...state,
+        items: {
+          data: null,
+          loading: true,
+          error: null
+        }
+      }
+    case GET_LATEST_ITEMS_SUCCESS:
+      return {
+        ...state,
+        items: {
+          data: action.payload.data.items,
+          loading: false,
+          error: null
+        }
+      }
+    case GET_LATEST_ITEMS_ERROR:
+      return {
+        ...state,
+        items: {
+          data: null,
+          loading: false,
+          error: action.error
+        }
       }
     case CLEAR_STATE:
       return {
