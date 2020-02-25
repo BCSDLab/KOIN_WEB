@@ -1,24 +1,45 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
   width: 1132px;
   height: 150.5px;
   display: flex;
+  
+  @media(max-width: 576px){
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 31px 0 0 0;
+  }
 `;
 
 const MobileTab = styled.div`
   display: none;
+  
+  @media(max-width: 576px){
+    display: flex;
+  }
 `;
 
 const HotBoard = styled.div`
   width: 50%;
+  
+  @media(max-width: 576px){
+    width: 100%;
+    padding: 21px 0 0 0;
+  }
 `;
 
 const NewBoard = styled.div`
   width: 50%;
   box-sizing: border-box;
   padding-left: 39px;
+  
+  @media(max-width: 576px){
+    width: 100%;
+    padding: 21px 0 0 0;
+  }
 `;
 
 const Title = styled.div`
@@ -29,6 +50,10 @@ const Title = styled.div`
   text-align: left;
   margin-bottom: 20px;
   color: #175c8e;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const Contents = styled.div`
@@ -39,6 +64,10 @@ const Contents = styled.div`
   justify-content: space-between;
   cursor: pointer;
   margin-bottom: 13px;
+  
+  @media(max-width: 576px){
+    margin-bottom: 14px;
+  }
 `;
 
 const HotBoardContent = styled.div`
@@ -48,6 +77,11 @@ const HotBoardContent = styled.div`
   
   ${Contents}:last-child{
     margin-bottom: 0;
+  }
+  
+  @media(max-width: 576px){
+    padding: 0;
+    border-right: none;
   }
 `;
 
@@ -66,6 +100,10 @@ const ContentsInfo = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   word-wrap: normal;
+  
+  @media(max-width: 576px){
+    font-size: 14px;
+  }
 `;
 
 const Rank = styled.span`
@@ -82,6 +120,10 @@ const Rank = styled.span`
   padding: 1px 5px;
   border-radius: 4px;
   margin-right: 10px;
+  
+  @media(max-width: 576px){
+    display: none;
+  }
 `;
 
 const BoardTitle = styled.span`
@@ -91,6 +133,10 @@ const BoardTitle = styled.span`
   margin-right: 10px;
   line-height: 1.2;
   color: #252525;
+  
+  @media(max-width: 576px){
+    margin-right: 2px;
+  }
 `;
 
 const ContentTitle = styled.span`
@@ -104,6 +150,10 @@ const ContentTitle = styled.span`
   text-overflow: ellipsis;
   overflow: hidden;
   word-wrap: normal;
+  
+  @media(max-width: 576px){
+    max-width: 60%;
+  }
 `;
 
 const Comment = styled.div`
@@ -113,6 +163,11 @@ const Comment = styled.div`
   text-align: left;
   color: #9fa9b3;
   margin-right: 10px;
+  
+  @media(max-width: 576px){
+    font-size: 15px;
+    margin-right: 3px;
+  }
 `;
 
 const N = styled.img.attrs({
@@ -127,6 +182,28 @@ const Time = styled.span`
   line-height: 1.15;
   text-align: right;
   color: #175c8e;
+  
+  @media(max-width: 576px){
+    font-family: NanumBarunGothic;
+    font-size: 11px;
+    line-height: 1.09;
+    letter-spacing: normal;
+    color: #252525;
+    white-space: nowrap;
+  }
+`;
+
+const MobileTabTitle = styled.div`
+  width: 50%;
+  font-family: NanumSquare;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.13;
+  letter-spacing: normal;
+  text-align: center;
+  color: #175c8e;
+  padding-bottom: 11px;
+  border-bottom: ${props => props.selected? "2px solid #175c8e": '2px solid #d0d6db' };
 `;
 
 export default function IndexTopBoard(
@@ -521,64 +598,96 @@ export default function IndexTopBoard(
     }
     else history.push(`board/notice/${id}`);
   }
+  const [selectedTab, selectTab] = useState("인기게시물")
+  const [mobileFlag, changeMobileFlag] = useState(false);
+
+  const setMobileFlag = width => {
+    if(width < 576) {
+      changeMobileFlag(true);
+    } else changeMobileFlag(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setMobileFlag(window.innerWidth);
+    })
+  }, []);
+
+  useEffect(() => {
+    setMobileFlag(window.innerWidth);
+  },[]);
+
   return(
     <Container>
       <MobileTab>
-
+        <MobileTabTitle
+          selected={selectedTab === "인기게시물"}
+          onClick={() => selectTab("인기게시물")}>
+          인기게시물
+        </MobileTabTitle>
+        <MobileTabTitle
+          selected={selectedTab === "최근게시물"}
+          onClick={() => selectTab("최근게시물")}>
+          최근게시물
+        </MobileTabTitle>
       </MobileTab>
+      {(!mobileFlag || selectedTab === "인기게시물") &&
       <HotBoard>
         <Title>
           인기게시물
         </Title>
         <HotBoardContent>
           {hotBoardList &&
-            hotBoardList.map((board, index) => {
-              return (
-                <Fragment key={index}>
-                  {index < 4 &&
-                    <Contents>
-                      <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
-                        <Rank>{index + 1}</Rank>
-                        <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
-                        <ContentTitle>{convertTitle(board.title)}</ContentTitle>
-                        <Comment>[{board.comment_count}]</Comment>
-                        {computedTime(board.created_at, false)[1] &&
-                          <N/>
-                        }
-                      </ContentsInfo>
-                      <Time>{computedTime(board.created_at, false)[0].substring(0, 10)}</Time>
-                    </Contents>
-                  }
-                </Fragment>
-              )
-            })
+          hotBoardList.map((board, index) => {
+            return (
+              <Fragment key={index}>
+                {index < 4 &&
+                <Contents>
+                  <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
+                    <Rank>{index + 1}</Rank>
+                    <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
+                    <ContentTitle>{convertTitle(board.title)}</ContentTitle>
+                    <Comment>[{board.comment_count}]</Comment>
+                    {computedTime(board.created_at, false)[1] &&
+                    <N/>
+                    }
+                  </ContentsInfo>
+                  <Time>{computedTime(board.created_at, false)[0].substring(0, 10)}</Time>
+                </Contents>
+                }
+              </Fragment>
+            )
+          })
           }
         </HotBoardContent>
       </HotBoard>
+      }
+      {(!mobileFlag || selectedTab === "최근게시물") &&
       <NewBoard>
         <Title>
           최근게시물
         </Title>
         <NewBoardContent>
           {newBoardList &&
-            newBoardList.map((board, index) => {
-              return (
-                <Contents key={index}>
-                  <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
-                    <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
-                    <ContentTitle>{convertTitle(board.title)}</ContentTitle>
-                    <Comment>[{board.comment_count}]</Comment>
-                    {computedTime(board.created_at, true)[1] &&
-                      <N/>
-                    }
-                  </ContentsInfo>
-                  <Time>{computedTime(board.created_at, true)[0].substring(0, 10)}</Time>
-                </Contents>
-              )
-            })
+          newBoardList.map((board, index) => {
+            return (
+              <Contents key={index}>
+                <ContentsInfo onClick={() => clickList(board.id, board.board_id)}>
+                  <BoardTitle>{displayBoard(board.board_id)}</BoardTitle>
+                  <ContentTitle>{convertTitle(board.title)}</ContentTitle>
+                  <Comment>[{board.comment_count}]</Comment>
+                  {computedTime(board.created_at, true)[1] &&
+                  <N/>
+                  }
+                </ContentsInfo>
+                <Time>{computedTime(board.created_at, true)[0].substring(0, 10)}</Time>
+              </Contents>
+            )
+          })
           }
         </NewBoardContent>
       </NewBoard>
+      }
     </Container>
   )
 }
