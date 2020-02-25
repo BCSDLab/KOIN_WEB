@@ -96,6 +96,14 @@ const registerLostItem = (token, body) => {
   })
 }
 
+const adjustLostItem = (token, id, body) => {
+  return axios.put(`${API_PATH}/lost/lostItems/${id}`, body, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+}
+
 const getSpecificLostItem = (token, id) => {
   return axios.get(`${API_PATH}/lost/lostItems/${id}`, {
     headers: {
@@ -154,6 +162,7 @@ export {
   getVersion,
   getLostItems,
   registerLostItem,
+  adjustLostItem,
   getSpecificLostItem,
   adjustLostComment,
   deleteLostComment,

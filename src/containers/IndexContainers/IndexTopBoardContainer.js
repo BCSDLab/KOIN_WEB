@@ -1,31 +1,28 @@
 import React, {useEffect, useState} from "react";
 import IndexTopBoard from "../../components/IndexComponents/IndexTopBoard";
 import {useDispatch, useSelector} from "react-redux";
-import {getHotPosts, getPosts} from "../../modules/board";
+import {getHotPosts, getNewPosts} from "../../modules/board";
 
 export default function IndexTopBoardContainer({history}) {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(state => state.boardReducer.hotPosts);
-  const { posts } = useSelector(state => state.boardReducer);
+  const { hotPosts, newPosts, loading, error } = useSelector(state => state.boardReducer);
   const [hotBoardList, setHotBoardList] = useState([]);
   const [stack, setStack] = useState(0);
   const [newBoardList, setNewBoardList] = useState([]);
 
   useEffect(() => {
     dispatch(getHotPosts());
-    dispatch(getPosts({pageNum: 1, boardId: 1}));
-    dispatch(getPosts({pageNum: 1, boardId: 2}));
-    dispatch(getPosts({pageNum: 1, boardId: 10}));
+    dispatch(getNewPosts());
     setStack(1);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    setHotBoardList(data);
-  },[data])
+    setHotBoardList(hotPosts.data);
+  },[hotPosts.data])
 
   useEffect(() => {
-    setNewBoardList()
-  }, [posts])
+
+  }, [newPosts.data])
 
   useEffect(() => {
 

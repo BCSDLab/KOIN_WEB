@@ -6,6 +6,10 @@ export const GET_HOT_POSTS = "GET_HOT_POSTS";
 export const GET_HOT_POSTS_SUCCESS = "GET_HOT_POSTS_SUCCESS";
 export const GET_HOT_POSTS_ERROR = "GET_HOT_POSTS_ERROR";
 
+export const GET_NEW_POSTS = "GET_NEW_POSTS";
+export const GET_NEW_POSTS_SUCCESS = "GET_NEW_POSTS_SUCCESS";
+export const GET_NEW_POSTS_ERROR = "GET_NEW_POSTS_ERROR";
+
 export const REGISTER_POST = "REGISTER_POST";
 export const REGISTER_POST_SUCCESS = "REGISTER_POST_SUCCESS";
 export const REGISTER_POST_ERROR = "REGISTER_POST_ERROR";
@@ -42,6 +46,7 @@ export const CLEAR_STATE = "CLEAR_STATE";
 
 export const getPosts = payload => ({ type: GET_POSTS, payload });
 export const getHotPosts = () => ({ type: GET_HOT_POSTS });
+export const getNewPosts = () => ({ type: GET_NEW_POSTS });
 export const getPost = payload => ({ type: GET_POST, payload });
 export const registerPost = payload => ({ type: REGISTER_POST, payload });
 export const editPost = payload => ({ type: EDIT_POST, payload });
@@ -62,6 +67,15 @@ const initialState = {
   },
   hotPosts: {
     data: null,
+    loading: false,
+    error: null
+  },
+  newPosts: {
+    notice: null,
+    free: null,
+    job: null,
+    anonymous: null,
+    question: null,
     loading: false,
     error: null
   },
@@ -141,6 +155,40 @@ export default function boardReducer(state = initialState, action) {
         ...state,
         hotPosts: {
           data: null,
+          loading: false,
+          error: action.error
+        }
+      }
+    case GET_NEW_POSTS:
+      return {
+        ...state,
+        newPosts: {
+          ...state.newPosts,
+          loading: true
+        }
+      }
+    case GET_NEW_POSTS_SUCCESS:
+      return {
+        ...state,
+        newPosts: {
+          notice: action.payload.notice,
+          free: action.payload.free,
+          job: action.payload.job,
+          anonymous: action.payload.anonymous,
+          question: action.payload.question,
+          loading: false,
+          error: null
+        }
+      }
+    case GET_NEW_POSTS_ERROR:
+      return {
+        ...state,
+        newPosts: {
+          notice: null,
+          free: null,
+          job: null,
+          anonymous: null,
+          question: null,
           loading: false,
           error: action.error
         }
