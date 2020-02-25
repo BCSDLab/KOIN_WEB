@@ -158,7 +158,7 @@ export default function IndexBoardList(
     }
   }
   function changeTime(time){
-    let times = time.split(" ");
+    let times = time.split(/[ T]/);
     let date = times[0].split("-");
     let tim = times[1].split(":");
     let created = new Date();
