@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PostRegisterContainer from '../../containers/BoardContainers/PostRegisterContainer';
 import PostListContainer from '../../containers/BoardContainers/PostListContainer';
 import PostEditContainer from '../../containers/BoardContainers/PostEditContainer';
 import PostDetailContainer from '../../containers/BoardContainers/PostDetailContainer';
+
+import PromotionListContainer from '../../containers/PromotionContainers/PromotionListContainer'
+
 import HotPosts from '../../components/BoardComponents/HotPosts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotPosts } from '../../modules/board';
@@ -35,7 +38,7 @@ const Row = styled.div`
 export default function BoardPage({ history, match }) {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector(state => state.boardReducer.hotPosts);
-  const { id } = match.params;
+  const { type, id } = match.params;
 
 
   useEffect(() => {
@@ -46,10 +49,18 @@ export default function BoardPage({ history, match }) {
     <>
       <Container>
         <Row>
-          {!id && <Route exact path={match.path} component={(PostListContainer)} />}
-          {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
-          {id === 'edit' && <Route path={match.path} component={PostEditContainer} />}
-          {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
+          <Switch>
+            {type === 'promotion' && (
+              <>
+                {!id && <Route exact path={match.path} component={PromotionListContainer} />}
+                {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
+              </>
+            )}
+            {!id && <Route exact path={match.path} component={(PostListContainer)} />}
+            {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
+            {id === 'edit' && <Route path={match.path} component={PostEditContainer} />}
+            {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
+          </Switch>
         </Row>
       </Container>
       <HotPosts
