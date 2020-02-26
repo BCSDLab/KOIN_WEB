@@ -3,16 +3,16 @@ import axios from 'axios';
 const API_PATH = process.env.REACT_APP_API_PATH;
 
 const getAllPromotionList = (nowPageNum, limit) => {
-  return axios.get(API_PATH + 'events/?page=' + nowPageNum + '&limit=' + limit)
+  return axios.get(`${API_PATH}/events/?page=${nowPageNum}&limit=${limit}`)
 };
 const getPendingPromotionList = (nowPageNum, limit) => {
-  return axios.get(API_PATH + 'events/pending/?page=' + nowPageNum + '&limit=' + limit)
+  return axios.get(`${API_PATH}/events/pending/?page=${nowPageNum}&limit=${limit}`)
 };
 const getClosedPromotionList = (nowPageNum, limit) => {
-  return axios.get(API_PATH + 'events/closed/?page=' + nowPageNum + '&limit=' + limit)
+  return axios.get(`${API_PATH}/events/closed/?page=${nowPageNum}&limit=${limit}`)
 };
 const checkMyPendingPromotion = (token) => {
-  return axios.get(API_PATH + 'events/pending/my?page=1&limit=1', {
+  return axios.get(`${API_PATH}/events/pending/my?page=1&limit=1`, {
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -20,7 +20,7 @@ const checkMyPendingPromotion = (token) => {
 };
 
 const getMyStore = (token) => {
-  return axios.get(API_PATH + 'events/my/shops', {
+  return axios.get(`${API_PATH}/events/my/shops`, {
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -29,28 +29,28 @@ const getMyStore = (token) => {
 
 // Articles
 const getSpecificPromotion = (articleId, token) => {
-  return axios.get(API_PATH + 'events/' + articleId, {
+  return axios.get(`${API_PATH}/events/${articleId}`, {
     headers: {
       "Authorization": "Bearer " + token
     }
   });
 };
 const registerPromotion = (token, body) => {
-  return axios.post(API_PATH + 'events', body, {
+  return axios.post(`${API_PATH}/events`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const adjustPromotion = (articleId, token, body) => {
-  return axios.put(API_PATH + 'events/' + articleId, body, {
+  return axios.put(`${API_PATH}/events/${articleId}`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const removePromotion = (articleId, token) => {
-  return axios.delete(API_PATH + 'events/' + articleId, {
+  return axios.delete(`${API_PATH}/events/${articleId}`, {
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -59,28 +59,28 @@ const removePromotion = (articleId, token) => {
 
 // Comment
 const grantCheckPromotion = (token, body) => {
-  return axios.post(API_PATH + 'events/grant/check', body, {
+  return axios.post(`${API_PATH}/events//grant/check`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const registerPromotionComment = (articleId, token, body) => {
-  return axios.post(API_PATH + 'events/' + articleId + '/comments', body, {
+  return axios.post(`${API_PATH}/events/${articleId}/comments`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const adjustPromotionComment = (articleId, id, token, body) => {
-  return axios.put(API_PATH + 'events/' + articleId + '/comments/' + id, body, {
+  return axios.put(`${API_PATH}/events/${articleId}/comments${id}`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const removePromotionComment = (articleId, id, token) => {
-  return axios.delete(API_PATH + 'events/' + articleId + '/comments/' + id, {
+  return axios.delete(`${API_PATH}/events/${articleId}/comments${id}`, {
     headers: {
       "Authorization": "Bearer " + token
     }
