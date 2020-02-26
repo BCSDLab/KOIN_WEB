@@ -43,9 +43,10 @@ import { promotionAPI } from '../api';
 
 function* getPromotions({ payload }) {
   const { pageNum, filter } = payload;
+
   try {
     // getAllPromotionList, getPendingPromotionList, getClosedPromotionList
-    const res = yield call(promotionAPI[`get${filter}PromotionList`], pageNum);
+    const res = yield call(promotionAPI[`get${filter}PromotionList`], pageNum, 12);
 
     yield put({
       type: GET_PROMOTIONS_SUCCESS,

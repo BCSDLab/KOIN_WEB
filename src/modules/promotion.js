@@ -44,8 +44,8 @@ export const CHECK_PROMOTION_PERMISSION_ERROR = "CHECK_PROMOTION_PERMISSION_ERRO
 
 export const CLEAR_STATE = "CLEAR_STATE";
 
-export const getPromotionPromotions = payload => ({ type: GET_PROMOTIONS, payload });
-export const getPromotionPromotion = payload => ({ type: GET_PROMOTION, payload });
+export const getPromotions = payload => ({ type: GET_PROMOTIONS, payload });
+export const getPromotion = payload => ({ type: GET_PROMOTION, payload });
 export const registerPromotion = payload => ({ type: REGISTER_PROMOTION, payload });
 export const editPromotion = payload => ({ type: ADJUST_PROMOTION, payload });
 export const deletePromotion = payload => ({ type: DELETE_PROMOTION, payload });
