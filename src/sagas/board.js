@@ -6,6 +6,9 @@ import {
   GET_HOT_POSTS,
   GET_HOT_POSTS_SUCCESS,
   GET_HOT_POSTS_ERROR,
+  GET_NEW_POSTS,
+  GET_NEW_POSTS_SUCCESS,
+  GET_NEW_POSTS_ERROR,
   GET_POST,
   GET_POST_SUCCESS,
   GET_POST_ERROR,
@@ -34,7 +37,6 @@ import {
   CLEAR_STATE
 } from '../modules/board';
 import { boardAPI } from '../api';
-import Cookies from 'js-cookie';
 
 function* getPosts({ payload }) {
   const { pageNum, boardId } = payload;
@@ -104,13 +106,37 @@ function* getHotPosts() {
   }
 }
 
+function* getNewPosts() {
+  try {
+    const notice = yield call(boardAPI.getIndexPageArticleList, 4);
+    const job = yield call(boardAPI.getIndexPageArticleList, 2);
+    const free = yield call(boardAPI.getIndexPageArticleList, 1);
+    const anonymous = yield call(boardAPI.getIndexPageArticleList, -1);
+    const question = yield call(boardAPI.getIndexPageArticleList, 10);
+
+    const res = {
+      "notice": notice.data,
+      "job": job.data,
+      "free": free.data,
+      "anonymous": anonymous.data.articles,
+      "question": question.data
+    }
+    yield put({
+      type: GET_NEW_POSTS_SUCCESS,
+      payload: res
+    });
+  } catch (e) {
+    yield put({
+      type: GET_NEW_POSTS_ERROR,
+      error: e.response
+    })
+  }
+}
+
 function* registerPost({ payload }) {
-  const { token, title, content, boardId, tempNickname, tempPassword } = payload;
+  const { token, boardId, body } = payload;
   const history = yield getContext('history');
   try {
-    let body = boardId === '-1'
-      ? { title, content, nickname: tempNickname, password: tempPassword }
-      : { board_id: boardId, title, content }
     const res = yield call(boardAPI.registerArticle, token, body, boardId);
     yield put({
       type: REGISTER_POST_SUCCESS,
@@ -126,10 +152,10 @@ function* registerPost({ payload }) {
 }
 
 function* deletePost({ payload }) {
-  const { id, token, tempPassword, boardId } = payload;
+  const { id, token, password, boardId } = payload;
   const history = yield getContext('history');
   try {
-    const res = yield call(boardId === '-1' ? boardAPI.removeAnonymousArticle : boardAPI.removeArticle, id, boardId === '-1' ? tempPassword : token);
+    const res = yield call(boardId === '-1' ? boardAPI.removeAnonymousArticle : boardAPI.removeArticle, id, boardId === '-1' ? password : token);
     yield put({
       type: DELETE_POST_SUCCESS,
       payload: res
@@ -144,12 +170,9 @@ function* deletePost({ payload }) {
 }
 
 function* editPost({ payload }) {
-  const { title, id, token, boardId, content, tempPassword } = payload;
+  const { token, id, boardId, body } = payload;
   const history = yield getContext('history');
   try {
-    let body = boardId === '-1'
-      ? { title, content, password: tempPassword }
-      : { board_id: boardId, title, content}
     const res = yield call(boardAPI.reviseArticle, id, token, body, boardId);
     yield put({
       type: EDIT_POST_SUCCESS,
@@ -243,6 +266,7 @@ function* checkPermission({ payload }) {
 function* watchFetchData() {
   yield takeEvery(GET_POSTS, getPosts);
   yield takeEvery(GET_HOT_POSTS, getHotPosts);
+  yield takeEvery(GET_NEW_POSTS, getNewPosts);
   yield takeLatest(GET_POST, getPost);
   yield takeEvery(REGISTER_POST, registerPost);
   yield takeEvery(EDIT_POST, editPost);

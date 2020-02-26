@@ -46,11 +46,23 @@ const InputField = styled.input`
   }
 `;
 
+const PasswordInputField = styled.input`
+  border: none;
+  margin-right: 20px;
+  font-size: 13px;
+  width: 130px;
+  position: relative;
+  margin-left: 10px;
+
+  &::placeholder {
+    color: #bec9d5;
+  }
+`;
+
 const PostInfo = styled.div`
   display: flex;
-  padding-bottom: 27px;
-  padding-left: 20px;
-  padding-right: 20px;
+  align-items: center;
+  padding: 0 20px 27px 20px;
 `;
 
 const PostAuthor = styled.div`
@@ -216,6 +228,17 @@ export default function PostEdit({
             </PostTitle>
             <PostInfo>
               <PostAuthor>{post.nickname}</PostAuthor>
+              {sessionStorage.getItem("boardId") === '-1' &&
+                <>
+                  <PostAuthor style={{ marginLeft: '50px' }}>비밀번호</PostAuthor>
+                  <PasswordInputField
+                    type="password"
+                    value={password}
+                    onChange={onChangePassword}
+                    placeholder="비밀번호를 입력해주세요."
+                  />
+                </>
+              }
               <PostCreatedAt>{computedOnlyDateByDateType(new Date())}</PostCreatedAt>
             </PostInfo>
           </PostHead>

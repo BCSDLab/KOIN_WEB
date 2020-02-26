@@ -96,16 +96,16 @@ const registerLostItem = (token, body) => {
   })
 }
 
-const getSpecificLostItem = (token, id) => {
-  return axios.get(`${API_PATH}/lost/lostItems/${id}`, {
+const adjustLostItem = (token, id, body) => {
+  return axios.put(`${API_PATH}/lost/lostItems/${id}`, body, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
   })
 }
 
-const adjustLostItem = (token, id, body) => {
-  return axios.put(`${API_PATH}/lost/lostItems/${id}`, body, {
+const getSpecificLostItem = (token, id) => {
+  return axios.get(`${API_PATH}/lost/lostItems/${id}`, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
@@ -162,10 +162,10 @@ export {
   getVersion,
   getLostItems,
   registerLostItem,
+  adjustLostItem,
   getSpecificLostItem,
   adjustLostComment,
   deleteLostComment,
   registerLostComment,
-  deleteLostItem,
-  adjustLostItem
+  deleteLostItem
 }

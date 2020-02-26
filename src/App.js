@@ -5,38 +5,40 @@ import { updateAuthInfo } from './modules/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 
+import TopnavContainer from './containers/TopnavContainer';
 import IndexPage from './pages/IndexPage';
+import Footer from './components/SharedComponents/Footer/Footer'
+
 // User Page
 import LoginPage from './pages/UserPages/LoginPage';
 import SignUpPage from './pages/UserPages/SignUpPage';
 import ModifyInfoPage from './pages/UserPages/ModifyInfoPage';
 import FindPasswordPage from './pages/UserPages/FindPasswordPage';
 // Info Page
-import FaqPage from "./pages/FaqPage";
-import CircleListPage from './pages/CircleListPage';
-import CircleDetailPage from './pages/CircleDetailPage';
-import CafeteriaMenuPage from "./pages/CafeteriaMenuPage";
-import RoomListPage from './pages/RoomListPage';
-import RoomDetailPage from './pages/RoomDetailPage';
-import StoreListPage from "./pages/StoreListPage";
-import StoreDetailPage from "./pages/StoreDetailPage";
-import TimeTablePage from "./pages/TimeTablePage";
-import BusPage from "./pages/BusPage";
+import FaqPage from "./pages/InfoPages/FaqPage";
+import CircleListPage from './pages/InfoPages/CircleListPage';
+import CircleDetailPage from './pages/InfoPages/CircleDetailPage';
+import CafeteriaMenuPage from "./pages/InfoPages/CafeteriaMenuPage";
+import RoomListPage from './pages/InfoPages/RoomListPage';
+import RoomDetailPage from './pages/InfoPages/RoomDetailPage';
+import StoreListPage from "./pages/InfoPages/StoreListPage";
+import StoreDetailPage from "./pages/InfoPages/StoreDetailPage";
+import TimeTablePage from "./pages/InfoPages/TimeTablePage";
+import BusPage from "./pages/InfoPages/BusPage";
 // Board Page
-
+import BoardPage from './pages/BoardPages/BoardPage';
+// LostPages
 import LostItemListPage from "./pages/LostPages/LostItemListPage";
 import LostItemDetailPage from "./pages/LostPages/LostItemDetailPage";
 import LostItemRegisterPage from "./pages/LostPages/LostItemRegisterPage";
 import LostItemRevisePage from "./pages/LostPages/LostItemRevisePage";
-
+// Market Page
+import MarketPage from './pages/MarketPages/MarketPage';
 // etc
-import TopnavContainer from './containers/TopnavContainer';
-import Footer from './components/SharedComponents/Footer/Footer'
+import SearchResultPage from './pages/SearchResultPage';
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
-import BoardPage from './pages/BoardPages/BoardPage';
-import SearchResultPage from './pages/SearchResultPage';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -193,6 +195,15 @@ function App({ history }) {
           <PrivateRoute
             path="/board/:type/:id"
             component={BoardPage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
+          {/* Market page */}
+          <Route exact path="/market/:type" component={MarketPage} />
+          <PrivateRoute
+            path="/market/:type/:id"
+            component={MarketPage}
             setDialog={setDialog}
             dialog={dialog}
             onConfirm={onConfirm}

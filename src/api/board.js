@@ -27,7 +27,12 @@ const getHotArticleList = () => {
 }
 
 const getIndexPageArticleList = boardId => {
-  return axios.get(`${API_PATH}/articles/new/list?offset=1&boardId=${boardId}`);
+  if(boardId !== -1) {
+    return axios.get(`${API_PATH}/articles/new/list?offset=1&boardId=${boardId}&limit=5`);
+  }
+  else {
+    return axios.get(`${API_PATH}/temp/articles?page=1&limit=5`);
+  }
 }
 
 // 게시글 생성, 삭제, 수정
