@@ -5,7 +5,8 @@ import PostListContainer from '../../containers/BoardContainers/PostListContaine
 import PostEditContainer from '../../containers/BoardContainers/PostEditContainer';
 import PostDetailContainer from '../../containers/BoardContainers/PostDetailContainer';
 
-import PromotionListContainer from '../../containers/PromotionContainers/PromotionListContainer'
+import PromotionListContainer from '../../containers/PromotionContainers/PromotionListContainer';
+import PromotionDetailContainer from '../../containers/PromotionContainers/PromotionDetailContainer';
 
 import HotPosts from '../../components/BoardComponents/HotPosts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,6 +55,7 @@ export default function BoardPage({ history, match }) {
               <>
                 {!id && <Route exact path={match.path} component={PromotionListContainer} />}
                 {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
+                {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PromotionDetailContainer} />}
               </>
             )}
             {!id && <Route exact path={match.path} component={(PostListContainer)} />}
