@@ -47,13 +47,13 @@ export const CLEAR_STATE = "CLEAR_STATE";
 export const getPromotions = payload => ({ type: GET_PROMOTIONS, payload });
 export const getPromotion = payload => ({ type: GET_PROMOTION, payload });
 export const registerPromotion = payload => ({ type: REGISTER_PROMOTION, payload });
-export const editPromotion = payload => ({ type: ADJUST_PROMOTION, payload });
+export const adjustPromotion = payload => ({ type: ADJUST_PROMOTION, payload });
 export const deletePromotion = payload => ({ type: DELETE_PROMOTION, payload });
 export const checkPromotionPermission = payload => ({ type: CHECK_PROMOTION_PERMISSION, payload });
 export const checkMyPendingPromotion = payload => ({ type: CHECK_MY_PENDING_PROMOTION, payload})
 export const getMyStore = payload => ({type: GET_MY_STORE, payload});
 export const registerPromotionComment = payload => ({ type: REGISTER_PROMOTION_COMMENT, payload });
-export const editPromotionComment = payload => ({ type: ADJUST_PROMOTION_COMMENT, payload });
+export const adjustPromotionComment = payload => ({ type: ADJUST_PROMOTION_COMMENT, payload });
 export const deletePromotionComment = payload => ({ type: DELETE_PROMOTION_COMMENT, payload });
 export const clearState = () => ({ type: CLEAR_STATE });
 
