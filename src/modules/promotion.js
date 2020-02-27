@@ -122,7 +122,9 @@ export default function promotionReducer(state = initialState, action) {
         error: null,
         post: {
           ...state.post,
-          loading: true
+          data: null,
+          loading: true,
+          error: null
         }
       }
     case GET_PROMOTION_SUCCESS:
@@ -132,6 +134,7 @@ export default function promotionReducer(state = initialState, action) {
           ...state.post,
           data: action.payload.data,
           loading: false,
+          edit: false,
           error: null
         }
       }
@@ -239,8 +242,6 @@ export default function promotionReducer(state = initialState, action) {
     case CHECK_PROMOTION_PERMISSION:
       return {
         ...state,
-        data: null,
-        error: null,
         post: {
           ...state.post,
           edit: false
@@ -249,7 +250,6 @@ export default function promotionReducer(state = initialState, action) {
     case CHECK_PROMOTION_PERMISSION_SUCCESS:
       return {
         ...state,
-        error: null,
         post: {
           ...state.post,
           edit: action.payload
@@ -258,7 +258,6 @@ export default function promotionReducer(state = initialState, action) {
     case CHECK_PROMOTION_PERMISSION_ERROR:
       return {
         ...state,
-        error: action.error,
         post: {
           ...state.post,
           edit: false
