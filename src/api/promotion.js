@@ -73,14 +73,14 @@ const registerPromotionComment = (articleId, token, body) => {
   })
 };
 const adjustPromotionComment = (articleId, id, token, body) => {
-  return axios.put(`${API_PATH}/events/${articleId}/comments${id}`, body, {
+  return axios.put(`${API_PATH}/events/${articleId}/comments/${id}`, body, {
     headers: {
       "Authorization": "Bearer " + token
     }
   })
 };
 const removePromotionComment = (articleId, id, token) => {
-  return axios.delete(`${API_PATH}/events/${articleId}/comments${id}`, {
+  return axios.delete(`${API_PATH}/events/${articleId}/comments/${id}`, {
     headers: {
       "Authorization": "Bearer " + token
     }
