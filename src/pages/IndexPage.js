@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
+import AwesomeSwiper from 'react-awesome-swiper';
 
 import IndexTopBoardContainer from "../containers/IndexContainers/IndexTopBoardContainer";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
@@ -49,6 +50,33 @@ const BoardList = styled.div`
   }
 `;
 
+const MobileSwiper = styled.div`
+  display: none;
+  
+  @media(max-width: 576px){
+    display: block;
+    margin-top: 45px;
+    padding-bottom: 21px!important;
+    
+    .swiper-slide {
+      width: 85%;
+    }
+    
+    .swiper-pagination {
+      position: relative;
+      margin-top: 20px;
+    }
+  }
+`;
+
+const Slide = styled.div`
+  
+`;
+
+const SwiperPagination = styled.div`
+  
+`;
+
 export default function IndexPage({history}) {
   const [mobileFlag, changeMobileFlag] = useState(false);
 
@@ -68,6 +96,15 @@ export default function IndexPage({history}) {
     setMobileFlag(window.innerWidth);
   },[]);
 
+  const config = {
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    }
+  }
+
   return (
     <Container>
       {mobileFlag &&
@@ -86,6 +123,22 @@ export default function IndexPage({history}) {
           <IndexBusContainer history={history}/>
           <IndexCafeteriaContainer history={history}/>
         </CardList>
+      </IndexRow>
+
+      <IndexRow>
+        <MobileSwiper>
+          <AwesomeSwiper config={config}>
+            <div className="swiper-wrapper">
+              <Slide className="swiper-slide">
+                <IndexCafeteriaContainer history={history}/>
+              </Slide>
+              <Slide className="swiper-slide">
+                <IndexRecommendContainer history={history}/>
+              </Slide>
+            </div>
+            <SwiperPagination className="swiper-pagination" />
+          </AwesomeSwiper>
+        </MobileSwiper>
       </IndexRow>
 
       <IndexRow>
