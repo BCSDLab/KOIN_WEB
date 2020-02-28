@@ -136,6 +136,11 @@ const registerLostComment = (token, itemId, body) => {
   })
 }
 
+// 카드 뉴스
+const getCardNews = () => {
+  return axios.get(`${API_PATH}/cardNews`);
+}
+
 const deleteLostItem  = (token, id) => {
   return axios.delete(`${API_PATH}/lost/lostItems/${id}`, {
     headers: {
@@ -167,5 +172,6 @@ export {
   adjustLostComment,
   deleteLostComment,
   registerLostComment,
-  deleteLostItem
+  deleteLostItem,
+  getCardNews
 }
