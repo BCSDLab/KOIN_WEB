@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components"
 import CafeteriaMenuList from "./CafeteriaMenuList";
 import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
@@ -160,17 +160,18 @@ const MobileCafeteriaMenu = styled.div`
   display: none;
   @media(max-width: 576px){
     display: block;
-    padding-top: 101.5px;
+    padding-top: ${props => props.fixed? "101.5px": "none"};
   }
 `;
 
 const FixedTopBar = styled.div`
-  position: fixed;
+  position: ${props => props.fixed? "fixed" : "block"};
   top: 0;
   left: 0;
   right: 0;
   height: 101.5px;
   background-color: #FFFFFF;
+  
   //border-bottom: 1px rgba(23,92,142,0.3) solid;
 `;
 
@@ -231,6 +232,7 @@ const CafeteriaSection = styled.span`
 `;
 
 export default function CafeteriaMenu(
+
   {
     date,
     clickPrev,
@@ -238,6 +240,13 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
+  const [offsetTop, setOffsetTop] = useState(0);
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setOffsetTop(window.pageYOffset);
+    })
+  }, []);
+
   return (
     <Container>
       <CafeteriaContainer>
@@ -294,8 +303,8 @@ export default function CafeteriaMenu(
           </Dinner>
         </PcCafeteriaMenu>
 
-        <MobileCafeteriaMenu>
-          <FixedTopBar>
+        <MobileCafeteriaMenu fixed={offsetTop >= 56}>
+          <FixedTopBar fixed={offsetTop >= 56}>
             <DateSelector>
               <Arrow
                 onClick={clickPrev}
