@@ -69,14 +69,6 @@ const MobileSwiper = styled.div`
   }
 `;
 
-const Slide = styled.div`
-  
-`;
-
-const SwiperPagination = styled.div`
-  
-`;
-
 export default function IndexPage({history}) {
   const [mobileFlag, changeMobileFlag] = useState(false);
 
@@ -129,14 +121,14 @@ export default function IndexPage({history}) {
         <MobileSwiper>
           <AwesomeSwiper config={config}>
             <div className="swiper-wrapper">
-              <Slide className="swiper-slide">
+              <div className="swiper-slide">
                 <IndexCafeteriaContainer history={history}/>
-              </Slide>
-              <Slide className="swiper-slide">
+              </div>
+              <div className="swiper-slide">
                 <IndexRecommendContainer history={history}/>
-              </Slide>
+              </div>
             </div>
-            <SwiperPagination className="swiper-pagination" />
+            <div className="swiper-pagination" />
           </AwesomeSwiper>
         </MobileSwiper>
       </IndexRow>

@@ -17,7 +17,7 @@ const CafeteriaContainer = styled.div`
   width: 1132px;
   
   @media (max-width: 576px) {
-    width: calc(100% - 32px);
+    width: 100%;
     min-width: 300px;
     margin: 30px auto auto auto;
   }
@@ -40,6 +40,10 @@ const Title = styled.div`
 const DateSelector = styled.div`
   margin-top: 22px;
   margin-bottom: -4px;
+  
+  @media(max-width: 576px){
+    padding-top: 20px;
+  }
 `;
 
 const Arrow = styled.span` 
@@ -160,12 +164,12 @@ const MobileCafeteriaMenu = styled.div`
   display: none;
   @media(max-width: 576px){
     display: block;
-    padding-top: ${props => props.fixed? "101.5px": "none"};
+    
   }
 `;
 
 const FixedTopBar = styled.div`
-  position: ${props => props.fixed? "fixed" : "block"};
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -231,8 +235,12 @@ const CafeteriaSection = styled.span`
   }
 `;
 
-export default function CafeteriaMenu(
+const MobileCafeteria = styled.div`
+  width:(100% - 32px);
+  padding: 0 16px;
+`;
 
+export default function CafeteriaMenu(
   {
     date,
     clickPrev,
@@ -240,13 +248,7 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
-  const [offsetTop, setOffsetTop] = useState(0);
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setOffsetTop(window.pageYOffset);
-    })
-  }, []);
-
+  
   return (
     <Container>
       <CafeteriaContainer>
@@ -303,8 +305,8 @@ export default function CafeteriaMenu(
           </Dinner>
         </PcCafeteriaMenu>
 
-        <MobileCafeteriaMenu fixed={offsetTop >= 56}>
-          <FixedTopBar fixed={offsetTop >= 56}>
+        <MobileCafeteriaMenu>
+          <FixedTopBar>
             <DateSelector>
               <Arrow
                 onClick={clickPrev}
@@ -322,6 +324,7 @@ export default function CafeteriaMenu(
               <TimeButton>저녁</TimeButton>
             </TimeList>
           </FixedTopBar>
+          <MobileCafeteria>
           {cafeteriaList.map((cafeteria)=> {
             return(
               <div key={cafeteria}>
@@ -335,6 +338,7 @@ export default function CafeteriaMenu(
               </div>
             )
           })}
+          </MobileCafeteria>
         </MobileCafeteriaMenu>
       </CafeteriaContainer>
     </Container>
