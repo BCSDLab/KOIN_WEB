@@ -71,7 +71,7 @@ export default {
     "daesung":[
       {
         hour: 8,
-        minute: 0
+        minute: 35
       },
       {
         hour: 9,
@@ -83,7 +83,7 @@ export default {
       },
       {
         hour: 11,
-        minute: 35
+        minute: 30
       },
       {
         hour: 12,
@@ -91,47 +91,39 @@ export default {
       },
       {
         hour: 13,
-        minute: 15
+        minute: 35
       },
       {
         hour: 14,
-        minute: 5
+        minute: 35
       },
       {
         hour: 15,
-        minute: 5
+        minute: 30
       },
       {
         hour: 16,
-        minute: 5
+        minute: 35
       },
       {
-        hour: 16,
-        minute: 55
-      },
-      {
-        hour: 18,
-        minute: 5
+        hour: 17,
+        minute: 35
       },
       {
         hour: 18,
-        minute: 50
+        minute: 35
       },
       {
-        hour: 18,
-        minute: 55
+        hour: 19,
+        minute: 35
       },
       {
         hour: 20,
-        minute: 0
+        minute: 30
       },
       {
-        hour: 21,
+        hour: 22,
         minute: 5
-      },
-      {
-        hour: 21,
-        minute: 55
       }
     ]
   },
@@ -299,8 +291,8 @@ export default {
         minute: 0
       },
       {
-        hour: 7,
-        minute: 30
+        hour: 8,
+        minute: 0
       },
       {
         hour: 9,
@@ -308,7 +300,7 @@ export default {
       },
       {
         hour: 10,
-        minute: 30
+        minute: 0
       },
       {
         hour: 11,
@@ -327,10 +319,6 @@ export default {
         minute: 0
       },
       {
-        hour: 14,
-        minute: 30
-      },
-      {
         hour: 15,
         minute: 0
       },
@@ -343,20 +331,16 @@ export default {
         minute: 0
       },
       {
-        hour: 17,
-        minute: 50
+        hour: 18,
+        minute: 0
       },
       {
         hour: 19,
-        minute: 30
+        minute: 0
       },
       {
         hour: 20,
         minute: 30
-      },
-      {
-        hour: 21,
-        minute: 0
       }
     ]
   },
