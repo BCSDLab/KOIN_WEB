@@ -54,7 +54,7 @@ export default function PromotionListContainer ({history, match}) {
     console.log("홍보게시판 진입");
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
-      getPromotionList(1);
+      getPromotionList(1, filter);
       const boardPageNum = {
         'free': 1,
         'job': 1,
