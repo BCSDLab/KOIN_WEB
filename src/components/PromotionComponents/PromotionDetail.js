@@ -13,6 +13,18 @@ const PromotionHead = styled.div`
   border-bottom: 1px solid #175c8e;
   text-align: left;
   user-select: text;
+  
+  @media (max-width: 576px) {
+    padding: 13px 16px 15px;
+    height: 100%;
+    border-top: 0;
+    border-bottom: 1px solid #ececec;
+    display: grid;
+    grid: 18px 14px auto / 250px 1fr;
+    grid-auto-flow: column dense;
+    grid-row-gap: 13px;
+    margin-bottom: 15px;
+  }
 `;
 
 const PromotionTitle = styled.div`
@@ -28,6 +40,17 @@ const PromotionTitle = styled.div`
     font-size: 15px;
     letter-spacing: -0.8px;
     color: #175c8e;
+  }
+  
+  @media (max-width: 576px) {
+    font-size: 16px;
+    padding: 0;
+    width: auto;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.87);
+    letter-spacing: -0.8px;
+    line-height: normal;
+    word-break: break-all;
   }
 `;
 
@@ -71,10 +94,38 @@ const PromotionDateInfo = styled.div`
     font-weight: bold;
     margin-right: 8px;
   }
+  
+  @media (max-width: 576px) {
+    padding: 0;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.08;
+    letter-spacing: normal;
+    color: #252525;
+    margin-top: 13px;
+    
+    & span {
+      color: #175c8e;
+    }
+  }
 `;
 
 const PromotionPostInfo = styled.div`
   display: flex;
+  
+  @media (max-width: 576px) {
+    padding: 0;
+    font-family: NanumSquareR;
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 1.2;
+    letter-spacing: -0.7px;
+    grid-row: 1 / 3;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+  }
 `;
 
 const PromotionAuthor = styled.div`
@@ -87,6 +138,11 @@ const PromotionAuthor = styled.div`
   letter-spacing: -0.7px;
   color: #175c8e;
   margin-right: 16px;
+  
+  @media (max-width: 576px) {
+     margin: 13px 0 0;
+     color: #9fa9b3;
+  }
 `;
 
 const PromotionCreatedTime = styled.div`
@@ -101,6 +157,15 @@ const PromotionCreatedTime = styled.div`
   
   & span {
     margin-left: 7px;
+  }
+  
+  @media (max-width: 576px) {
+     margin: 6px 0 0;
+    color: #9fa9b3;
+    
+    & span {
+      margin-left: 2px;
+    }
   }
 `;
 
@@ -131,10 +196,75 @@ const PromotionBody = styled.div`
   }
   
   @media (max-width: 576px) {
+    padding-top: 20px;
+    padding-bottom: 46px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.71;
+    letter-spacing: -0.7px;
+    min-height: 400px;
+    color: #252525;
+  
     & img {
       max-width: 100%;
     }
   }
+`;
+
+const PromotionButtonWrapper = styled.div`
+  display: none;
+  
+  @media (max-width: 576px) {
+    display: flex;
+    margin-top: 6px;
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
+  }
+`;
+
+const PromotionEditButton = styled(Link)`
+  display: block;
+  border: 1px solid #a1a1a1;
+  width: 51px;
+  height: 17px;
+  padding: 5px 0;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  text-decoration: none;
+  text-align: center;
+  color: #252525;
+  margin-right: 10px;
+`;
+
+const PromotionRemoveButton = styled.button`
+  display: block;
+  border: 1px solid #a1a1a1;
+  width: 51px;
+  height: 29px;
+  padding: 5px 0;
+  font-size: 12px;
+  font-weight: normal;
+  text-decoration: none;
+  text-align: center;
+  color: #ff3030;
+  background-color: #ffffff;
+  margin-right: auto;
+`;
+
+const ListRoutingButton = styled(Link)`
+  font-size: 13px;
+  letter-spacing: -0.7px;
+  padding: 5px 0;
+  height: 17px;
+  cursor: pointer;
+  width: 72px;
+  color: white;
+  text-align: center;
+  line-height: 1.5;
+  text-decoration: none;
+  background: #175c8e;
+  border: 1px solid #175c8e;
 `;
 
 const PromotionOrderButton = styled(Link)`
@@ -150,8 +280,19 @@ const PromotionOrderButton = styled(Link)`
   line-height: 1.42;
   letter-spacing: -0.6px;
   background-color: #f7941e;
+  text-align: center;
   border: 0;
   text-decoration: none;
+  
+  @media (max-width: 576px) {
+    margin-bottom: 58px;
+    padding: 10px 0;
+    height: 10px;
+    width: 159px;
+    line-height: 1.09;
+    font-family: NanumBarunGothic;
+    font-size: 11px;
+  }
 `;
 
 const PromotionEditorBadge = styled.div`
@@ -179,7 +320,8 @@ export default function PromotionDetail ({
   registerComment,
   editComment,
   deleteComment,
-  checkDisabled
+  checkDisabled,
+  children
 }) {
   const convertTitle = (string) => {
     const entityMap = {
@@ -437,10 +579,7 @@ export default function PromotionDetail ({
 
   const convertDate = (time) => {
     const times = time.split(/[ :-]/g);
-    console.log(times)
-    let created = new Date(times[0], times[1], times[2], times[3], times[4], times[5]);
-    console.log(created);
-    return created;
+    return new Date(times[0], times[1] - 1, times[2], times[3], times[4], times[5]);
   }
 
   const setDate = (time) => {
@@ -472,7 +611,7 @@ export default function PromotionDetail ({
           <PromotionHead>
             <PromotionTitle>
               {convertCleanString(promotion.title)}
-              <span>[{promotion.comment_count}]</span>
+              <span> [{promotion.comment_count}]</span>
               {checkDisabled(promotion.end_date) && <PromotionEndBadge>마감</PromotionEndBadge>}
               {setDate(promotion.created_at)[1] &&
                 <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
@@ -483,6 +622,11 @@ export default function PromotionDetail ({
               <PromotionAuthor>{promotion.nickname}</PromotionAuthor>
               <PromotionCreatedTime>{promotion.created_at.replace(/-/g, '.').slice(0, 10)} <span>{promotion.created_at.split(" ")[1]}</span></PromotionCreatedTime>
             </PromotionPostInfo>
+            <PromotionButtonWrapper>
+              <PromotionEditButton to="/board/edit">수정</PromotionEditButton>
+              <PromotionRemoveButton to="/board/delete">삭제</PromotionRemoveButton>
+              <ListRoutingButton to="/board/promotion">목록으로</ListRoutingButton>
+            </PromotionButtonWrapper>
           </PromotionHead>
           <PromotionBody>
             {parse(promotion.content)}
