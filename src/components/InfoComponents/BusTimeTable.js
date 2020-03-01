@@ -396,8 +396,8 @@ export default function BusTimeTable(
                   <Td>도착시간</Td>
                 </tr>
                 <tr>
-                  <Td>08:00</Td>
-                  <Td>08:20</Td>
+                  <Td>08:35</Td>
+                  <Td>08:55</Td>
                 </tr>
                 <tr>
                   <Td>09:35</Td>
@@ -408,52 +408,48 @@ export default function BusTimeTable(
                   <Td>10:55</Td>
                 </tr>
                 <tr>
-                  <Td>11:35</Td>
-                  <Td>11:55</Td>
+                  <Td>11:30</Td>
+                  <Td>11:50</Td>
                 </tr>
                 <tr>
-                  <Td>12:25</Td>
-                  <Td>12:45</Td>
+                  <Td>12:35</Td>
+                  <Td>12:55</Td>
                 </tr>
                 <tr>
-                  <Td>13:15</Td>
                   <Td>13:35</Td>
+                  <Td>13:55</Td>
                 </tr>
                 <tr>
-                  <Td>14:05</Td>
-                  <Td>14:25</Td>
+                  <Td>14:35</Td>
+                  <Td>14:55</Td>
                 </tr>
                 <tr>
-                  <Td>15:05</Td>
-                  <Td>15:25</Td>
+                  <Td>15:30</Td>
+                  <Td>15:50</Td>
                 </tr>
                 <tr>
-                  <Td>16:05</Td>
-                  <Td>16:25</Td>
-                </tr>
-                <tr>
+                  <Td>16:35</Td>
                   <Td>16:55</Td>
-                  <Td>17:15</Td>
                 </tr>
                 <tr>
-                  <Td>18:05</Td>
-                  <Td>18:25</Td>
+                  <Td>17:35</Td>
+                  <Td>17:55</Td>
                 </tr>
                 <tr>
+                  <Td>18:35</Td>
                   <Td>18:55</Td>
-                  <Td>19:15</Td>
                 </tr>
                 <tr>
-                  <Td>20:00</Td>
-                  <Td>20:20</Td>
+                  <Td>19:35</Td>
+                  <Td>19:55</Td>
                 </tr>
                 <tr>
-                  <Td>21:05</Td>
-                  <Td>21:25</Td>
+                  <Td>20:30</Td>
+                  <Td>20:50</Td>
                 </tr>
                 <tr>
-                  <Td>21:55</Td>
-                  <Td>22:15</Td>
+                  <Td>22:05</Td>
+                  <Td>22:25</Td>
                 </tr>
                 </tbody>
               </Table>
@@ -470,8 +466,8 @@ export default function BusTimeTable(
                 <Td>07:20</Td>
               </tr>
               <tr>
-                <Td>07:30</Td>
-                <Td>07:50</Td>
+                <Td>08:00</Td>
+                <Td>08:20</Td>
               </tr>
               <tr>
                 <Td>09:00</Td>
@@ -498,10 +494,6 @@ export default function BusTimeTable(
                 <Td>14:20</Td>
               </tr>
               <tr>
-                <Td>14:30</Td>
-                <Td>14:50</Td>
-              </tr>
-              <tr>
                 <Td>15:00</Td>
                 <Td>15:20</Td>
               </tr>
@@ -514,20 +506,16 @@ export default function BusTimeTable(
                 <Td>17:20</Td>
               </tr>
               <tr>
-                <Td>17:50</Td>
-                <Td>18:10</Td>
+                <Td>18:00</Td>
+                <Td>18:20</Td>
               </tr>
               <tr>
-                <Td>19:30</Td>
-                <Td>19:50</Td>
+                <Td>19:00</Td>
+                <Td>19:20</Td>
               </tr>
               <tr>
                 <Td>20:30</Td>
                 <Td>20:50</Td>
-              </tr>
-              <tr>
-                <Td>21:00</Td>
-                <Td>21:20</Td>
               </tr>
               </tbody>
             </Table>
@@ -565,7 +553,6 @@ export default function BusTimeTable(
             </Table>
           </div>
         }
-
       </TimeTable>
     </Container>
   )

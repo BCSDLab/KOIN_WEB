@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components"
 import CafeteriaMenuList from "./CafeteriaMenuList";
 import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
@@ -17,7 +17,7 @@ const CafeteriaContainer = styled.div`
   width: 1132px;
   
   @media (max-width: 576px) {
-    width: calc(100% - 32px);
+    width: 100%;
     min-width: 300px;
     margin: 30px auto auto auto;
   }
@@ -40,6 +40,10 @@ const Title = styled.div`
 const DateSelector = styled.div`
   margin-top: 22px;
   margin-bottom: -4px;
+  
+  @media(max-width: 576px){
+    padding-top: 20px;
+  }
 `;
 
 const Arrow = styled.span` 
@@ -160,17 +164,18 @@ const MobileCafeteriaMenu = styled.div`
   display: none;
   @media(max-width: 576px){
     display: block;
-    padding-top: 101.5px;
+    
   }
 `;
 
 const FixedTopBar = styled.div`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
   height: 101.5px;
   background-color: #FFFFFF;
+  
   //border-bottom: 1px rgba(23,92,142,0.3) solid;
 `;
 
@@ -230,6 +235,11 @@ const CafeteriaSection = styled.span`
   }
 `;
 
+const MobileCafeteria = styled.div`
+  width:(100% - 32px);
+  padding: 0 16px;
+`;
+
 export default function CafeteriaMenu(
   {
     date,
@@ -238,6 +248,7 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
+  
   return (
     <Container>
       <CafeteriaContainer>
@@ -313,6 +324,7 @@ export default function CafeteriaMenu(
               <TimeButton>저녁</TimeButton>
             </TimeList>
           </FixedTopBar>
+          <MobileCafeteria>
           {cafeteriaList.map((cafeteria)=> {
             return(
               <div key={cafeteria}>
@@ -326,6 +338,7 @@ export default function CafeteriaMenu(
               </div>
             )
           })}
+          </MobileCafeteria>
         </MobileCafeteriaMenu>
       </CafeteriaContainer>
     </Container>
