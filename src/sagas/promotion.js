@@ -65,9 +65,9 @@ function* getPromotions({ payload }) {
 }
 
 function* getPromotion({ payload }) {
-  const { token, id, boardId } = payload;
+  const { token, id } = payload;
   try {
-    const res = yield call(promotionAPI.getSpecificPromotion, id, token, boardId);
+    const res = yield call(promotionAPI.getSpecificPromotion, id, token);
     yield put({
       type: GET_PROMOTION_SUCCESS,
       payload: res
@@ -81,19 +81,9 @@ function* getPromotion({ payload }) {
 }
 
 function* registerPromotion({ payload }) {
-  const {token, title, summary, content, shopId, startDate, endDate, thumbnail } = payload;
+  const {token, body } = payload;
   const history = yield getContext('history');
   try {
-    let body = {
-      title,
-      'event_title': summary,
-      content,
-      'shop_id': shopId,
-      'start_date': startDate.replace(/\./g, '-'),
-      'end_date': endDate.replace(/\./g, '-'),
-      thumbnail
-    };
-
     const res = yield call(promotionAPI.registerPromotion, token, body);
     yield put({
       type: REGISTER_PROMOTION_SUCCESS,
@@ -127,20 +117,10 @@ function* deletePromotion({ payload }) {
 }
 
 function* adjustPromotion({ payload }) {
-  const { id, token, title, summary, content, shopId, startDate, endDate, thumbnail } = payload;
+  const { id, token, body } = payload;
   const history = yield getContext('history');
   try {
-    let body = {
-      title,
-      'event_title': summary,
-      content,
-      'shop_id': shopId,
-      'start_date': startDate.replace(/\./g, '-'),
-      'end_date': endDate.replace(/\./g, '-'),
-      thumbnail
-    };
-
-    const res = yield call(promotionAPI.reviseArticle, id, token, body);
+    const res = yield call(promotionAPI.adjustPromotion, id, token, body);
     yield put({
       type: ADJUST_PROMOTION_SUCCESS,
       payload: res
@@ -217,7 +197,7 @@ function* checkPromotionPermission({ payload }) {
     const res = yield call(promotionAPI.grantCheckPromotion, token, body);
     yield put({
       type: CHECK_PROMOTION_PERMISSION_SUCCESS,
-      payload: res.data.grantEdit
+      payload: res.data
     });
   } catch (e) {
     yield put({
@@ -229,12 +209,13 @@ function* checkPromotionPermission({ payload }) {
   }
 }
 
-function* checkMyPendingPromotion() {
+function* checkMyPendingPromotion({ payload }) {
+  const { token } = payload;
   try {
-    const res = yield call(promotionAPI.checkMyPendingPromotion);
+    const res = yield call(promotionAPI.checkMyPendingPromotion, token);
     yield put({
       type: CHECK_MY_PENDING_PROMOTION_SUCCESS,
-      payload: res.data.id
+      payload: res.data.event_articles[0]
     });
   } catch (e) {
     yield put({
@@ -252,15 +233,13 @@ function* getMyStore({ payload }) {
     const res = yield call(promotionAPI.getMyStore, token);
     yield put({
       type: GET_MY_STORE_SUCCESS,
-      payload: res.data.grantEdit
+      payload: res.data.shops
     });
   } catch (e) {
     yield put({
       type: GET_MY_STORE_ERROR,
       error: e.response
     });
-  } finally {
-    yield put({ type: CLEAR_STATE });
   }
 }
 

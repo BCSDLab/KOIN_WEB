@@ -7,6 +7,7 @@ import PostDetailContainer from '../../containers/BoardContainers/PostDetailCont
 
 import PromotionListContainer from '../../containers/PromotionContainers/PromotionListContainer';
 import PromotionDetailContainer from '../../containers/PromotionContainers/PromotionDetailContainer';
+import PromotionEditContainer from '../../containers/PromotionContainers/PromotionEditContainer';
 
 import HotPosts from '../../components/BoardComponents/HotPosts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,7 +55,7 @@ export default function BoardPage({ history, match }) {
             {type === 'promotion' && (
               <>
                 {!id && <Route exact path={match.path} component={PromotionListContainer} />}
-                {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
+                {id === 'register' && <Route exact path={match.path} component={PromotionRegisterContainer} />}
                 {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PromotionDetailContainer} />}
               </>
             )}
