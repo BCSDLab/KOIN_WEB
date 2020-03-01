@@ -33,16 +33,18 @@ const StyledInput = styled.input`
   }
 `;
 
-export default function Input({
+export default React.memo(function Input({
   type,
   name,
   value,
   placeholder,
+  autoFocus,
   autoComplete,
   onChange,
   disabled,
   width,
   ref,
+  style
 }) {
   return (
     <StyledInput
@@ -50,11 +52,13 @@ export default function Input({
       name={name}
       value={value}
       placeholder={placeholder}
+      autoFocus={autoFocus}
       autoComplete={autoComplete}
       onChange={onChange}
       disabled={disabled}
       width={width}
       ref={ref}
+      style={style}
     />
   )
-}
+})
