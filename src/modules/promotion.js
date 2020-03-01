@@ -71,12 +71,14 @@ const initialState = {
   post: {
     data: null,
     loading: false,
-    error: null,
-    edit: false,
-    myStore: null
+    error: null
   },
   comment: {
     loading: false,
+    error: null
+  },
+  myStore: {
+    data: null,
     error: null
   }
 };
@@ -134,7 +136,6 @@ export default function promotionReducer(state = initialState, action) {
           ...state.post,
           data: action.payload.data,
           loading: false,
-          edit: false,
           error: null
         }
       }
@@ -216,79 +217,73 @@ export default function promotionReducer(state = initialState, action) {
     case CHECK_MY_PENDING_PROMOTION:
       return {
         ...state,
-        data: null,
-        error: null,
-        posts: {
-          ...state.posts,
-          pendingId: null
+        post: {
+          ...state.post,
+          data: null,
+          loading: true,
+          error: null
         }
       }
     case CHECK_MY_PENDING_PROMOTION_SUCCESS:
       return {
         ...state,
-        data: action.payload,
-        error: null,
         post: {
           ...state.post,
-          pendingId: action.payload
+          data: action.payload,
+          loading: false,
+          error: null
         }
       }
     case CHECK_MY_PENDING_PROMOTION_ERROR:
       return {
         ...state,
-        data: null,
-        error: action.error
+        post: {
+          ...state.post,
+          data: null,
+          loading: false,
+          error: action.error
+        }
       }
     case CHECK_PROMOTION_PERMISSION:
       return {
         ...state,
-        post: {
-          ...state.post,
-          edit: false
-        }
+        data: null,
+        error: null,
       }
     case CHECK_PROMOTION_PERMISSION_SUCCESS:
       return {
         ...state,
-        post: {
-          ...state.post,
-          edit: action.payload
-        }
+        data: action.payload,
+        error: null,
       }
     case CHECK_PROMOTION_PERMISSION_ERROR:
       return {
         ...state,
-        post: {
-          ...state.post,
-          edit: false
-        }
+        data: null,
+        error: action.error,
       }
     case GET_MY_STORE:
       return {
         ...state,
-        data: null,
-        error: null,
-        post: {
-          ...state.post,
-          myStore: null
+        myStore: {
+          data: null,
+          error: null
         }
       }
     case GET_MY_STORE_SUCCESS:
       return {
         ...state,
-        error: null,
-        post: {
-          ...state.post,
-          myStore: action.payload
+        myStore: {
+          ...state.myStore,
+          data: action.payload
         }
       }
     case GET_MY_STORE_ERROR:
       return {
         ...state,
-        error: action.error,
-        post: {
-          ...state.post,
-          myStore: null
+        myStore: {
+          data: null,
+          error: action.payload
         }
       }
     case DELETE_PROMOTION_COMMENT:
