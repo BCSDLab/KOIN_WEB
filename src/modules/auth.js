@@ -31,66 +31,15 @@ export const CLEAR_STATE = "CLEAR_STATE";
 const UPDATE_AUTHINFO = "UPDATE_AUTHINFO";
  
 // Action Creators
-export const login = (userId, password, lastLocation, autoLoginFlag) => ({
-  type: LOGIN,
-  payload: {
-    userId,
-    password,
-    lastLocation,
-    autoLoginFlag
-  }
-});
-
-export const logout = token => ({
-  type: LOGOUT,
-  payload: {
-    token
-  }
-});
-
-export const checkNickname = nickname => ({
-  type: CHECK_NICKNAME,
-  payload: {
-    nickname
-  }
-});
-
-export const signUp = userInfo => ({
-  type: SIGNUP,
-  payload: userInfo
-});
-
-export const findPassword = userId => ({
-  type: FIND_PASSWORD,
-  payload: {
-    userId
-  }
-});
-
-export const modifyInfo = (userInfo, token) => ({
-  type: MODIFY_INFO,
-  payload: {
-    userInfo,
-    token
-  }
-});
-
-export const withdraw = token => ({
-  type: WITHDRAW,
-  payload: {
-    token
-  }
-});
-
-export const updateAuthInfo = (token, userInfo) => ({
-  type: UPDATE_AUTHINFO,
-  token,
-  userInfo
-});
-
-export const clearState = () => ({
-  type: CLEAR_STATE
-});
+export const login = payload => ({ type: LOGIN, payload });
+export const logout = payload => ({ type: LOGOUT, payload });
+export const checkNickname = payload => ({ type: CHECK_NICKNAME, payload });
+export const signUp = payload => ({ type: SIGNUP, payload });
+export const findPassword = payload => ({ type: FIND_PASSWORD, payload });
+export const modifyInfo = payload => ({ type: MODIFY_INFO, payload });
+export const withdraw = payload => ({ type: WITHDRAW, payload });
+export const updateAuthInfo = (token, userInfo) => ({ type: UPDATE_AUTHINFO, token, userInfo });
+export const clearState = () => ({ type: CLEAR_STATE });
 
 const initialState = {
   token: null,
