@@ -13,13 +13,11 @@ const CopyRightText = styled.div`
   }
 `;
 
-function CopyRight() {
+export default React.memo(function CopyRight() {
   const today = new Date();
   return (
     <CopyRightText>
-      COPYRIGHT ⓒ {today.getFullYear()} BY <strong>BCSDLab</strong> ALL RIGHTS RESERVED.
+      COPYRIGHT ⓒ {today.getFullYear()} BY <strong style={{ color: "#acabab" }}>BCSDLab</strong> ALL RIGHTS RESERVED.
     </CopyRightText>
   )
-}
-
-export default React.memo(CopyRight);
+})
