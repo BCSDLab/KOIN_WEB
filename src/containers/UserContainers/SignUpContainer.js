@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { signUp, checkNickname } from '../../modules/auth'
 import SignupForm from '../../components/UserComponents/SignupForm';
@@ -34,10 +34,9 @@ export default function SignUpContainer() {
     phoneNumber: "",
     major: "",
     identity: 0,
-    isGraduated: ""
   });
 
-  const onChange = e => {
+  const onChange = useCallback(e => {
     setUserInfo({
       ...userInfo,
       [e.target.name]: e.target.value
@@ -46,11 +45,13 @@ export default function SignUpContainer() {
     if (e.target.name === 'gender') {
       setDropdown(false);
     }
-  }
+  }, [userInfo]);
 
-  const onSubmit = e => {
+  const onSubmit = useCallback(e => {
     e.preventDefault();
-    if (userInfo.userId.indexOf("@koreatech.ac.kr") !== -1) {
+    const { userId, firstPassword, secondPassword, phoneNumber, nickname,
+      name, gender, studentNumber, major, identity } = userInfo;
+    if (userId.indexOf("@koreatech.ac.kr") !== -1) {
       addToast('계정명은 @koreatech.ac.kr을 빼고 입력해주세요.', {
         appearance: 'warning',
         autoDismiss: true
@@ -59,37 +60,37 @@ export default function SignUpContainer() {
     }
     setUserInfo({
       ...userInfo,
-      userId: userInfo.userId.trim()
+      userId: userId.trim()
     });
-    if (!emailLocalPartRegex.test(userInfo.userId)) {
+    if (!emailLocalPartRegex.test(userId)) {
       addToast('아우누리 계정 형식이 아닙니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (!userInfo.firstPassword || !userInfo.secondPassword || !userInfo.userId ) {
+    if (!firstPassword || !secondPassword || !userId) {
       addToast('필수정보는 반드시 입력해야 합니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (userInfo.firstPassword.length < 6 || userInfo.firstPassword > 18) {
+    if (firstPassword.length < 6 || firstPassword > 18) {
       addToast('비밀번호는 6자 이상 18자 이하여야 합니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (userInfo.firstPassword !== userInfo.secondPassword) {
+    if (firstPassword !== secondPassword) {
       addToast('입력하신 비밀번호가 일치하지 않습니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (!passwordRegex.test(userInfo.firstPassword)) {
+    if (!passwordRegex.test(firstPassword)) {
       addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
         appearance: 'warning',
         autoDismiss: true
@@ -103,23 +104,23 @@ export default function SignUpContainer() {
       });
       return;
     }
-    if (userInfo.phoneNumber && !phoneNumberRegex.test(userInfo.phoneNumber)) {
+    if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
       addToast('전화번호 양식을 지켜주세요. (Ex: 010-0000-0000)', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (userInfo.studentNumber) {
-      if (userInfo.studentNumber.length !== 10 || !studentNumberRegex.test(userInfo.studentNumber)) {
+    if (studentNumber) {
+      if (studentNumber.length !== 10 || !studentNumberRegex.test(studentNumber)) {
         addToast('학번은 열자리 숫자여야 합니다.', {
           appearance: 'warning',
           autoDismiss: true
         });
         return;
       }
-      const year = userInfo.studentNumber.substring(0, 4);
-      const majorCode = userInfo.studentNumber.substring(4, 7);
+      const year = studentNumber.substring(0, 4);
+      const majorCode = studentNumber.substring(4, 7);
       
       if (year < 1992 || year > new Date().getFullYear()) {
         addToast('올바른 입학년도가 아닙니다.', {
@@ -144,8 +145,8 @@ export default function SignUpContainer() {
         }
       }
     }
-    console.log(!userInfo.nickname);
-    if (userInfo.nickname && !isAvailable) {
+    console.log(!nickname);
+    if (nickname && !isAvailable) {
       addToast('닉네임 중복확인을 해주세요.', {
         appearance: 'warning',
         autoDismiss: true
@@ -154,22 +155,22 @@ export default function SignUpContainer() {
     }
     const payload = {
       // 필수정보
-      portal_account: userInfo.userId,
-      password: userInfo.firstPassword,
+      portal_account: userId,
+      password: firstPassword,
       // 옵션
-      name: userInfo.name || undefined,
-      nickname: userInfo.nickname || undefined,
-      gender: userInfo.gender || undefined,
-      major: userInfo.major || undefined,
-      student_number: userInfo.studentNumber || undefined,
-      phone_number: userInfo.phoneNumber || undefined,
-      identity: userInfo.identity,
-      is_graduated: userInfo.identity === 4 ? true : false,
+      name: name || undefined,
+      nickname: nickname || undefined,
+      gender: gender || undefined,
+      major: major || undefined,
+      student_number: studentNumber || undefined,
+      phone_number: phoneNumber || undefined,
+      identity: identity,
+      is_graduated: identity === 4 ? true : false,
     }
     dispatch(signUp(payload));
-  }
+  }, [userInfo, terms.koin, terms.privacy, isAvailable]);
 
-  const checkTerms = e => {
+  const checkTerms = useCallback(e => {
     if (e.target.id === 'all') {
       if (terms.all) {
         setTerms({
@@ -190,7 +191,7 @@ export default function SignUpContainer() {
         [e.target.id]: !terms[e.target.id]
       });
     }
-  }
+  }, [terms]);
 
   const checkDuplication = nickname => {
     if (nicknameRegex.test(nickname)) {
@@ -210,7 +211,7 @@ export default function SignUpContainer() {
     dispatch(checkNickname(nickname));
   }
 
-  const setUserMajor = () => {
+  const setUserMajor = useCallback(() => {
     if (userInfo.studentNumber.length > 6) {
       const majorCode = userInfo.studentNumber.substring(4, 7);
       for(let major of majorList) {
@@ -237,7 +238,7 @@ export default function SignUpContainer() {
         major: ""
       })
     }
-  }
+  }, [userInfo]);
 
   useEffect(() => {
     if (data && data.status === 200) {
