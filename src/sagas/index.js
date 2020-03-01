@@ -3,6 +3,7 @@ import authSaga from './auth';
 import timetableSaga from './timetable';
 import boardSaga from './board';
 import searchSaga from './search';
+import promotionSaga from './promotion';
 import marketSaga from './market';
 
 export default function* rootSaga() {
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     timetableSaga(),
     boardSaga(),
     searchSaga(),
+    promotionSaga(),
     marketSaga()
   ]);
 }

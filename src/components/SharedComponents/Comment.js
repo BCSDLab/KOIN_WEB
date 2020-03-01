@@ -300,6 +300,9 @@ export default function Comment(
 
     // 익명게시판
     isAnonymousFlag,
+
+    // 작성자 뱃지
+    EditorBadge
   }) {
   const [selectedId,setSelectedId] = useState(0);
   const [comment, setComment] = useState("");
@@ -411,7 +414,7 @@ export default function Comment(
           return (
             <CommentLine key={idx}>
               <CommentInfo>
-                <CommentAuthor>{comment.nickname}</CommentAuthor>
+                <CommentAuthor>{EditorBadge && specificData.user_id === comment.user_id && <EditorBadge />}{comment.nickname}</CommentAuthor>
                 <CommentCreatedAt>{computedTime(String(comment.created_at))}</CommentCreatedAt>
                 {computedTime(String(comment.created_at))[1] === true &&
                   <N/>

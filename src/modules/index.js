@@ -11,6 +11,7 @@ import lostReducer from "./lost";
 import commonReducer from './common';
 import boardReducer from './board';
 import searchReducer from './search';
+import promotionReducer from './promotion';
 import marketReducer from './market';
 
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   commonReducer,
   boardReducer,
   searchReducer,
+  promotionReducer,
   marketReducer
 });
 
