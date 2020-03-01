@@ -61,6 +61,7 @@ export default function FindPwForm({
         value={userId}
         onChange={onChange}
         placeholder="아우누리 ID를 입력해주세요."
+        autoFocus
       />
       <StyledButton onClick={onSubmit} disabled={findSuccess || authInProgress}>
         {!authInProgress && "비밀번호 찾기"}

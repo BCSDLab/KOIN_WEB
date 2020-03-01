@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { findPassword } from '../../modules/auth';
 import FindPwForm from '../../components/UserComponents/FindPwForm';
@@ -18,7 +18,7 @@ export default function FindPasswordContainer() {
     setUserId(e.target.value);
   }
 
-  const onSubmit = e => {
+  const onSubmit = useCallback(e => {
     e.preventDefault();
     if (userId.indexOf("@koreatech.ac.kr") !== -1) {
       addToast('계정명은 @koreatech.ac.kr을 빼고 입력해주세요.', {
@@ -42,8 +42,10 @@ export default function FindPasswordContainer() {
       });
       return;
     }
-    dispatch(findPassword(userId));
-  }
+    dispatch(findPassword({
+      userId
+    }));
+  }, [userId]);
 
   useEffect(() => {
     if (error) {

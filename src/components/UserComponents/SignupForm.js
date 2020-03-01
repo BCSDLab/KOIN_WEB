@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
 import Input from './Input';
+import { privacy, koin } from '../../static/terms';
 
 const Row = styled.div`
   display: flex;
@@ -246,7 +247,7 @@ const TermsContent = styled.textarea`
   @media (max-width: 576px) {
     box-sizing: border-box;
     width: 320px;
-    height: 90px;
+    height: 127px;
     margin: 0 auto;
   }
 `;
@@ -272,6 +273,7 @@ export default function SignupForm({
           value={userInfo.userId}
           placeholder="아우누리 아이디를 입력해주세요. (필수)"
           onChange={onChange}
+          autoFocus
         />
         <Advice>@koreatech.ac.kr은 입력하지 않으셔도 됩니다.</Advice>
         <Input
@@ -423,9 +425,9 @@ export default function SignupForm({
       </form>
       <Line />
       <TermsTitle>개인정보 이용약관</TermsTitle>
-      <TermsContent readOnly></TermsContent>
+      <TermsContent value={privacy} readOnly></TermsContent>
       <TermsTitle>코인 이용약관</TermsTitle>
-      <TermsContent readOnly></TermsContent>
+      <TermsContent value={koin} readOnly></TermsContent>
     </>
   );
 }

@@ -27,7 +27,9 @@ import { authAPI } from "../api";
 import sha256 from "sha256";
 import Cookies from 'js-cookie';
 
-function* login ({ userId, password, lastLocation, autoLoginFlag }) {
+function* login (payload) {
+  console.log(payload);
+  const { userId, password, lastLocation, autoLoginFlag } = payload;
   const body = {
     portal_account: userId,
     password: sha256(password)
@@ -64,7 +66,8 @@ function* login ({ userId, password, lastLocation, autoLoginFlag }) {
   }
 }
 
-function* logout (token) {
+function* logout (payload) {
+  const { token } = payload;
   const history = yield getContext('history');
   try {
     const res = yield call(authAPI.logout, token);
@@ -84,8 +87,6 @@ function* logout (token) {
     yield put({ type: CLEAR_STATE });
   }
 }
-
-
 
 function* signUp ({ payload }) {
   const history = yield getContext('history');
@@ -112,9 +113,11 @@ function* signUp ({ payload }) {
 }
 
 function* withdraw ({ payload }) {
+  console.log(payload);
+  const { token } = payload;
   const history = yield getContext('history');
   try {
-    const res = yield call(authAPI.userWithdrawl, payload.token);
+    const res = yield call(authAPI.userWithdrawl, token);
     yield put({
       type: WITHDRAW_SUCCESS,
       res
@@ -134,6 +137,7 @@ function* withdraw ({ payload }) {
 
 function* modifyInfo ({ payload }) {
   const { userInfo, token } = payload;
+  const history = yield getContext('history');
   let body = {};
   for (let prop in userInfo) {
     if (prop === 'password' && userInfo[prop]) body[prop] = sha256(userInfo[prop]);
@@ -149,6 +153,7 @@ function* modifyInfo ({ payload }) {
       res
     })
     sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+    history.push('/');
   } catch (e) {
     yield put({
       type: MODIFY_INFO_ERROR,
@@ -160,8 +165,9 @@ function* modifyInfo ({ payload }) {
 }
 
 function* checkDuplication ({ payload }) {
+  const { nickname } = payload;
   try {
-    const res = yield call(authAPI.checkNickname, payload.nickname);
+    const res = yield call(authAPI.checkNickname, nickname);
     yield put({
       type: CHECK_NICKNAME_SUCCESS,
       res
@@ -212,7 +218,7 @@ function* loginFlow() {
       yield fork(login, action.payload);
     } else if (action.type === LOGOUT) {
       console.log("로그아웃");
-      yield fork(logout, action.payload.token);
+      yield fork(logout, action.payload);
     }
   }
 }

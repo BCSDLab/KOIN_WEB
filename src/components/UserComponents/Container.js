@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
   width: 100%;
-  min-height: 800px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,16 +12,16 @@ const StyledContainer = styled.div`
 
 const FormWrapper = styled.div`
   width: 390px;
-  margin: 0 auto;
+  margin: 80px auto 50px auto;
   
   @media (max-width: 576px) {
     width: 360px;
+    margin: 80px auto;
   }
 `;
 
 const StyledLink = styled(Link)`
   display: inline-block;
-  margin-top: 80px;
   margin-bottom: 40px;
 
   @media (max-width: 576px) {

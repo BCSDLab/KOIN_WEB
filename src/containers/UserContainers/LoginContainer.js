@@ -32,36 +32,42 @@ export default function LoginContainer() {
   
   const onSubmit = useCallback(e => {
     e.preventDefault();
-    if (loginInfo.userId === "") {
+    const { userId, password } = loginInfo;
+    if (!userId || !userId.length) {
       addToast('계정명을 입력해주세요.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (loginInfo.password === "") {
+    if (!password || !password.length) {
       addToast('비밀번호를 입력해주세요.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (loginInfo.userId.indexOf("@koreatech.ac.kr") !== -1) {
+    if (userId.indexOf("@koreatech.ac.kr") !== -1) {
       addToast('계정명은 @koreatech.ac.kr을 빼고 입력해주세요.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (!emailLocalPartRegex.test(loginInfo.userId)) {
+    if (!emailLocalPartRegex.test(userId)) {
       addToast('아우누리 계정 형식이 아닙니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    dispatch(login(loginInfo.userId, loginInfo.password, lastLocation, autoLoginFlag));
-  }, [dispatch, loginInfo]);
+    dispatch(login({
+      userId,
+      password,
+      lastLocation,
+      autoLoginFlag
+    }));
+  }, [dispatch, loginInfo, autoLoginFlag, lastLocation]);
 
 
   useEffect(() => {

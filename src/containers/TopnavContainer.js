@@ -26,7 +26,9 @@ export default function TopnavContainer({ history, path }) {
   }
 
   const onLogout = () => {
-    dispatch(logout(sessionStorage.getItem("token")));
+    dispatch(logout({ 
+      token: sessionStorage.getItem("token")
+    }));
   }
 
   const onClickMultiPurposBtn = () => {
