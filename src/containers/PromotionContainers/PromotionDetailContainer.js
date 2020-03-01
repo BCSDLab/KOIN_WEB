@@ -5,7 +5,6 @@ import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import PromotionDetail from '../../components/PromotionComponents/PromotionDetail';
 import { useToasts } from 'react-toast-notifications';
-import { getPost } from '../../modules/board'
 
 
 export default function PromotionDetailContainer ({
@@ -16,7 +15,8 @@ export default function PromotionDetailContainer ({
   const dispatch = useDispatch();
   const {data, error, post, comment} = useSelector(state => state.promotionReducer);
   const [path, setPath] = useState();
-  const [buttonFlag, setButtonFlag] = useState(0);
+  const [isMyPost, setIsMyPost] = useState(false);
+
   const handleDeleteButton = () => {
     console.log("홍보게시판에서 게시글 삭제버튼 클릭");
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
@@ -87,6 +87,22 @@ export default function PromotionDetailContainer ({
     }
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      // 게시글 권한 체크 후 내 게시글 판별
+      if (data.grantEdit) {
+        setIsMyPost(data.grantEdit);
+      }
+      // 게시글 삭제 성공 시
+      if (data.success) {
+        addToast("게시글을 삭제했습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+      }
+    }
+  }, [data]);
+
   useEffect(()=> {
     if(comment){
       if(comment.data){
@@ -147,12 +163,7 @@ export default function PromotionDetailContainer ({
   useEffect(() => {
     // 게시글 삭제 에러 시
     if (post.error) {
-      if (post.error.status === 401) {
-        addToast("로그인 기한 초과.", {
-          appearance: 'error',
-          autoDismiss: true
-        });
-      } else if (post.error.status === 404) {
+      if (post.error.status === 404) {
         addToast("게시물이 존재하지 않습니다.", {
           appearance: 'error',
           autoDismiss: true
@@ -170,7 +181,7 @@ export default function PromotionDetailContainer ({
         <ButtonGroup
           history={history}
           match={match}
-          isMyPost={post.edit}
+          isMyPost={isMyPost}
           onClickEditButton={handleEditButton}
           onClickDeleteButton={handleDeleteButton} />
       </Header>
