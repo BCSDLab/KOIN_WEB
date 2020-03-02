@@ -118,9 +118,15 @@ export default function HotPosts({
   const onClickPost = useCallback((id, boardId) => {
     console.log("가장 많이 본 게시물 클릭");
     sessionStorage.setItem("postId", id);
-    sessionStorage.setItem("boardId", boardId);
+    if (boardId >= 5 && boardId <= 9) {
+      // 공지사항
+      sessionStorage.setItem("boardId", 4);
+      history.push(`/board/notice/${id}`);
+    } else {
+      sessionStorage.setItem("boardId", boardId);
+    }
     for(let board of BOARD_INFO.default) {
-      if (parseInt(sessionStorage.getItem("boardId")) === board.id) {
+      if (boardId === board.id) {
         history.push(`${board.path}/${id}`);
       }
     }
