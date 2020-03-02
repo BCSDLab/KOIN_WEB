@@ -38,7 +38,7 @@ export default React.memo(function Header({
   }
   return (
     <Container>
-      <Title onClick={() => history.push(`/board/${match.params.type}`)}>{setTitle()}</Title>
+      <Title onClick={() => history.push(`/market/${match.params.type}`)}>{setTitle()}</Title>
       {children}
     </Container>
   )
