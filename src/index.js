@@ -24,6 +24,7 @@ const sagaMiddleware = createSagaMiddleware({
   }
 });
 
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware, logger];
 } else {
