@@ -120,7 +120,7 @@ export default React.memo(function LectureTableHelper({ selectLecturesByMajor, s
         />
         <IconImage
           onClick={searchLectures}
-          src={"http://static.koreatech.in/assets/img/ic-search-gray.png"}
+          src={"https://static.koreatech.in/assets/img/ic-search-gray.png"}
         />
       </SearchBarWrapper>
       <OutsideClickHandler
@@ -132,7 +132,7 @@ export default React.memo(function LectureTableHelper({ selectLecturesByMajor, s
           onClick={() => setDropdown(!dropdown)}>
           {selectedMajor}
           <IconImage
-            src={"http://static.koreatech.in/assets/img/ic-arrow-up-down.png"}
+            src={"https://static.koreatech.in/assets/img/ic-arrow-up-down.png"}
           />
         </DropdownButton>
         {dropdown && <DropdownContentWrapper>

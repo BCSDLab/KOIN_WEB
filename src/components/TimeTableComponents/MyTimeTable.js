@@ -353,7 +353,7 @@ export default React.memo(function MyTimeTable({
             type="button"
             onClick={() => setDropdown(!dropdown)}>
             {selectedSemester && `${selectedSemester.substring(0, 4)}년 ${selectedSemester[4]}학기`}
-            <IconImage src={"http://static.koreatech.in/assets/img/ic-arrow-up-down.png"} />
+            <IconImage src={"https://static.koreatech.in/assets/img/ic-arrow-up-down.png"} />
           </DropdownButton>
           {dropdown && <DropdownContentWrapper>
             {totalSemesters.map(semester => 
@@ -371,7 +371,7 @@ export default React.memo(function MyTimeTable({
         <SaveButton
           type="button"
           onClick={saveTimeTable}>
-          {!isSaving && <IconImage src={"http://static.koreatech.in/assets/img/ic-image.png"} />}
+          {!isSaving && <IconImage src={"https://static.koreatech.in/assets/img/ic-image.png"} />}
           {!isSaving && "이미지로 저장하기"}
           <ClipLoader
             size={30}

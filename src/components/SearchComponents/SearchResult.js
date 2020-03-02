@@ -312,7 +312,7 @@ export default function SearchResult({
                 color={"#175c8e"}
                 loading={loading}
               />
-              <img src={"http://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
+              <img src={"https://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
               <div>일치하는 결과가 없습니다.</div>
             </LoaderWrapper>
           }
@@ -347,7 +347,7 @@ export default function SearchResult({
                 color={"#175c8e"}
                 loading={loading}
               />
-              <img src={"http://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
+              <img src={"https://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
               <div>일치하는 결과가 없습니다.</div>
             </LoaderWrapper>
           }

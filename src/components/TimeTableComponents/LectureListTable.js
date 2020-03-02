@@ -191,8 +191,8 @@ export default React.memo(function LectureListTable({
             {(index !== headerTitle.length - 1) && 
               <SortWrapper
                 onClick={() => sort(index)}>
-                {sortFlag[index] && <SortArrowImage src={"http://static.koreatech.in/assets/img/ic-arrow-down.png"} />}
-                {!sortFlag[index] && <SortArrowImage src={"http://static.koreatech.in/assets/img/ic-arrow-up.png"} />}
+                {sortFlag[index] && <SortArrowImage src={"https://static.koreatech.in/assets/img/ic-arrow-down.png"} />}
+                {!sortFlag[index] && <SortArrowImage src={"https://static.koreatech.in/assets/img/ic-arrow-up.png"} />}
               </SortWrapper>}
             {index !== 10 &&
               <ResizeCol
@@ -237,8 +237,8 @@ export default React.memo(function LectureListTable({
                   ? () => removeLectureFromMyTable(index, lectures[index].id) 
                   : () => addLectureOnMyTable(lectures[index])}>
                 {isMyLecture
-                  ? <ButtonImage src={"http://static.koreatech.in/assets/img/ic-delete.png"}/>
-                  : <ButtonImage src={"http://static.koreatech.in/assets/img/ic-add.png"} />
+                  ? <ButtonImage src={"https://static.koreatech.in/assets/img/ic-delete.png"}/>
+                  : <ButtonImage src={"https://static.koreatech.in/assets/img/ic-add.png"} />
                 }
               </TableBodyLastBox>
             </TableBodyRow> 

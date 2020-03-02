@@ -351,7 +351,7 @@ export default function Topnav({
             />
           }
           {!searchBar && <SearchIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />}
         </MenuWrapper>
@@ -405,7 +405,7 @@ export default function Topnav({
         }
         {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
           <RouteIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />
         }

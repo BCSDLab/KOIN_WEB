@@ -477,7 +477,7 @@ const DatePickerField = styled.div`
     width: 19px;
     height: 19px;
     flex: none;
-    background-image: url("http://static.koreatech.in/assets/img/ic_calendar%403x.png");
+    background-image: url("https://static.koreatech.in/assets/img/ic_calendar%403x.png");
     background-repeat: no-repeat;
     background-size: 19px;
   }

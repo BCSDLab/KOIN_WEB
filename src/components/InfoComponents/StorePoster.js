@@ -17,7 +17,7 @@ const StorePosterImage = styled.img`
 const StorePosterArrowButton = styled.a`
   width: 60px;
   height: 60px;
-  background-image: url(${props => 'http://static.koreatech.in/assets/img/' + props.type + '-arrow.png'});
+  background-image: url(${props => 'https://static.koreatech.in/assets/img/' + props.type + '-arrow.png'});
   background-size: 24px 24px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -54,7 +54,7 @@ const StorePosterCloseButton = styled.div`
   width: 33px;
   height: 41px;
   cursor: pointer;
-  background-image: url('http://static.koreatech.in/assets/img/close.png');
+  background-image: url('https://static.koreatech.in/assets/img/close.png');
   
   @media (max-width: 576px) {
     & {
