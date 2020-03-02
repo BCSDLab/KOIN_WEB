@@ -216,7 +216,7 @@ const LinkButton = styled.button`
   cursor: pointer;
   padding: 8px 16px;
   color: #fff;
-
+  margin-right: 5px;
   @media (max-width: 576px) {
     width: 100%;
     font-size: 14px;
@@ -313,7 +313,7 @@ export default function CircleDetail({ circle, loading, error }) {
                 <LinkButtonList>
                   {circle.link_urls &&
                     circle.link_urls.map((link, index) => (
-                      <LinkButton
+                      link.link && <LinkButton
                         key={index}
                         onClick={() => window.open(link.link)}
                         style={LinkButtonStyle(link.type)}
