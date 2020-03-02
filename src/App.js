@@ -86,7 +86,7 @@ const AppWrapper = styled.div`
     height: 100%;
   }
 
-  max-height: ${props => props.nowFooterMenu[1] ? '600px' : '100%'};
+  max-height: ${props => props.nowFooterMenu[1] ? 'calc(600px)' : '100%'};
   overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
@@ -178,7 +178,7 @@ function App({ history }) {
           <Route exact path="/store" component={StoreListPage} />
           <Route path="/store/:id" component={StoreDetailPage} />
 
-          <Route exact path="/lost" component={LostItemListPage}/>
+          <Route exact strict path="/lost" component={LostItemListPage}/>
           <Route path="/lost/register" component={LostItemRegisterPage}/>
           <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
           <Route path="/lost/revise" component={LostItemRevisePage}/>
@@ -191,7 +191,7 @@ function App({ history }) {
           
           <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
           {/* Board page */}
-          <Route exact path="/board/:type" component={BoardPage} />
+          <Route exact strict path="/board/:type" component={BoardPage} />
           <PrivateRoute
             path="/board/:type/:id"
             component={BoardPage}
@@ -200,7 +200,7 @@ function App({ history }) {
             onConfirm={onConfirm}
           />
           {/* Market page */}
-          <Route exact path="/market/:type" component={MarketPage} />
+          <Route exact strict path="/market/:type" component={MarketPage} />
           <PrivateRoute
             path="/market/:type/:id"
             component={MarketPage}
