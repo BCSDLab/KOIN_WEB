@@ -1,7 +1,5 @@
-import React, {useCallback, useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import {getLostItems} from "../../modules/lost";
-import {Link} from "react-router-dom";
 
 const PaginationContainer = styled.div`
   background: #ffffff;
@@ -81,12 +79,12 @@ export default function Pagination({
   isWriteBtn,
   writeBtnLink,
   path,
-  isMyItems
+  isMyItems,
+  history
 }) {
   const limit = 5;
   const [nowPageNum,setNowPageNum] = useState(1);
 
-  // 분실물, 중고장터 로직 추가 필요
   const clickPrevButton = () => {
     if (nowPageNum === 1) {
       alert("첫 페이지입니다.");
@@ -114,7 +112,6 @@ export default function Pagination({
     }
   };
 
-  // 분실물, 중고장터 로직 추가 필요
   const clickNextButton = () => {
     if (nowPageNum === totalPageNum) {
       alert("마지막 페이지입니다.");
@@ -184,6 +181,41 @@ export default function Pagination({
     setPageData(page);
     setNowPageNum(page);
   };
+
+  const onClickRegisterButton = () => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    const boardId = JSON.parse(sessionStorage.getItem("boardId"));
+    switch(path) {
+      case 'lost':
+      case 'buy':
+      case 'sell':
+        if (!userInfo.nickname) {
+          alert("닉네임이 필요합니다.")
+          history.push('/modifyinfo')
+        } else {
+          history.push(writeBtnLink);
+        }
+        break;
+      default:
+        if (boardId === -1) {
+          history.push(writeBtnLink);
+        } else if (boardId === 6) {
+          if (userInfo.identity !== 5) {
+            alert("점주만이 홍보게시물을 작성할 수 있습니다.");
+            return;
+          } else {
+            history.push(writeBtnLink);
+          }
+        } else {
+          if (!userInfo.nickname) {
+            alert("닉네임이 필요합니다.");
+            history.push('/modifyinfo');
+          } else {
+            history.push(writeBtnLink);
+          }
+        }
+    }
+  }
 
   useEffect(() => {
     // 세션에 페이지 데이터가 없다면 페이지 1 있다면 세션에서 받아와서 초기화.
@@ -257,12 +289,10 @@ export default function Pagination({
       </ArrowButton>
     </PaginationContainer>
       {
-        isWriteBtn === true &&
-        <Link to={writeBtnLink}>
-          <WriteBtn>
-            글쓰기
-          </WriteBtn>
-        </Link>
+        isWriteBtn &&
+        <WriteBtn onClick={onClickRegisterButton}>
+          글쓰기
+        </WriteBtn>
       }
     </div>
   )
