@@ -17,6 +17,7 @@ const ButtonStyle = css`
   float: right;
   cursor: pointer;
   margin-right: 5px;
+  letter-spacing: -0.7px;
 `;
 
 const RoutingButton = styled.button`
@@ -61,6 +62,32 @@ export default React.memo(function ButtonGroup({
   onClickEditButton,
   onClickDeleteButton
 }) {
+  const onClickRoutingButton = () => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    const boardId = JSON.parse(sessionStorage.getItem("boardId"));
+    if (!match.params.id) {
+      if (boardId === -1) {
+        history.push(`${match.url}/register`);
+      } else if (boardId === 6) {
+        if (userInfo.identity !== 5) {
+          alert("점주만이 홍보게시물을 작성할 수 있습니다.");
+          return;
+        } else {
+          history.push(`${match.url}/register`);
+        }
+      } else {
+        if (!userInfo.nickname) {
+          alert("닉네임이 필요합니다.");
+          history.push('/modifyinfo');
+        } else {
+          history.push(`${match.url}/register`);
+        }
+      }
+    } else {
+      history.push(`${match.url.substr(0, match.url.lastIndexOf('/'))}`);
+    }
+  }
+
   return (
     <StyledButtonGroup>
       {Number.isInteger(parseInt(match.params.id))
@@ -85,9 +112,7 @@ export default React.memo(function ButtonGroup({
         ) : (
           <RoutingButton
             register={!match.params.id}
-            onClick={() => !match.params.id
-              ? history.push(`${match.url}/register`)
-              : history.push(`${match.url.substr(0, match.url.lastIndexOf('/'))}`)}>
+            onClick={onClickRoutingButton}>
             {!match.params.id ? "글쓰기" : "목록으로"}
           </RoutingButton>
         )

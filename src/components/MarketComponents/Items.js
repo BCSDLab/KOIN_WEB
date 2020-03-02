@@ -329,6 +329,7 @@ export default function Items({
         writeBtnLink={`/market/${path}/register`}
         path={path}
         isMyItems={isMyItems}
+        history={history}
       />
     </>
   )

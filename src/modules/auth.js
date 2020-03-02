@@ -118,6 +118,7 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         data: null,
+        isAvailable: false,
         checkInProgress: true
       }
     case CHECK_NICKNAME_SUCCESS:
@@ -145,11 +146,13 @@ export default function authReducer(state = initialState, action) {
         userInfo: action.res.data,
         data: action.res,
         authInProgress: false,
+        isAvailable: false
       }
     case MODIFY_INFO_ERROR: {
       return {
         ...state,
         authInProgress: false,
+        isAvailable: false,
         error: action.error
       }
     }
@@ -203,7 +206,7 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         data: null,
-        error: null
+        error: null,
       }
     default:
       return state;
