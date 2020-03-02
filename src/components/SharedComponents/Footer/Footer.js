@@ -364,15 +364,15 @@ export default function Footer({ path }) {
           </FooterLogoContainer>
           <FooterLinkButtonList>
             <LinkButton
-              onClick={() => window.location = 'https://bcsdlab.com'}>
+              onClick={() => window.open('https://bcsdlab.com')}>
               BCSD Lab 바로가기
             </LinkButton>
             <LinkButton
-              onClick={() => window.location = 'https://koreatech.ac.kr'}>
+              onClick={() => window.open('https://koreatech.ac.kr')}>
               코리아텍 바로가기
             </LinkButton>
             <LinkButton
-              onClick={() => window.location = 'https://portal.koreatech.ac.kr'}>
+              onClick={() => window.open('https://portal.koreatech.ac.kr')}>
               아우누리 바로가기
             </LinkButton>
             <LinkButton>
@@ -384,7 +384,7 @@ export default function Footer({ path }) {
             </LinkButton>
           </FooterLinkButtonList>
           <div>
-            <FooterLinkFacebook onClick={() => window.location = 'https://www.facebook.com/koreatech.in/'}/>
+            <FooterLinkFacebook onClick={() => window.open('https://www.facebook.com/koreatech.in/')}/>
             <Link to='/'>
               <FooterLinkHome/>
             </Link>
@@ -397,16 +397,16 @@ export default function Footer({ path }) {
 
       <MobileFooter>
         <MobileFooterLink sequence={0}>
-        <span onClick={() => window.location = 'https://koreatech.ac.kr'}>
+        <span onClick={() => window.open('https://koreatech.ac.kr')}>
             코리아텍 바로가기
         </span>
           &nbsp; | &nbsp;
-          <span onClick={() => window.location = 'https://portal.koreatech.ac.kr'}>
+          <span onClick={() => window.open('https://portal.koreatech.ac.kr')}>
             아우누리 바로가기
           </span>
         </MobileFooterLink>
         <MobileFooterLink sequence={1}>
-          <span onClick={() => window.location = 'https://bcsdlab.com'}>
+          <span onClick={() => window.open('https://bcsdlab.com')}>
             BCSD Lab 바로가기
           </span>
           &nbsp; | &nbsp;
@@ -423,7 +423,7 @@ export default function Footer({ path }) {
           <MobileFooterCopyright>
             COPYRIGHT © {new Date().getFullYear()} BCSD LAB ALL RIGHTS RESERVED.
           </MobileFooterCopyright>
-          <MobileFooterLinkFacebook onClick={() => window.location = 'https://www.facebook.com/koreatech.in/'}/>
+          <MobileFooterLinkFacebook onClick={() => window.open('https://www.facebook.com/koreatech.in/')}/>
           <Link to='/'>
             <MobileFooterLinkHome/>
           </Link>

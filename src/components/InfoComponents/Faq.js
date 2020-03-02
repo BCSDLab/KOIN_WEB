@@ -292,7 +292,7 @@ export default function Faq(
           직접 질문해주세요.
         </Desc>
         <AskButton onClick={() => {
-          window.location = "https://docs.google.com/forms/d/1pWoxCLm5YqTlcdiXThvyGlNu_7t5hojxgjH5FA8eypo/edit?usp=drive_web"
+          window.open("https://docs.google.com/forms/d/1pWoxCLm5YqTlcdiXThvyGlNu_7t5hojxgjH5FA8eypo/edit?usp=drive_web")
         }}>
           질문하기
         </AskButton>
