@@ -143,15 +143,17 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    if (!sessionStorage.getItem("postId")) {
-      alert("선택된 게시글이 없습니다.");
-      history.goBack();
-    }
+    if(sessionStorage.getItem("token")){
+      if (!sessionStorage.getItem("postId")) {
+        alert("선택된 게시글이 없습니다.");
+        history.goBack();
+      }
 
-    dispatch(checkPromotionPermission({
-      token: sessionStorage.getItem("token"),
-      id: sessionStorage.getItem("postId")
-    }))
+      dispatch(checkPromotionPermission({
+        token: sessionStorage.getItem("token"),
+        id: sessionStorage.getItem("postId")
+      }))
+    }
     window.addEventListener('click' , () => {
       setHelpButtonFlag(false)
     })
