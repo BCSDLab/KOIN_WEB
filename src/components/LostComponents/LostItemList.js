@@ -77,15 +77,7 @@ const Table = styled.table`
   margin-bottom: 22px;
   
   @media (max-width: 576px) {
-    border: none;
-    
-    thead {
-      display: none;
-    }
-
-    tbody td {
-      display: none;
-    }
+    display: none;
   }
   
   thead tr {
@@ -267,6 +259,10 @@ const MobileWrite = styled.img.attrs({
   }
 `;
 
+const Mobile = styled.div`
+  margin-bottom: 22px;
+`;
+
 export default function LostItemList(
   {
     lostItems,
@@ -347,27 +343,33 @@ export default function LostItemList(
                   <Hit>
                     {items.hit}
                   </Hit>
-                  <MobileList>
-                    <MobileTitle>
-                      <span>{items.title}</span>
-                      <MobileCommentCount>
-                        {items.comment_count !== 0 &&
-                        " (" + items.comment_count + ")"
-                        }
-                      </MobileCommentCount>
-                    </MobileTitle>
-                    <MobileInfo>
-                      <MobileMiddleInfo>조회 {items.hit} · </MobileMiddleInfo>
-                      <MobileMiddleInfo>{items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
-                      <MobileDate>{items.created_at.slice(0, 10).replace('-', '.').replace('-', '.')}</MobileDate>
-                    </MobileInfo>
-                    <MobileLostDate>{items.type === 0 ? '습득일' : '분실일'}&nbsp;{items.date}</MobileLostDate>
-                  </MobileList>
                 </tr>
               )
             })}
             </tbody>
           </Table>
+          <Mobile>
+          {lostItems.map((items, id) => {
+            return (
+              <MobileList key={id}>
+                <MobileTitle>
+                  <span>{items.title}</span>
+                  <MobileCommentCount>
+                    {items.comment_count !== 0 &&
+                    " (" + items.comment_count + ")"
+                    }
+                  </MobileCommentCount>
+                </MobileTitle>
+                <MobileInfo>
+                  <MobileMiddleInfo>조회 {items.hit} · </MobileMiddleInfo>
+                  <MobileMiddleInfo>{items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
+                  <MobileDate>{items.created_at.slice(0, 10).replace('-', '.').replace('-', '.')}</MobileDate>
+                </MobileInfo>
+                <MobileLostDate>{items.type === 0 ? '습득일' : '분실일'}&nbsp;{items.date}</MobileLostDate>
+              </MobileList>
+            )
+          })}
+          </Mobile>
           <Pagination
             totalPageNum={totalPageNum}
             setPageData={setPageData}
