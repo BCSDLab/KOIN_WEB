@@ -16,6 +16,7 @@ import { LastLocationProvider } from "react-router-last-location";
 import createSagaMiddleware from "redux-saga";
 import { ToastProvider } from "react-toast-notifications";
 
+let middlewares = [];
 const customHistory = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware({
   context: {
@@ -23,15 +24,16 @@ const sagaMiddleware = createSagaMiddleware({
   }
 });
 
+if (process.env.NODE_ENV === 'development') {
+  middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware, logger];
+} else {
+  console.log = () => {}
+  middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware];
+}
+
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(
-      ReduxThunk.withExtraArgument({ history: customHistory }),
-      sagaMiddleware,
-      logger
-    )
-  )
+  composeWithDevTools(applyMiddleware(...middlewares))
 );
 
 sagaMiddleware.run(rootSaga);
