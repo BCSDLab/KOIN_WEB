@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled, { keyframes } from 'styled-components';
 
 const Shine = (img, title, nickname) => keyframes`
@@ -294,11 +294,10 @@ export default function IndexMarketItem({
           </ErrorContainer>
         }
         {[...Array(5)].map((n, index) => 
-          <>
-            {loading && <Skeleton key={index} />}
+          <Fragment key={index}>
+            {loading && <Skeleton />}
             {items && 
               <Item
-                key={index}
                 onClick={() => history.push(`/market/${items[index].type ? 'buy' : 'sell'}/${items[index].id}`)}>
                 <ImageContainer>
                   {items[index].thumbnail
@@ -322,7 +321,7 @@ export default function IndexMarketItem({
                 </Wrapper>
               </Item>
             }
-          </>
+          </Fragment>
         )}
       </Items>
       
