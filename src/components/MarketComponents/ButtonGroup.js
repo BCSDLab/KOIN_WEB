@@ -59,6 +59,20 @@ export default function ButtonGroup({
   getItemList,
   getMyItemList
 }) {
+  const onClickRoutingButton = () => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (!match.params.id) {
+      if (!userInfo.nickname) {
+        alert("닉네임이 필요합니다.");
+        history.push('/modifyinfo');
+      } else {
+        history.push(`${match.url}/register`);
+      }
+    } else {
+      history.push(`${match.url.substr(0, match.url.lastIndexOf('/'))}`);
+    }
+  }
+  
   return (
     <StyledButtonGroup>
       {Number.isInteger(parseInt(match.params.id))
@@ -79,9 +93,7 @@ export default function ButtonGroup({
           <>
             <RoutingButton
               register={!match.params.id}
-              onClick={() => !match.params.id
-                ? history.push(`${match.url}/register`)
-                : history.push(`${match.url.substr(0, match.url.lastIndexOf('/'))}`)}>
+              onClick={onClickRoutingButton}>
               {!match.params.id ? "글쓰기" : "목록으로"}
             </RoutingButton>
             {!match.params.id && sessionStorage.getItem("token") && 
