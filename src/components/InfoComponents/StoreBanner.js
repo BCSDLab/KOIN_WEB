@@ -88,7 +88,7 @@ export default function StoreBanner ({
 
   return (
     <StoreBannerWrapper
-      to={`/bpard/promotion/${promotionData.id}`}
+      to={`/board/promotion/${promotionData.id}`}
       second={promotionData.second ? 1 : 0}
       expand={expand ? 1 : 0}>
       <StoreBannerTitle>{promotionData.title}</StoreBannerTitle>
