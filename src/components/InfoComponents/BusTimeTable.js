@@ -261,6 +261,7 @@ export default function BusTimeTable(
             return (
               <Tab
                 tab={tab}
+                key={tab}
                 selectedTab={selectedTab}
                 onClick={selectTab(tab)}>
                 {tab}
@@ -279,92 +280,94 @@ export default function BusTimeTable(
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {shuttleTimeTable.map((titles, idx)=> {
-                    if(idx < (vacationFlag? 9: 6))
-                    return (
-                      <DropDownContent onClick={setShuttleDropDownTitle(titles.title)}>
-                        {titles.title}
-                      </DropDownContent>
-                    )
-                  })}
+                  {shuttleTimeTable.filter((timetable, index) => index < (vacationFlag? 9: 6))
+                    .map((timetable, index) =>
+                     (
+                       <DropDownContent
+                         key={index}
+                         onClick={setShuttleDropDownTitle(timetable.title)}>
+                         {timetable.title}
+                       </DropDownContent>
+                      )
+                  )}
                 </DropDownContents>
               </DropDown>
               <SubDesc>
                 천안(터미널/천안역) 등교/하교(18:10)
               </SubDesc>
             </SubInfo>
-            {shuttleTimeTable.map((timeTable) => {
-              if(timeTable.title === shuttleTimeTableTitle) {
-                if(!vacationFlag) {
-                  return (
-                  //  학기중
-                    <Table>
-                      {timeTable.timetable.map((times) => {
-                        return (
-                          <tr>
-                            {times.map((time,index)=> {
-                              return (
-                                <Td>
-                                  {time}
-                                </Td>
-                              )
-                            })}
-                          </tr>
-                        )
-                      })}
-                    </Table>
-                  )
-                }
-
-                // 방학중
-                if(vacationFlag) {
-                  return (
-                    <div>
-                      <Table>
-                        {timeTable.timetable.map((times, rowIdx) => {
-                          return (
-                            <tr>
-                              {times.map((time,index)=> {
-                                return (
-                                  <Td
-                                    rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                    rowIdx={rowIdx}
-                                    index={index}
-                                    isShuttle={true}>
-                                    {time}
-                                  </Td>
-                                )
-                              })}
-                            </tr>
-                          )
-                        })}
-                      </Table>
-                      {timeTable.timetable2 &&
-                        <Table>
-                          {timeTable.timetable2.map((times, rowIdx) => {
+            {shuttleTimeTable.filter(timeTable => timeTable.title === shuttleTimeTableTitle).map((timeTable, index) => (
+              vacationFlag ? (
+                <div key={index}>
+                  {/* 방학중 */}
+                  <Table>
+                    <tbody>
+                    {timeTable.timetable.map((times, rowIdx) => {
+                      return (
+                        <tr key={times[0] + rowIdx}>
+                          {times.map((time,index)=> {
                             return (
-                              <tr>
-                                {times.map((time,index)=> {
-                                  return (
-                                    <Td
-                                      rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                      rowIdx={rowIdx}
-                                      index={index}
-                                      isShuttle={true}>
-                                      {time}
-                                    </Td>
-                                  )
-                                })}
-                              </tr>
+                              <Td
+                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
+                                rowIdx={rowIdx}
+                                index={index}
+                                key={time + index}
+                                isShuttle={true}>
+                                {time}
+                              </Td>
                             )
                           })}
-                        </Table>
-                      }
-                    </div>
-                  )
-                }
-              }
-            })}
+                        </tr>
+                      )
+                    })}
+                    </tbody>
+                  </Table>
+                  {timeTable.timetable2 &&
+                  <Table>
+                    <tbody>
+                    {timeTable.timetable2.map((times, rowIdx) => {
+                      return (
+                        <tr key={times[0] + rowIdx}>
+                          {times.map((time,index)=> {
+                            return (
+                              <Td
+                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
+                                rowIdx={rowIdx}
+                                index={index}
+                                key={time + index}
+                                isShuttle={true}>
+                                {time}
+                              </Td>
+                            )
+                          })}
+                        </tr>
+                      )
+                    })}
+                    </tbody>
+                  </Table>
+                  }
+                </div>
+              ) : (
+                <Table>
+                  {/* 학기중 */}
+                  <tbody>
+                  {timeTable.timetable.map((times, rowIndex) => {
+                    return (
+                      <tr key={times[0] + rowIndex}>
+                        {times.map((time,index)=> {
+                          return (
+                            <Td key={time + index}>
+                              {time}
+                            </Td>
+                          )
+                        })}
+                      </tr>
+                    )
+                  })}
+                  </tbody>
+                </Table>
+              )
+            ))}
           </div>
         }
 
@@ -378,13 +381,13 @@ export default function BusTimeTable(
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {daesungTimeTable.map((titles)=> {
-                    return (
-                      <DropDownContent onClick={setDaesungDropDownTitle(titles)}>
-                        {titles}
-                      </DropDownContent>
-                    )
-                  })}
+                  {daesungTimeTable.map((titles)=> (
+                    <DropDownContent
+                      key={titles}
+                      onClick={setDaesungDropDownTitle(titles)}>
+                      {titles}
+                    </DropDownContent>
+                  ))}
                 </DropDownContents>
               </DropDown>
             </SubInfo>
