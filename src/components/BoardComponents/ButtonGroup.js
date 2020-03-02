@@ -69,14 +69,20 @@ export default React.memo(function ButtonGroup({
       if (boardId === -1) {
         history.push(`${match.url}/register`);
       } else if (boardId === 6) {
-        if (userInfo.identity !== 5) {
+        if (!userInfo) {
+          alert("로그인이 필요합니다.");
+          history.push('/login');
+        } else if (userInfo.identity !== 5) {
           alert("점주만이 홍보게시물을 작성할 수 있습니다.");
           return;
         } else {
           history.push(`${match.url}/register`);
         }
       } else {
-        if (!userInfo.nickname) {
+        if (!userInfo) {
+          alert("로그인이 필요합니다.");
+          history.push('/login');
+        } else if (!userInfo.nickname) {
           alert("닉네임이 필요합니다.");
           history.push('/modifyinfo');
         } else {

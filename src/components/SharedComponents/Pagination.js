@@ -189,30 +189,37 @@ export default function Pagination({
       case 'lost':
       case 'buy':
       case 'sell':
-        if (!userInfo.nickname) {
-          alert("닉네임이 필요합니다.")
+        if (!userInfo) {
+          alert("로그인이 필요합니다.");
+          history.push('/login');
+        } else if (!userInfo.nickname) {
+          alert("닉네임이 필요합니다.");
           history.push('/modifyinfo')
         } else {
           history.push(writeBtnLink);
         }
         break;
       default:
-        if (boardId === -1) {
-          history.push(writeBtnLink);
-        } else if (boardId === 6) {
-          if (userInfo.identity !== 5) {
-            alert("점주만이 홍보게시물을 작성할 수 있습니다.");
-            return;
-          } else {
-            history.push(writeBtnLink);
-          }
-        } else {
+        // 비로그인 && 일반 게시판
+        if (!userInfo && boardId !== -1) {
+          alert("로그인이 필요합니다.");
+          history.push('/login');
+          return;
+        }
+        // 로그인 일반 게시판
+        if (userInfo && boardId !== -1) {
           if (!userInfo.nickname) {
             alert("닉네임이 필요합니다.");
             history.push('/modifyinfo');
           } else {
             history.push(writeBtnLink);
           }
+          return;
+        }
+        // 익명게시판
+        if (boardId === -1) {
+          history.push(writeBtnLink);
+          return;
         }
     }
   }
