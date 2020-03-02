@@ -62,7 +62,7 @@ export default function ButtonGroup({
   const onClickRoutingButton = () => {
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     if (!match.params.id) {
-      if (!userInfo.nickname) {
+      if (userInfo && !userInfo.nickname) {
         alert("닉네임이 필요합니다.");
         history.push('/modifyinfo');
       } else {
