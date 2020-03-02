@@ -92,7 +92,7 @@ const DropDownButton = styled.button`
   padding: 11px 19px;
   float: left;
   cursor: pointer;
-  width: 180px;
+  width: 195px;
   text-align: left;
   background-color: #ffffff;
   
@@ -106,7 +106,7 @@ const DropDownContents = styled.div`
   position: absolute;
   background-color: #ffffff;
   border: 1px #d0d0d0 solid;
-  width: 178px;
+  width: 193px;
   z-index: 1;
   margin-top: 41px;
   font-weight: normal;
