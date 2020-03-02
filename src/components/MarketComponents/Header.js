@@ -24,6 +24,7 @@ const Title = styled.div`
 
 export default React.memo(function Header({
   match,
+  history,
   children
 }) {
   const setTitle = () => {
@@ -37,7 +38,7 @@ export default React.memo(function Header({
   }
   return (
     <Container>
-      <Title>{setTitle()}</Title>
+      <Title onClick={() => history.push(`/board/${match.params.type}`)}>{setTitle()}</Title>
       {children}
     </Container>
   )

@@ -231,7 +231,9 @@ export default function MarketItemEditContainer({ history, match }) {
 
   return (
     <>
-      <Header match={match}>
+      <Header
+        match={match}
+        history={history}>
         <ButtonGroup
           match={match}
           history={history}

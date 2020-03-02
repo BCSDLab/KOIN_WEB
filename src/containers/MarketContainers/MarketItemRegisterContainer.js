@@ -197,7 +197,9 @@ export default function MarketItemRegisterContainer({ history, match }) {
 
   return (
     <>
-      <Header match={match}>
+      <Header
+        match={match}
+        history={history}>
         <ButtonGroup
           history={history}
           match={match}

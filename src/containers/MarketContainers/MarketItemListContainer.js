@@ -66,7 +66,8 @@ export default function MarketItemListContainer({ history, match }) {
   return (
     <>
       <Header
-        match={match}>
+        match={match}
+        history={history}>
         <ButtonGroup
           history={history}
           match={match}

@@ -110,7 +110,6 @@ const Title = styled.div`
   color: #175c8e;
   margin-bottom: 20px;
   font-family: NanumSquare;
-  cursor: pointer;
   @media (max-width: 576px) {
     font-size: 18px;
   }
