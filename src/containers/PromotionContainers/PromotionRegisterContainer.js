@@ -56,7 +56,7 @@ export default function PromotionEditContainer({ history, match }) {
   };
 
   const onClickRegisterButton = () => {
-    console.log('작성 버튼 클릭')
+    console.log('작성 버튼 클릭');
     const {title, content, summary, start, end, shop } = promotion;
     if (title === "" || content === "") {
       alert("제목과 내용을 채워주세요");
@@ -68,6 +68,10 @@ export default function PromotionEditContainer({ history, match }) {
     }
     if (summary.length > 50) {
       alert(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`);
+      return;
+    }
+    if (shops.length !== 0 && promotion.shop === "") {
+      alert('홍보할 상점을 선택해주세요.');
       return;
     }
 
@@ -99,13 +103,13 @@ export default function PromotionEditContainer({ history, match }) {
         start_date: start,
         end_date: end,
         shop_id: Number(shop),
-        thumbnail: link.find(
+        thumbnail: link ? link.find(
           value => value.indexOf('static.koreatech') !== -1 &&
             (value.indexOf('.png') !== -1 || value.indexOf('.jpg') !== -1 || value.indexOf('.jpeg') !== -1 ||
               value.indexOf('.gif') !== -1 || value.indexOf('.bmp') !== -1 || value.indexOf('.raw') !== -1 || value.indexOf('.svg') !== -1 ||
               value.indexOf('.PNG') !== -1 || value.indexOf('.JPG') !== -1 || value.indexOf('.JPEG') !== -1 ||
               value.indexOf('.GIF') !== -1 || value.indexOf('.BMP') !== -1 || value.indexOf('.RAW') !== -1 || value.indexOf('.SVG') !== -1)
-        )
+        ) : undefined
       },
       token: sessionStorage.getItem("token")
     }))
@@ -214,9 +218,10 @@ export default function PromotionEditContainer({ history, match }) {
 
   useEffect(() => {
     if(myStore.data) {
+      const firstShop = myStore.data[0];
       setPromotion(promotion => ({
         ...promotion,
-        shop: String(myStore.data[0].shop_id)
+        shop: firstShop ? String(firstShop.shop_id) : ""
       }))
       setShops(myStore.data)
     }
