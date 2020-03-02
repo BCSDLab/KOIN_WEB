@@ -526,6 +526,7 @@ export default function Posts({
         isWriteBtn={true}
         writeBtnLink={`${path}/register`}
         path={path}
+        history={history}
       />
     </>
   )

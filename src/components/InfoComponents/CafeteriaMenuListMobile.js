@@ -55,17 +55,17 @@ const PriceInfo = styled.div`
 export default function CafeteriaMenuListMobile({cafeteria, cafeteriaMenus, times}) {
   return(
     <MenusContainer>
-      {times.map((time)=>{
+      {times.map((time, index1)=>{
         return(
-          <Menus key={time}>
-            {cafeteriaMenus.map((menus) => {
-              if(menus.place=== cafeteria) {
+          <Menus key={`tieme-${index1}`}>
+            {cafeteriaMenus.map((menus, index2) => {
+              if(menus.place === cafeteria) {
                 if (menus.type === time) {
                   return (
-                    <div>
-                      {menus.menu.map((menu) => {
+                    <div key={`menus-${index2}`}>
+                      {menus.menu.map((menu, index3) => {
                         return (
-                          <Menu>
+                          <Menu key={`menu-${index3}`}>
                             {menu}
                           </Menu>
                         )

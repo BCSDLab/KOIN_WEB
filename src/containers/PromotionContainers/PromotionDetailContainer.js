@@ -70,6 +70,7 @@ export default function PromotionDetailContainer ({
 
   useEffect(() => {
     console.log("홍보게시글 진입");
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     if (match) {
       setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
@@ -77,8 +78,9 @@ export default function PromotionDetailContainer ({
         id: match.params.id,
         token: sessionStorage.getItem("token") || undefined
       }));
-
-      if (sessionStorage.getItem("token")) {
+      
+      // 점주일 때만 퍼미션 체크
+      if (userInfo.identity === 5 && sessionStorage.getItem("token")) {
         dispatch(checkPromotionPermission({
           token: sessionStorage.getItem("token"),
           id: match.params.id

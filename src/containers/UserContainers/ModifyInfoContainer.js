@@ -102,7 +102,16 @@ export default function ModifyInfoContainer() {
         }
       }
     }
+    // 기존 닉네임과 다를 때만 검사
     if (parsedUserInfo.nickname !== nickname) {
+      // 닉네임이 있는데 없앨 경우
+      if (parsedUserInfo.nickname && !nickname) {
+        addToast('닉네임을 입력해주세요.', {
+          appearance: 'warning',
+          autoDismiss: true
+        });
+        return;
+      }
       if (nickname && !isAvailable) {
         addToast('닉네임 중복확인을 해주세요.', {
           appearance: 'warning',
@@ -132,9 +141,11 @@ export default function ModifyInfoContainer() {
   }, [dispatch, userInfo, isAvailable, parsedUserInfo.nickname]);
 
   const onWithdraw = useCallback(() => {
-    dispatch(withdraw({
-      token: sessionStorage.getItem("token")
-    }));
+    if (window.confirm("데이터 복구는 불가능합니다. 탈퇴하시겠습니까?")) {
+      dispatch(withdraw({
+        token: sessionStorage.getItem("token")
+      }));
+    }
   }, [dispatch]);
 
   const onChange = useCallback(e => {
@@ -188,7 +199,7 @@ export default function ModifyInfoContainer() {
       });
       return;
     }
-    if (nickname === JSON.parse(sessionStorage.getItem("userInfo")).nickname) {
+    if (nickname === parsedUserInfo.nickname) {
       addToast('기존에 등록한 닉네임입니다.', {
         appearance: 'info',
         autoDismiss: true

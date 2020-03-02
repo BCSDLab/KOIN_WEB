@@ -8,8 +8,7 @@ import MarketItemEditContainer from '../../containers/MarketContainers/MarketIte
 
 const Container = styled.div`
   width: 1132px;
-  min-height: 1395px;
-  margin: 64px auto 0 auto;
+  margin: 64px auto 60px auto;
 
   @media (max-width: 576px) {
     width: 100%;
