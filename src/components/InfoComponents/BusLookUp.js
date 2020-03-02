@@ -491,67 +491,69 @@ export default function BusLookUp(
             </LowerCard>
           </Cards>
 
-          <Cards>
-            <UpperCard type={"city"}>
-              <UpperCardContainer>
-                <CardHeader>
-                  <Tag>출발</Tag>
-                  <Station>
-                    {departList[0]}
-                  </Station>
-                  {cityBusData.remain_time > 0 &&
+          {cityBusData && (
+            <Cards>
+              <UpperCard type={"city"}>
+                <UpperCardContainer>
+                  <CardHeader>
+                    <Tag>출발</Tag>
+                    <Station>
+                      {departList[0]}
+                    </Station>
+                    {cityBusData.remain_time > 0 &&
                     <BusName>
                       {cityBusData.bus_number + "번 버스"}
                     </BusName>
-                  }
-                </CardHeader>
-                <CardHeader>
-                  <Tag>도착</Tag>
-                  <Station>
-                    {arrivalList[0]}
-                  </Station>
-                </CardHeader>
-                <Info>
-                  <Time>
-                    {cityBusString(cityBusData.remain_time)}
-                    {cityBusData.remain_time > 0 &&
+                    }
+                  </CardHeader>
+                  <CardHeader>
+                    <Tag>도착</Tag>
+                    <Station>
+                      {arrivalList[0]}
+                    </Station>
+                  </CardHeader>
+                  <Info>
+                    <Time>
+                      {cityBusString(cityBusData.remain_time)}
+                      {cityBusData.remain_time > 0 &&
                       <Detail>
                         {"(" + getCityBusDepartTime(Math.ceil(cityBusData.remain_time/60)%60) +" 출발)"}
                       </Detail>
+                      }
+                    </Time>
+                    <Type>
+                      <BusIcon/>
+                      시내버스
+                    </Type>
+                  </Info>
+                </UpperCardContainer>
+              </UpperCard>
+              <LowerCard type={"city"}>
+                <LowerCardContainer>
+                  <NextBus>
+                    다음버스
+                    {cityBusData.next_remain_time > 0 &&
+                    <BusName>
+                      {cityBusData.next_bus_number + "번 버스"}
+                    </BusName>
+                    }
+                  </NextBus>
+                  <Time>
+                    {cityBusString(cityBusData.next_remain_time)}
+                    {cityBusData.next_remain_time > 0 &&
+                    <Detail>
+                      {"(" + getCityBusDepartTime(Math.ceil(cityBusData.next_remain_time/60)%60) +" 출발)"}
+                    </Detail>
                     }
                   </Time>
                   <Type>
                     <BusIcon/>
                     시내버스
                   </Type>
-                </Info>
-              </UpperCardContainer>
-            </UpperCard>
-            <LowerCard type={"city"}>
-              <LowerCardContainer>
-                <NextBus>
-                  다음버스
-                  {cityBusData.next_remain_time > 0 &&
-                    <BusName>
-                      {cityBusData.next_bus_number + "번 버스"}
-                    </BusName>
-                  }
-                </NextBus>
-                <Time>
-                  {cityBusString(cityBusData.next_remain_time)}
-                  {cityBusData.next_remain_time > 0 &&
-                  <Detail>
-                    {"(" + getCityBusDepartTime(Math.ceil(cityBusData.next_remain_time/60)%60) +" 출발)"}
-                  </Detail>
-                  }
-                </Time>
-                <Type>
-                  <BusIcon/>
-                  시내버스
-                </Type>
-              </LowerCardContainer>
-            </LowerCard>
-          </Cards>
+                </LowerCardContainer>
+              </LowerCard>
+            </Cards>
+          )}
         </CardsContainer>
 
       </LookUp>
