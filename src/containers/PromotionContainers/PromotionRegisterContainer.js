@@ -147,23 +147,25 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    dispatch(checkMyPendingPromotion({
-      token: sessionStorage.getItem("token")
-    }))
-    dispatch(getMyStore({
-      token: sessionStorage.getItem("token")
-    }))
+    if(sessionStorage.getItem("token")) {
+      dispatch(checkMyPendingPromotion({
+        token: sessionStorage.getItem("token")
+      }))
+      dispatch(getMyStore({
+        token: sessionStorage.getItem("token")
+      }))
 
-    const today = new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000);
-    const startDate = today.toISOString().slice(0, 10);
-    today.setDate(today.getDate() + 3);
-    const endDate = today.toISOString().slice(0, 10);
-    setPromotion(promoiton => ({
-      ...promoiton,
-      start: startDate,
-      end: endDate,
-      nickname: JSON.parse(sessionStorage.getItem("userInfo")).nickname
-    }));
+      const today = new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000);
+      const startDate = today.toISOString().slice(0, 10);
+      today.setDate(today.getDate() + 3);
+      const endDate = today.toISOString().slice(0, 10);
+      setPromotion(promoiton => ({
+        ...promoiton,
+        start: startDate,
+        end: endDate,
+        nickname: sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem("userInfo")).nickname : ""
+      }));
+    }
     window.addEventListener('click' , () => {
       setHelpButtonFlag(false)
     })
