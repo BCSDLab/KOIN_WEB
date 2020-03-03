@@ -38,6 +38,11 @@ const Container = styled.div`
 
   @media (max-width: 576px) {
     height: 56px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 20;
     -webkit-animation: ${SlideEnter} .3s ease-out;
     -moz-animation: ${SlideEnter} .3s ease-out;
   }
@@ -430,6 +435,7 @@ export default React.memo(function Topnav({
         categories={categories}
         onLogout={onLogout}
         setMobileMenu={setMobileMenu}
+        onClickFooterMenu={onClickFooterMenu}
       />
     </Container>
   )

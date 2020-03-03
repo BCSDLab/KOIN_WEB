@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styled from "styled-components"
 import CafeteriaMenuList from "./CafeteriaMenuList";
 import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
@@ -19,7 +19,7 @@ const CafeteriaContainer = styled.div`
   @media (max-width: 576px) {
     width: 100%;
     min-width: 300px;
-    margin: 30px auto auto auto;
+    margin: auto;
   }
 `;
 
@@ -42,7 +42,7 @@ const DateSelector = styled.div`
   margin-bottom: -4px;
   
   @media(max-width: 576px){
-    padding-top: 20px;
+    margin-top: 0;
   }
 `;
 
@@ -170,12 +170,13 @@ const MobileCafeteriaMenu = styled.div`
 
 const FixedTopBar = styled.div`
   position: sticky;
-  top: 0;
+  position: -webkit-sticky;
+  top: 56px;
   left: 0;
   right: 0;
   height: 101.5px;
   background-color: #FFFFFF;
-  
+  padding-top: 52px;
   //border-bottom: 1px rgba(23,92,142,0.3) solid;
 `;
 

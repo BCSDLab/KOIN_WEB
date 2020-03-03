@@ -86,7 +86,7 @@ const AppWrapper = styled.div`
     height: 100%;
   }
 
-  max-height: ${props => props.nowFooterMenu[1] ? 'calc(600px)' : '100%'};
+  max-height: ${props => props.nowFooterMenu[1] ? '100vh' : '100%'};
   overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
