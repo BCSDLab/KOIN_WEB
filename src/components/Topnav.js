@@ -251,9 +251,9 @@ const SearchIcon = styled.img`
   cursor: pointer;
 `;
 
-export default function Topnav({
+export default React.memo(function Topnav({
   categories,
-  subMenu,
+  menu,
   path,
   onMouseOverMenu,
   token,
@@ -316,7 +316,8 @@ export default function Topnav({
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
-          {!searchBar && <MegaMenu>
+          {!searchBar && 
+          <MegaMenu>
             {categories.map((category, index) => (
               <MegaMenuItem
                 key={index}
@@ -327,14 +328,16 @@ export default function Topnav({
             <MegaMenuPanelContainer>
               <MegaMenuContainer>
                 <MegaMenuPanelContent>
-                  {subMenu && subMenu.map((sub, index) => (
-                    <MenuItem
-                      index={index}
-                      key={index}>
-                      <MenuItemLink to={sub.link}>
-                        {sub.title}
-                      </MenuItemLink>
-                    </MenuItem>
+                  {categories.map(category => (
+                    category.title === menu && category.submenu.map((sub, index) => (
+                      <MenuItem
+                        index={index}
+                        key={index}>
+                        <MenuItemLink to={sub.link}>
+                          {sub.title}
+                        </MenuItemLink>
+                      </MenuItem>
+                    ))
                   ))}
                 </MegaMenuPanelContent>
               </MegaMenuContainer>
@@ -430,4 +433,4 @@ export default function Topnav({
       />
     </Container>
   )
-}
+})

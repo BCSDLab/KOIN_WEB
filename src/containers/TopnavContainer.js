@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Topnav from '../components/Topnav';
 import * as CATEGORY from '../static/category';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,35 +15,33 @@ export default function TopnavContainer({ history, path }) {
   const [searchWord, setSearchWord] = useState('');
   const [searchWordList, setSearchWordList] = useState(null);
   const [searchBar, setSearchBar] = useState(false);
-  const [subMenu, setSubMenu] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const { token, data, userInfo } = useSelector(state => state.authReducer);
   const dispatch = useDispatch();
 
-  const onMouseOverMenu = (menu) => {
+  const onMouseOverMenu = useCallback(menu => {
     setMenu(menu);
-    setSubMenu(categories.filter(category => category.title === menu)[0].submenu);
-  }
+  }, []);
 
-  const onLogout = () => {
+  const onLogout = useCallback(() => {
     dispatch(logout({ 
       token: sessionStorage.getItem("token")
     }));
-  }
+  }, []);
 
-  const onClickMultiPurposBtn = () => {
+  const onClickMultiPurposBtn = useCallback(() => {
     if (path === '/timetable') {
       dispatch(toggleSheetOpen());
     } else {
       history.push(`${path}/register`);
     }
-  }
+  }, []);
 
-  const onClickFooterMenu = idx => {
+  const onClickFooterMenu = useCallback(idx => {
     dispatch(updateFooterMenu(idx));
-  }
+  }, []);
 
-  const onClickSearchButton = searchWord => {
+  const onClickSearchButton = useCallback(searchWord => {
     // 검색
     if (!searchWord || !searchWord.length) {
       addToast("검색어를 입력해주세요.", {
@@ -73,9 +71,9 @@ export default function TopnavContainer({ history, path }) {
     history.push(`/search?q=${searchWord}`);
     setSearchWord('');
     setSearchBar(false);
-  }
+  }, []);
 
-  const onClickDeleteSearchWordBtn = searchWord => {
+  const onClickDeleteSearchWordBtn = useCallback(searchWord => {
     console.log(searchWord);
     if (!searchWord) {
       sessionStorage.removeItem('search-query');
@@ -86,11 +84,11 @@ export default function TopnavContainer({ history, path }) {
       setSearchWordList(searchQuery);
       sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
     }
-  }
+  }, []);
 
-  const onChangeSearchWord = e => {
+  const onChangeSearchWord = useCallback(e => {
     setSearchWord(e.target.value);
-  }
+  }, []);
 
   useEffect(() => {
     if (sessionStorage.getItem("search-query")) {
@@ -111,7 +109,7 @@ export default function TopnavContainer({ history, path }) {
     <>
       <Topnav
         categories={categories}
-        subMenu={subMenu}
+        menu={menu}
         path={path}
         onMouseOverMenu={onMouseOverMenu}
         token={token}
