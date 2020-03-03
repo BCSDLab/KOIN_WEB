@@ -32,7 +32,6 @@ const THeadCommonStyle = css`
     borderRight: '#d2dae2 1px solid',
     float: 'left',
     wordBreak: 'break-all',
-    overflowX: 'scroll',
     whiteSpace: 'nowrap',
     height: '37px',
     color: '#555555'
@@ -57,6 +56,13 @@ const SortWrapper = styled.div`
   display: inline-block;
   zoom: 1;
   cursor: pointer;
+`;
+
+const StyledList = styled(List)`
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar { 
+    display: none !important;
+  }
 `;
 
 const SortArrowImage = styled.img`
@@ -134,7 +140,6 @@ const TableBodyLastBox = styled.div`
   line-height: 34px;
   float: left;
   word-break: break-all;
-  overflow-x: scroll;
   white-space: nowrap;
   cursor: pointer;
   width: 22px;
@@ -212,7 +217,7 @@ export default React.memo(function LectureListTable({
         </SpinnerWrapper>
       }
       {lectures &&
-        <List
+        <StyledList
           width={766}
           height={420}
           itemData={lectures}
@@ -243,7 +248,7 @@ export default React.memo(function LectureListTable({
               </TableBodyLastBox>
             </TableBodyRow> 
           )}
-        </List>
+        </StyledList>
       }
     </StyledTable>
   )
