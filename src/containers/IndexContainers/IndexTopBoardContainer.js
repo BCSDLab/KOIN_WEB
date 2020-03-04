@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import IndexTopBoard from "../../components/IndexComponents/IndexTopBoard";
 import {useDispatch, useSelector} from "react-redux";
 import {getHotPosts, getNewPosts} from "../../modules/board";
+import useMobileFlag from "../../hooks/useMobileFlag";
 
 export default function IndexTopBoardContainer({history}) {
   const dispatch = useDispatch();
@@ -9,6 +10,7 @@ export default function IndexTopBoardContainer({history}) {
   const { free, job, anonymous, question } = useSelector(state => state.boardReducer.newPosts);
   const [hotBoardList, setHotBoardList] = useState([]);
   const [newBoardList, setNewBoardList] = useState();
+  const mobileFlag = useMobileFlag();
 
   useEffect(() => {
     dispatch(getHotPosts());
@@ -41,6 +43,7 @@ export default function IndexTopBoardContainer({history}) {
   return(
     <IndexTopBoard
       history={history}
+      mobileFlag={mobileFlag}
       hotBoardList={hotBoardList}
       newBoardList={newBoardList}
     />

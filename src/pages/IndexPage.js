@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 import AwesomeSwiper from 'react-awesome-swiper';
+import useMobileFlag from "../hooks/useMobileFlag";
 
 import IndexTopBoardContainer from "../containers/IndexContainers/IndexTopBoardContainer";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
@@ -71,23 +72,7 @@ const MobileSwiper = styled.div`
 `;
 
 export default function IndexPage({history}) {
-  const [mobileFlag, changeMobileFlag] = useState(false);
-
-  const setMobileFlag = width => {
-    if(width < 576) {
-      changeMobileFlag(true);
-    } else changeMobileFlag(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setMobileFlag(window.innerWidth);
-    })
-  }, []);
-
-  useEffect(() => {
-    setMobileFlag(window.innerWidth);
-  },[]);
+  const mobileFlag = useMobileFlag();
 
   const config = {
     slidesPerView: 'auto',

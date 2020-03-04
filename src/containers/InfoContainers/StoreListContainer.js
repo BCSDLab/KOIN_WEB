@@ -5,9 +5,9 @@ import useInterval from "../../hooks/useInterval";
 import {getStoreList, filterStoreList, getRandomPromotion} from '../../modules/store';
 import StoreList from '../../components/InfoComponents/StoreList';
 import StoreBanner from "../../components/InfoComponents/StoreBanner";
+import useMobileFlag from "../../hooks/useMobileFlag";
 
 export default function StoreListContainer () {
-  const [mobileFlag, setMobileFlag] = useState(true);
   const [tag, setTag] = useState(sessionStorage.getItem("storeCategory") || "ALL");
   // 이진수로 체크한다. 계좌이체 / 카드결제 / 배달 순
   const [filter, setFilter] = useState(Number(sessionStorage.getItem("storeFilter")) || 0);
@@ -15,6 +15,7 @@ export default function StoreListContainer () {
   const { filteredData, loading, error, promotionData } = useSelector(state => state.storeReducer.stores);
 
   const history = useHistory();
+  const mobileFlag = useMobileFlag();
 
   const selectCategory = useCallback( tag => {
     setTag(prevState => {
@@ -50,7 +51,7 @@ export default function StoreListContainer () {
       `마감 D-${DDay}`
   }, []);
 
-  useInterval(()=> {dispatch(getRandomPromotion())}, 5000)
+  useInterval(()=> {dispatch(getRandomPromotion())}, 5000);
 
   useEffect(() => {
     return () => {
@@ -68,15 +69,6 @@ export default function StoreListContainer () {
     }
     dispatch(getRandomPromotion())
   }, [dispatch]);
-
-  useLayoutEffect(() => {
-    function updateSize () {
-      setMobileFlag(window.innerWidth < 576)
-    }
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize)
-  }, []);
 
 
 
