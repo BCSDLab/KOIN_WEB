@@ -209,6 +209,7 @@ const MobileTabTitle = styled.div`
 export default function IndexTopBoard(
   {
     history,
+    mobileFlag,
     hotBoardList,
     newBoardList
   }
@@ -599,28 +600,6 @@ export default function IndexTopBoard(
     else history.push(`board/notice/${id}`);
   }
   const [selectedTab, selectTab] = useState("인기게시물")
-  const [mobileFlag, changeMobileFlag] = useState(false);
-
-  const setMobileFlag = width => {
-    if(width < 576) {
-      changeMobileFlag(true);
-    } else changeMobileFlag(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setMobileFlag(window.innerWidth);
-    })
-    return () => {
-      window.removeEventListener('resize', () => {
-        setMobileFlag(window.innerWidth);
-      })
-    }
-  }, []);
-
-  useEffect(() => {
-    setMobileFlag(window.innerWidth);
-  },[]);
 
   return(
     <Container>
