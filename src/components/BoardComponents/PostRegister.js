@@ -181,6 +181,7 @@ const MobileButtonStyle = css`
   letter-spacing: -0.7px;
   padding: 16px;
   border: none;
+  z-index: 25;
 `;
 
 const MobileCancelButton = styled.button`
