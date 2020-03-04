@@ -6,6 +6,7 @@ import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
 const Container = styled.div`
   border-top: #f7941e 5px solid;
   width: 100%;
+  min-height: calc(100% - 301px);
   
   @media(max-width: 576px){
     border-top: none;
@@ -249,7 +250,7 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
-  
+
   return (
     <Container>
       <CafeteriaContainer>
