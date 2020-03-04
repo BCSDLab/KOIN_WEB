@@ -6,7 +6,6 @@ import { getStoreDetailInfo } from "../../modules/store";
 import StoreDetail from "../../components/InfoComponents/StoreDetail";
 import StorePoster from "../../components/InfoComponents/StorePoster";
 import StoreBanner from "../../components/InfoComponents/StoreBanner";
-import Cookies from "js-cookie";
 
 
 export default function StoreDetailContainer ({ id }) {
@@ -35,7 +34,7 @@ export default function StoreDetailContainer ({ id }) {
   }, [dispatch, id]);
 
   useEffect(() => {
-    Cookies.set("storeNewFlag", false);
+    sessionStorage.setItem("storeNewFlag", false);
   }, []);
 
   const handleClickImage = useCallback(
