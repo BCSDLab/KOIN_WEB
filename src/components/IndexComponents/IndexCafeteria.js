@@ -99,6 +99,7 @@ const Menu = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 50%;
 `;
 
 const ShowMore = styled.div`
