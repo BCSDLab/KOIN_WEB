@@ -5,7 +5,6 @@ import parse from 'html-react-parser';
 const Container = styled.div`
   border-top: #f7941e 5px solid;
   width: 100%;
-  height: 100%;
   min-height: calc(100vh - 84px);
   margin: auto;
 
@@ -392,7 +391,7 @@ export default function StoreDetail ({
             <>
               <StoreMenuTitle>MENU</StoreMenuTitle>
               <StoreMenuCardWrapper>
-                {store.menus.map(
+                {store.menus.filter(menu => menu.price_type).map(
                   menu => {
                     return menu.price_type.map(
                         price => ({...price, name: menu.name})
