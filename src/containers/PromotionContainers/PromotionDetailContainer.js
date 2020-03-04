@@ -192,6 +192,8 @@ export default function PromotionDetailContainer ({
         match={match}
         promotion={post.data}
         loading={post.loading}
+        isMyPost={isMyPost}
+        handleDeleteButton={handleDeleteButton}
         registerComment={handleRegisterComment}
         editComment={handleAdjustComment}
         deleteComment={handleDeleteComment}
