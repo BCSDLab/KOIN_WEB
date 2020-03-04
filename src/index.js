@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./modules";
 import rootSaga from './sagas';
 import { Router } from "react-router-dom";
@@ -17,6 +17,7 @@ import createSagaMiddleware from "redux-saga";
 import { ToastProvider } from "react-toast-notifications";
 
 let middlewares = [];
+let middlewareWrapper;
 const customHistory = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware({
   context: {
@@ -24,17 +25,18 @@ const sagaMiddleware = createSagaMiddleware({
   }
 });
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware, logger];
+  middlewareWrapper = composeWithDevTools(applyMiddleware(...middlewares));
 } else {
   console.log = () => {}
   middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware];
+  middlewareWrapper = compose(applyMiddleware(...middlewares));
 }
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(...middlewares))
+  middlewareWrapper
 );
 
 sagaMiddleware.run(rootSaga);

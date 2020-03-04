@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const Container = styled.div`
   transition: all .3s cubic-bezier(0, 0, 0.2, 1);
   transform: ${props => props.mobileMenu ? 'none' : 'translateX(-100%)'};
   z-index: 20;
+  overflow: scroll;
 `;
 
 const UserInfoSection = styled.div`
@@ -30,12 +31,11 @@ const UserInfoSection = styled.div`
   padding: 0 20px;
   box-sizing: border-box;
   background: #ffffff;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  left: 0;
 `;
-
-const AuthSection = styled.div`
-  width: 100%;
-`;
-
 
 const Nickname = styled.span`
   font-size: 16px;
@@ -104,8 +104,15 @@ export default function MobileTopnav({
   userInfo,
   categories,
   onLogout,
-  setMobileMenu
+  setMobileMenu,
+  onClickFooterMenu
 }) {
+
+  const onCloseNav = useCallback(() => {
+    onClickFooterMenu(1);
+    setMobileMenu(false);
+  }, []);
+
   return (
     <Container mobileMenu={mobileMenu}>
       <UserInfoSection>
@@ -115,14 +122,14 @@ export default function MobileTopnav({
         <div>
           {token && 
             <>
-              <StyledAuthLink to="/modifyinfo" onClick={() => setMobileMenu(false)}>정보수정</StyledAuthLink>|
-              <AuthLinkButton onClick={() => {onLogout(); setMobileMenu(false)}}>로그아웃</AuthLinkButton>
+              <StyledAuthLink to="/modifyinfo" onClick={onCloseNav}>정보수정</StyledAuthLink>|
+              <AuthLinkButton onClick={() => {onLogout(); onCloseNav()}}>로그아웃</AuthLinkButton>
             </>
           }
           {!token &&
             <>
-              <StyledAuthLink to="/signup" onClick={() => setMobileMenu(false)}>회원가입</StyledAuthLink>|
-              <StyledAuthLink to="/login" onClick={() => setMobileMenu(false)}>로그인</StyledAuthLink>
+              <StyledAuthLink to="/signup" onClick={onCloseNav}>회원가입</StyledAuthLink>|
+              <StyledAuthLink to="/login" onClick={onCloseNav}>로그인</StyledAuthLink>
             </>
           }
         </div>
@@ -134,7 +141,7 @@ export default function MobileTopnav({
           </TitleSection>
           <SubMenuWrapper>
           {category.submenu.map((submenu, idx2) => (
-            <SubMenuLinkButton key={idx2} to={submenu.link} onClick={() => setMobileMenu(false)}>
+            <SubMenuLinkButton key={idx2} to={submenu.link} onClick={onCloseNav}>
               {submenu.title}
             </SubMenuLinkButton>
           ))}

@@ -2,6 +2,15 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
 import Comment from "../SharedComponents/Comment";
+import ClipLoader from 'react-spinners/ClipLoader';
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  min-height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const PostHead = styled.div`
   border-top: 2px solid #175c8e;
@@ -502,72 +511,82 @@ export default function Post({
   }
   return (
     <>
-      {post && <div>
-      <PostHead>
-        <PostTitle>
-          <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
-          <span>{convertCleanString(post.title)}</span>
-          <PostComment>[{post.comment_count}]</PostComment>
-          {setDate(post.created_at)[1] &&
-            <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
-          }
-        </PostTitle>
-        <PostInfo>
-          <PostAuthor>{post.nickname}</PostAuthor>
-          <PostCreatedAt>{computedOnlyDate(post.created_at)} <span style={{ marginLeft: '7px' }}>{computedOnlyTime(post.created_at)}</span></PostCreatedAt>
-        </PostInfo>
-      </PostHead>
-      <MobilePostHead>
-        <MobilePostTitle>
-          <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
-          <span>{convertCleanString(post.title)}</span>
-          <span style={{ color: "#175c8e" }}>({post.comment_count})</span>
-        </MobilePostTitle>
-        <MobilePostInfo>
-          <span>조회 {post.hit} · </span>
-          <span>{post.nickname}</span>
-          <span style={{ float: 'right' }}>{computedOnlyDate(post.created_at)}</span>
-        </MobilePostInfo>
-        {((isMyPost || type === 'anonymous') && type !== 'notice') &&
-          <MobileButtonGroup>
-            {type === 'anonymous' && 
-              <TempPasswordInputField
-                type="password"
-                value={password}
-                onChange={onChangePassword}
-                placeholder="게시글 비밀번호"
-              />
+      {loading &&
+        <LoaderWrapper>
+          <ClipLoader
+            color={"#175c8e"}
+            size={150}
+            loading={loading}
+          />
+        </LoaderWrapper>
+      }
+      {post &&
+        <div>
+          <PostHead>
+            <PostTitle>
+              <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
+              <span>{convertCleanString(post.title)}</span>
+              <PostComment>[{post.comment_count}]</PostComment>
+              {setDate(post.created_at)[1] &&
+                <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
+              }
+            </PostTitle>
+            <PostInfo>
+              <PostAuthor>{post.nickname}</PostAuthor>
+              <PostCreatedAt>{computedOnlyDate(post.created_at)} <span style={{ marginLeft: '7px' }}>{computedOnlyTime(post.created_at)}</span></PostCreatedAt>
+            </PostInfo>
+          </PostHead>
+          <MobilePostHead>
+            <MobilePostTitle>
+              <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
+              <span>{convertCleanString(post.title)}</span>
+              <span style={{ color: "#175c8e" }}>({post.comment_count})</span>
+            </MobilePostTitle>
+            <MobilePostInfo>
+              <span>조회 {post.hit} · </span>
+              <span>{post.nickname}</span>
+              <span style={{ float: 'right' }}>{computedOnlyDate(post.created_at)}</span>
+            </MobilePostInfo>
+            {((isMyPost || type === 'anonymous') && type !== 'notice') &&
+              <MobileButtonGroup>
+                {type === 'anonymous' && 
+                  <TempPasswordInputField
+                    type="password"
+                    value={password}
+                    onChange={onChangePassword}
+                    placeholder="게시글 비밀번호"
+                  />
+                }
+                {(isMyPost || type === 'anonymous') &&
+                  <>
+                    <EditButton onClick={onClickEditButton}>수정</EditButton>
+                    <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
+                  </>
+                }
+              </MobileButtonGroup>
             }
-            {(isMyPost || type === 'anonymous') &&
-              <>
-                <EditButton onClick={onClickEditButton}>수정</EditButton>
-                <DeleteButton onClick={onClickDeleteButton}>삭제</DeleteButton>
-              </>
-            }
-          </MobileButtonGroup>
-        }
-      </MobilePostHead>
-      <PostBody>
-        {parse(post.content)}
-      </PostBody>
-        <Comment
-          history={history}
+          </MobilePostHead>
+          <PostBody>
+            {parse(post.content)}
+          </PostBody>
+          <Comment
+            history={history}
 
-          // 게시글 정보
-          specificData={post}
+            // 게시글 정보
+            specificData={post}
 
-          // dispatch를 발생시키는 댓글 관련 함수들
-          registerComment={registerComment}
-          editComment={editComment}
-          deleteComment={deleteComment}
+            // dispatch를 발생시키는 댓글 관련 함수들
+            registerComment={registerComment}
+            editComment={editComment}
+            deleteComment={deleteComment}
 
-          // 원문 바로가기
-          originalLink={null}
+            // 원문 바로가기
+            originalLink={null}
 
-          // 익명게시판
-          isAnonymousFlag={type==='anonymous'}
-        />
-      </div>
+            // 익명게시판
+            isAnonymousFlag={type==='anonymous'}
+          />
+        </div>
       }
     </>
   )

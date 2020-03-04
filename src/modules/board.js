@@ -138,6 +138,7 @@ export default function boardReducer(state = initialState, action) {
         ...state,
         hotPosts: {
           ...state.hotPosts,
+          data: null,
           loading: true
         }
       }
@@ -200,6 +201,7 @@ export default function boardReducer(state = initialState, action) {
         error: null,
         post: {
           ...state.post,
+          data: null,
           loading: true
         }
       }

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import parse from 'html-react-parser';
 
 const Container = styled.div`
   border-top: #f7941e 5px solid;
@@ -46,7 +47,7 @@ const Header = styled.div`
 const StoreInfo = styled.div`
   width: 100%;
   text-align: left;
-  height: 407px;
+  min-height: 407px;
   padding: 39px 0;
   box-sizing: border-box;
   border-bottom: solid 1px #ececec;
@@ -65,7 +66,7 @@ const StoreInfo = styled.div`
 `;
 
 const StoreInfoDetail = styled.div`
-  height: 330px;
+  min-height: 330px;
   display: flex;
   flex-direction: column;
   
@@ -173,7 +174,7 @@ const StoreInfoImage = styled.img`
     
     & + & {
       display: block;
-      margin-left 10px;
+      margin-left: 10px;
     }
   }
 `;
@@ -342,7 +343,7 @@ export default function StoreDetail ({
                 <br/>
                 <span>기타정보</span>
                 {store.description ?
-                  store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />') :
+                  parse(store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />')) :
                   '-'}
               </StoreInfoDetailText>
               <StoreInfoTagWrapper>

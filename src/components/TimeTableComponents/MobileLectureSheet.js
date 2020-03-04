@@ -327,7 +327,7 @@ export default function MobileLectureSheet({
               />
               <IconImage
                 onClick={() => searchLecturesByName(searchWord)}
-                src={"http://static.koreatech.in/assets/img/ic-search-gray.png"} />
+                src={"https://static.koreatech.in/assets/img/ic-search-gray.png"} />
             </SearchFieldWrapper>
           </HelperSection>
           {lectures &&
@@ -356,8 +356,8 @@ export default function MobileLectureSheet({
                     <ButtonImage
                       src={
                         isMyLecture(lectures[index])
-                          ? "http://static.koreatech.in/assets/img/ic-delete.png"
-                          : "http://static.koreatech.in/assets/img/ic-add.png"}
+                          ? "https://static.koreatech.in/assets/img/ic-delete.png"
+                          : "https://static.koreatech.in/assets/img/ic-add.png"}
                       onClick={
                         isMyLecture(lectures[index])
                           ? () => removeLectureFromMyTable(index, lectures[index].id)

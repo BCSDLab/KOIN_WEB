@@ -40,37 +40,38 @@ export default function PostEditContainer({ history, match }) {
   }
 
   const onClickEditButton = () => {
-    const boardId = sessionStorage.getItem("boardId");
-
-    if (boardId !== '-1') {
-      dispatch(editPost({
-        body: {
-          title,
-          content,
-          board_id: boardId
-        },
-        boardId,
-        id: sessionStorage.getItem("postId"),
-        token: sessionStorage.getItem("token")
-      }))
-    } else {
-      if (!password.length || !password) {
-        addToast("비밀번호를 입력해주세요.", {
-          appearance: "warning",
-          autoDismiss: true
-        })
-        return ;
-      }
-      if (password === sessionStorage.getItem("tempPassword")) {
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
+      const boardId = sessionStorage.getItem("boardId");
+      if (boardId !== '-1') {
         dispatch(editPost({
           body: {
             title,
             content,
-            password
+            board_id: boardId
           },
+          boardId,
           id: sessionStorage.getItem("postId"),
-          boardId
+          token: sessionStorage.getItem("token")
         }))
+      } else {
+        if (!password.length || !password) {
+          addToast("비밀번호를 입력해주세요.", {
+            appearance: "warning",
+            autoDismiss: true
+          })
+          return ;
+        }
+        if (password === sessionStorage.getItem("tempPassword")) {
+          dispatch(editPost({
+            body: {
+              title,
+              content,
+              password
+            },
+            id: sessionStorage.getItem("postId"),
+            boardId
+          }))
+        }
       }
     }
   }
@@ -128,7 +129,7 @@ export default function PostEditContainer({ history, match }) {
     dispatch(checkPermission({
       token: sessionStorage.getItem("token"),
       id: sessionStorage.getItem("postId"),
-      tempPassword: sessionStorage.getItem("tempPassword"),
+      password: sessionStorage.getItem("tempPassword"),
       boardId: sessionStorage.getItem("boardId")
     }))
   }, []);

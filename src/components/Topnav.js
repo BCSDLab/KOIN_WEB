@@ -38,6 +38,11 @@ const Container = styled.div`
 
   @media (max-width: 576px) {
     height: 56px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 20;
     -webkit-animation: ${SlideEnter} .3s ease-out;
     -moz-animation: ${SlideEnter} .3s ease-out;
   }
@@ -251,9 +256,9 @@ const SearchIcon = styled.img`
   cursor: pointer;
 `;
 
-export default function Topnav({
+export default React.memo(function Topnav({
   categories,
-  subMenu,
+  menu,
   path,
   onMouseOverMenu,
   token,
@@ -316,7 +321,8 @@ export default function Topnav({
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
-          {!searchBar && <MegaMenu>
+          {!searchBar && 
+          <MegaMenu>
             {categories.map((category, index) => (
               <MegaMenuItem
                 key={index}
@@ -327,14 +333,16 @@ export default function Topnav({
             <MegaMenuPanelContainer>
               <MegaMenuContainer>
                 <MegaMenuPanelContent>
-                  {subMenu && subMenu.map((sub, index) => (
-                    <MenuItem
-                      index={index}
-                      key={index}>
-                      <MenuItemLink to={sub.link}>
-                        {sub.title}
-                      </MenuItemLink>
-                    </MenuItem>
+                  {categories.map(category => (
+                    category.title === menu && category.submenu.map((sub, index) => (
+                      <MenuItem
+                        index={index}
+                        key={index}>
+                        <MenuItemLink to={sub.link}>
+                          {sub.title}
+                        </MenuItemLink>
+                      </MenuItem>
+                    ))
                   ))}
                 </MegaMenuPanelContent>
               </MegaMenuContainer>
@@ -351,7 +359,7 @@ export default function Topnav({
             />
           }
           {!searchBar && <SearchIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />}
         </MenuWrapper>
@@ -405,7 +413,7 @@ export default function Topnav({
         }
         {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
           <RouteIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />
         }
@@ -427,7 +435,8 @@ export default function Topnav({
         categories={categories}
         onLogout={onLogout}
         setMobileMenu={setMobileMenu}
+        onClickFooterMenu={onClickFooterMenu}
       />
     </Container>
   )
-}
+})

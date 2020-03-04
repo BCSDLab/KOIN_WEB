@@ -46,7 +46,7 @@ const ShowMore = styled.div`
 `;
 
 const MoreIcon = styled.img.attrs({
-  src: "http://static.koreatech.in/assets/img/ic-more.png"
+  src: "https://static.koreatech.in/assets/img/ic-more.png"
 })`
   width: 15px;
   height: 15px;

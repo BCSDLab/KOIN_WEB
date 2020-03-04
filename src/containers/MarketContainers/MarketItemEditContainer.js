@@ -117,11 +117,13 @@ export default function MarketItemEditContainer({ history, match }) {
     }
     if (price || price.length) body['price'] = parseInt(price);
     if (isOpen) body['phone'] = phone;
-    dispatch(editItem({
-      id: sessionStorage.getItem("itemId"),
-      token: sessionStorage.getItem("token"),
-      body
-    }));
+    if (window.confirm("게시글을 수정하시겠습닊까?")) {
+      dispatch(editItem({
+        id: sessionStorage.getItem("itemId"),
+        token: sessionStorage.getItem("token"),
+        body
+      }));
+    }
   }
 
   const onClickCheckbox = flag => {
@@ -231,7 +233,9 @@ export default function MarketItemEditContainer({ history, match }) {
 
   return (
     <>
-      <Header match={match}>
+      <Header
+        match={match}
+        history={history}>
         <ButtonGroup
           match={match}
           history={history}

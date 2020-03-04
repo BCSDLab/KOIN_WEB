@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components';
 import Pagination from '../SharedComponents/Pagination';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const List = styled.div`
   width: 1132px;
@@ -33,6 +34,14 @@ const Row = styled.div`
     flex-wrap: none;
     flex-direction: column;
   }
+`;
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Item = styled.div`
@@ -267,6 +276,15 @@ export default function Items({
       <List>
         <ItemCount>총 {numOfItems.toLocaleString()}개의 게시물이 있습니다.</ItemCount>
         <Row>
+          {loading &&
+            <LoaderWrapper>
+              <ClipLoader
+                color={"#175c8e"}
+                size={150}
+                loading={loading}
+              />
+            </LoaderWrapper>
+          }
           {items && items.map((item, index) =>
             <Fragment key={item.id}>
               <Item onClick={() => history.push(`/market/${path}/${item.id}`)}>

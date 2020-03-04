@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -86,12 +86,12 @@ const AppWrapper = styled.div`
     height: 100%;
   }
 
-  max-height: ${props => props.nowFooterMenu[1] ? 'calc(600px)' : '100%'};
+  max-height: ${props => props.nowFooterMenu[1] ? '100vh' : '100%'};
   overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
 const Main = styled.main`
-  height: calc(100% - 84px);
+  height: calc(100vh - 84px);
 
   @media (max-width: 576px) {
     height: calc(100% - 130px);
@@ -104,7 +104,9 @@ function App({ history }) {
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState(false);
   const [currentPath, setCurrentPath] = useState(history.location.pathname);
+  const { pathname } = useLocation();
   const { nowFooterMenu } = useSelector(state => state.commonReducer);
+
   const onConfirm = path => {
     setDialog(false);
     if (path) history.push(path);
@@ -132,6 +134,10 @@ function App({ history }) {
       setCurrentPath(location.pathname);
     })
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <AppWrapper nowFooterMenu={nowFooterMenu}>

@@ -2,6 +2,15 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
 import Comment from '../SharedComponents/Comment';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+const LoaderWrapper = styled.div`
+  width: 1132px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Head = styled.div`
   width: 1132px;
@@ -366,6 +375,15 @@ export default function Item({
   }
   return (
     <>
+      {loading &&
+        <LoaderWrapper>
+          <ClipLoader
+            color={"#175c8e"}
+            size={150}
+            loading={loading}
+          />
+        </LoaderWrapper>
+      }
       {item &&
         <>
           <Head>

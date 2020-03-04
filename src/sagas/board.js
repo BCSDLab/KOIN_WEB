@@ -244,10 +244,10 @@ function* deleteComment({ payload }) {
 }
 
 function* checkPermission({ payload }) {
-  const { id, token, tempPassword, boardId } = payload;
+  const { id, token, password, boardId } = payload;
   try {
     let body = { article_id: id }
-    if (boardId === '-1') body['password'] = tempPassword;
+    if (boardId === '-1') body['password'] = password;
     const res = yield call(boardAPI.checkArticleAuthority, token, body, boardId);
     yield put({
       type: CHECK_PERMISSION_SUCCESS,

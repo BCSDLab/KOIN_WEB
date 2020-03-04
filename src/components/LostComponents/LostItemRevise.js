@@ -164,7 +164,7 @@ export default function LostItemRevise(
         </Detail>
         <Footer>
           <CancelBtn onClick={()=> history.push('/lost')}>취소</CancelBtn>
-          <RegisterBtn onClick={() => revise()}>등록</RegisterBtn>
+          <RegisterBtn onClick={() => revise()}>수정</RegisterBtn>
           <GoListBtn onClick={()=> history.push('/lost')}>목록으로</GoListBtn>
         </Footer>
         <MobileMenus>
@@ -172,7 +172,7 @@ export default function LostItemRevise(
             취소
           </MobileCancelBtn>
           <MobileRegisterBtn onClick={()=> revise()}>
-            등록
+            수정
           </MobileRegisterBtn>
         </MobileMenus>
       </Container>

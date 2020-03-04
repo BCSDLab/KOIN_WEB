@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import Post from '../../components/BoardComponents/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPost, checkPermission, deletePost, registerComment, deleteComment, editComment, clearState } from '../../modules/board';
+import { getPost, checkPermission, deletePost, registerComment, deleteComment, editComment } from '../../modules/board';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
@@ -17,31 +17,35 @@ export default function PostDetailContainer({
   const [password, setPassword] = useState('');
   const [path, setPath] = useState();
   const [buttonFlag, setButtonFlag] = useState(0);
+
   const onClickDeleteButton = useCallback(() => {
-    if (match.params.type !== 'anonymous') {
-      console.log("일반게시판에서 삭제버튼 클릭");
-      dispatch(deletePost({
-        token: sessionStorage.getItem("token"),
-        boardId: sessionStorage.getItem("boardId"),
-        id: match.params.id,
-      }));
-    } else {
-      console.log("익게에서 삭제버튼 클릭")
-      if (!password.length) {
-        addToast("비밀번호를 입력해주세요.", {
-          appearance: 'warning',
-          autoDismiss: true
-        });
-        return;
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      if (match.params.type !== 'anonymous') {
+        console.log("일반게시판에서 삭제버튼 클릭");
+          dispatch(deletePost({
+            token: sessionStorage.getItem("token"),
+            boardId: sessionStorage.getItem("boardId"),
+            id: match.params.id,
+          }));
+        
+      } else {
+        console.log("익게에서 삭제버튼 클릭")
+        if (!password.length) {
+          addToast("비밀번호를 입력해주세요.", {
+            appearance: 'warning',
+            autoDismiss: true
+          });
+          return;
+        }
+        setButtonFlag(false);
+        dispatch(checkPermission({
+          token: sessionStorage.getItem("token"),
+          id: match.params.id,
+          boardId: sessionStorage.getItem("boardId"),
+          password
+        }));
       }
-      setButtonFlag(false);
-      dispatch(checkPermission({
-        token: sessionStorage.getItem("token"),
-        id: match.params.id,
-        boardId: sessionStorage.getItem("boardId"),
-        password
-      }));
-    }
+    }    
   }, [match, dispatch, password]);
 
   const onClickEditButton = useCallback(() => {
@@ -63,7 +67,7 @@ export default function PostDetailContainer({
         token: sessionStorage.getItem("token"),
         id: match.params.id,
         boardId: sessionStorage.getItem("boardId"),
-        tempPassword: password
+        password
       }));
     }
   }, [match, dispatch, password]);
@@ -93,36 +97,40 @@ export default function PostDetailContainer({
   }
 
   const onDeleteComment = (id, password) => {
-    const boardId = sessionStorage.getItem("boardId");
-    if (boardId === '-1') {
-      dispatch(deleteComment({
-        token: sessionStorage.getItem("token"),
-        boardId,
-        postId: match.params.id,
-        id,
-        password
-      }));
-    } else {
-      dispatch(deleteComment({
-        token: sessionStorage.getItem("token"),
-        boardId,
-        postId: match.params.id,
-        id
-      }));
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      const boardId = sessionStorage.getItem("boardId");
+      if (boardId === '-1') {
+        dispatch(deleteComment({
+          token: sessionStorage.getItem("token"),
+          boardId,
+          postId: match.params.id,
+          id,
+          password
+        }));
+      } else {
+        dispatch(deleteComment({
+          token: sessionStorage.getItem("token"),
+          boardId,
+          postId: match.params.id,
+          id
+        }));
+      }
     }
   }
 
   const onEditComment = (id, content, password) => {
-    const boardId = sessionStorage.getItem("boardId");
-    let body = { content }
-    if (boardId === '-1') body['password'] = password
-    dispatch(editComment({
-      token: sessionStorage.getItem("token"),
-      boardId,
-      postId: match.params.id,
-      id,
-      body
-    }));
+    if (window.confirm("댓글을 수정하시겠습니까?")) {
+      const boardId = sessionStorage.getItem("boardId");
+      let body = { content }
+      if (boardId === '-1') body['password'] = password
+      dispatch(editComment({
+        token: sessionStorage.getItem("token"),
+        boardId,
+        postId: match.params.id,
+        id,
+        body
+      }));
+    }
   }
 
   const onChangePassword = e => {
@@ -167,12 +175,13 @@ export default function PostDetailContainer({
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       // 일반 게시글 권한 체크 후 내 게시글 판별 
       if (data.data.grantEdit && sessionStorage.getItem("boardId") !== '-1') {
         setIsMyPost(data.data.grantEdit);
       }
       // 익게 권한 체크, 비밀번호 틀렸을 때
-      if (!data.data.grantEdit && sessionStorage.getItem("boardId") === '-1') {
+      if (data.data.grantEdit === false && sessionStorage.getItem("boardId") === '-1') {
         addToast("권한이 없습니다.", {
           appearance: 'error',
           autoDismiss: true
@@ -182,8 +191,9 @@ export default function PostDetailContainer({
       if (data.data.grantEdit && sessionStorage.getItem("boardId") === '-1') {
         sessionStorage.setItem("tempPassword", password);
         console.log(buttonFlag);
-        if (buttonFlag) history.push(`/board/${match.params.type}/edit`);
-        else {
+        if (buttonFlag) {
+          history.push(`/board/${match.params.type}/edit`);
+        } else {
           dispatch(deletePost({
             token: sessionStorage.getItem("token"),
             boardId: sessionStorage.getItem("boardId"),
