@@ -125,6 +125,10 @@ export default function marketReducer(state= initialState, action) {
           ...state.item,
           data: null,
           loading: true
+        },
+        comment: {
+          ...state.comment,
+          data: null
         }
       }
     case GET_ITEM_SUCCESS:
