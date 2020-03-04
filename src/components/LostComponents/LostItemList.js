@@ -351,7 +351,9 @@ export default function LostItemList(
           <Mobile>
           {lostItems.map((items, id) => {
             return (
-              <MobileList key={id}>
+              <MobileList
+                key={id}
+                onClick={() => history.push(`/lost/detail/${items.id}`)}>
                 <MobileTitle>
                   <span>{items.title}</span>
                   <MobileCommentCount>

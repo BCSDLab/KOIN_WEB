@@ -14,7 +14,8 @@ export default function LostItemRegisterContainer({history}) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [place, setPlace] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState(JSON.parse(sessionStorage.getItem('userInfo')).phone_number);
+  const userInfo = sessionStorage.getItem("userInfo");
+  const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const dispatch = useDispatch();
   const editorRef = createRef();
 

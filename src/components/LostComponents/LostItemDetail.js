@@ -405,7 +405,7 @@ export default function LostItemDetail(
           <MobileTopnavBtn>
             <MobileBackBtn onClick={()=> history.push('/lost')}/>
             {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&
-              <MobileRegisterBtn onClick={() => history.push('/lost/revise')}/>
+              <MobileRegisterBtn onClick={() => history.push('/lost/edit')}/>
             }
           </MobileTopnavBtn>
         </ItemDetail>

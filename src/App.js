@@ -185,9 +185,21 @@ function App({ history }) {
           <Route path="/store/:id" component={StoreDetailPage} />
 
           <Route exact strict path="/lost" component={LostItemListPage}/>
-          <Route path="/lost/register" component={LostItemRegisterPage}/>
+          <PrivateRoute
+            path="/lost/register"
+            component={LostItemRegisterPage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
           <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
-          <Route path="/lost/revise" component={LostItemRevisePage}/>
+          <PrivateRoute
+            path="/lost/edit"
+            component={LostItemRevisePage}
+            setDialog={setDialog}
+            dialog={dialog}
+            onConfirm={onConfirm}
+          />
     
 
           <Route path="/cafeteria" component={CafeteriaMenuPage} />

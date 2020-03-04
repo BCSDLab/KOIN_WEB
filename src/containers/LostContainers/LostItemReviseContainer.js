@@ -15,7 +15,8 @@ export default function LostItemReviseContainer({history}) {
   const [title, setTitle] = useState(specificData.title);
   const [date, setDate] = useState(specificData.date);
   const [place, setPlace] = useState(specificData.location);
-  const [phoneNumber, setPhoneNumber] = useState(JSON.parse(sessionStorage.getItem('userInfo')).phone_number);
+  const userInfo = sessionStorage.getItem("userInfo");
+  const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const [content, setContent] = useState(specificData.content);
 
   const onChangeContent = (content) => {

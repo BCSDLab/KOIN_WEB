@@ -91,7 +91,7 @@ export default function LostItemDetailContainer({history}) {
 
   const reviseItem = () => {
     sessionStorage.setItem('revisePath',path);
-    history.push('/lost/revise');
+    history.push('/lost/edit');
   };
 
   useEffect(() => {

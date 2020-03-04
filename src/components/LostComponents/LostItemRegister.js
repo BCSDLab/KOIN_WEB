@@ -568,7 +568,7 @@ export default function LostItemRegister(
               placeholder="제목을 입력하세요. ( 최대 255자 )"
               onInput={e => setTitle(e.target.value)}/>
             <BoardInfo>
-              <Author>{JSON.parse(sessionStorage.getItem('userInfo')).nickname}</Author>
+              <Author>{sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem('userInfo')).nickname : ''}</Author>
               <CreatedAt>{createdAt}</CreatedAt>
             </BoardInfo>
           </BoardHead>
