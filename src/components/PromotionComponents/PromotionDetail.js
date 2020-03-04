@@ -231,7 +231,7 @@ const PromotionEditButton = styled(Link)`
   padding: 5px 0;
   font-size: 12px;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.75;
   text-decoration: none;
   text-align: center;
   color: #252525;

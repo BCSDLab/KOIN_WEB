@@ -563,6 +563,7 @@ const EditButton = styled.input.attrs({type: 'button'})`
     padding: 16px;
     border: none;
     right: 0;
+    z-index: 21;
   }
 `;
 
@@ -593,6 +594,7 @@ const CancelButton = styled.input.attrs({type: 'button'})`
     padding: 16px;
     border: none;
     left: 0;
+    z-index: 21;
   }
 `;
 

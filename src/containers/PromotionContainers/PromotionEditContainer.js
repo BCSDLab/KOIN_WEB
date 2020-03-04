@@ -234,7 +234,7 @@ export default function PromotionEditContainer({ history, match }) {
         />
       </Header>
       <PromotionEdit
-        type="등록"
+        type="수정"
         promotion={promotion}
         shops={shops}
         helpButtonFlag={helpButtontonFlag}
