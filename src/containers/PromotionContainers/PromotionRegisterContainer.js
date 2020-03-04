@@ -199,11 +199,10 @@ export default function PromotionEditContainer({ history, match }) {
   }, [error]);
 
   useEffect(() => {
-    if (post.data) {
-      if (post.data.id) {
-        console.log(post.data)
+    if (post.pendingData) {
+      if (post.pendingData.id) {
         if (window.confirm('현재 진행중인 이벤트가 있습니다.\n수정하시겠습니까?')) {
-          sessionStorage.setItem("postId", post.data.id);
+          sessionStorage.setItem("postId", post.pendingData.id);
           history.replace('/board/promotion/edit');
         } else {
           history.goBack();

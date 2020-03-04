@@ -611,6 +611,11 @@ export default function IndexTopBoard(
     window.addEventListener('resize', () => {
       setMobileFlag(window.innerWidth);
     })
+    return () => {
+      window.removeEventListener('resize', () => {
+        setMobileFlag(window.innerWidth);
+      })
+    }
   }, []);
 
   useEffect(() => {
