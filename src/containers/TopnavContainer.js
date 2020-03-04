@@ -144,6 +144,8 @@ export default function TopnavContainer({ history, path }) {
         mobileMenu={mobileMenu}
         setMobileMenu={setMobileMenu}
         onClickFooterMenu={onClickFooterMenu}
+        searchBar={searchBar}
+        setSearchBar={setSearchBar}
       />
     </>
   )
