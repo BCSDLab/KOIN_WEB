@@ -141,6 +141,14 @@ const StoreInfoDetailText = styled.div`
   }
 `;
 
+const StoreOtherInfo = styled.div`
+  display: flex;
+`;
+
+const StoreOtherInfoContent = styled.div`
+  display: inline-block;
+`;
+
 const StoreInfoImageWrapper = styled.div`
   width: 330px;
   height: 330px;
@@ -341,10 +349,15 @@ export default function StoreDetail ({
                 <span>배달요금</span>
                 {store.delivery_price.toLocaleString()}원
                 <br/>
-                <span>기타정보</span>
-                {store.description ?
-                  parse(store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />')) :
-                  '-'}
+                <StoreOtherInfo>
+                  <span>기타정보</span>
+                  <StoreOtherInfoContent>
+                    {store.description ?
+                      parse(store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />')) :
+                      '-'
+                    }
+                  </StoreOtherInfoContent>
+                </StoreOtherInfo>
               </StoreInfoDetailText>
               <StoreInfoTagWrapper>
                 {store.delivery && <span>#배달가능</span>}
