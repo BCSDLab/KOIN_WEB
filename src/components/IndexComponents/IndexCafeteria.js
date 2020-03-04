@@ -95,6 +95,10 @@ const Menu = styled.div`
   color: #252525;
   text-align: left;
   margin-bottom: 4px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ShowMore = styled.div`
