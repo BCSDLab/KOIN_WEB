@@ -275,6 +275,7 @@ const MobileTopnavBtn = styled.div`
   
   @media(max-width: 576px){
     display: block;
+    z-index: 25;
   }
   
   img {

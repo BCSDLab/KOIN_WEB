@@ -515,6 +515,7 @@ const MobileCancelBtn = styled.button`
   background-color: #175c8e;
   border: none;
   padding-left: 0;
+  z-index: 25;
 `;
 
 const MobileRegisterBtn = styled.button`
@@ -530,6 +531,7 @@ const MobileRegisterBtn = styled.button`
   background-color: #175c8e;
   border: none;
   padding-right: 0;
+  z-index: 25;
 `;
 
 export default function LostItemRegister(
