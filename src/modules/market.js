@@ -123,6 +123,7 @@ export default function marketReducer(state= initialState, action) {
         ...state,
         item: {
           ...state.item,
+          data: null,
           loading: true
         }
       }
