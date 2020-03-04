@@ -27,7 +27,7 @@ export default function LostItemDetailContainer({history}) {
   };
 
   const adjustComment = (token, id, body) => {
-    if(window.confirm('수정하시겠습니까?')) {
+    if(window.confirm('댓글을 수정하시겠습니까?')) {
       dispatch(adjustLostComment({
         "token": token,
         "itemId": path,
@@ -43,7 +43,7 @@ export default function LostItemDetailContainer({history}) {
   };
 
   const deleteComment = (id) => {
-    if(window.confirm('삭제하시겠습니까?')){
+    if(window.confirm('댓글을 삭제하시겠습니까?')){
       dispatch(deleteLostComment({
         "token": sessionStorage.getItem('token'),
         "itemId": path,
@@ -75,7 +75,7 @@ export default function LostItemDetailContainer({history}) {
   };
 
   const deleteItem = () => {
-    if(window.confirm('삭제하시겠습니까?')) {
+    if(window.confirm('게시글을 삭제하시겠습니까?')) {
       dispatch(deleteLostItem({
         "token": sessionStorage.getItem("token"),
         "id": path
@@ -90,10 +90,8 @@ export default function LostItemDetailContainer({history}) {
   };
 
   const reviseItem = () => {
-    if(window.confirm('수정하시겠습니까?')){
-      sessionStorage.setItem('revisePath',path);
-      history.push('/lost/revise');
-    }
+    sessionStorage.setItem('revisePath',path);
+    history.push('/lost/revise');
   };
 
   useEffect(() => {

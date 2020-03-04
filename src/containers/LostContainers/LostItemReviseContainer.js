@@ -85,25 +85,27 @@ export default function LostItemReviseContainer({history}) {
     if(phoneNumber === '') registerPhoneNumber = undefined;
     if(date === '' || date === undefined) registerDate = undefined;
 
-    dispatch(reviseLostItem({
-      'title': title,
-      'type': 0,
-      'date': registerDate,
-      'location': registerPlace,
-      'is_phone_open': phoneFlag,
-      'phoneNumber': registerPhoneNumber,
-      'content': content,
-      'token': sessionStorage.getItem('token'),
-      'id': specificData.id
-    })).then(()=> {
-      addToast("게시물이 수정되었습니다.", {
-        appearance: 'success',
-        autoDismiss: true
-      });
-      history.push(`/lost/detail/${specificData.id}`);
-    }, error => {
-      alert('네트워크를 확인하세요.');
-    })
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
+      dispatch(reviseLostItem({
+        'title': title,
+        'type': 0,
+        'date': registerDate,
+        'location': registerPlace,
+        'is_phone_open': phoneFlag,
+        'phoneNumber': registerPhoneNumber,
+        'content': content,
+        'token': sessionStorage.getItem('token'),
+        'id': specificData.id
+      })).then(()=> {
+        addToast("게시물이 수정되었습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+        history.push(`/lost/detail/${specificData.id}`);
+      }, error => {
+        alert('네트워크를 확인하세요.');
+      })
+    }
   }
   return (
     <LostItemRevise

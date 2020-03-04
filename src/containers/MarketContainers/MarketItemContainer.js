@@ -18,10 +18,12 @@ export default function MarketItemContainer({ history, match }) {
   }
 
   const onClickDeleteButton = () => {
-    dispatch(deleteItem({
-      id: match.params.id,
-      token: sessionStorage.getItem("token")
-    }));
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      dispatch(deleteItem({
+        id: match.params.id,
+        token: sessionStorage.getItem("token")
+      }));
+    }
   }
 
   const onReigsterComment = content => {
@@ -42,29 +44,33 @@ export default function MarketItemContainer({ history, match }) {
   }
 
   const onEditComment = (id, content) => {
-    if (!content.length || !content) {
-      addToast("내용을 입력해주세요.", {
-        appearance: 'warning',
-        autoDismiss: true
-      });
-      return;
-    }
-    dispatch(editComment({
-      token: sessionStorage.getItem("token"),
-      itemId: match.params.id,
-      id,
-      body: {
-        content
+    if (window.confirm("댓글을 수정하시겠습니까?")) {
+      if (!content.length || !content) {
+        addToast("내용을 입력해주세요.", {
+          appearance: 'warning',
+          autoDismiss: true
+        });
+        return;
       }
-    }));
+      dispatch(editComment({
+        token: sessionStorage.getItem("token"),
+        itemId: match.params.id,
+        id,
+        body: {
+          content
+        }
+      }));
+    }
   }
 
   const onDeleteComment = id => {
-    dispatch(deleteComment({
-      token: sessionStorage.getItem("token"),
-      itemId: match.params.id,
-      id,
-    }));
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      dispatch(deleteComment({
+        token: sessionStorage.getItem("token"),
+        itemId: match.params.id,
+        id,
+      }));
+    }
   }
 
   useEffect(() => {
