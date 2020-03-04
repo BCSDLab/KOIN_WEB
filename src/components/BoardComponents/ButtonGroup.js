@@ -74,7 +74,6 @@ export default React.memo(function ButtonGroup({
           history.push('/login');
         } else if (userInfo.identity !== 5) {
           alert("점주만이 홍보게시물을 작성할 수 있습니다.");
-          return;
         } else {
           history.push(`${match.url}/register`);
         }

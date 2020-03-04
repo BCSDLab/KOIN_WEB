@@ -80,7 +80,7 @@ export default function PromotionDetailContainer ({
       }));
       
       // 점주일 때만 퍼미션 체크
-      if (userInfo.identity === 5 && sessionStorage.getItem("token")) {
+      if (userInfo && userInfo.identity === 5 && sessionStorage.getItem("token")) {
         dispatch(checkPromotionPermission({
           token: sessionStorage.getItem("token"),
           id: match.params.id
