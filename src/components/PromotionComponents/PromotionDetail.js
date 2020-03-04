@@ -216,6 +216,7 @@ const PromotionButtonWrapper = styled.div`
   
   @media (max-width: 576px) {
     display: flex;
+    justify-content: ${props => props.isMyPost ? 'none' : 'flex-end'};
     margin-top: 6px;
     grid-column: 1 / 3;
     grid-row: 3 / 4;
@@ -317,6 +318,8 @@ export default function PromotionDetail ({
   history,
   match,
   promotion,
+  isMyPost,
+  handleDeleteButton,
   registerComment,
   editComment,
   deleteComment,
@@ -622,9 +625,15 @@ export default function PromotionDetail ({
               <PromotionAuthor>{promotion.nickname}</PromotionAuthor>
               <PromotionCreatedTime>{promotion.created_at.replace(/-/g, '.').slice(0, 10)} <span>{promotion.created_at.split(" ")[1]}</span></PromotionCreatedTime>
             </PromotionPostInfo>
-            <PromotionButtonWrapper>
-              <PromotionEditButton to="/board/edit">수정</PromotionEditButton>
-              <PromotionRemoveButton to="/board/delete">삭제</PromotionRemoveButton>
+            <PromotionButtonWrapper isMyPost={isMyPost}>
+              {isMyPost && 
+                (
+                  <>
+                    <PromotionEditButton to="/board/promotion/edit">수정</PromotionEditButton>
+                    <PromotionRemoveButton onClick={handleDeleteButton}>삭제</PromotionRemoveButton>
+                  </>
+                )
+              }
               <ListRoutingButton to="/board/promotion">목록으로</ListRoutingButton>
             </PromotionButtonWrapper>
           </PromotionHead>

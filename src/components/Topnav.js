@@ -270,7 +270,7 @@ export default React.memo(function Topnav({
   searchBar,
   setMobileMenu,
   setSearchBar,
-  onClickMultiPurposBtn,
+  onClickMultiPurposeBtn,
   onClickDeleteSearchWordBtn,
   onClickFooterMenu,
   onClickSearchButton,
@@ -408,7 +408,7 @@ export default React.memo(function Topnav({
         {(!mobileMenu && setRoutingButtonVisible()) &&
           <RouteIcon
             src={"https://static.koreatech.in/assets/img/mobile__create.png"}
-            onClick={onClickMultiPurposBtn}
+            onClick={onClickMultiPurposeBtn}
           />
         }
         {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&

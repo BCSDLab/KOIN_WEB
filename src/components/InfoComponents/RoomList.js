@@ -77,7 +77,9 @@ const ListCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
   @media (max-width: 576px) {
     margin: 16px 16px 0 16px;
     width: calc(100% - 32px);

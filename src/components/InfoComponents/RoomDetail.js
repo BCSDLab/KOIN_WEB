@@ -450,7 +450,8 @@ export default function RoomDetail({
             <NaverMap
               style={{
                 width: '100%',
-                height: '100%'
+                height: '100%',
+                zIndex: '10'
               }}
               defaultCenter={{ lat: room.latitude, lng: room.longitude }}
               defaultZoom={16}
