@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { css } from 'styled-components';
 import Topnav from '../components/Topnav';
 import * as CATEGORY from '../static/category';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,9 +8,11 @@ import { useToasts } from 'react-toast-notifications';
 import MobileFooterMenu from '../components/MobileFooterMenu';
 import { toggleSheetOpen } from '../modules/timetable';
 import { updateFooterMenu } from '../modules/common';
+import { useDarkenBackground } from '../hooks/useDarkenBackground';
 
 export default function TopnavContainer({ history, path }) {
   const { addToast } = useToasts();
+  const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [searchWord, setSearchWord] = useState('');
@@ -105,6 +108,10 @@ export default function TopnavContainer({ history, path }) {
     configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`});
     changeChildComponent(null);
   }, []);
+
+  useEffect(() => {
+    toggleDarkBackground(searchBar);
+  }, [toggleDarkBackground, searchBar]);
 
   useEffect(() => {
     if (data && data.data.success === 'logout') {

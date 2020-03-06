@@ -180,7 +180,7 @@ export default React.memo(function SearchBar({
           onClick={() => onClickSearchButton(searchWord)}
         />
       </Row>
-      {searchWordList && <SearchWordListContainer>
+      {!!searchWordList.length && <SearchWordListContainer>
         <SearchWordListHead>
           <span>최근 검색</span>
           <span style={{ cursor: 'pointer' }} onClick={() => onClickDeleteSearchWordBtn()}>전체 삭제</span>

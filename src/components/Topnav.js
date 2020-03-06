@@ -35,6 +35,8 @@ const Container = styled.div`
         return 'block';
     }
   }};
+  z-index: ${props => props.searchBar ? 16 : 'unset'};
+  position: ${props => props.searchBar ? 'relative' : 'unset'};
 
   @media (max-width: 576px) {
     height: 56px;
@@ -54,6 +56,7 @@ const Row = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  z-index: ${props => props.searchBar ? 16 : 1};
   @media (max-width: 576px) {
     display: none;
   }
@@ -315,8 +318,8 @@ export default React.memo(function Topnav({
   }
 
   return (
-    <Container path={path} mobileMenu={mobileMenu}>
-      <Row>
+    <Container path={path} mobileMenu={mobileMenu} searchBar={searchBar}>
+      <Row searchBar={searchBar}>
         <StyledLink to="/">
           <KOINLogoImage />
         </StyledLink>

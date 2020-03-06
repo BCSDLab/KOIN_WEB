@@ -28,9 +28,8 @@ export const DarkBackgroundProvider = ({children}) => {
   const [zIndex, setZIndex] = useState(21);
   const [backgroundColor, setBackgroundColor] = useState(css`rgba(0, 0, 0, 0.7)`);
   const [ChildComponent, setChildComponent] = useState();
-  const toggleDarkBackground = useCallback(() => setShow(show => !show), []);
+  const toggleDarkBackground = useCallback((value) => setShow(show => typeof value === 'boolean' ? value : !show), []);
   const changeChildComponent = (Component) => {
-    console.log(<Component />)
     setChildComponent(Component);
   };
   const configDarkBackground = ({zIndex, backgroundColor}) => {
