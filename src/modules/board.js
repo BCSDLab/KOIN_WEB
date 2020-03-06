@@ -263,7 +263,7 @@ export default function boardReducer(state = initialState, action) {
         data: action.payload,
         post: {
           loading: false,
-          data: action.payload.data,
+          data: null,
           error: null
         }
       }
