@@ -42,6 +42,10 @@ const BoardComment = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  
+  @media(max-width: 576px){
+    border-bottom: none;
+  }
 `;
 
 const CommentLine = styled.div`
@@ -392,7 +396,7 @@ export default function Comment(
       }
     }
   }
-  
+
   const onChangeTempInfo = e => {
     setTempInfo({
       ...tempInfo,
