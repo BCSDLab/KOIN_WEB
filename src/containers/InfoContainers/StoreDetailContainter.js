@@ -15,9 +15,9 @@ export default function StoreDetailContainer ({ id }) {
   const history = useHistory();
 
   const selectImage = useCallback(
-    (selectedImage) => setSelectedImage(selectedImage), []
+    (selectedImage) => {console.log(selectedImage);setSelectedImage(selectedImage)}, []
   )
-  const { changeChildComponent, toggleDarkBackground } = useDarkenBackground();
+  const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
 
   const convertEventDDay = useCallback(endDate => {
     const nowTime = Date.now();
@@ -29,31 +29,25 @@ export default function StoreDetailContainer ({ id }) {
       `마감 D-${DDay}`
   }, []);
 
-  const Poster = () => {
-    return (
-      <StorePoster
-        image={image}
-        selectedImage={selectedImage}
-        selectImage={selectImage}
-        toggleDarkBackground={toggleDarkBackground} />)
-  }
-
   useEffect(() => {
     dispatch(getStoreDetailInfo(id));
   }, [dispatch, id]);
+
 
   useEffect(() => {
     sessionStorage.setItem("storeNewFlag", false);
   }, []);
 
-  useEffect(() => {
-    console.log(Poster)
-    changeChildComponent(Poster);
-  }, [Image, selectedImage, selectImage])
-
   const handleClickImage = useCallback(
     (selectedImage) => {
       setSelectedImage(selectedImage);
+      configDarkBackground({});
+      changeChildComponent(
+        <StorePoster
+          image={image}
+          selectedImage={selectedImage}
+          selectImage={selectImage}
+          toggleDarkBackground={toggleDarkBackground} />);
       toggleDarkBackground();
     }, []
   );

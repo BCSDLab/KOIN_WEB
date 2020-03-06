@@ -12,7 +12,7 @@ import { useDarkenBackground } from '../hooks/useDarkenBackground';
 
 export default function TopnavContainer({ history, path }) {
   const { addToast } = useToasts();
-  const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
+  const { isShowDarkBackground, configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [searchWord, setSearchWord] = useState('');
@@ -105,11 +105,8 @@ export default function TopnavContainer({ history, path }) {
   }, []);
 
   useEffect(() => {
-    configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`});
+    configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`, canClickBackground: true});
     changeChildComponent(null);
-  }, []);
-
-  useEffect(() => {
     toggleDarkBackground(searchBar);
   }, [toggleDarkBackground, searchBar]);
 
@@ -121,6 +118,12 @@ export default function TopnavContainer({ history, path }) {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!isShowDarkBackground) {
+      setSearchBar(false);
+    }
+  }, [isShowDarkBackground]);
 
   return (
     <>
