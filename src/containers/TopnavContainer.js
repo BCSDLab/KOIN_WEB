@@ -13,7 +13,7 @@ export default function TopnavContainer({ history, path }) {
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [searchWord, setSearchWord] = useState('');
-  const [searchWordList, setSearchWordList] = useState(null);
+  const [searchWordList, setSearchWordList] = useState(JSON.parse(localStorage.getItem('search-query')) || []);
   const [searchBar, setSearchBar] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const { token, data, userInfo } = useSelector(state => state.authReducer);
@@ -61,23 +61,23 @@ export default function TopnavContainer({ history, path }) {
       });
       return;
     }
-    if (sessionStorage.getItem("search-query")) {
-      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+    if (localStorage.getItem("search-query")) {
+      let searchQuery = JSON.parse(localStorage.getItem("search-query"));
       if (searchQuery.includes(searchWord)) {
         searchQuery.splice(searchQuery.indexOf(searchWord), 1);
         searchQuery.unshift(searchWord);
       } else {
         if (searchQuery.length === 5) {
           searchQuery.pop();
-        } 
+        }
         searchQuery.unshift(searchWord);
       }
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     } else {
       let searchQuery = [searchWord];
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     }
     history.push(`/search?q=${searchWord}`);
     setSearchWord('');
@@ -87,13 +87,13 @@ export default function TopnavContainer({ history, path }) {
   const onClickDeleteSearchWordBtn = useCallback(searchWord => {
     console.log(searchWord);
     if (!searchWord) {
-      sessionStorage.removeItem('search-query');
-      setSearchWordList(null);
+      localStorage.removeItem('search-query');
+      setSearchWordList([]);
     } else {
-      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+      let searchQuery = JSON.parse(localStorage.getItem("search-query"));
       searchQuery.splice(searchQuery.indexOf(searchWord), 1);
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     }
   }, []);
 
@@ -102,9 +102,8 @@ export default function TopnavContainer({ history, path }) {
   }, []);
 
   useEffect(() => {
-    if (sessionStorage.getItem("search-query")) {
-      setSearchWordList(JSON.parse(sessionStorage.getItem('search-query')));
-    }
+    configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`});
+    changeChildComponent(null);
   }, []);
 
   useEffect(() => {
