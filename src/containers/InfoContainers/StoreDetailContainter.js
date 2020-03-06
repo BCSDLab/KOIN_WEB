@@ -15,7 +15,7 @@ export default function StoreDetailContainer ({ id }) {
   const history = useHistory();
 
   const selectImage = useCallback(
-    (selectedImage) => {console.log(selectedImage);setSelectedImage(selectedImage)}, []
+    (selectedImage) => setSelectedImage(selectedImage), []
   )
   const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
 
@@ -49,7 +49,7 @@ export default function StoreDetailContainer ({ id }) {
           selectImage={selectImage}
           toggleDarkBackground={toggleDarkBackground} />);
       toggleDarkBackground();
-    }, []
+    }, [image]
   );
 
   return (

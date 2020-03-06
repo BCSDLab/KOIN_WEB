@@ -27,6 +27,7 @@ export default function TopnavContainer({ history, path }) {
   }, []);
 
   const onLogout = useCallback(() => {
+    toggleDarkBackground(false);
     dispatch(logout({ 
       token: sessionStorage.getItem("token")
     }));
@@ -104,6 +105,11 @@ export default function TopnavContainer({ history, path }) {
     setSearchWord(e.target.value);
   }, []);
 
+  const onClickLogoImage = useCallback(() => {
+    setSearchBar(false);
+    toggleDarkBackground(false);
+  }, []);
+
   useEffect(() => {
     configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`, canClickBackground: true});
     changeChildComponent(null);
@@ -145,7 +151,9 @@ export default function TopnavContainer({ history, path }) {
         onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
         onClickFooterMenu={onClickFooterMenu}
         onClickSearchButton={onClickSearchButton}
+        onClickLogoImage={onClickLogoImage}
         onChangeSearchWord={onChangeSearchWord}
+        toggleDarkBackground={toggleDarkBackground}
       />
       <MobileFooterMenu
         history={history}
