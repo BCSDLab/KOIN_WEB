@@ -206,7 +206,7 @@ export default function ModifyInfoContainer() {
       });
       return;
     }
-    dispatch(checkNickname(nickname));
+    dispatch(checkNickname({nickname}));
   };
 
   useEffect(() => {
