@@ -386,13 +386,18 @@ export default function Comment(
   }
 
   const checkPermission = () => {
+    console.log(!(JSON.parse(sessionStorage.getItem('userInfo')).nickname))
     if ((sessionStorage.getItem("token")) === null && sessionStorage.getItem('boardId') !== '-1') {
       if (window.confirm('로그인해야 작성하실 수 있습니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
     }
+    else if(!(JSON.parse(sessionStorage.getItem('userInfo')).nickname) && sessionStorage.getItem('boardId') !== '-1'){
+      alert("닉네임이 필요합니다.");
+      history.push('/modifyinfo');
+    }
   }
-  
+
   const onChangeTempInfo = e => {
     setTempInfo({
       ...tempInfo,

@@ -274,8 +274,13 @@ export default function LostItemList(
 ) {
   function goRegister() {
     if (sessionStorage.getItem('userInfo')) {
-      history.push('/lost/register');
-    } else {
+      if(!(JSON.parse(sessionStorage.getItem('userInfo')).nickname)){
+        alert("닉네임이 필요합니다.");
+        history.push('/modifyinfo');
+      }
+      else history.push('/lost/register');
+    }
+    else {
       if (window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
