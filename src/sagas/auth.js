@@ -145,9 +145,8 @@ function* modifyInfo ({ payload }) {
     else body[prop] = userInfo[prop];
   }
 
-  // 점주 계정 수정 처리 필요.
   try {
-    const res = yield call(authAPI.modifyUserInfo, body, token);
+    const res = yield call(authAPI[`modify${body.identity !== 5 ? 'User' : 'Owner'}Info`], body, token);
     yield put({
       type: MODIFY_INFO_SUCCESS,
       res
