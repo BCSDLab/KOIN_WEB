@@ -56,7 +56,7 @@ export default function ModifyInfoContainer() {
           autoDismiss: true
         });
       }
-      if (!passwordRegex.text(firstPassword)) {
+      if (!passwordRegex.test(firstPassword)) {
         addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
           appearance: 'warning',
           autoDismiss: true
