@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import useDarkenBackground from "../../hooks/useDarkenBackground";
+import { useDarkenBackground } from "../../hooks/useDarkenBackground";
 import { useHistory } from "react-router-dom";
 import {useSelector, useDispatch} from 'react-redux';
 import { getStoreDetailInfo } from "../../modules/store";
@@ -17,7 +17,7 @@ export default function StoreDetailContainer ({ id }) {
   const selectImage = useCallback(
     (selectedImage) => setSelectedImage(selectedImage), []
   )
-  const [setShow, DarkBackgroundProvider] = useDarkenBackground(StorePoster, {image, selectedImage, selectImage});
+  const { changeChildComponent, toggleDarkBackground } = useDarkenBackground();
 
   const convertEventDDay = useCallback(endDate => {
     const nowTime = Date.now();
@@ -29,6 +29,15 @@ export default function StoreDetailContainer ({ id }) {
       `마감 D-${DDay}`
   }, []);
 
+  const Poster = () => {
+    return (
+      <StorePoster
+        image={image}
+        selectedImage={selectedImage}
+        selectImage={selectImage}
+        toggleDarkBackground={toggleDarkBackground} />)
+  }
+
   useEffect(() => {
     dispatch(getStoreDetailInfo(id));
   }, [dispatch, id]);
@@ -37,28 +46,31 @@ export default function StoreDetailContainer ({ id }) {
     sessionStorage.setItem("storeNewFlag", false);
   }, []);
 
+  useEffect(() => {
+    console.log(Poster)
+    changeChildComponent(Poster);
+  }, [Image, selectedImage, selectImage])
+
   const handleClickImage = useCallback(
     (selectedImage) => {
       setSelectedImage(selectedImage);
-      setShow(true);
+      toggleDarkBackground();
     }, []
   );
 
   return (
-    <DarkBackgroundProvider>
-      <StoreDetail
-        store={data}
-        selectImage={handleClickImage}
-        convertEventDDay={convertEventDDay}
-        history={history} >
-        {
-          data !== null && data.event_articles.length !== 0 && (
-            <StoreBanner
-              promotionData={data.event_articles[0]}
-              expand={true} />
-          )
-        }
-      </StoreDetail>
-    </DarkBackgroundProvider>
+    <StoreDetail
+      store={data}
+      selectImage={handleClickImage}
+      convertEventDDay={convertEventDDay}
+      history={history} >
+      {
+        data !== null && data.event_articles.length !== 0 && (
+          <StoreBanner
+            promotionData={data.event_articles[0]}
+            expand={true} />
+        )
+      }
+    </StoreDetail>
   )
 }

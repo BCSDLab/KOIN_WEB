@@ -75,7 +75,7 @@ export default function StorePoster ({
   image,
   selectedImage,
   selectImage,
-  close
+  toggleDarkBackground
 }) {
   const selectedIndex = image.findIndex(value => value === selectedImage);
 
@@ -83,7 +83,7 @@ export default function StorePoster ({
     <>
       {selectedIndex !== 0 && <StorePosterArrowButton type={'prev'} onClick={() => selectImage(image[selectedIndex - 1])} />}
       {selectedIndex !== image.length - 1 && <StorePosterArrowButton type={'next'} onClick={() => selectImage(image[selectedIndex + 1])} />}
-      <StorePosterCloseButton onClick={close} />
+      <StorePosterCloseButton onClick={toggleDarkBackground} />
       <StorePosterImage src={selectedImage} />
     </>
   )
