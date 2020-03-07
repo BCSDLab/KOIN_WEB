@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import styled from 'styled-components';
 import domtoimage from 'dom-to-image';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -131,6 +131,9 @@ const TableWrapper = styled.div`
 
 const TableBodyRow = styled.tr`
   border-right: 1px solid #dadada;
+  @media (max-width: 576px) {
+    display: ${props => props.extra && 'none'};
+  }
 `;
 
 const Table = styled.table`
@@ -231,7 +234,8 @@ export default React.memo(function MyTimeTable({
   selectedSemester,
   initStateBySemester,
   mobile,
-  selectLectureFromMyTable
+  selectLectureFromMyTable,
+  removeSelectionBorder
 }) {
   const tableRef = useRef();
   const [isSaving, setIsSaving] = useState(false);
@@ -244,8 +248,10 @@ export default React.memo(function MyTimeTable({
   const { addToast } = useToasts();
 
   const saveTimeTable = useCallback(async () => {
+    removeSelectionBorder();
     setIsSaving(true);
     const date = new Date();
+    console.log(tableRef);
     const result = await domtoimage.toJpeg(tableRef.current, { quality: 0.95, position: 'absolute' });
     const link = document.createElement('a');
     link.download = `${date.getFullYear()}년 ${date.getMonth() + 1 <= 6 ? 1 : 2}학기 시간표.jpg`;
@@ -374,16 +380,15 @@ export default React.memo(function MyTimeTable({
           {!isSaving && <IconImage src={"https://static.koreatech.in/assets/img/ic-image.png"} />}
           {!isSaving && "이미지로 저장하기"}
           <ClipLoader
-            size={30}
+            size={25}
             color={"#fff"}
             loading={isSaving}
           />
         </SaveButton>
       </Header>
       <TableWrapper
-        ref={tableRef}
         isOpen={isOpen}>
-        <Table>
+        <Table ref={tableRef}>
           <thead>
             <tr>
               {days.map((day, theadIdx) => 
@@ -431,16 +436,15 @@ export default React.memo(function MyTimeTable({
                 )}
               </TableBodyRow>
             )}
-            {window.innerWidth > 576 && (<TableBodyRow>
-                <TableBodyContent rowSpan="2" colSpan="2">그 이후</TableBodyContent>
-                {[...Array(5)].map((item, index) => 
-                  <TableBodyContent
-                    key={index}
-                    style={{...fillBackground(index + 2, 18), ...renderSelectBox(index + 2, 18)}}>
-                  </TableBodyContent>
-                )}
-              </TableBodyRow>)
-            }
+            <TableBodyRow extra>
+              <TableBodyContent rowSpan="2" colSpan="2">그 이후</TableBodyContent>
+              {[...Array(5)].map((item, index) => 
+                <TableBodyContent
+                  key={index}
+                  style={{...fillBackground(index + 2, 18), ...renderSelectBox(index + 2, 18)}}>
+                </TableBodyContent>
+              )}
+            </TableBodyRow>
           </tbody>
         </Table>
       </TableWrapper>

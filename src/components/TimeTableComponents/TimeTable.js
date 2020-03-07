@@ -12,6 +12,9 @@ const Container = styled.div`
   margin-right: auto;
   margin-bottom: 80px;
   min-height: 800px;
+  @media (max-width: 576px) {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
@@ -53,7 +56,8 @@ export default function TimeTable({
   selectedSemester,
   initStateBySemester,
 
-  myTimeTableGrade
+  myTimeTableGrade,
+  removeSelectionBorder
 }) {
   return (
     <Container>
@@ -78,6 +82,7 @@ export default function TimeTable({
           totalSemesters={totalSemesters}
           selectedSemester={selectedSemester}
           initStateBySemester={initStateBySemester}
+          removeSelectionBorder={removeSelectionBorder}
         />
       </Row>
       <Row style={{ marginTop: '66px' }}>

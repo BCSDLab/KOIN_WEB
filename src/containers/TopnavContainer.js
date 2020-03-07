@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../modules/auth';
 import { useToasts } from 'react-toast-notifications';
 import MobileFooterMenu from '../components/MobileFooterMenu';
-import { toggleSheetOpen } from '../modules/timetable';
+import { toggleSheetOpen, updateSheetType } from '../modules/timetable';
 import { updateFooterMenu } from '../modules/common';
 import { useDarkenBackground } from '../hooks/useDarkenBackground';
 
@@ -36,6 +36,10 @@ export default function TopnavContainer({ history, path }) {
   const onClickMultiPurposeBtn = useCallback(() => {
     if (path === '/timetable') {
       dispatch(toggleSheetOpen());
+      dispatch(updateSheetType({
+        flag: false,
+        lecture: {}
+      }));
     } else {
       const userInfo = sessionStorage.getItem("userInfo");
       if (!userInfo && path !== '/board/anonymous') {
