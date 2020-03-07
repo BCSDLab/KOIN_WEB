@@ -15,6 +15,7 @@ import ReduxThunk from "redux-thunk";
 import { LastLocationProvider } from "react-router-last-location";
 import createSagaMiddleware from "redux-saga";
 import { ToastProvider } from "react-toast-notifications";
+import { DarkBackgroundProvider } from './hooks/useDarkenBackground'
 
 let middlewares = [];
 let middlewareWrapper;
@@ -46,7 +47,9 @@ ReactDOM.render(
     <LastLocationProvider>
       <Provider store={store}>
         <ToastProvider>
-          <App history={customHistory} />
+          <DarkBackgroundProvider>
+            <App history={customHistory} />
+          </DarkBackgroundProvider>
         </ToastProvider>
       </Provider>
     </LastLocationProvider>

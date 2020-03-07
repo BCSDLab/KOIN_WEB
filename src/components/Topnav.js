@@ -35,6 +35,8 @@ const Container = styled.div`
         return 'block';
     }
   }};
+  z-index: ${props => props.searchBar ? 16 : 'unset'};
+  position: ${props => props.searchBar ? 'relative' : 'unset'};
 
   @media (max-width: 576px) {
     height: 56px;
@@ -54,6 +56,7 @@ const Row = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  z-index: ${props => props.searchBar ? 16 : 1};
   @media (max-width: 576px) {
     display: none;
   }
@@ -274,7 +277,9 @@ export default React.memo(function Topnav({
   onClickDeleteSearchWordBtn,
   onClickFooterMenu,
   onClickSearchButton,
+  onClickLogoImage,
   onChangeSearchWord,
+  toggleDarkBackground,
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
@@ -315,9 +320,9 @@ export default React.memo(function Topnav({
   }
 
   return (
-    <Container path={path} mobileMenu={mobileMenu}>
-      <Row>
-        <StyledLink to="/">
+    <Container path={path} mobileMenu={mobileMenu} searchBar={searchBar}>
+      <Row searchBar={searchBar}>
+        <StyledLink to="/" onClick={onClickLogoImage}>
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
@@ -366,12 +371,12 @@ export default React.memo(function Topnav({
         <AuthButtonGroup>
         {!token ? (
           <>
-            <Link to="/signup">
+            <Link to="/signup" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton>
                 회원가입
               </AuthLinkButton>
             </Link>
-            <Link to="/login">
+            <Link to="/login" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton>
                   로그인
               </AuthLinkButton>   
@@ -379,7 +384,7 @@ export default React.memo(function Topnav({
           </>
         ) :(
           <>
-            <Link to="/modifyinfo">
+            <Link to="/modifyinfo" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton>
                 정보수정
               </AuthLinkButton>

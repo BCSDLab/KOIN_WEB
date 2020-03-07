@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { css } from 'styled-components';
 import Topnav from '../components/Topnav';
 import * as CATEGORY from '../static/category';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,13 +8,15 @@ import { useToasts } from 'react-toast-notifications';
 import MobileFooterMenu from '../components/MobileFooterMenu';
 import { toggleSheetOpen } from '../modules/timetable';
 import { updateFooterMenu } from '../modules/common';
+import { useDarkenBackground } from '../hooks/useDarkenBackground';
 
 export default function TopnavContainer({ history, path }) {
   const { addToast } = useToasts();
+  const { isShowDarkBackground, configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
   const categories = CATEGORY.default;
   const [menu, setMenu] = useState("");
   const [searchWord, setSearchWord] = useState('');
-  const [searchWordList, setSearchWordList] = useState(null);
+  const [searchWordList, setSearchWordList] = useState(JSON.parse(localStorage.getItem('search-query')) || []);
   const [searchBar, setSearchBar] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const { token, data, userInfo } = useSelector(state => state.authReducer);
@@ -24,6 +27,7 @@ export default function TopnavContainer({ history, path }) {
   }, []);
 
   const onLogout = useCallback(() => {
+    toggleDarkBackground(false);
     dispatch(logout({
       token: sessionStorage.getItem("token")
     }));
@@ -68,8 +72,8 @@ export default function TopnavContainer({ history, path }) {
       });
       return;
     }
-    if (sessionStorage.getItem("search-query")) {
-      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+    if (localStorage.getItem("search-query")) {
+      let searchQuery = JSON.parse(localStorage.getItem("search-query"));
       if (searchQuery.includes(searchWord)) {
         searchQuery.splice(searchQuery.indexOf(searchWord), 1);
         searchQuery.unshift(searchWord);
@@ -80,11 +84,11 @@ export default function TopnavContainer({ history, path }) {
         searchQuery.unshift(searchWord);
       }
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     } else {
       let searchQuery = [searchWord];
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     }
     history.push(`/search?q=${searchWord}`);
     setSearchWord('');
@@ -94,13 +98,13 @@ export default function TopnavContainer({ history, path }) {
   const onClickDeleteSearchWordBtn = useCallback(searchWord => {
     console.log(searchWord);
     if (!searchWord) {
-      sessionStorage.removeItem('search-query');
-      setSearchWordList(null);
+      localStorage.removeItem('search-query');
+      setSearchWordList([]);
     } else {
-      let searchQuery = JSON.parse(sessionStorage.getItem("search-query"));
+      let searchQuery = JSON.parse(localStorage.getItem("search-query"));
       searchQuery.splice(searchQuery.indexOf(searchWord), 1);
       setSearchWordList(searchQuery);
-      sessionStorage.setItem("search-query", JSON.stringify(searchQuery));
+      localStorage.setItem("search-query", JSON.stringify(searchQuery));
     }
   }, []);
 
@@ -108,11 +112,16 @@ export default function TopnavContainer({ history, path }) {
     setSearchWord(e.target.value);
   }, []);
 
-  useEffect(() => {
-    if (sessionStorage.getItem("search-query")) {
-      setSearchWordList(JSON.parse(sessionStorage.getItem('search-query')));
-    }
+  const onClickLogoImage = useCallback(() => {
+    setSearchBar(false);
+    toggleDarkBackground(false);
   }, []);
+
+  useEffect(() => {
+    configDarkBackground({zIndex: 15, backgroundColor: css`rgba(37,37,37,0.5)`, canClickBackground: true});
+    changeChildComponent(null);
+    toggleDarkBackground(searchBar);
+  }, [toggleDarkBackground, searchBar]);
 
   useEffect(() => {
     if (data && data.data.success === 'logout') {
@@ -122,6 +131,12 @@ export default function TopnavContainer({ history, path }) {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!isShowDarkBackground) {
+      setSearchBar(false);
+    }
+  }, [isShowDarkBackground]);
 
   return (
     <>
@@ -143,7 +158,9 @@ export default function TopnavContainer({ history, path }) {
         onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
         onClickFooterMenu={onClickFooterMenu}
         onClickSearchButton={onClickSearchButton}
+        onClickLogoImage={onClickLogoImage}
         onChangeSearchWord={onChangeSearchWord}
+        toggleDarkBackground={toggleDarkBackground}
       />
       <MobileFooterMenu
         history={history}
