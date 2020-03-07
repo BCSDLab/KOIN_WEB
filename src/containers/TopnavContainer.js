@@ -24,7 +24,7 @@ export default function TopnavContainer({ history, path }) {
   }, []);
 
   const onLogout = useCallback(() => {
-    dispatch(logout({ 
+    dispatch(logout({
       token: sessionStorage.getItem("token")
     }));
   }, []);
@@ -34,15 +34,22 @@ export default function TopnavContainer({ history, path }) {
       dispatch(toggleSheetOpen());
     } else {
       const userInfo = sessionStorage.getItem("userInfo");
-      if (!userInfo) {
+      if (!userInfo && path !== '/board/anonymous') {
         if (window.confirm("로그인이 필요합니다. 로그인 하시겠습니까?")){
           history.push('/login');
+          return;
         }
-        return;
       }
-      if (path === '/board/promotion' && JSON.parse(userInfo).identity !== 5) {
-        alert("점주만이 홍보게시글을 작성할 수 있습니다.");
-        return;
+      else if (userInfo) {
+        if (!JSON.parse(userInfo).nickname) {
+          alert("닉네임이 필요합니다.");
+          history.push('/modifyinfo');
+          return;
+        }
+        if (path === '/board/promotion' && JSON.parse(userInfo).identity !== 5) {
+          alert("점주만이 홍보게시글을 작성할 수 있습니다.");
+          return;
+        }
       }
       history.push(`${path}/register`);
     }
@@ -69,7 +76,7 @@ export default function TopnavContainer({ history, path }) {
       } else {
         if (searchQuery.length === 5) {
           searchQuery.pop();
-        } 
+        }
         searchQuery.unshift(searchWord);
       }
       setSearchWordList(searchQuery);
