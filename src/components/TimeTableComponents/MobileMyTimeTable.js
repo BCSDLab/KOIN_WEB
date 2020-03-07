@@ -1,12 +1,7 @@
 import React, { useCallback } from 'react'
-import styled from 'styled-components';
 import MyTimeTable from './MyTimeTable';
 import { useDispatch } from 'react-redux';
-import { updateSheetType } from '../../modules/timetable';
-
-const Container = styled.div`
-
-`;
+import { updateSheetType, toggleSheetOpen } from '../../modules/timetable';
 
 export default function MobileMyTimeTable({
   myLectures,
@@ -14,11 +9,12 @@ export default function MobileMyTimeTable({
   selectedSemester,
   layout,
   isOpen,
+  isInfoSheet,
   selectedLayout,
-  initStateBySemester
+  initStateBySemester,
+  removeSelectionBorder
 }) {
   const dispatch = useDispatch();
-
   const selectLectureFromMyTable = useCallback((x, y) => {
     let id = -1, lecture = null;
     for (let value of layout) {
@@ -42,11 +38,17 @@ export default function MobileMyTimeTable({
         flag: true,
         lecture
       }));
+      if (!isOpen) {
+        dispatch(toggleSheetOpen());
+      }
+      if (isOpen && isInfoSheet) {
+        dispatch(toggleSheetOpen());
+      }
     }
-  }, [dispatch, layout, myLectures]);
+  }, [dispatch, isOpen, isInfoSheet, layout, myLectures]);
 
   return (
-    <Container>
+    <div>
       <MyTimeTable
         totalSemesters={totalSemesters}
         selectedSemester={selectedSemester}
@@ -56,7 +58,8 @@ export default function MobileMyTimeTable({
         mobile={true}
         isOpen={isOpen}
         selectLectureFromMyTable={selectLectureFromMyTable}
+        removeSelectionBorder={removeSelectionBorder}
       />
-    </Container>
+    </div>
   )
 }
