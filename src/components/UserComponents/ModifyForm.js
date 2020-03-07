@@ -252,13 +252,26 @@ export default function ModifyForm({
           />
         </CheckButton>
       </Row>
-      <Input
-        type="text"
-        name="studentNumber"
-        value={userInfo.studentNumber}
-        placeholder="학번 (선택)"
-        onChange={onChange}
-      />
+      {userInfo.identity !== 5 ? (
+        <Input
+          type="text"
+          name="studentNumber"
+          value={userInfo.studentNumber}
+          placeholder="학번 (선택)"
+          onChange={onChange}
+        />
+      ): (
+        <>
+          <Input
+            type="text"
+            name="email"
+            value={userInfo.email}
+            placeholder="이메일 등록"
+            onChange={onChange}
+          />
+          <Advice>이메일은 비밀번호를 찾을 시 필요하니 등록하시길 바랍니다.</Advice>
+        </>
+      )}
       <Input
         type="text"
         name="phoneNumber"
@@ -266,42 +279,44 @@ export default function ModifyForm({
         placeholder="전화번호 (Ex: 010-0000-0000) (선택)"
         onChange={onChange}
       />
-      <Row>
-        <MajorButton
-          type="button"
-          name="major"
-          value={userInfo.major}>
-          {!userInfo.major && "학부 (자동입력)"}
-          {userInfo.major && userInfo.major}
-        </MajorButton>
-        <DropdownWrapper
-          onMouseOver={() => setDropdown(true)}
-          onMouseOut={() => setDropdown(false)}
-        >
-          <DropdownButton type="button" value={userInfo.gender}>
-            {userInfo.gender === 0 ? "남" : (userInfo.gender === 1 ? "여" : "성별")}
-            <DropdownIcon src={"https://static.koreatech.in/assets/img/bus_dropdown.png"} />
-          </DropdownButton>
-          <DropdownContentWrapper dropdown={dropdown}>
-            <DropdownContent
-              type="button"
-              name="gender"
-              value={0}
-              onClick={onChange}
-            >
-              남
-            </DropdownContent>
-            <DropdownContent
-              type="button"
-              name="gender"
-              value={1}
-              onClick={onChange}
-            >
-              여
-            </DropdownContent>
-          </DropdownContentWrapper>
-        </DropdownWrapper>
-      </Row>
+      {userInfo.identity !== 5 && (
+        <Row>
+          <MajorButton
+            type="button"
+            name="major"
+            value={userInfo.major}>
+            {!userInfo.major && "학부 (자동입력)"}
+            {userInfo.major && userInfo.major}
+          </MajorButton>
+          <DropdownWrapper
+            onMouseOver={() => setDropdown(true)}
+            onMouseOut={() => setDropdown(false)}
+          >
+            <DropdownButton type="button" value={userInfo.gender}>
+              {userInfo.gender === 0 ? "남" : (userInfo.gender === 1 ? "여" : "성별")}
+              <DropdownIcon src={"https://static.koreatech.in/assets/img/bus_dropdown.png"} />
+            </DropdownButton>
+            <DropdownContentWrapper dropdown={dropdown}>
+              <DropdownContent
+                type="button"
+                name="gender"
+                value={0}
+                onClick={onChange}
+              >
+                남
+              </DropdownContent>
+              <DropdownContent
+                type="button"
+                name="gender"
+                value={1}
+                onClick={onChange}
+              >
+                여
+              </DropdownContent>
+            </DropdownContentWrapper>
+          </DropdownWrapper>
+        </Row>
+      )}
       <Line />
       <ModifyButton
         disabled={authInProgress}

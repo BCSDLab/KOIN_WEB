@@ -11,6 +11,7 @@ export default function ModifyInfoContainer() {
   const { addToast } = useToasts();
   const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
   const passwordRegex = /[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]/g;
+  const emailRegex =  /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   const studentNumberRegex = /^\d{10}$/;
   const nicknameRegex = /admin|관리자/;
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ export default function ModifyInfoContainer() {
     phoneNumber: parsedUserInfo.phone_number || "",
     major: parsedUserInfo.major || "",
     identity: parsedUserInfo.identity,
-    isGraduated: parsedUserInfo.is_graduated
+    isGraduated: parsedUserInfo.is_graduated,
+    email: parsedUserInfo.email
   });
 
   const [dropdown, setDropdown] = useState(false);
@@ -35,7 +37,7 @@ export default function ModifyInfoContainer() {
   const onModify = useCallback(e => {
     e.preventDefault();
     const { userId, firstPassword, secondPassword, phoneNumber, nickname,
-      name, studentNumber, gender, major, identity, isGraduated } = userInfo;
+      name, studentNumber, gender, major, identity, isGraduated, email } = userInfo;
     if (firstPassword === "" && firstPassword === secondPassword) {
       addToast('기존 비밀번호가 그대로 사용됩니다.', {
         appearance: 'info',
@@ -54,7 +56,7 @@ export default function ModifyInfoContainer() {
           autoDismiss: true
         });
       }
-      if (!passwordRegex.text(firstPassword)) {
+      if (!passwordRegex.test(firstPassword)) {
         addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
           appearance: 'warning',
           autoDismiss: true
@@ -119,6 +121,21 @@ export default function ModifyInfoContainer() {
         });
         return;
       }
+      if (nickname.length > 50) {
+        addToast('닉네임은 50자리 이하여야 합니다.', {
+          appearance: 'warning',
+          autoDismiss: true
+        });
+        return;
+      }
+    }
+
+    if(identity === 5 && email && !emailRegex.test(email)) {
+      addToast('이메일 형식을 지켜주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return;
     }
     const payload = {
       // 필수정보
@@ -129,11 +146,14 @@ export default function ModifyInfoContainer() {
       nickname: nickname || undefined,
       gender: gender,
       major: major || undefined,
-      student_number: studentNumber || undefined,
+      // 점주 계정일 경우 student_number을 실어 요청을 보내면 에러 발생
+      student_number: studentNumber && identity !== 5 ? studentNumber : undefined,
       phone_number: phoneNumber || undefined,
+      email: (email || email === "") && identity === 5 ? email : undefined,
       identity: identity,
       is_graduated: isGraduated
     }
+    console.log(payload)
     dispatch(modifyInfo({
       userInfo: payload,
       token: sessionStorage.getItem("token")
@@ -206,7 +226,7 @@ export default function ModifyInfoContainer() {
       });
       return;
     }
-    dispatch(checkNickname(nickname));
+    dispatch(checkNickname({nickname}));
   };
 
   useEffect(() => {
