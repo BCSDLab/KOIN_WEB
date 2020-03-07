@@ -42,6 +42,14 @@ const modifyUserInfo = (body, token) => {
   });
 }
 
+const modifyOwnerInfo = (body, token) => {
+  return axios.put(`${API_PATH}/user/owner/me`, body, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+}
+
 const userWithdrawl = token => {
   return axios.delete(`${API_PATH}/user/me`, {
     headers: {
@@ -66,6 +74,7 @@ export {
   signUp,
   findPassword,
   modifyUserInfo,
+  modifyOwnerInfo,
   userWithdrawl,
   loginCheck
 }
