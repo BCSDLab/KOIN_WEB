@@ -61,7 +61,7 @@ export default React.memo(function MyLectures({
   addLectureOnMyTable,
   removeLectureFromMyTable
 }) {
-  const gradeTitle = ['총 학점', '전공학점', '교양학점', 'HRD학점', '융합학점'];
+  const gradeTitle = ['총 학점', '전공학점', '교양학점', 'HRD학점', '융합학점'];
   return (
     <Container>
       <Title>나의 시간표</Title>
