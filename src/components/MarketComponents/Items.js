@@ -96,8 +96,19 @@ const ItemInfo = styled.div`
   @media (max-width: 576px) {
     color: #a1a1a1;
     margin: 3px 0 0 0;
+    width: 100%;
+    text-align: left;
   }
 `;
+
+const Author = styled.span`
+  max-width: 150px;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 const ItemThumbnailContainer = styled.div`
   width: 262px;
@@ -214,6 +225,15 @@ const MobileItemInfo = styled.div`
   width: calc(100% - 55px);
 `;
 
+const MobileAuthor = styled.span`
+  width: 100%;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 export default function Items({
   history,
   path,
@@ -292,10 +312,10 @@ export default function Items({
                   <ItemTitleContent>{item.title.length > 22 ? `${item.title.substr(0, 22)}···` : item.title}</ItemTitleContent>
                   {setDate(item.created_at)[1] &&
                     <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
-                  }  
+                  }
                 </ItemTitleContainer>
                 <ItemInfo>
-                  <span style={{ color: "#175c8e" }}>{item.nickname}</span>
+                  <Author style={{ color: "#175c8e" }}>{item.nickname}</Author>
                   <span style={{ color: "#858585", fontSize: '12px', marginLeft: '15px' }}>{setDate(item.created_at)[0]}</span>
                 </ItemInfo>
                 <ItemThumbnailContainer>
@@ -320,11 +340,10 @@ export default function Items({
                     <ItemTitleContent>{item.title}</ItemTitleContent>
                     {setDate(item.created_at)[1] &&
                       <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
-                    } 
+                    }
                   </ItemTitleContainer>
                   <ItemInfo>
-                    <span>조회 {item.hit} ·</span>
-                    <span> {item.nickname}</span>
+                    <MobileAuthor>조회 {item.hit} · {item.nickname}</MobileAuthor>
                   </ItemInfo>
                   <ItemPrice>{item.price ? item.price.toLocaleString() : '- '}원</ItemPrice>
 
