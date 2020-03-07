@@ -39,6 +39,11 @@ const UserInfoSection = styled.div`
 
 const Nickname = styled.span`
   font-size: 16px;
+  display: inline-block;
+  width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const AuthLinkStyle = css`

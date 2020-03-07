@@ -12,7 +12,7 @@ const PromotionHead = styled.div`
   flex-direction: column;
   border-bottom: 1px solid #175c8e;
   text-align: left;
-  user-select: text;
+  user-select: none;
   
   @media (max-width: 576px) {
     padding: 13px 16px 15px;
@@ -20,7 +20,7 @@ const PromotionHead = styled.div`
     border-top: 0;
     border-bottom: 1px solid #ececec;
     display: grid;
-    grid: 18px 14px auto / 250px 1fr;
+    grid: auto 14px auto / 250px 1fr;
     grid-auto-flow: column dense;
     grid-row-gap: 13px;
     margin-bottom: 15px;
@@ -102,7 +102,6 @@ const PromotionDateInfo = styled.div`
     line-height: 1.08;
     letter-spacing: normal;
     color: #252525;
-    margin-top: 13px;
     
     & span {
       color: #175c8e;
@@ -125,6 +124,7 @@ const PromotionPostInfo = styled.div`
     justify-content: center;
     align-items: flex-end;
     text-align: right;
+    display: grid;
   }
 `;
 
@@ -139,9 +139,23 @@ const PromotionAuthor = styled.div`
   color: #175c8e;
   margin-right: 16px;
   
+  & span {
+    display: none;
+  }
+  
   @media (max-width: 576px) {
-     margin: 13px 0 0;
-     color: #9fa9b3;
+    margin-right: 0;
+    color: #9fa9b3;
+    width: 82px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    grid-row: 1 / 2;
+     
+    & span {
+      display: inline-block;
+    }
   }
 `;
 
@@ -154,17 +168,17 @@ const PromotionCreatedTime = styled.div`
   line-height: normal;
   letter-spacing: -0.7px;
   color: #707070;
+  grid-row: 2/3;
   
   & span {
     margin-left: 7px;
   }
   
   @media (max-width: 576px) {
-     margin: 6px 0 0;
     color: #9fa9b3;
     
     & span {
-      margin-left: 2px;
+      display: none;
     }
   }
 `;
@@ -304,7 +318,7 @@ const PromotionEditorBadge = styled.div`
   font-family: SegoeUI;
   font-size: 11px;
   height: 16px;
-  line-height: 1.36;
+  line-height: 1.5;
   color: #ffffff;
   background-color: #f7941e;
   

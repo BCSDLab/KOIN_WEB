@@ -64,7 +64,7 @@ const PromotionWrapper = styled.div`
   margin-bottom: 73px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 263px);
   grid-auto-rows: 336px;
   grid-column-gap: 22px;
   grid-row-gap: 33px;
@@ -74,7 +74,7 @@ const PromotionWrapper = styled.div`
     width: 328px;
     min-height: 471px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 156px);
     grid-auto-rows: 226px;
     grid-column-gap: 12px;
     grid-row-gap: 19px;
@@ -108,10 +108,12 @@ const Promotion = styled(Link)`
       }
     }
   ` : css`
-    @media (max-width: 576px) {
-      &:hover ${PromotionStore} {
-        color: #f7941e;
-      }
+    &:hover {
+      border: solid 1px #f7941e;
+    }
+    
+    &:hover ${PromotionStore} {
+      color: #f7941e;
     }
   `)}
 `;
@@ -191,6 +193,9 @@ const PromotionStore = styled.div`
   letter-spacing: normal;
   text-align: center;
   color: #175c8e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (max-width: 576px) {
     margin-top: 10px;
@@ -201,7 +206,6 @@ const PromotionStore = styled.div`
     line-height: 1.14;
     letter-spacing: normal;
     text-align: center;
-    color: #175c8e;
   }
 `;
 
