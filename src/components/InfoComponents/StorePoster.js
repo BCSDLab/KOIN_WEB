@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StorePosterImage = styled.img`  
@@ -73,16 +73,16 @@ const StorePosterCloseButton = styled.div`
 
 export default function StorePoster ({
   image,
-  selectedImage,
-  selectImage,
+  selectedImage: initialImage,
   toggleDarkBackground
 }) {
+  const [selectedImage, setSelectedImage] = useState(initialImage);
   const selectedIndex = image.findIndex(value => value === selectedImage);
 
   return (
     <>
-      {selectedIndex !== 0 && <StorePosterArrowButton type={'prev'} onClick={() => selectImage(image[selectedIndex - 1])} />}
-      {selectedIndex !== image.length - 1 && <StorePosterArrowButton type={'next'} onClick={() => selectImage(image[selectedIndex + 1])} />}
+      {selectedIndex !== 0 && <StorePosterArrowButton type={'prev'} onClick={() => setSelectedImage(image[selectedIndex - 1])} />}
+      {selectedIndex !== image.length - 1 && <StorePosterArrowButton type={'next'} onClick={() => setSelectedImage(image[selectedIndex + 1])} />}
       <StorePosterCloseButton onClick={toggleDarkBackground} />
       <StorePosterImage src={selectedImage} />
     </>

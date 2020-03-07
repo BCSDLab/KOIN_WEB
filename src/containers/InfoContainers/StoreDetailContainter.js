@@ -10,13 +10,8 @@ import StoreBanner from "../../components/InfoComponents/StoreBanner";
 
 export default function StoreDetailContainer ({ id }) {
   const dispatch = useDispatch();
-  const [selectedImage, setSelectedImage] = useState('');
   const { data, loading, error, image} = useSelector(state => state.storeReducer.store);
   const history = useHistory();
-
-  const selectImage = useCallback(
-    (selectedImage) => setSelectedImage(selectedImage), []
-  )
   const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
 
   const convertEventDDay = useCallback(endDate => {
@@ -40,13 +35,11 @@ export default function StoreDetailContainer ({ id }) {
 
   const handleClickImage = useCallback(
     (selectedImage) => {
-      setSelectedImage(selectedImage);
       configDarkBackground({});
       changeChildComponent(
         <StorePoster
           image={image}
           selectedImage={selectedImage}
-          selectImage={selectImage}
           toggleDarkBackground={toggleDarkBackground} />);
       toggleDarkBackground();
     }, [image]
