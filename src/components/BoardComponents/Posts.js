@@ -481,7 +481,7 @@ export default function Posts({
           </TableHeadRow>
         </TableHead>
         <div>
-          {loading && 
+          {loading &&
             <LoaderWrapper>
               <ClipLoader
                 color={"#175c8e"}
@@ -490,7 +490,7 @@ export default function Posts({
               />
             </LoaderWrapper>
           }
-          {!loading && posts && posts.map((post, index) => 
+          {!loading && posts && posts.map((post, index) =>
             <TableBodyRow key={index} onClick={() => history.push(`/board/${path}/${post.id}`)}>
               <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
               <TableBodyContent title="true">
@@ -504,7 +504,7 @@ export default function Posts({
               <TableBodyContent style={{ width: '149px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
               <TableBodyContent style={{ width: '70px', fontSize: '15px' }}>{setDate(post.created_at)[0]}</TableBodyContent>
               <TableBodyContent style={{ width: '108px' }}>{post.hit}</TableBodyContent>
-              <MobilePostWrapper key={index} onClick={() => history.push(`${path}/${post.id}`)}>
+              <MobilePostWrapper key={index}>
                 <MobilePostTitle>
                   <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
                   <span>{convertTitle(post.title)}</span>
