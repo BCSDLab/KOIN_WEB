@@ -121,8 +121,8 @@ export default function ModifyInfoContainer() {
         });
         return;
       }
-      if (nickname.length > 50) {
-        addToast('닉네임은 50자리 이하여야 합니다.', {
+      if (nickname.length > 10) {
+        addToast('닉네임은 10자리 이하여야 합니다.', {
           appearance: 'warning',
           autoDismiss: true
         });
