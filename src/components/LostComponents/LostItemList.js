@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import Pagination from "../SharedComponents/Pagination";
 import {Link} from "react-router-dom";
 
@@ -163,8 +163,20 @@ const CommentCount = styled.span`
 `;
 
 const Nickname = styled.td`
-  width: 147px;
-  color: #175c8e;
+  span {
+    width: 147px;
+    color: #175c8e;
+    overflow: hidden;
+    white-space: pre-line;
+    display:-webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: center;
+    text-overflow: ellipsis;
+    height: 30px;
+    line-height: 15px;
+    margin: 21px 5px 21px 5px;
+  }
 `;
 
 const LostDate = styled.td`
@@ -218,6 +230,12 @@ const MobileMiddleInfo = styled.span`
   line-height: 1.54;
   letter-spacing: -0.7px;
   color: #a1a1a1;
+  width: 100%;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const MobileDate = styled.span`
@@ -337,7 +355,9 @@ export default function LostItemList(
                     </CommentCount>
                   </Title>
                   <Nickname>
-                    {items.nickname}
+                    <span>
+                      {items.nickname}
+                    </span>
                   </Nickname>
                   <LostDate>
                     {items.date}
@@ -368,8 +388,7 @@ export default function LostItemList(
                   </MobileCommentCount>
                 </MobileTitle>
                 <MobileInfo>
-                  <MobileMiddleInfo>조회 {items.hit} · </MobileMiddleInfo>
-                  <MobileMiddleInfo>{items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
+                  <MobileMiddleInfo>조회 {items.hit} · {items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
                   <MobileDate>{items.created_at.slice(0, 10).replace('-', '.').replace('-', '.')}</MobileDate>
                 </MobileInfo>
                 <MobileLostDate>{items.type === 0 ? '습득일' : '분실일'}&nbsp;{items.date}</MobileLostDate>
