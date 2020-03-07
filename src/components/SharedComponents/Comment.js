@@ -69,6 +69,13 @@ const CommentAuthor = styled.div`
   letter-spacing: -0.7px;
   color: #175c8e;
   margin-right: 12px;
+
+  @media(max-width: 576px){
+    max-width: 222px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const CommentCreatedAt = styled.div`

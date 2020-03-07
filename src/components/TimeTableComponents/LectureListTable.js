@@ -60,6 +60,8 @@ const SortWrapper = styled.div`
 
 const StyledList = styled(List)`
   -ms-overflow-style: none;
+  // Firefox 대응
+  scrollbar-width: none;
   ::-webkit-scrollbar { 
     display: none !important;
   }
