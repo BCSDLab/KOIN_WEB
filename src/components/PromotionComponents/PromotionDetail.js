@@ -231,7 +231,7 @@ const PromotionButtonWrapper = styled.div`
   @media (max-width: 576px) {
     display: flex;
     justify-content: ${props => props.isMyPost ? 'none' : 'flex-end'};
-    margin-top: 6px;
+    margin-top: 12px;
     grid-column: 1 / 3;
     grid-row: 3 / 4;
   }
@@ -636,7 +636,7 @@ export default function PromotionDetail ({
             </PromotionTitle>
             <PromotionDateInfo><span>행사 기간 :</span>{promotion.start_date.replace(/-/g, '.')} ~ {promotion.end_date.replace(/-/g, '.')}</PromotionDateInfo>
             <PromotionPostInfo>
-              <PromotionAuthor>{promotion.nickname}</PromotionAuthor>
+              <PromotionAuthor><span>조회 {promotion.hit} · </span> {promotion.nickname}</PromotionAuthor>
               <PromotionCreatedTime>{promotion.created_at.replace(/-/g, '.').slice(0, 10)} <span>{promotion.created_at.split(" ")[1]}</span></PromotionCreatedTime>
             </PromotionPostInfo>
             <PromotionButtonWrapper isMyPost={isMyPost}>
