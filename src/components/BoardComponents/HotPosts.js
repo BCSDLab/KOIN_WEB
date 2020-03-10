@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as BOARD_INFO from '../../static/boardInfo';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-const Container = styled.div`
+const Container = styled.aside`
   float: left;
   width: 258px;
 

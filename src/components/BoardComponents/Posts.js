@@ -10,7 +10,7 @@ const Table = styled.div`
   font-size: 13px;
   width: 834px;
   margin-bottom: 22px;
-
+  letter-spacing: -0.8px;
   @media (max-width: 576px) {
     width: 100%;
     border: none;
@@ -47,7 +47,7 @@ const TableHeadContent = styled.div`
   justify-content: center;
 `;
 
-const TableBodyRow = styled.div`
+const TableBodyRow = styled.article`
   height: 68px;
   cursor: pointer;
   border-bottom: 1px #d2dae2 solid;
@@ -98,8 +98,8 @@ const TableBodyContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${props => props.title && PostTitleStyle};
-  ${props => props.author && PostAuthorStyle}
+  ${props => props.isTitle && PostTitleStyle};
+  ${props => props.isAuthor && PostAuthorStyle}
   
   @media (max-width: 576px) {
     display: none;
@@ -526,7 +526,7 @@ export default function Posts({
           {!loading && posts && posts.map((post, index) =>
             <TableBodyRow key={index} onClick={() => history.push(`/board/${path}/${post.id}`)}>
               <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
-              <TableBodyContent title="true">
+              <TableBodyContent isTitle>
                 <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
                 <PostTitle>{convertTitle(post.title)}</PostTitle>
                 {post.comment_count !== 0 && <CommentCount>[{post.comment_count}]</CommentCount>}
@@ -534,7 +534,7 @@ export default function Posts({
                   <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
                 }
               </TableBodyContent>
-              <TableBodyContent author="true" style={{ width: '139px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
+              <TableBodyContent isAuthor style={{ width: '139px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
               <TableBodyContent style={{ width: '70px', fontSize: '15px' }}>{setDate(post.created_at)[0]}</TableBodyContent>
               <TableBodyContent style={{ width: '108px' }}>{post.hit}</TableBodyContent>
               <MobilePostWrapper key={index}>

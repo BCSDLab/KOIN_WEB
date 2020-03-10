@@ -274,6 +274,13 @@ const MobileItemInfo = styled.div`
   justify-content: space-between;
   color: #a1a1a1;
   font-size: 13px;
+
+  & span:first-child {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const ButtonGroup = styled.div`

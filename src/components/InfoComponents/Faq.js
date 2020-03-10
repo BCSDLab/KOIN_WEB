@@ -2,12 +2,7 @@ import React from 'react'
 import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width:100%;
-  
-    @media (max-width: 576px) {
-      border-top: none;
-    }
 `;
 
 const Faqs = styled.div`
@@ -23,7 +18,7 @@ const Faqs = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-size: 30px;
   letter-spacing: -1.5px;
   float: left;
@@ -33,11 +28,11 @@ const Title = styled.div`
   height: 59px;
   width: 100%;
   text-align: left;
-  
+  margin: 0;
   @media (max-width: 576px) {
     height: 22px;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
     display: none;
   }
 `;

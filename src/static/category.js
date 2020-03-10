@@ -48,7 +48,7 @@ export default [
       {
         title: "시간표",
         link: "/timetable",
-        newFlag: true,
+        newFlag: false,
         planFlag: false,
         tag: null
       }
@@ -94,18 +94,18 @@ export default [
         planFlag: false
       },
       {
-        'title': '분실물',
-        'tag': 5,
-        'link': '/lost',
-        'newFlag': false,
-        'planFlag': false
+        title: '분실물',
+        tag: 5,
+        link: '/lost',
+        newFlag: false,
+        planFlag: false
       },
       {
-        'title': '홍보게시판',
-        'tag': 6,
-        'link': '/board/promotion',
-        'newFlag': true,
-        'planFlag': false
+        title: '홍보게시판',
+        tag: 6,
+        link: '/board/promotion',
+        newFlag: true,
+        planFlag: false
       }
     ]
   },

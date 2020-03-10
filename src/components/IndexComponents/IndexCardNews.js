@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.section`
   width: 295px;
   height: 189px;
   cursor: pointer;

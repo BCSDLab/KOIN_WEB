@@ -1,15 +1,9 @@
 import React from "react";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import Pagination from "../SharedComponents/Pagination";
-import {Link} from "react-router-dom";
 
 const Main = styled.div`
   width: 100%;
-  border-top: #f7941e 5px solid;
-  
-  @media (max-width: 576px) {
-    border-top: none;
-  }
 `;
 
 const Container = styled.div`
@@ -36,14 +30,14 @@ const List = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
+const HeadTitle = styled.h1`
   float: left;
   font-size: 30px;
   letter-spacing: -1.5px;
   font-weight: 800;
   color: #175c8e;
   font-family: "NanumSquare", serif;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   cursor: pointer;
   
   @media (max-width: 576px) {
@@ -175,7 +169,7 @@ const Nickname = styled.td`
     text-overflow: ellipsis;
     height: 30px;
     line-height: 15px;
-    margin: 21px 5px 21px 5px;
+    margin: 21px auto;
   }
 `;
 
@@ -309,14 +303,14 @@ export default function LostItemList(
     <Main>
       <Container>
         <List>
-          <div>
+          <header>
             <HeadTitle>
               분실물
             </HeadTitle>
             <WriteBtn onClick={() => goRegister()}>
               글쓰기
             </WriteBtn>
-          </div>
+          </header>
           <Table>
             <thead>
             <tr>

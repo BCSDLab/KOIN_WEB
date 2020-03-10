@@ -15,7 +15,7 @@ const SlideEnter = keyframes`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.nav`
   height: 80px;
   font-size: 12px;
   border-bottom: 1px solid #0000002b;
@@ -23,6 +23,7 @@ const Container = styled.div`
   font-weight: 800;
   background: #175c8e;
   color: #fff;
+  border-bottom: 5px solid #f7941e;
   display: ${props => {
     switch(props.path) {
       case '/login':
@@ -45,6 +46,7 @@ const Container = styled.div`
     top: 0;
     left: 0;
     z-index: 20;
+    border-bottom: none;
     -webkit-animation: ${SlideEnter} .3s ease-out;
     -moz-animation: ${SlideEnter} .3s ease-out;
   }
@@ -188,6 +190,21 @@ const MenuItemLink = styled(Link)`
   }
 `;
 
+const NewMenuTag = styled.div`
+  display: inline-block;
+  width: 12.5px;
+  height: 12.5px;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: Verdana,serif;
+  background-color: #f7941e;
+  line-height: 12px;
+  text-align: center;
+  font-stretch: normal;
+  letter-spacing: normal;
+  margin-left: 4px;
+`;
+
 const AuthButtonGroup = styled.div`
   display: flex;
   align-items: center;
@@ -203,7 +220,8 @@ const AuthLinkButton = styled.div`
   line-height: 1.35;
   font-size: 15px;
   color: #a0d2f6;
-  padding: 30px 20px 30px 20px;
+  padding: 0 20px;
+  margin: 30px 0; 
   cursor: pointer;
   
   &:hover {
@@ -345,6 +363,7 @@ export default React.memo(function Topnav({
                         key={index}>
                         <MenuItemLink to={sub.link}>
                           {sub.title}
+                          {sub.newFlag && <NewMenuTag>N</NewMenuTag>}
                         </MenuItemLink>
                       </MenuItem>
                     ))
@@ -377,7 +396,7 @@ export default React.memo(function Topnav({
               </AuthLinkButton>
             </Link>
             <Link to="/login" onClick={() => toggleDarkBackground(false)}>
-              <AuthLinkButton>
+              <AuthLinkButton style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
                   로그인
               </AuthLinkButton>   
             </Link>
@@ -389,7 +408,7 @@ export default React.memo(function Topnav({
                 정보수정
               </AuthLinkButton>
             </Link>
-            <AuthLinkButton onClick={onLogout} style={{ marginRight: 0 }}>
+            <AuthLinkButton onClick={onLogout} style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
               로그아웃
             </AuthLinkButton>
           </>

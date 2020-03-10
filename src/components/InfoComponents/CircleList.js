@@ -3,7 +3,6 @@ import styled from "styled-components";
 import CircleCard from "./CircleCard";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
 `;
 
@@ -20,14 +19,14 @@ const ListSection = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-family: NanumSquare, serif;
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -1.5px;
   color: #175c8e;
   text-align: left;
-  margin-bottom: 21px;
+  margin: 0 0 21px 0;
 
   @media (max-width: 576px) {
     display: none;

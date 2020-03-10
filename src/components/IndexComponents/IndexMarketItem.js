@@ -99,23 +99,23 @@ const ErrorMark = styled.div`
   color: #fa5252;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   width: 100%;
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   text-align: left;
   font-size: 17px;
   font-weight: 800;
   color: #175c8e;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   font-family: NanumSquare;
   @media (max-width: 576px) {
     font-size: 18px;
   }
 `;
 
-const Item = styled.div`
+const Item = styled.article`
   width: 212px;
   height: 100%;
   text-align: left;
@@ -145,6 +145,9 @@ const Items = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
+  @media (max-width: 576px) {
+    height: 100px;
+  }
 `;
 
 const Thumbnail = styled.img`
@@ -206,13 +209,14 @@ const ItemTitle = styled.div`
 const Nickname = styled.div`
   font-family: NanumBarunGothic;
   font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
+  height: 16px;
   line-height: 1.3;
   letter-spacing: -0.64px;
   text-align: left;
   color: #175c8e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media (max-width: 576px) {
     font-size: 11px;
   }

@@ -4,12 +4,7 @@ import storeCategory from '../../static/storeCategory';
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
-
-  @media (max-width: 576px) {
-    border: none;
-  }
 `;
 
 const ListSection = styled.div`

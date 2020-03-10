@@ -73,12 +73,11 @@ const FooterNav = styled.div`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.footer`
   width: 100%;
   background-color: #3e3e3e;
   color: white;
   position: relative;
-  bottom: 0;
   font-size: 13px;
   height: 288px;
   vertical-align: middle;

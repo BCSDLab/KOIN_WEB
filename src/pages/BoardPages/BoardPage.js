@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHotPosts } from '../../modules/board';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.section`
   margin: 61px auto 0 auto;
   width: 1132px;
 

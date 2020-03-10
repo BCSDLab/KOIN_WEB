@@ -6,11 +6,6 @@ import parse from "html-react-parser"
 
 const Main = styled.div`
   width: 100%;
-  border-top: #f7941e 5px solid;
-  
-  @media (max-width: 576px) {
-    border-top: none;
-  }
 `;
 
 const Container = styled.div`
@@ -37,14 +32,14 @@ const ItemDetail = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
+const HeadTitle = styled.h1`
   float: left;
   font-size: 30px;
   letter-spacing: -1.5px;
   font-weight: 800;
   color: #175c8e;
   font-family: "NanumSquare", serif;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   cursor: pointer;
   
   @media (max-width: 576px) {
@@ -52,7 +47,7 @@ const HeadTitle = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   width: 100%;
   height: 55px;
   
@@ -206,6 +201,16 @@ const MobilePostInfo = styled.div`
   font-size: 13px;
   line-height: 1.54;
   letter-spacing: -0.7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & span:first-child {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const MobileButtonGroup = styled.div`
@@ -676,8 +681,7 @@ export default function LostItemDetail(
               <span style={{ color: "#175c8e" }}>({specificData.comment_count})</span>
             </MobilePostTitle>
             <MobilePostInfo>
-              <span>조회 {specificData.hit} · </span>
-              <span>{specificData.nickname}</span>
+              <span>조회 {specificData.hit} · {specificData.nickname}</span>
               <span style={{ float: 'right' }}>{dateToString(String(specificData.created_at))}</span>
             </MobilePostInfo>
             {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&

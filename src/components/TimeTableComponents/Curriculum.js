@@ -5,14 +5,14 @@ const Container = styled.div`
   width: 336px;
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   font-family: NanumSquare,serif;
   font-weight: 800;
   font-size: 20px;
   line-height: 1.2;
   text-align: left;
   color: #175c8e;
-  margin-bottom: 27px;
+  margin: 0 0 27px 0;
 `;
 
 const LinkWrapper = styled.div`
