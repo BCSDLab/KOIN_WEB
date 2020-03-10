@@ -190,6 +190,21 @@ const MenuItemLink = styled(Link)`
   }
 `;
 
+const NewMenuTag = styled.div`
+  display: inline-block;
+  width: 12.5px;
+  height: 12.5px;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: Verdana,serif;
+  background-color: #f7941e;
+  line-height: 12px;
+  text-align: center;
+  font-stretch: normal;
+  letter-spacing: normal;
+  margin-left: 4px;
+`;
+
 const AuthButtonGroup = styled.div`
   display: flex;
   align-items: center;
@@ -348,6 +363,7 @@ export default React.memo(function Topnav({
                         key={index}>
                         <MenuItemLink to={sub.link}>
                           {sub.title}
+                          {sub.newFlag && <NewMenuTag>N</NewMenuTag>}
                         </MenuItemLink>
                       </MenuItem>
                     ))
