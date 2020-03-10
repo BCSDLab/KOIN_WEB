@@ -91,8 +91,7 @@ const AppWrapper = styled.div`
 `;
 
 const Main = styled.main`
-  height: calc(100vh - 84px);
-
+  min-height: calc(100vh - 84px);
   @media (max-width: 576px) {
     height: calc(100% - 130px);
     min-height: calc(100% - 130px);
@@ -229,8 +228,8 @@ function App({ history }) {
           <Route path="/search" component={SearchResultPage} />
           <Route component={page404} />
         </Switch>
-        <Footer path={currentPath} />
       </Main>
+      <Footer path={currentPath} />
     </AppWrapper>
   );
 }
