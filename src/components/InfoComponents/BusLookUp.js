@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
   
   @media (max-width: 576px) {
@@ -29,18 +28,18 @@ const LookUp = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   text-align: left;
   letter-spacing: -1.5px;
   font-size: 30px;
   color: #175c8e;
   font-family: NanumSquare, serif;
   font-weight: 800;
-  margin-bottom: 27px;
+  margin: 0 0 27px 0;
   
   @media (max-width: 576px) {
     font-size: 20px;
-    margin-bottom: 17px;
+    margin: 0 0 17px 0;
   }
 `;
 

@@ -235,7 +235,7 @@ export default function ModifyInfoContainer() {
 
   useEffect(() => {
     console.log(data);
-    if (data && data.data.success === 'nickname possible use') {
+    if (data && data.data.success) {
       addToast('사용가능한 닉네임입니다.', {
         appearance: 'success',
         autoDismiss: true

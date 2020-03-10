@@ -17,7 +17,7 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   text-align: left;
   float: left;
   font-family: NanumSquare,serif;
@@ -26,7 +26,7 @@ const Title = styled.div`
   color: #175c8e;
   width: 100%;
   height: 32px;
-  margin-bottom: 21px;
+  margin: 0 0 21px 0;
   padding-bottom: 26px;
   border-bottom: 2px solid #175c8e;
 `;

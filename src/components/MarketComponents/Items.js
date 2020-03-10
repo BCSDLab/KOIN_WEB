@@ -44,7 +44,7 @@ const LoaderWrapper = styled.div`
   align-items: center;
 `;
 
-const Item = styled.div`
+const Item = styled.article`
   width: 262px;
   height: 322px;
   text-align: left;
@@ -102,7 +102,7 @@ const ItemInfo = styled.div`
 `;
 
 const Author = styled.span`
-  max-width: 150px;
+  max-width: 145px;
   display: inline-block;
   justify-content: flex-start;
   white-space: nowrap;
@@ -201,7 +201,7 @@ const Line = styled.hr`
   }
 `;
 
-const MobileItem = styled.div`
+const MobileItem = styled.article`
   display: none;
   @media (max-width: 576px) {
     display: flex;

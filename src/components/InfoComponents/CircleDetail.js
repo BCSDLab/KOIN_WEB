@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
 `;
 
 const DetailInfoSection = styled.div`
   width: 1132px;
-  min-height: 300px;
+  min-height: 600px;
   height: 100%;
   margin: 63px auto 50px auto;
 
@@ -19,7 +18,7 @@ const DetailInfoSection = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   display: flex;
   justify-content: space-between;
   margin-bottom: 21px;
@@ -29,12 +28,13 @@ const Header = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-family: NanumSquare, serif;
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -1.5px;
   color: #175c8e;
+  margin: 0;
 `;
 
 const ListButton = styled.button`

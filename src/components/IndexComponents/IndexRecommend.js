@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.section`
   
   @media(max-width: 576px){
     max-width: 100%;
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   width: 100%;
   font-family: NanumSquare;
   font-size: 17px;
@@ -19,7 +19,8 @@ const Title = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #175c8e;
-  
+  margin: 0;
+
   @media(max-width: 576px){
     font-size: 18px;
   }

@@ -31,6 +31,8 @@ export default function IndexBusContainer({history}) {
         return "koreatech";
       case '야우리':
         return "terminal";
+      default:
+        return "koreatech";
     }
   }
 

@@ -3,14 +3,9 @@ import styled from 'styled-components';
 import parse from 'html-react-parser';
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
   min-height: calc(100vh - 84px);
   margin: auto;
-
-  @media (max-width: 576px) {
-    border: none;
-  }
 `;
 
 const DetailSection = styled.div`

@@ -4,13 +4,8 @@ import CafeteriaMenuList from "./CafeteriaMenuList";
 import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
   min-height: calc(100% - 301px);
-  
-  @media(max-width: 576px){
-    border-top: none;
-  }
 `;
 
 const CafeteriaContainer = styled.div`
@@ -24,7 +19,7 @@ const CafeteriaContainer = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   width: auto;
   height: 29px;
   font-family: NanumSquare, sans-serif;
@@ -36,6 +31,7 @@ const Title = styled.div`
   letter-spacing: -1.5px;
   text-align: left;
   color: #175c8e;
+  margin: 0;
 `;
 
 const DateSelector = styled.div`
