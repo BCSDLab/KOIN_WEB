@@ -102,7 +102,7 @@ const CafeteriaList = styled.button`
   letter-spacing: -0.8px;
   text-align: center;
   margin: 50px 2px 0 1.5px;
-  
+  background-color: #ffffff;
   @media(max-width: 576px){
     display: none;
   }

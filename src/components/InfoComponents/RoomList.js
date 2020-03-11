@@ -75,6 +75,7 @@ const ListCards = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  -ms-overflow-style: none;
   @media (max-width: 576px) {
     margin: 16px 16px 0 16px;
     width: calc(100% - 32px);
