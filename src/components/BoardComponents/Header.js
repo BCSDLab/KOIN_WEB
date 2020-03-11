@@ -31,22 +31,16 @@ export default React.memo(function Header({
   const setTitle = () => {
     switch(match.params.type) {
       case 'notice':
-        sessionStorage.setItem("boardId", 4);
         return '공지사항';
       case 'free':
-        sessionStorage.setItem("boardId", 1);
         return '자유게시판';
       case 'job':
-        sessionStorage.setItem("boardId", 2);
         return '취업게시판';
       case 'question':
-        sessionStorage.setItem("boardId", 10);
         return '질문게시판';
       case 'anonymous':
-        sessionStorage.setItem("boardId", -1);
         return '익명게시판';
       case 'promotion':
-        sessionStorage.setItem("boardId", 6);
         return '홍보게시판';
       default:
         return;
