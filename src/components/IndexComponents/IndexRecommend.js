@@ -147,13 +147,11 @@ const SubInfo = styled.div`
   }
 `;
 
-export default function IndexRecommend(
-  {
-    history,
-    storeData,
-    clickRefresh
-  }
-) {
+export default React.memo(function IndexRecommend({
+  history,
+  storeData,
+  clickRefresh
+}) {
   return (
     <Container>
       <Title>
@@ -210,4 +208,4 @@ export default function IndexRecommend(
       </RecommendCard>
     </Container>
   );
-}
+})

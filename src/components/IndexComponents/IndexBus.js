@@ -199,21 +199,20 @@ const TimeDetail = styled.div`
   }
 `;
 
-export default function IndexBus(
-  {
-    busTypes,
-    selectedType,
-    setSelectedType,
-    depart,
-    arrival,
-    shiftDestination,
-    shuttleTime,
-    daesungTime,
-    fastestShuttleTime,
-    fastestDaesungTime,
-    cityBusData,
-    history
-  }) {
+export default React.memo(function IndexBus({
+  busTypes,
+  selectedType,
+  setSelectedType,
+  depart,
+  arrival,
+  shiftDestination,
+  shuttleTime,
+  daesungTime,
+  fastestShuttleTime,
+  fastestDaesungTime,
+  cityBusData,
+  history
+}) {
   function getShiftBtn(type) {
     if(type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_reverse.png';
     else if(type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_reverse.png';
@@ -370,4 +369,4 @@ export default function IndexBus(
       })}
     </Container>
   )
-}
+})
