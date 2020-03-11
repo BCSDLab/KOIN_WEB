@@ -18,6 +18,7 @@ export default function LostItemRegisterContainer({history}) {
   const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const dispatch = useDispatch();
   const editorRef = createRef();
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   const createdAt = today.toISOString().slice(0,10).replace('-','. ').replace('-','. ');
 
@@ -49,6 +50,11 @@ export default function LostItemRegisterContainer({history}) {
       });
       return ;
     }
+    if(!dateRegex.test(registerDate)) {
+      addToast('날짜 형식을 맞춰주세요. 예시) 2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
 

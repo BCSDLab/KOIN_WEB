@@ -18,6 +18,7 @@ export default function LostItemReviseContainer({history}) {
   const userInfo = sessionStorage.getItem("userInfo");
   const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const [content, setContent] = useState(specificData.content);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   const onChangeContent = (content) => {
     setContent(content)
@@ -87,6 +88,11 @@ export default function LostItemReviseContainer({history}) {
       });
       return ;
     }
+    if(!dateRegex.test(registerDate)) {
+      addToast('날짜 형식을 맞춰주세요. 예시) 2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
 

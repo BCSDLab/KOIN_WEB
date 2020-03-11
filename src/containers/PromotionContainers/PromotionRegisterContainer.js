@@ -13,6 +13,7 @@ export default function PromotionEditContainer({ history, match }) {
   const { data, error, post, myStore } = useSelector(state => state.promotionReducer);
   const [helpButtontonFlag, setHelpButtonFlag] = useState(false);
   const [shops, setShops] = useState([]);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   const [promotion, setPromotion] = useState({
     title: '',
     summary: '',
@@ -78,6 +79,12 @@ export default function PromotionEditContainer({ history, match }) {
         autoDismiss: true
       });
       return;
+    }
+    if(!dateRegex.test(start) || !dateRegex.test(end)) {
+      addToast('날짜는 형식에 맞춰 적어주세요. 예시)2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
     }
     if (shops.length !== 0 && promotion.shop === "") {
       addToast('홍보할 상점을 선택해주세요.', {
