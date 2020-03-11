@@ -63,6 +63,9 @@ const FilterCheckbox = styled.input.attrs({type: 'checkbox'})`
 const PromotionWrapper = styled.div`
   margin-bottom: 73px;
   width: 100%;
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(3, 263px);
   grid-auto-rows: 336px;
@@ -116,6 +119,25 @@ const Promotion = styled(Link)`
       color: #f7941e;
     }
   `)}
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: 261px;
+    height: 334px;
+    margin-right: 22px;
+    margin-bottom: 33px;
+    
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+  
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    width: 154px;
+    height: 226px;
+    margin-right: 12px;
+    margin-bottom: 19px;
+  }
 `;
 
 const PromotionCover = styled.div`

@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const MenusContainer = styled.div`
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
   display: grid;
   grid-template-columns: calc((100% - 32px)/3) calc((100% - 32px)/3) calc((100% - 32px)/3);
   grid-column-gap: 3.5%;
@@ -19,6 +21,17 @@ const Menus = styled.div`
   color: #494949;
   padding-top: 24px;
   margin-bottom: 33px;
+
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: calc((100% - 32px)/3);
+    margin-right: 3.5%;
+    -ms-grid-column: ${props => Number(props.index) + 1};
+    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 `;
 
 const Menu = styled.div`
@@ -57,30 +70,27 @@ export default function CafeteriaMenuListMobile({cafeteria, cafeteriaMenus, time
     <MenusContainer>
       {times.map((time, index1)=>{
         return(
-          <Menus key={`tieme-${index1}`}>
-            {cafeteriaMenus.map((menus, index2) => {
-              if(menus.place === cafeteria) {
-                if (menus.type === time) {
-                  return (
-                    <div key={`menus-${index2}`}>
-                      {menus.menu.map((menu, index3) => {
-                        return (
-                          <Menu key={`menu-${index3}`}>
-                            {menu}
-                          </Menu>
-                        )
-                      })}
-                      <KcalInfo>
-                        {menus.kcal}Kcal
-                      </KcalInfo>
-                      <PriceInfo>
-                        {menus.price_card}원/{menus.price_cash}원
-                      </PriceInfo>
-                    </div>
-                  )
-                }
-              }
-            })}
+          <Menus
+            key={`tieme-${index1}`}
+            index={index1}>
+            {cafeteriaMenus.filter(menus => menus.place === cafeteria).map((menus, index2) =>
+              (menus.type === time) && (
+                <div key={`menus-${index2}`}>
+                  {menus.menu.map((menu, index3) => {
+                    return (
+                      <Menu key={`menu-${index3}`}>
+                        {menu}
+                      </Menu>
+                    )
+                  })}
+                  <KcalInfo>
+                    {menus.kcal}Kcal
+                  </KcalInfo>
+                  <PriceInfo>
+                    {menus.price_card}원/{menus.price_cash}원
+                  </PriceInfo>
+                </div>
+            ))}
           </Menus>
         )
       })}

@@ -88,7 +88,6 @@ const DropDownContentsContainer = styled.div`
 const DropDown = styled.div`
   position: relative;
   display: inline-block;
-  width: 99px;
   justify-content: center;
   
   &:hover ${DropDownContentsContainer}{
@@ -103,10 +102,10 @@ const DropDownBtn = styled.button`
   position: relative;
   border: none;
   cursor: pointer;
-  width: 99px;
   font-size: 24px;
   font-weight: 700;
-  display: contents;
+  display: flex;
+  align-items: center;
   
   @media (max-width: 576px) {
     font-size: 20px;
@@ -116,13 +115,15 @@ const DropDownBtn = styled.button`
 const ArrowImg = styled.img.attrs({
   src: "https://static.koreatech.in/assets/img/bus_dropdown.png"
 })`
+  flex: none;
   width: 15px;
+  height: auto;
   margin: 0 5px 2px 5px;
 `;
 
 const DropDownContent = styled.a`
   color: black;
-  padding: 10px 10px;
+  padding: 10px 0;
   text-decoration: none;
   display: block;
   border: 1px #d0d0d0 solid;
@@ -136,8 +137,10 @@ const CardsContainer = styled.div`
   position: relative;
   top: 20px;
   width: 100%;
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
   display: grid;
-  grid-template-columns: 370px 370px 370px;
+  grid-template-columns: repeat(3, 370px);
   grid-column-gap: 9px;
   
   @media (max-width: 576px) {
@@ -158,6 +161,15 @@ const Cards = styled.div`
     height: 100%;
     float: left;
     margin-bottom: 12px;
+  }
+
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    margin-right: 9px;
+    
+    &:last-child {
+      margin-right: 0;
+    }
   }
 `;
 
