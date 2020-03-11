@@ -21,6 +21,9 @@ const PromotionHead = styled.div`
     border-bottom: 1px solid #ececec;
     display: grid;
     grid: auto 14px auto / 250px 1fr;
+    grid-template-areas: "header info"
+                         "date info"
+                         "buttons buttons";
     grid-auto-flow: column dense;
     grid-row-gap: 13px;
     margin-bottom: 15px;
@@ -35,6 +38,7 @@ const PromotionTitle = styled.div`
   padding-bottom: 7px;
   width: 794px;
   word-wrap: break-word;
+  grid-area: header;
   
   & span {
     font-size: 15px;
@@ -119,7 +123,7 @@ const PromotionPostInfo = styled.div`
     font-weight: normal;
     line-height: 1.2;
     letter-spacing: -0.7px;
-    grid-row: 1 / 3;
+    grid-area: info;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
@@ -232,8 +236,7 @@ const PromotionButtonWrapper = styled.div`
     display: flex;
     justify-content: ${props => props.isMyPost ? 'none' : 'flex-end'};
     margin-top: 12px;
-    grid-column: 1 / 3;
-    grid-row: 3 / 4;
+    grid-area: buttons;
   }
 `;
 
