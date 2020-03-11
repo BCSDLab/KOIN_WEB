@@ -15,7 +15,7 @@ export default function ModifyInfoContainer() {
   const studentNumberRegex = /^\d{10}$/;
   const nicknameRegex = /admin|관리자/;
   const dispatch = useDispatch();
-  const parsedUserInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const parsedUserInfo = !!sessionStorage.getItem("userInfo") && JSON.parse(sessionStorage.getItem("userInfo"));
   const [userInfo, setUserInfo] = useState({
     userId: parsedUserInfo.portal_account,
     firstPassword: "",
