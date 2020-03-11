@@ -207,14 +207,12 @@ const MobileTabTitle = styled.h2`
   border-bottom: ${props => props.selected? "2px solid #175c8e": '2px solid #d0d6db' };
 `;
 
-export default function IndexTopBoard(
-  {
-    history,
-    mobileFlag,
-    hotBoardList,
-    newBoardList
-  }
-) {
+export default React.memo(function IndexTopBoard({
+  history,
+  mobileFlag,
+  hotBoardList,
+  newBoardList
+}) {
   function displayBoard(id) {
     if (id === 1) return "[자유]";
     else if (id === 2) return "[취업]";
@@ -675,4 +673,4 @@ export default function IndexTopBoard(
       }
     </Container>
   )
-}
+})

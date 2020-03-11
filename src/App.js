@@ -149,7 +149,7 @@ function App({ history }) {
       // action: push, pop...
       setCurrentPath(location.pathname);
     })
-  });
+  }, [history]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -159,8 +159,7 @@ function App({ history }) {
     <AppWrapper nowFooterMenu={nowFooterMenu}>
       <GlobalStyle />
       <TopnavContainer history={history} path={currentPath} />
-      <Main>
-
+      <Main role="main">
         <Route
           render={({ location }) => (
             <TransitionGroup>

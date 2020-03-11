@@ -263,7 +263,7 @@ const NewTag = styled.img`
 `;
 
 
-export default function IndexMarketItem({
+export default React.memo(function IndexMarketItem({
   history,
   items,
   loading,
@@ -331,4 +331,4 @@ export default function IndexMarketItem({
       
     </Container>
   )
-}
+})

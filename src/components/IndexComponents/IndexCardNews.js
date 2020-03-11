@@ -12,11 +12,10 @@ const Thumbnail = styled.img`
   height: 100%;
 `
 
-export default function IndexCardNews(
-  {
-    imgLink,
-    newsLink
-  }) {
+export default React.memo(function IndexCardNews({
+  imgLink,
+  newsLink
+}) {
   return (
     <Container onClick={() => window.open(newsLink)}>
       {imgLink &&
@@ -24,4 +23,4 @@ export default function IndexCardNews(
       }
     </Container>
   )
-}
+})

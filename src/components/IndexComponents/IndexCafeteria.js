@@ -137,16 +137,14 @@ const NoMenu = styled.div`
   margin: 27px 0 0 0;
 `
 
-export default function IndexCafeteria(
-  {
-    history,
-    cafeteriaList,
-    selected,
-    setSelected,
-    type,
-    allMenus
-  }
-) {
+export default React.memo(function IndexCafeteria({
+  history,
+  cafeteriaList,
+  selected,
+  setSelected,
+  type,
+  allMenus
+}) {
   const today = new Date;
   function getType(type) {
     if(type === 0 && today.getHours() < 9) {
@@ -225,4 +223,4 @@ export default function IndexCafeteria(
       </CafeteriaCard>
     </Container>
   )
-}
+})

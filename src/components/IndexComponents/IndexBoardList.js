@@ -120,15 +120,13 @@ const ArticleComment = styled.span`
   margin-left: 10px;
 `;
 
-export default function IndexBoardList(
-  {
-    history,
-    boardList,
-    selectedBoard,
-    selectBoard,
-    articles
-  }
-) {
+export default React.memo(function IndexBoardList({
+  history,
+  boardList,
+  selectedBoard,
+  selectBoard,
+  articles
+}) {
   function clickShowMore(index) {
     switch (index) {
       case 0:
@@ -306,4 +304,4 @@ export default function IndexBoardList(
       </ArticleList>
     </Container>
   )
-}
+})
