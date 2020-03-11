@@ -89,8 +89,8 @@ export default function RoomList({
 }) {
   const navermaps = window.naver.maps;
   const mapOptions = {
-    maxZoom: 18,
-    minZoom: 14,
+    maxZoom: 20,
+    minZoom: 15,
     logoControl: false,
     zoomControl: true,
     scrollWheel: false,
@@ -112,7 +112,7 @@ export default function RoomList({
                 height: '100%'
               }}
               defaultCenter={{ lat: 36.764617, lng: 127.2831540 }}
-              defaultZoom={15}
+              defaultZoom={16}
               {...mapOptions}
             >
               {roomList.map(room => (
