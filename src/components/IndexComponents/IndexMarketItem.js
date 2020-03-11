@@ -145,6 +145,7 @@ const Items = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
+  height: 141px;
   @media (max-width: 576px) {
     height: 100px;
   }
