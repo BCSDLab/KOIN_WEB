@@ -147,6 +147,12 @@ const PromotionAuthor = styled.div`
     display: none;
   }
   
+  // IE 10+
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
   @media (max-width: 576px) {
     margin-right: 0;
     color: #9fa9b3;
@@ -156,7 +162,7 @@ const PromotionAuthor = styled.div`
     -webkit-line-clamp: 2;
     overflow: hidden;
     grid-row: 1 / 2;
-     
+    
     & span {
       display: inline-block;
     }

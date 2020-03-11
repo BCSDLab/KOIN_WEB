@@ -137,6 +137,14 @@ const Promotion = styled(Link)`
     height: 226px;
     margin-right: 12px;
     margin-bottom: 19px;
+    
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+    
+    &:nth-child(3n) {
+      margin-right: 12px;
+    }
   }
 `;
 
@@ -262,6 +270,12 @@ const PromotionTitle = styled.div`
     -webkit-line-clamp: 2;
     text-align: center;
     color: #252525;
+  }
+  
+  @media all and (-ms-high-contrast: none) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
   }
 `;
 

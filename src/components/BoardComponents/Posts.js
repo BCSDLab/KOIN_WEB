@@ -87,9 +87,16 @@ const PostAuthorStyle = css`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  height: 30px;
   line-height: 15px;
   margin: 19px 5px 20px 5px;
+  
+  @media all and (-ms-high-contrast: none) {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
+    margin-top: 23px;
+  }
 `
 
 const TableBodyContent = styled.div`

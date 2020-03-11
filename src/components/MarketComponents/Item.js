@@ -66,6 +66,12 @@ const ItemTitleContent = styled.span`
     -webkit-box-orient: vertical;
     text-align: left;
   }
+  
+  @media all and (-ms-high-contrast: none) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
+  }
 `;
 
 const ItemCommentNum = styled.span`

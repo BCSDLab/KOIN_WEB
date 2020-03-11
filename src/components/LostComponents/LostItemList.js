@@ -166,10 +166,16 @@ const Nickname = styled.td`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     -webkit-box-pack: center;
-    text-overflow: ellipsis;
-    height: 30px;
     line-height: 15px;
     margin: 21px auto;
+  }
+  
+  @media all and (-ms-high-contrast: none) {
+    span {
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 `;
 
