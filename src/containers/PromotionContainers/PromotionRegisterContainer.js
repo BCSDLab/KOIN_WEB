@@ -59,19 +59,31 @@ export default function PromotionEditContainer({ history, match }) {
     console.log('작성 버튼 클릭');
     const {title, content, summary, start, end, shop } = promotion;
     if (title === "" || content === "") {
-      alert("제목과 내용을 채워주세요");
+      addToast('제목과 내용을 채워주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (title.length > 20) {
-      alert(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`);
+      addToast(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (summary.length > 50) {
-      alert(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`);
+      addToast(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (shops.length !== 0 && promotion.shop === "") {
-      alert('홍보할 상점을 선택해주세요.');
+      addToast('홍보할 상점을 선택해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
 
@@ -82,15 +94,24 @@ export default function PromotionEditContainer({ history, match }) {
     const limitTime = startDate.getTime();
     const endTime = (new Date(end)).getTime();
     if (endTime <= startTime) {
-      alert("시작 일자는 종료 일자보다 앞서야 합니다.");
+      addToast('시작 일자는 종료 일자보다 앞서야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     if (endTime >= limitTime) {
-      alert("최대 홍보 기간은 한 달입니다.");
+      addToast('최대 홍보 기간은 한 달입니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     if (endTime <= today) {
-      alert("종료 일자는 오늘 이후여야 합니다.");
+      addToast('종료 일자는 오늘 이후여야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     const link = content.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,256}\b(\/?[-a-zA-Z0-9@:;|_\+.~#%?&//=]*)?/gi)

@@ -74,11 +74,19 @@ export default function LostItemReviseContainer({history}) {
     let registerDate = date;
 
     if(title === '' || content === '') {
-      alert('제목이나 내용을 추가해주세요.');
+      addToast('제목이나 내용을 추가해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
     if(title.length > 255) {
-      alert(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`);
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return ;
+    }
       return ;
     }
 
@@ -104,7 +112,10 @@ export default function LostItemReviseContainer({history}) {
         });
         history.push(`/lost/detail/${specificData.id}`);
       }, error => {
-        alert('네트워크를 확인하세요.');
+        addToast('네트워크를 확인해주세요', {
+          appearance: 'error',
+          autoDismiss: true
+        });
       })
     }
   }
