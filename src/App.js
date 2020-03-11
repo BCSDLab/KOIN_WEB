@@ -4,6 +4,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import TopnavContainer from './containers/TopnavContainer';
 import IndexPage from './pages/IndexPage';
@@ -63,6 +64,24 @@ const GlobalStyle = createGlobalStyle`
   * {
     outline: none;
   }
+  .page-enter {
+    opacity: 0;
+  }
+
+  .page-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+
+  .page-exit {
+    opacity: 1;
+    display: none;
+  }
+
+  .page-exit-active {
+    opacity: 0;
+    transition: opacity 300ms display 5ms ease-in;
+  }
 `;
 
 const AppWrapper = styled.div`
@@ -79,7 +98,6 @@ const AppWrapper = styled.div`
   -ms-user-select: none;
   -webkit-user-select: none;
   min-width: 1148px;
-
   @media (max-width: 576px) {
     max-width: 576px;
     min-width: 360px;
@@ -97,7 +115,6 @@ const Main = styled.main`
     min-height: calc(100% - 130px);
   }
 `;
-
 
 function App({ history }) {
   const dispatch = useDispatch();
@@ -143,91 +160,103 @@ function App({ history }) {
       <GlobalStyle />
       <TopnavContainer history={history} path={currentPath} />
       <Main>
-        <Switch>
-          <Route exact path="/" component={IndexPage} />
-          {/* User Page */}
-          <PrivateRoute 
-            path="/login"
-            component={LoginPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute 
-            path="/signup"
-            component={SignUpPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute 
-            path="/modifyinfo"
-            component={ModifyInfoPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute
-            path="/findpw"
-            component={FindPasswordPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          {/* Info Page */}
-          <Route exact path="/circle" component={CircleListPage} />
-          <Route path="/circle/:id" component={CircleDetailPage} />
-          <Route exact path="/room" component={RoomListPage} />
-          <Route path="/room/:id" component={RoomDetailPage} />
 
-          <Route exact path="/store" component={StoreListPage} />
-          <Route path="/store/:id" component={StoreDetailPage} />
+        <Route
+          render={({ location }) => (
+            <TransitionGroup>
+              <CSSTransition
+                classNames="page"
+                timeout={300}
+                key={location.pathname}>
+                <Switch location={location}>
+                  <Route exact path="/" component={IndexPage} />
+                  {/* User Page */}
+                  <PrivateRoute 
+                    path="/login"
+                    component={LoginPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute 
+                    path="/signup"
+                    component={SignUpPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute 
+                    path="/modifyinfo"
+                    component={ModifyInfoPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute
+                    path="/findpw"
+                    component={FindPasswordPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  {/* Info Page */}
+                  <Route exact path="/circle" component={CircleListPage} />
+                  <Route path="/circle/:id" component={CircleDetailPage} />
+                  <Route exact path="/room" component={RoomListPage} />
+                  <Route path="/room/:id" component={RoomDetailPage} />
 
-          <Route exact strict path="/lost" component={LostItemListPage}/>
-          <PrivateRoute
-            path="/lost/register"
-            component={LostItemRegisterPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
-          <PrivateRoute
-            path="/lost/edit"
-            component={LostItemRevisePage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-    
+                  <Route exact path="/store" component={StoreListPage} />
+                  <Route path="/store/:id" component={StoreDetailPage} />
 
-          <Route path="/cafeteria" component={CafeteriaMenuPage} />
-          <Route path="/faq" component={FaqPage} />
-          <Route path="/bus" component={BusPage}/>
-          <Route path="/timetable" component={TimeTablePage} />
-          
-          <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
-          {/* Board page */}
-          <Route exact strict path="/board/:type" component={BoardPage} />
-          <PrivateRoute
-            path="/board/:type/:id"
-            component={BoardPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          {/* Market page */}
-          <Route exact strict path="/market/:type" component={MarketPage} />
-          <PrivateRoute
-            path="/market/:type/:id"
-            component={MarketPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <Route path="/search" component={SearchResultPage} />
-          <Route component={page404} />
-        </Switch>
+                  <Route exact strict path="/lost" component={LostItemListPage}/>
+                  <PrivateRoute
+                    path="/lost/register"
+                    component={LostItemRegisterPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
+                  <PrivateRoute
+                    path="/lost/edit"
+                    component={LostItemRevisePage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+            
+
+                  <Route path="/cafeteria" component={CafeteriaMenuPage} />
+                  <Route path="/faq" component={FaqPage} />
+                  <Route path="/bus" component={BusPage}/>
+                  <Route path="/timetable" component={TimeTablePage} />
+                  
+                  <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
+                  {/* Board page */}
+                  <Route exact strict path="/board/:type" component={BoardPage} />
+                  <PrivateRoute
+                    path="/board/:type/:id"
+                    component={BoardPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  {/* Market page */}
+                  <Route exact strict path="/market/:type" component={MarketPage} />
+                  <PrivateRoute
+                    path="/market/:type/:id"
+                    component={MarketPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <Route path="/search" component={SearchResultPage} />
+                  <Route component={page404} />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          )}>
+        </Route>
       </Main>
       <Footer path={currentPath} />
     </AppWrapper>
