@@ -147,6 +147,10 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
+    if(!(sessionStorage.getItem("userInfo") && sessionStorage.getItem("userInfo").identity === 5)) {
+      alert("점주만이 홍보 게시글을 작성할 수 있습니다");
+      history.goBack();
+    }
     if(sessionStorage.getItem("token")) {
       dispatch(checkMyPendingPromotion({
         token: sessionStorage.getItem("token")
