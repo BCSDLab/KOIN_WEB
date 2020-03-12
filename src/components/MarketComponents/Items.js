@@ -294,7 +294,8 @@ export default function Items({
   return (
     <>
       <List>
-        <ItemCount>총 {numOfItems.toLocaleString()}개의 게시물이 있습니다.</ItemCount>
+        <ItemCount>
+          {loading ? '게시물을 로드하고 있습니다.' : `총 ${numOfItems.toLocaleString()}개의 게시물이 있습니다.`}</ItemCount>
         <Row>
           {loading &&
             <LoaderWrapper>
