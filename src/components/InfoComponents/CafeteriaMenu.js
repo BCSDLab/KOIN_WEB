@@ -1,15 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styled from "styled-components"
 import CafeteriaMenuList from "./CafeteriaMenuList";
 import CafeteriaMenuListMobile from "./CafeteriaMenuListMobile";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
-  
-  @media(max-width: 576px){
-    border-top: none;
-  }
+  min-height: calc(100% - 301px);
 `;
 
 const CafeteriaContainer = styled.div`
@@ -19,11 +15,11 @@ const CafeteriaContainer = styled.div`
   @media (max-width: 576px) {
     width: 100%;
     min-width: 300px;
-    margin: 30px auto auto auto;
+    margin: auto;
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   width: auto;
   height: 29px;
   font-family: NanumSquare, sans-serif;
@@ -35,6 +31,7 @@ const Title = styled.div`
   letter-spacing: -1.5px;
   text-align: left;
   color: #175c8e;
+  margin: 0;
 `;
 
 const DateSelector = styled.div`
@@ -42,7 +39,7 @@ const DateSelector = styled.div`
   margin-bottom: -4px;
   
   @media(max-width: 576px){
-    padding-top: 20px;
+    margin-top: 0;
   }
 `;
 
@@ -105,7 +102,7 @@ const CafeteriaList = styled.button`
   letter-spacing: -0.8px;
   text-align: center;
   margin: 50px 2px 0 1.5px;
-  
+  background-color: #ffffff;
   @media(max-width: 576px){
     display: none;
   }
@@ -170,12 +167,13 @@ const MobileCafeteriaMenu = styled.div`
 
 const FixedTopBar = styled.div`
   position: sticky;
-  top: 0;
+  position: -webkit-sticky;
+  top: 56px;
   left: 0;
   right: 0;
   height: 101.5px;
   background-color: #FFFFFF;
-  
+  padding-top: 52px;
   //border-bottom: 1px rgba(23,92,142,0.3) solid;
 `;
 
@@ -248,7 +246,7 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
-  
+
   return (
     <Container>
       <CafeteriaContainer>

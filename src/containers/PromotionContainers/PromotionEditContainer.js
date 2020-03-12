@@ -13,6 +13,7 @@ export default function PromotionEditContainer({ history, match }) {
   const { data, error, post, myStore } = useSelector(state => state.promotionReducer);
   const [helpButtontonFlag, setHelpButtonFlag] = useState(false);
   const [shops, setShops] = useState([]);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   const [promotion, setPromotion] = useState({
     title: '',
     summary: '',
@@ -59,16 +60,31 @@ export default function PromotionEditContainer({ history, match }) {
     console.log('수정 버튼 클릭')
     const {title, content, summary, start, end, shop } = promotion;
     if (title === "" || content === "") {
-      alert("제목과 내용을 채워주세요");
+      addToast('제목과 내용을 채워주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (title.length > 20) {
-      alert(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`);
+      addToast(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (summary.length > 50) {
-      alert(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`);
+      addToast(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
+    }
+    if(!dateRegex.test(start) || !dateRegex.test(end)) {
+      addToast('날짜는 형식에 맞춰 적어주세요. 예시)2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
     }
 
     const today = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).getTime();
@@ -78,14 +94,24 @@ export default function PromotionEditContainer({ history, match }) {
     const limitTime = startDate.getTime();
     const endTime = (new Date(end)).getTime();
     if (endTime <= startTime) {
-      alert("시작 일자는 종료 일자보다 앞서야 합니다.");
+      addToast('시작 일자는 종료 일자보다 앞서야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     if (endTime >= limitTime) {
-      alert("최대 홍보 기간은 한 달입니다.");
+      addToast('최대 홍보 기간은 한 달입니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
+      return;
     }
     if (endTime <= today) {
-      alert("종료 일자는 오늘 이후여야 합니다.");
+      addToast('종료 일자는 오늘 이후여야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     const link = content.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,256}\b(\/?[-a-zA-Z0-9@:;|_\+.~#%?&//=]*)?/gi)
@@ -143,15 +169,17 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    if (!sessionStorage.getItem("postId")) {
-      alert("선택된 게시글이 없습니다.");
-      history.goBack();
-    }
+    if(sessionStorage.getItem("token")){
+      if (!sessionStorage.getItem("postId")) {
+        alert("선택된 게시글이 없습니다.");
+        history.goBack();
+      }
 
-    dispatch(checkPromotionPermission({
-      token: sessionStorage.getItem("token"),
-      id: sessionStorage.getItem("postId")
-    }))
+      dispatch(checkPromotionPermission({
+        token: sessionStorage.getItem("token"),
+        id: sessionStorage.getItem("postId")
+      }))
+    }
     window.addEventListener('click' , () => {
       setHelpButtonFlag(false)
     })
@@ -232,7 +260,7 @@ export default function PromotionEditContainer({ history, match }) {
         />
       </Header>
       <PromotionEdit
-        type="등록"
+        type="수정"
         promotion={promotion}
         shops={shops}
         helpButtonFlag={helpButtontonFlag}

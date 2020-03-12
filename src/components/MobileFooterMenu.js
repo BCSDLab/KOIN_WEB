@@ -5,7 +5,7 @@ const Container = styled.div`
   width: 100%;
   position: fixed;
   bottom: 0;
-  z-index: 10;
+  z-index: 20;
   background: #ffffff;
   border-top: 1px solid #cccccc;
   height: 57px;
@@ -37,7 +37,9 @@ export default function MobileFooterMenu({
   path,
   mobileMenu,
   setMobileMenu,
-  onClickFooterMenu
+  onClickFooterMenu,
+  searchBar,
+  setSearchBar
 }) {
   const onClickHomeBtn = path => {
     history.push(path);
@@ -52,15 +54,15 @@ export default function MobileFooterMenu({
   
   return (
     <Container>
-      <MenuButton onClick={() => onClickHomeBtn('/')}>
+      <MenuButton onClick={() => { onClickHomeBtn('/'); setSearchBar(false) }}>
         <LogoIcon 
           src={
-            path !== '/' || mobileMenu
+            path !== '/' || mobileMenu || searchBar
               ? "https://static.koreatech.in/assets/img/footer-home.png"
               : "https://static.koreatech.in/assets/img/footer-home-on.png"
           }
         />
-        <MenuTitle selected={path === '/' && !mobileMenu}>홈</MenuTitle>
+        <MenuTitle selected={path === '/' && !mobileMenu && !searchBar}>홈</MenuTitle>
       </MenuButton>
       <MenuButton onClick={toggleMobileMenu}>
         <LogoIcon
@@ -70,15 +72,15 @@ export default function MobileFooterMenu({
         />
         <MenuTitle selected={mobileMenu}>카테고리</MenuTitle>
       </MenuButton>
-      <MenuButton onClick={() => onClickHomeBtn('/search')}>
+      <MenuButton onClick={() => setSearchBar(!searchBar)}>
         <LogoIcon 
           src={
-            path !== '/search' || mobileMenu
+            !searchBar || mobileMenu
               ? "https://static.koreatech.in/assets/img/ic-search-menu@3x.png"
               : "https://static.koreatech.in/assets/img/ic-search-menu-on%403x.png"
           }
         />
-        <MenuTitle selected={path === '/search' && !mobileMenu}>검색</MenuTitle>
+        <MenuTitle selected={searchBar && !mobileMenu}>검색</MenuTitle>
       </MenuButton>
     </Container>
   )

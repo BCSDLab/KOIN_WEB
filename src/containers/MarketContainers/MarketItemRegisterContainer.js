@@ -97,6 +97,13 @@ export default function MarketItemRegisterContainer({ history, match }) {
       });
       return;
     }
+    if(isNaN(price)) {
+      addToast('가격은 숫자로 입력해주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
+      return
+    }
     if (isOpen && !regExp.test(phone)) {
       addToast(`핸드폰 번호 형식이 잘못되었습니다.`, {
         appearance: 'warning',
@@ -197,7 +204,9 @@ export default function MarketItemRegisterContainer({ history, match }) {
 
   return (
     <>
-      <Header match={match}>
+      <Header
+        match={match}
+        history={history}>
         <ButtonGroup
           history={history}
           match={match}

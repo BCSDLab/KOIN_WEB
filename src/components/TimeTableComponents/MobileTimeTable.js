@@ -1,7 +1,14 @@
 import React from 'react'
+import styled from 'styled-components';
 import MobileMyTimeTable from './MobileMyTimeTable';
 import MobileLectureSheet from './MobileLectureSheet';
 
+const Container = styled.div`
+  display: none;
+  @media (max-width: 576px) {
+    display: block;
+  }
+`;
 export default function MobileTimeTable({
   totalSemesters,
   selectedSemester,
@@ -19,10 +26,11 @@ export default function MobileTimeTable({
   addLectureOnMyTable,
   removeLectureFromMyTable,
   selectLecturesByMajor,
-  searchLecturesByName
+  searchLecturesByName,
+  removeSelectionBorder
 }) {  
   return (
-    <div>
+    <Container>
       <MobileMyTimeTable
         myLectures={myLectures}
         totalSemesters={totalSemesters}
@@ -30,7 +38,9 @@ export default function MobileTimeTable({
         selectedLayout={selectedLayout}
         layout={layout}
         isOpen={isOpen}
+        isInfoSheet={isInfoSheet}
         initStateBySemester={initStateBySemester}
+        removeSelectionBorder={removeSelectionBorder}
       />
       
       <MobileLectureSheet
@@ -46,7 +56,7 @@ export default function MobileTimeTable({
         selectLecturesByMajor={selectLecturesByMajor}
         searchLecturesByName={searchLecturesByName}
       />   
-    </div>
+    </Container>
     
   )
 }

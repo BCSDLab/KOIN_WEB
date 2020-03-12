@@ -6,12 +6,7 @@ import ReactDOMServer from 'react-dom/server';
 import MarkerIcon from './MarkerIcon';
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
-
-  @media (max-width: 576px) {
-    border: none;
-  }
 `;
 
 const ListSection = styled.div`
@@ -26,14 +21,14 @@ const ListSection = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-family: NanumSquare, serif;
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -1.5px;
   color: #175c8e;
   text-align: left;
-  margin-bottom: 21px;
+  margin: 0 0 21px 0;
 
   @media (max-width: 576px) {
     display: none;
@@ -77,7 +72,10 @@ const ListCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
   @media (max-width: 576px) {
     margin: 16px 16px 0 16px;
     width: calc(100% - 32px);
@@ -92,8 +90,8 @@ export default function RoomList({
 }) {
   const navermaps = window.naver.maps;
   const mapOptions = {
-    maxZoom: 18,
-    minZoom: 14,
+    maxZoom: 20,
+    minZoom: 15,
     logoControl: false,
     zoomControl: true,
     scrollWheel: false,
@@ -115,7 +113,7 @@ export default function RoomList({
                 height: '100%'
               }}
               defaultCenter={{ lat: 36.764617, lng: 127.2831540 }}
-              defaultZoom={15}
+              defaultZoom={16}
               {...mapOptions}
             >
               {roomList.map(room => (

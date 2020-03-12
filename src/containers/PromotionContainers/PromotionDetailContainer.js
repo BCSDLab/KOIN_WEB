@@ -80,7 +80,7 @@ export default function PromotionDetailContainer ({
       }));
       
       // 점주일 때만 퍼미션 체크
-      if (userInfo.identity === 5 && sessionStorage.getItem("token")) {
+      if (userInfo && userInfo.identity === 5 && sessionStorage.getItem("token")) {
         dispatch(checkPromotionPermission({
           token: sessionStorage.getItem("token"),
           id: match.params.id
@@ -192,6 +192,8 @@ export default function PromotionDetailContainer ({
         match={match}
         promotion={post.data}
         loading={post.loading}
+        isMyPost={isMyPost}
+        handleDeleteButton={handleDeleteButton}
         registerComment={handleRegisterComment}
         editComment={handleAdjustComment}
         deleteComment={handleDeleteComment}

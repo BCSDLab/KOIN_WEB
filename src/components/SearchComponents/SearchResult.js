@@ -20,20 +20,20 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-family: NanumSquareEB;
   font-size: 30px;
   font-weight: bold;
   letter-spacing: normal;
   color: #175c8e;
   text-align: left;
-  margin-bottom: 22px;
+  margin: 0 0 22px 0;
 
   @media (max-width: 576px) {
     width: 100%;
     font-size: 16px;
     font-weight: normal;
-    margin-bottom: 0;
+    margin: 0;
   }
 `;
 
@@ -43,7 +43,7 @@ const Table = styled.div`
   border-bottom: 1px solid #175c8e;
   border-collapse: collapse;
   margin-bottom: 22px;
-
+  letter-spacing: -.8px;
   @media (max-width: 576px) {
     width: 100%;
     border: none;
@@ -134,7 +134,8 @@ const PostInfo = styled.div`
   line-height: 1.15;
   text-align: center;
   color: #252525;
-  ${props => props.title && PostTitleStyle};
+  ${props => props.isTitle && PostTitleStyle};
+  ${props => props.isNickname && PostNicknameStyle};
   & div {
     max-width: 550px;
     margin-left: 3px;
@@ -144,7 +145,18 @@ const PostInfo = styled.div`
   }
 `;
 
-
+const PostNicknameStyle = css`
+  width: 10%;
+  height: 28px;
+  color: #175c8e;
+  overflow: hidden;
+  white-space: pre-line;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+`;
 
 const MobileTableBody = styled.div`
   width: 100%;
@@ -312,7 +324,7 @@ export default function SearchResult({
                 color={"#175c8e"}
                 loading={loading}
               />
-              <img src={"http://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
+              <img src={"https://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
               <div>일치하는 결과가 없습니다.</div>
             </LoaderWrapper>
           }
@@ -322,7 +334,7 @@ export default function SearchResult({
               onClick={() => history.push(post.permalink.split("koreatech.in")[1])}>
               <PostInfo style={{ width: '5%' }}>{post.id}</PostInfo>
               <PostInfo style={{ width: '10%', fontSize: '15px' }}>{post.service_name}</PostInfo>
-              <PostInfo title={"true"}>
+              <PostInfo isTitle>
                 {post.permalink.includes('market') && 
                   <strong>
                     [{post.permalink.includes('sell') ? "팝니다" : "삽니다"}]
@@ -333,7 +345,7 @@ export default function SearchResult({
                   src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
                 }
               </PostInfo>
-              <PostInfo style={{ width: '10%', color: '#175c8e' }}>{parse(styledText(post.nickname))}</PostInfo>
+              <PostInfo isNickname>{parse(styledText(post.nickname))}</PostInfo>
               <PostInfo style={{ width: '10%' }}>{computedTime(post.created_at)[0].substring(0, 10)}</PostInfo>
               <PostInfo style={{ width: '5%' }}>{post.hit}</PostInfo>
             </Post>  
@@ -347,7 +359,7 @@ export default function SearchResult({
                 color={"#175c8e"}
                 loading={loading}
               />
-              <img src={"http://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
+              <img src={"https://static.koreatech.in/assets/img/no-result.png"} alt="no search result" />
               <div>일치하는 결과가 없습니다.</div>
             </LoaderWrapper>
           }

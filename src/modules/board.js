@@ -138,6 +138,7 @@ export default function boardReducer(state = initialState, action) {
         ...state,
         hotPosts: {
           ...state.hotPosts,
+          data: null,
           loading: true
         }
       }
@@ -200,7 +201,12 @@ export default function boardReducer(state = initialState, action) {
         error: null,
         post: {
           ...state.post,
+          data: null,
           loading: true
+        },
+        comment: {
+          ...state.comment,
+          data: null
         }
       }
     case GET_POST_SUCCESS:
@@ -257,7 +263,7 @@ export default function boardReducer(state = initialState, action) {
         data: action.payload,
         post: {
           loading: false,
-          data: action.payload.data,
+          data: null,
           error: null
         }
       }
@@ -353,6 +359,7 @@ export default function boardReducer(state = initialState, action) {
       return {
         ...state,
         comment: {
+          ...state.comment,
           data: action.payload,
           error: null
         },
@@ -361,6 +368,7 @@ export default function boardReducer(state = initialState, action) {
       return {
         ...state,
         comment: {
+          ...state.comment,
           data: null,
           error: action.error
         },

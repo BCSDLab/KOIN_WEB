@@ -5,11 +5,6 @@ import ReactQuill from "react-quill";
 
 const Main = styled.div`
   width: 100%;
-  border-top: #f7941e 5px solid;
-  
-  @media(max-width: 576px){
-    border-top: none;
-  }
 `;
 
 const Container = styled.div`
@@ -24,7 +19,7 @@ const Container = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   height: 116px;
   border-bottom: #175c8e 4px solid;
   
@@ -33,7 +28,7 @@ const Header = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   float: left;
   font-size: 30px;
   font-family: NanumSquare, serif;
@@ -41,6 +36,7 @@ const Title = styled.div`
   letter-spacing: -1.5px;
   padding-top: 63px;
   color: #175c8e;
+  margin: 0;
 `;
 
 const GoListBtn = styled.button`
@@ -272,14 +268,10 @@ const LeftForm = styled.div`
   }
   
   input::placeholder {
-    width: 187px;
-    height: 15px;
     font-size: 15px;
     letter-spacing: -0.8px;
     text-align: left;
     color: #bec9d5;
-    padding-top: 10px;
-    padding-bottom: 10px;
   }
   
   @media(max-width: 576px){
@@ -515,6 +507,7 @@ const MobileCancelBtn = styled.button`
   background-color: #175c8e;
   border: none;
   padding-left: 0;
+  z-index: 25;
 `;
 
 const MobileRegisterBtn = styled.button`
@@ -530,6 +523,7 @@ const MobileRegisterBtn = styled.button`
   background-color: #175c8e;
   border: none;
   padding-right: 0;
+  z-index: 25;
 `;
 
 export default function LostItemRegister(
@@ -568,7 +562,7 @@ export default function LostItemRegister(
               placeholder="제목을 입력하세요. ( 최대 255자 )"
               onInput={e => setTitle(e.target.value)}/>
             <BoardInfo>
-              <Author>{JSON.parse(sessionStorage.getItem('userInfo')).nickname}</Author>
+              <Author>{sessionStorage.getItem("userInfo") ? JSON.parse(sessionStorage.getItem('userInfo')).nickname : ''}</Author>
               <CreatedAt>{createdAt}</CreatedAt>
             </BoardInfo>
           </BoardHead>

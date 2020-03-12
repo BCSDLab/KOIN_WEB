@@ -2,6 +2,15 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
 import Comment from '../SharedComponents/Comment';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+const LoaderWrapper = styled.div`
+  width: 1132px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Head = styled.div`
   width: 1132px;
@@ -56,6 +65,12 @@ const ItemTitleContent = styled.span`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     text-align: left;
+  }
+  
+  @media all and (-ms-high-contrast: none) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
   }
 `;
 
@@ -265,6 +280,13 @@ const MobileItemInfo = styled.div`
   justify-content: space-between;
   color: #a1a1a1;
   font-size: 13px;
+
+  & span:first-child {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const ButtonGroup = styled.div`
@@ -366,6 +388,15 @@ export default function Item({
   }
   return (
     <>
+      {loading &&
+        <LoaderWrapper>
+          <ClipLoader
+            color={"#175c8e"}
+            size={150}
+            loading={loading}
+          />
+        </LoaderWrapper>
+      }
       {item &&
         <>
           <Head>

@@ -15,7 +15,7 @@ const SlideEnter = keyframes`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.nav`
   height: 80px;
   font-size: 12px;
   border-bottom: 1px solid #0000002b;
@@ -23,6 +23,7 @@ const Container = styled.div`
   font-weight: 800;
   background: #175c8e;
   color: #fff;
+  border-bottom: 5px solid #f7941e;
   display: ${props => {
     switch(props.path) {
       case '/login':
@@ -35,9 +36,17 @@ const Container = styled.div`
         return 'block';
     }
   }};
+  z-index: ${props => props.searchBar ? 16 : 'unset'};
+  position: ${props => props.searchBar ? 'relative' : 'unset'};
 
   @media (max-width: 576px) {
     height: 56px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    border-bottom: none;
     -webkit-animation: ${SlideEnter} .3s ease-out;
     -moz-animation: ${SlideEnter} .3s ease-out;
   }
@@ -49,6 +58,7 @@ const Row = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  z-index: ${props => props.searchBar ? 16 : 1};
   @media (max-width: 576px) {
     display: none;
   }
@@ -180,6 +190,21 @@ const MenuItemLink = styled(Link)`
   }
 `;
 
+const NewMenuTag = styled.div`
+  display: inline-block;
+  width: 12.5px;
+  height: 12.5px;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: Verdana,serif;
+  background-color: #f7941e;
+  line-height: 12px;
+  text-align: center;
+  font-stretch: normal;
+  letter-spacing: normal;
+  margin-left: 4px;
+`;
+
 const AuthButtonGroup = styled.div`
   display: flex;
   align-items: center;
@@ -195,7 +220,8 @@ const AuthLinkButton = styled.div`
   line-height: 1.35;
   font-size: 15px;
   color: #a0d2f6;
-  padding: 30px 20px 30px 20px;
+  padding: 0 20px;
+  margin: 30px 0; 
   cursor: pointer;
   
   &:hover {
@@ -251,9 +277,9 @@ const SearchIcon = styled.img`
   cursor: pointer;
 `;
 
-export default function Topnav({
+export default React.memo(function Topnav({
   categories,
-  subMenu,
+  menu,
   path,
   onMouseOverMenu,
   token,
@@ -265,11 +291,13 @@ export default function Topnav({
   searchBar,
   setMobileMenu,
   setSearchBar,
-  onClickMultiPurposBtn,
+  onClickMultiPurposeBtn,
   onClickDeleteSearchWordBtn,
   onClickFooterMenu,
   onClickSearchButton,
+  onClickLogoImage,
   onChangeSearchWord,
+  toggleDarkBackground,
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
@@ -310,13 +338,14 @@ export default function Topnav({
   }
 
   return (
-    <Container path={path} mobileMenu={mobileMenu}>
-      <Row>
-        <StyledLink to="/">
+    <Container path={path} mobileMenu={mobileMenu} searchBar={searchBar}>
+      <Row searchBar={searchBar}>
+        <StyledLink to="/" onClick={onClickLogoImage}>
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
-          {!searchBar && <MegaMenu>
+          {!searchBar && 
+          <MegaMenu>
             {categories.map((category, index) => (
               <MegaMenuItem
                 key={index}
@@ -327,14 +356,17 @@ export default function Topnav({
             <MegaMenuPanelContainer>
               <MegaMenuContainer>
                 <MegaMenuPanelContent>
-                  {subMenu && subMenu.map((sub, index) => (
-                    <MenuItem
-                      index={index}
-                      key={index}>
-                      <MenuItemLink to={sub.link}>
-                        {sub.title}
-                      </MenuItemLink>
-                    </MenuItem>
+                  {categories.map(category => (
+                    category.title === menu && category.submenu.map((sub, index) => (
+                      <MenuItem
+                        index={index}
+                        key={index}>
+                        <MenuItemLink to={sub.link}>
+                          {sub.title}
+                          {sub.newFlag && <NewMenuTag>N</NewMenuTag>}
+                        </MenuItemLink>
+                      </MenuItem>
+                    ))
                   ))}
                 </MegaMenuPanelContent>
               </MegaMenuContainer>
@@ -351,32 +383,32 @@ export default function Topnav({
             />
           }
           {!searchBar && <SearchIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />}
         </MenuWrapper>
         <AuthButtonGroup>
         {!token ? (
           <>
-            <Link to="/signup">
+            <Link to="/signup" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton>
                 회원가입
               </AuthLinkButton>
             </Link>
-            <Link to="/login">
-              <AuthLinkButton>
+            <Link to="/login" onClick={() => toggleDarkBackground(false)}>
+              <AuthLinkButton style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
                   로그인
               </AuthLinkButton>   
             </Link>
           </>
         ) :(
           <>
-            <Link to="/modifyinfo">
+            <Link to="/modifyinfo" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton>
                 정보수정
               </AuthLinkButton>
             </Link>
-            <AuthLinkButton onClick={onLogout} style={{ marginRight: 0 }}>
+            <AuthLinkButton onClick={onLogout} style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
               로그아웃
             </AuthLinkButton>
           </>
@@ -400,12 +432,12 @@ export default function Topnav({
         {(!mobileMenu && setRoutingButtonVisible()) &&
           <RouteIcon
             src={"https://static.koreatech.in/assets/img/mobile__create.png"}
-            onClick={onClickMultiPurposBtn}
+            onClick={onClickMultiPurposeBtn}
           />
         }
         {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
           <RouteIcon
-            src={"http://static.koreatech.in/assets/img/ic-search.png"}
+            src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
           />
         }
@@ -427,7 +459,8 @@ export default function Topnav({
         categories={categories}
         onLogout={onLogout}
         setMobileMenu={setMobileMenu}
+        onClickFooterMenu={onClickFooterMenu}
       />
     </Container>
   )
-}
+})

@@ -23,7 +23,7 @@ const TimeTable = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   font-size: 20px;
   font-weight: bold;
   font-style: normal;
@@ -32,11 +32,11 @@ const Title = styled.div`
   letter-spacing: -1px;
   text-align: left;
   color: #252525;
-  margin-bottom: 22px;
+  margin: 0 0 22px 0;
   
   @media (max-width: 576px) {
     font-size: 18px;
-    margin-bottom: 28px;
+    margin: 0 0 28px 0;
   }
 `;
 
@@ -117,7 +117,7 @@ const DropDownContents = styled.div`
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   
   @media (max-width: 576px) {
-    width: 100%;
+    width: calc(100% - 34px);
   }
 `;
 

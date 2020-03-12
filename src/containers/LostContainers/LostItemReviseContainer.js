@@ -15,8 +15,10 @@ export default function LostItemReviseContainer({history}) {
   const [title, setTitle] = useState(specificData.title);
   const [date, setDate] = useState(specificData.date);
   const [place, setPlace] = useState(specificData.location);
-  const [phoneNumber, setPhoneNumber] = useState(JSON.parse(sessionStorage.getItem('userInfo')).phone_number);
+  const userInfo = sessionStorage.getItem("userInfo");
+  const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const [content, setContent] = useState(specificData.content);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   const onChangeContent = (content) => {
     setContent(content)
@@ -73,11 +75,24 @@ export default function LostItemReviseContainer({history}) {
     let registerDate = date;
 
     if(title === '' || content === '') {
-      alert('제목이나 내용을 추가해주세요.');
+      addToast('제목이나 내용을 추가해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
     if(title.length > 255) {
-      alert(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`);
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return ;
+    }
+    if(!dateRegex.test(registerDate)) {
+      addToast('날짜 형식을 맞춰주세요. 예시) 2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
 
@@ -85,25 +100,30 @@ export default function LostItemReviseContainer({history}) {
     if(phoneNumber === '') registerPhoneNumber = undefined;
     if(date === '' || date === undefined) registerDate = undefined;
 
-    dispatch(reviseLostItem({
-      'title': title,
-      'type': 0,
-      'date': registerDate,
-      'location': registerPlace,
-      'is_phone_open': phoneFlag,
-      'phoneNumber': registerPhoneNumber,
-      'content': content,
-      'token': sessionStorage.getItem('token'),
-      'id': specificData.id
-    })).then(()=> {
-      addToast("게시물이 수정되었습니다.", {
-        appearance: 'success',
-        autoDismiss: true
-      });
-      history.push(`/lost/detail/${specificData.id}`);
-    }, error => {
-      alert('네트워크를 확인하세요.');
-    })
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
+      dispatch(reviseLostItem({
+        'title': title,
+        'type': 0,
+        'date': registerDate,
+        'location': registerPlace,
+        'is_phone_open': phoneFlag,
+        'phoneNumber': registerPhoneNumber,
+        'content': content,
+        'token': sessionStorage.getItem('token'),
+        'id': specificData.id
+      })).then(()=> {
+        addToast("게시물이 수정되었습니다.", {
+          appearance: 'success',
+          autoDismiss: true
+        });
+        history.push(`/lost/detail/${specificData.id}`);
+      }, error => {
+        addToast('네트워크를 확인해주세요', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      })
+    }
   }
   return (
     <LostItemRevise

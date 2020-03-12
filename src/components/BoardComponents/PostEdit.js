@@ -180,6 +180,7 @@ const MobileButtonStyle = css`
   letter-spacing: -0.7px;
   padding: 16px;
   border: none;
+  z-index: 25;
 `;
 
 const MobileCancelButton = styled.button`
@@ -258,12 +259,14 @@ export default function PostEdit({
           defaultValue={post && post.nickname}
           disabled
         />
-        <MobileInputField
-          type="password"
-          value={password}
-          onChange={onChangePassword}
-          placeholder="비밀번호를 입력해주세요."
-        />
+        {sessionStorage.getItem('boardId') == '-1' &&
+          <MobileInputField
+            type="password"
+            value={password}
+            onChange={onChangePassword}
+            placeholder="비밀번호를 입력해주세요."
+          />
+        }
       </MobilePostHead>
       <PostBody>
         <ReactQuill

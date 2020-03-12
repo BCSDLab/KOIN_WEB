@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import parse from 'html-react-parser';
+import { useToasts } from 'react-toast-notifications';
 
 const BoardSubInfo = styled.div`
   border-top: 1px solid #edf0f3;
@@ -42,6 +43,10 @@ const BoardComment = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  
+  @media(max-width: 576px){
+    border-bottom: none;
+  }
 `;
 
 const CommentLine = styled.div`
@@ -65,6 +70,13 @@ const CommentAuthor = styled.div`
   letter-spacing: -0.7px;
   color: #175c8e;
   margin-right: 12px;
+
+  @media(max-width: 576px){
+    max-width: 222px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 const CommentCreatedAt = styled.div`
@@ -312,7 +324,7 @@ export default function Comment(
   }); // 익명게시판 게시글 등록용
   const [content, setContent] = useState(''); // 게시글 수정용 comment data
   const [password, setPassword] = useState(''); // 익명게시판 게시글 수정용
-
+  const { addToast } = useToasts();
   const changeTime = time => {
     let times = time.split(" ");
     let date = times[0].split("-");
@@ -353,8 +365,25 @@ export default function Comment(
     if(comment.length) {
       if (sessionStorage.getItem('boardId') === '-1') {
         const { nickname, password } = tempInfo;
-        if (!nickname.length || !password.length) {
-          alert("닉네임과 비밀번호는 필수입니다.");
+        if (!nickname.length || !nickname) {
+          addToast("닉네임을 입력해주세요.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
+          return;
+        }
+        if (nickname.length > 10) {
+          addToast("닉네임은 10글자 이하여야 합니다.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
+          return;
+        }
+        if (!password.length || !password) {
+          addToast("비밀번호를 입력해주세요.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
           return;
         }
         registerComment(comment, tempInfo)
@@ -367,7 +396,11 @@ export default function Comment(
         password: ""
       });
     } else {
-      alert("내용을 입력해주세요.");
+      addToast("내용을 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
     }
   }
 
@@ -386,13 +419,17 @@ export default function Comment(
   }
 
   const checkPermission = () => {
-    if ((sessionStorage.getItem("token")) === null && sessionStorage.getItem('boardId') !== '-1') {
+    const userInfo = sessionStorage.getItem("userInfo");
+    if ( sessionStorage.getItem('boardId') !== '-1' && !sessionStorage.getItem("token")) {
       if (window.confirm('로그인해야 작성하실 수 있습니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
+    } else if(sessionStorage.getItem('boardId') !== '-1' && userInfo && !JSON.parse(userInfo).nickname){
+      alert("닉네임이 필요합니다.");
+      history.push('/modifyinfo');
     }
   }
-  
+
   const onChangeTempInfo = e => {
     setTempInfo({
       ...tempInfo,
@@ -403,7 +440,7 @@ export default function Comment(
   return (
     <>
       <BoardSubInfo>
-        댓글 <SubInfo>{specificData.comment_count || specificData.comments.length}개 </SubInfo>
+        댓글 <SubInfo>{(specificData.comment_count) || String(specificData.comments.length)}개 </SubInfo>
         <Bar>|</Bar> 조회수 <SubInfo>{specificData.hit}</SubInfo>
         {originalLink &&
           <a href={originalLink}>원문 바로가기</a>

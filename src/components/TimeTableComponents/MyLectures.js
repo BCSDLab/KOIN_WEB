@@ -6,14 +6,14 @@ const Container = styled.div`
 
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   font-family: NanumSquare,serif;
   font-weight: 800;
   font-size: 20px;
   line-height: 1.2;
   text-align: left;
   color: #175c8e;
-  margin-bottom: 27px;
+  margin: 0 0 27px 0;
 `;
 
 const GradeTable = styled.div`
@@ -61,7 +61,7 @@ export default React.memo(function MyLectures({
   addLectureOnMyTable,
   removeLectureFromMyTable
 }) {
-  const gradeTitle = ['총 학점', '전공학점', '교양학점', 'HRD학점', '융합학점'];
+  const gradeTitle = ['총 학점', '전공학점', '교양학점', 'HRD학점', '융합학점'];
   return (
     <Container>
       <Title>나의 시간표</Title>

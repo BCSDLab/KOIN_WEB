@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useState} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -22,7 +22,7 @@ const MobileTab = styled.div`
   }
 `;
 
-const HotBoard = styled.div`
+const HotBoard = styled.section`
   width: 50%;
   
   @media(max-width: 576px){
@@ -31,7 +31,7 @@ const HotBoard = styled.div`
   }
 `;
 
-const NewBoard = styled.div`
+const NewBoard = styled.section`
   width: 50%;
   box-sizing: border-box;
   padding-left: 39px;
@@ -42,13 +42,13 @@ const NewBoard = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   font-family: NanumSquare;
   font-size: 17px;
   font-weight: 800;
   line-height: 1.15;
   text-align: left;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   color: #175c8e;
   
   @media(max-width: 576px){
@@ -56,7 +56,7 @@ const Title = styled.div`
   }
 `;
 
-const Contents = styled.div`
+const Contents = styled.article`
   font-family: NanumBarunGothic;
   width: 100%;
   display: flex;
@@ -193,7 +193,7 @@ const Time = styled.span`
   }
 `;
 
-const MobileTabTitle = styled.div`
+const MobileTabTitle = styled.h2`
   width: 50%;
   font-family: NanumSquare;
   font-size: 15px;
@@ -203,16 +203,16 @@ const MobileTabTitle = styled.div`
   text-align: center;
   color: #175c8e;
   padding-bottom: 11px;
+  margin: 0;
   border-bottom: ${props => props.selected? "2px solid #175c8e": '2px solid #d0d6db' };
 `;
 
-export default function IndexTopBoard(
-  {
-    history,
-    hotBoardList,
-    newBoardList
-  }
-) {
+export default React.memo(function IndexTopBoard({
+  history,
+  mobileFlag,
+  hotBoardList,
+  newBoardList
+}) {
   function displayBoard(id) {
     if (id === 1) return "[자유]";
     else if (id === 2) return "[취업]";
@@ -580,7 +580,7 @@ export default function IndexTopBoard(
     }
   }
   function clickList(id, boardId) {
-    sessionStorage.setItem("boardId",boardId);
+    sessionStorage.setItem("boardId",boardId || -1);
     if(boardId === 1) {
       history.push(`board/free/${id}`);
     }
@@ -599,23 +599,6 @@ export default function IndexTopBoard(
     else history.push(`board/notice/${id}`);
   }
   const [selectedTab, selectTab] = useState("인기게시물")
-  const [mobileFlag, changeMobileFlag] = useState(false);
-
-  const setMobileFlag = width => {
-    if(width < 576) {
-      changeMobileFlag(true);
-    } else changeMobileFlag(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setMobileFlag(window.innerWidth);
-    })
-  }, []);
-
-  useEffect(() => {
-    setMobileFlag(window.innerWidth);
-  },[]);
 
   return(
     <Container>
@@ -690,4 +673,4 @@ export default function IndexTopBoard(
       }
     </Container>
   )
-}
+})

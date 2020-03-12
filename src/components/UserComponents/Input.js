@@ -13,7 +13,6 @@ const StyledInput = styled.input`
   &::placeholder {
     font-size: 15px;
     letter-spacing: -0.8px;
-    padding-left: 0;
     color: #bec9d5;
   }
 

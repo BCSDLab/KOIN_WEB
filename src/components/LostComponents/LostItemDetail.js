@@ -1,16 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import {Link} from "react-router-dom";
 import Comment from "../SharedComponents/Comment";
 import parse from "html-react-parser"
 
 const Main = styled.div`
   width: 100%;
-  border-top: #f7941e 5px solid;
-  
-  @media (max-width: 576px) {
-    border-top: none;
-  }
 `;
 
 const Container = styled.div`
@@ -37,14 +32,14 @@ const ItemDetail = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
+const HeadTitle = styled.h1`
   float: left;
   font-size: 30px;
   letter-spacing: -1.5px;
   font-weight: 800;
   color: #175c8e;
   font-family: "NanumSquare", serif;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   cursor: pointer;
   
   @media (max-width: 576px) {
@@ -52,7 +47,7 @@ const HeadTitle = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   width: 100%;
   height: 55px;
   
@@ -184,9 +179,65 @@ const MobileBoardHead = styled.div`
   display: none;
   
   @media(max-width: 576px){
-  
+    display: block;
+    text-align: left;
+    padding: 15px 16px;
+    height: 100%;
+    border-bottom: 1px solid #ececec;
   }
 `;
+
+const MobilePostTitle = styled.div`
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  letter-spacing: -0.8px;
+  line-height: 1.5;
+  word-break: break-all;
+`;
+
+const MobilePostInfo = styled.div`
+  margin-top: 1px;
+  color: #a1a1a1;
+  font-size: 13px;
+  line-height: 1.54;
+  letter-spacing: -0.7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & span:first-child {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
+const MobileButtonGroup = styled.div`
+  margin-top: 22px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const EditButton = styled.button`
+  font-size: 12px;
+  padding: 6px 13px;
+  background: #ffffff;
+  color: #175c8e;
+  border: 1px solid #175c8e;
+  margin-right: 4px;
+`;
+
+const DeleteButton = styled.button`
+  font-size: 12px;
+  padding: 6px 13px;
+  background: #ffffff;
+  color: #d32525;
+  border: 1px solid #d32525;
+`;
+
 
 const ItemInfo = styled.div`
   text-align: left;
@@ -275,6 +326,7 @@ const MobileTopnavBtn = styled.div`
   
   @media(max-width: 576px){
     display: block;
+    z-index: 25;
   }
   
   img {
@@ -290,7 +342,7 @@ const MobileBackBtn = styled.img.attrs({
   position: absolute;
   top: 16px;
   left: 16px;
-`
+`;
 
 const MobileRegisterBtn = styled.img.attrs({
   src: "https://static.koreatech.in/assets/img/mobile__create.png"
@@ -298,7 +350,8 @@ const MobileRegisterBtn = styled.img.attrs({
   position: absolute;
   top: 16px;
   right: 16px;
-`
+`;
+
 
 export default function LostItemDetail(
   {
@@ -312,6 +365,268 @@ export default function LostItemDetail(
     reviseItem
   }
 ) {
+
+  const removeScriptTag = str => {
+    return str.replace(/<(\/script|script|\/style|style|\/!DOCTYPE|\/abbr|\/acronym|\/address|\/applet|\/area|\/article|\/aside|\/audio|\/b|\/base|\/basefont|\/bdi|\/bdo|\/big|\/blockquote|\/body|\/br|\/button|\/canvas|\/caption|\/center|\/cite|\/code|\/col|\/colgroup|\/data|\/datalist|\/dd|\/del|\/details|\/dfn|\/dialog|\/dir|\/div|\/dl|\/dt|\/em|\/embed|\/fieldset|\/figcaption|\/figure|\/font|\/footer|\/form|\/frame|\/frameset|\/h1-|\/h6|\/head|\/header|\/hr|\/html|\/i|\/iframe|\/img|\/input|\/ins|\/kbd|\/label|\/legend|\/li|\/link|\/main|\/map|\/mark|\/meta|\/meter|\/nav|\/noframes|\/noscript|\/object|\/ol|\/optgroup|\/option|\/output|\/p|\/param|\/picture|\/pre|\/progress|\/q|\/rp|\/rt|\/ruby|\/s|\/samp|\/script|\/section|\/select|\/small|\/source|\/span|\/strike|\/strong|\/style|\/sub|\/summary|\/sup|\/svg|\/table|\/tbody|\/td|\/template|\/textarea|\/tfoot|\/th|\/thead|\/time|\/title|\/tr|\/track|\/tt|\/u|\/ul|\/var|\/video|\/wbr|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|h1-|h6|head|header|hr|html|i|iframe|img|input|ins|kbd|label|legend|li|link|main|map|mark|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr)([^>]*)>/gi, "");
+  }
+
+  const convertCleanString = str => {
+    return convertTitle(removeScriptTag(str));
+  }
+
+  const convertTitle = (string) => {
+    const entityMap = {
+      "'": "&apos;",
+      "<": "&lt;",
+      ">": "&gt;",
+      " ": "&nbsp;",
+      "¡": "&iexcl;",
+      "¢": "&cent;",
+      "£": "&pound;",
+      "¤": "&curren;",
+      "¥": "&yen;",
+      "¦": "&brvbar;",
+      "§": "&sect;",
+      "¨": "&uml;",
+      "©": "&copy;",
+      "ª": "&ordf;",
+      "«": "&laquo;",
+      "¬": "&not;",
+      "®": "&reg;",
+      "¯": "&macr;",
+      "°": "&deg;",
+      "±": "&plusmn;",
+      "²": "&sup2;",
+      "³": "&sup3;",
+      "´": "&acute;",
+      "µ": "&micro;",
+      "¶": "&para;",
+      "·": "&middot;",
+      "¸": "&cedil;",
+      "¹": "&sup1;",
+      "º": "&ordm;",
+      "»": "&raquo;",
+      "¼": "&frac14;",
+      "½": "&frac12;",
+      "¾": "&frac34;",
+      "¿": "&iquest;",
+      "À": "&Agrave;",
+      "Á": "&Aacute;",
+      "Â": "&Acirc;",
+      "Ã": "&Atilde;",
+      "Ä": "&Auml;",
+      "Å": "&Aring;",
+      "Æ": "&AElig;",
+      "Ç": "&Ccedil;",
+      "È": "&Egrave;",
+      "É": "&Eacute;",
+      "Ê": "&Ecirc;",
+      "Ë": "&Euml;",
+      "Ì": "&Igrave;",
+      "Í": "&Iacute;",
+      "Î": "&Icirc;",
+      "Ï": "&Iuml;",
+      "Ð": "&ETH;",
+      "Ñ": "&Ntilde;",
+      "Ò": "&Ograve;",
+      "Ó": "&Oacute;",
+      "Ô": "&Ocirc;",
+      "Õ": "&Otilde;",
+      "Ö": "&Ouml;",
+      "×": "&times;",
+      "Ø": "&Oslash;",
+      "Ù": "&Ugrave;",
+      "Ú": "&Uacute;",
+      "Û": "&Ucirc;",
+      "Ü": "&Uuml;",
+      "Ý": "&Yacute;",
+      "Þ": "&THORN;",
+      "ß": "&szlig;",
+      "à": "&agrave;",
+      "á": "&aacute;",
+      "â": "&acirc;",
+      "ã": "&atilde;",
+      "ä": "&auml;",
+      "å": "&aring;",
+      "æ": "&aelig;",
+      "ç": "&ccedil;",
+      "è": "&egrave;",
+      "é": "&eacute;",
+      "ê": "&ecirc;",
+      "ë": "&euml;",
+      "ì": "&igrave;",
+      "í": "&iacute;",
+      "î": "&icirc;",
+      "ï": "&iuml;",
+      "ð": "&eth;",
+      "ñ": "&ntilde;",
+      "ò": "&ograve;",
+      "ó": "&oacute;",
+      "ô": "&ocirc;",
+      "õ": "&otilde;",
+      "ö": "&ouml;",
+      "÷": "&divide;",
+      "ø": "&oslash;",
+      "ù": "&ugrave;",
+      "ú": "&uacute;",
+      "û": "&ucirc;",
+      "ü": "&uuml;",
+      "ý": "&yacute;",
+      "þ": "&thorn;",
+      "ÿ": "&yuml;",
+      "Œ": "&OElig;",
+      "œ": "&oelig;",
+      "Š": "&Scaron;",
+      "š": "&scaron;",
+      "Ÿ": "&Yuml;",
+      "ƒ": "&fnof;",
+      "ˆ": "&circ;",
+      "˜": "&tilde;",
+      "Α": "&Alpha;",
+      "Β": "&Beta;",
+      "Γ": "&Gamma;",
+      "Δ": "&Delta;",
+      "Ε": "&Epsilon;",
+      "Ζ": "&Zeta;",
+      "Η": "&Eta;",
+      "Θ": "&Theta;",
+      "Ι": "&Iota;",
+      "Κ": "&Kappa;",
+      "Λ": "&Lambda;",
+      "Μ": "&Mu;",
+      "Ν": "&Nu;",
+      "Ξ": "&Xi;",
+      "Ο": "&Omicron;",
+      "Π": "&Pi;",
+      "Ρ": "&Rho;",
+      "Σ": "&Sigma;",
+      "Τ": "&Tau;",
+      "Υ": "&Upsilon;",
+      "Φ": "&Phi;",
+      "Χ": "&Chi;",
+      "Ψ": "&Psi;",
+      "Ω": "&Omega;",
+      "α": "&alpha;",
+      "β": "&beta;",
+      "γ": "&gamma;",
+      "δ": "&delta;",
+      "ε": "&epsilon;",
+      "ζ": "&zeta;",
+      "η": "&eta;",
+      "θ": "&theta;",
+      "ι": "&iota;",
+      "κ": "&kappa;",
+      "λ": "&lambda;",
+      "μ": "&mu;",
+      "ν": "&nu;",
+      "ξ": "&xi;",
+      "ο": "&omicron;",
+      "π": "&pi;",
+      "ρ": "&rho;",
+      "ς": "&sigmaf;",
+      "σ": "&sigma;",
+      "τ": "&tau;",
+      "υ": "&upsilon;",
+      "φ": "&phi;",
+      "χ": "&chi;",
+      "ψ": "&psi;",
+      "ω": "&omega;",
+      "ϑ": "&thetasym;",
+      "ϒ": "&Upsih;",
+      "ϖ": "&piv;",
+      "–": "&ndash;",
+      "—": "&mdash;",
+      "‘": "&lsquo;",
+      "’": "&rsquo;",
+      "‚": "&sbquo;",
+      "“": "&ldquo;",
+      "”": "&rdquo;",
+      "„": "&bdquo;",
+      "†": "&dagger;",
+      "‡": "&Dagger;",
+      "•": "&bull;",
+      "…": "&hellip;",
+      "‰": "&permil;",
+      "′": "&prime;",
+      "″": "&Prime;",
+      "‹": "&lsaquo;",
+      "›": "&rsaquo;",
+      "‾": "&oline;",
+      "⁄": "&frasl;",
+      "€": "&euro;",
+      "ℑ": "&image;",
+      "℘": "&weierp;",
+      "ℜ": "&real;",
+      "™": "&trade;",
+      "ℵ": "&alefsym;",
+      "←": "&larr;",
+      "↑": "&uarr;",
+      "→": "&rarr;",
+      "↓": "&darr;",
+      "↔": "&harr;",
+      "↵": "&crarr;",
+      "⇐": "&lArr;",
+      "⇑": "&UArr;",
+      "⇒": "&rArr;",
+      "⇓": "&dArr;",
+      "⇔": "&hArr;",
+      "∀": "&forall;",
+      "∂": "&part;",
+      "∃": "&exist;",
+      "∅": "&empty;",
+      "∇": "&nabla;",
+      "∈": "&isin;",
+      "∉": "&notin;",
+      "∋": "&ni;",
+      "∏": "&prod;",
+      "∑": "&sum;",
+      "−": "&minus;",
+      "∗": "&lowast;",
+      "√": "&radic;",
+      "∝": "&prop;",
+      "∞": "&infin;",
+      "∠": "&ang;",
+      "∧": "&and;",
+      "∨": "&or;",
+      "∩": "&cap;",
+      "∪": "&cup;",
+      "∫": "&int;",
+      "∴": "&there4;",
+      "∼": "&sim;",
+      "≅": "&cong;",
+      "≈": "&asymp;",
+      "≠": "&ne;",
+      "≡": "&equiv;",
+      "≤": "&le;",
+      "≥": "&ge;",
+      "⊂": "&sub;",
+      "⊃": "&sup;",
+      "⊄": "&nsub;",
+      "⊆": "&sube;",
+      "⊇": "&supe;",
+      "⊕": "&oplus;",
+      "⊗": "&otimes;",
+      "⊥": "&perp;",
+      "⋅": "&sdot;",
+      "⌈": "&lceil;",
+      "⌉": "&rceil;",
+      "⌊": "&lfloor;",
+      "⌋": "&rfloor;",
+      "⟨": "&lang;",
+      "⟩": "&rang;",
+      "◊": "&loz;",
+      "♠": "&spades;",
+      "♣": "&clubs;",
+      "♥": "&hearts;",
+      "♦": "&diams;"
+    }
+    for (let key in entityMap) {
+      let entity = entityMap[key];
+      let regex = new RegExp(entity, 'g');
+      string = string.replace(regex, key);
+    }
+    return string.replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  }
 
   function dateToString(date) {
     return date.slice(0, 10).replace('-', '.').replace('-', '.')
@@ -332,10 +647,10 @@ export default function LostItemDetail(
             </Link>
             {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&
             <>
-              <DeleteBtn onClick={() => deleteItem()}>
+              <DeleteBtn onClick={deleteItem}>
                 삭제
               </DeleteBtn>
-              <ReviseBtn onClick={() => reviseItem()}>
+              <ReviseBtn onClick={reviseItem}>
                 수정
               </ReviseBtn>
             </>
@@ -359,10 +674,24 @@ export default function LostItemDetail(
               </CreatedAt>
             </BoardInfo>
           </BorderHead>
+
           <MobileBoardHead>
-
-
+            <MobilePostTitle>
+              <span>{convertCleanString(specificData.title)}</span>
+              <span style={{ color: "#175c8e" }}>({specificData.comment_count})</span>
+            </MobilePostTitle>
+            <MobilePostInfo>
+              <span>조회 {specificData.hit} · {specificData.nickname}</span>
+              <span style={{ float: 'right' }}>{dateToString(String(specificData.created_at))}</span>
+            </MobilePostInfo>
+            {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&
+            <MobileButtonGroup>
+              <EditButton onClick={reviseItem}>수정</EditButton>
+              <DeleteButton onClick={deleteItem}>삭제</DeleteButton>
+            </MobileButtonGroup>
+            }
           </MobileBoardHead>
+
           <ItemInfo>
             <table>
               <tbody>
@@ -405,7 +734,7 @@ export default function LostItemDetail(
           <MobileTopnavBtn>
             <MobileBackBtn onClick={()=> history.push('/lost')}/>
             {specificData.user_id === (sessionStorage.getItem("token") ? JSON.parse(sessionStorage.getItem("userInfo")).id : "") &&
-              <MobileRegisterBtn onClick={() => history.push('/lost/revise')}/>
+              <MobileRegisterBtn onClick={() => history.push('/lost/edit')}/>
             }
           </MobileTopnavBtn>
         </ItemDetail>

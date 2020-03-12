@@ -12,9 +12,12 @@ const Container = styled.div`
   margin-right: auto;
   margin-bottom: 80px;
   min-height: 800px;
+  @media (max-width: 576px) {
+    display: none;
+  }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   text-align: left;
   float: left;
   font-family: NanumSquare,serif;
@@ -23,7 +26,7 @@ const Title = styled.div`
   color: #175c8e;
   width: 100%;
   height: 32px;
-  margin-bottom: 21px;
+  margin: 0 0 21px 0;
   padding-bottom: 26px;
   border-bottom: 2px solid #175c8e;
 `;
@@ -53,7 +56,8 @@ export default function TimeTable({
   selectedSemester,
   initStateBySemester,
 
-  myTimeTableGrade
+  myTimeTableGrade,
+  removeSelectionBorder
 }) {
   return (
     <Container>
@@ -78,6 +82,7 @@ export default function TimeTable({
           totalSemesters={totalSemesters}
           selectedSemester={selectedSemester}
           initStateBySemester={initStateBySemester}
+          removeSelectionBorder={removeSelectionBorder}
         />
       </Row>
       <Row style={{ marginTop: '66px' }}>

@@ -6,7 +6,7 @@ import MarketItemContainer from '../../containers/MarketContainers/MarketItemCon
 import MarketItemRegisterContainer from '../../containers/MarketContainers/MarketItemRegisterContainer';
 import MarketItemEditContainer from '../../containers/MarketContainers/MarketItemEditContainer';
 
-const Container = styled.div`
+const Container = styled.section`
   width: 1132px;
   margin: 64px auto 60px auto;
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { updateAuthInfo } from './modules/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import TopnavContainer from './containers/TopnavContainer';
 import IndexPage from './pages/IndexPage';
@@ -63,6 +64,24 @@ const GlobalStyle = createGlobalStyle`
   * {
     outline: none;
   }
+  .page-enter {
+    opacity: 0;
+  }
+
+  .page-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+
+  .page-exit {
+    opacity: 1;
+    display: none;
+  }
+
+  .page-exit-active {
+    opacity: 0;
+    transition: opacity 300ms display 5ms ease-in;
+  }
 `;
 
 const AppWrapper = styled.div`
@@ -79,32 +98,31 @@ const AppWrapper = styled.div`
   -ms-user-select: none;
   -webkit-user-select: none;
   min-width: 1148px;
-
   @media (max-width: 576px) {
     max-width: 576px;
     min-width: 360px;
     height: 100%;
   }
 
-  max-height: ${props => props.nowFooterMenu[1] ? '600px' : '100%'};
+  max-height: ${props => props.nowFooterMenu[1] ? '100vh' : '100%'};
   overflow: ${props => props.nowFooterMenu[1] ? 'hidden' : 'initial'};
 `;
 
 const Main = styled.main`
-  height: calc(100% - 84px);
-
+  min-height: calc(100vh - 84px);
   @media (max-width: 576px) {
     height: calc(100% - 130px);
     min-height: calc(100% - 130px);
   }
 `;
 
-
 function App({ history }) {
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState(false);
   const [currentPath, setCurrentPath] = useState(history.location.pathname);
+  const { pathname } = useLocation();
   const { nowFooterMenu } = useSelector(state => state.commonReducer);
+
   const onConfirm = path => {
     setDialog(false);
     if (path) history.push(path);
@@ -131,88 +149,119 @@ function App({ history }) {
       // action: push, pop...
       setCurrentPath(location.pathname);
     })
-  });
+  }, [history]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <AppWrapper nowFooterMenu={nowFooterMenu}>
       <GlobalStyle />
       <TopnavContainer history={history} path={currentPath} />
-      <Main>
-        <Switch>
-          <Route exact path="/" component={IndexPage} />
-          {/* User Page */}
-          <PrivateRoute 
-            path="/login"
-            component={LoginPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute 
-            path="/signup"
-            component={SignUpPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute 
-            path="/modifyinfo"
-            component={ModifyInfoPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <PrivateRoute
-            path="/findpw"
-            component={FindPasswordPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          {/* Info Page */}
-          <Route exact path="/circle" component={CircleListPage} />
-          <Route path="/circle/:id" component={CircleDetailPage} />
-          <Route exact path="/room" component={RoomListPage} />
-          <Route path="/room/:id" component={RoomDetailPage} />
+      <Main role="main">
+        <Route
+          render={({ location }) => (
+            <TransitionGroup>
+              <CSSTransition
+                classNames="page"
+                timeout={300}
+                key={location.pathname}>
+                <Switch location={location}>
+                  <Route exact path="/" component={IndexPage} />
+                  {/* User Page */}
+                  <PrivateRoute 
+                    path="/login"
+                    history={history}
+                    component={LoginPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute 
+                    path="/signup"
+                    history={history}
+                    component={SignUpPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute 
+                    path="/modifyinfo"
+                    history={history}
+                    component={ModifyInfoPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <PrivateRoute
+                    path="/findpw"
+                    history={history}
+                    component={FindPasswordPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  {/* Info Page */}
+                  <Route exact path="/circle" component={CircleListPage} />
+                  <Route path="/circle/:id" component={CircleDetailPage} />
+                  <Route exact path="/room" component={RoomListPage} />
+                  <Route path="/room/:id" component={RoomDetailPage} />
 
-          <Route exact path="/store" component={StoreListPage} />
-          <Route path="/store/:id" component={StoreDetailPage} />
+                  <Route exact path="/store" component={StoreListPage} />
+                  <Route path="/store/:id" component={StoreDetailPage} />
 
-          <Route exact path="/lost" component={LostItemListPage}/>
-          <Route path="/lost/register" component={LostItemRegisterPage}/>
-          <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
-          <Route path="/lost/revise" component={LostItemRevisePage}/>
-    
+                  <Route exact strict path="/lost" component={LostItemListPage}/>
+                  <PrivateRoute
+                    path="/lost/register"
+                    component={LostItemRegisterPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
+                  <PrivateRoute
+                    path="/lost/edit"
+                    component={LostItemRevisePage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+            
 
-          <Route path="/cafeteria" component={CafeteriaMenuPage} />
-          <Route path="/faq" component={FaqPage} />
-          <Route path="/bus" component={BusPage}/>
-          <Route path="/timetable" component={TimeTablePage} />
-          
-          <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
-          {/* Board page */}
-          <Route exact path="/board/:type" component={BoardPage} />
-          <PrivateRoute
-            path="/board/:type/:id"
-            component={BoardPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          {/* Market page */}
-          <Route exact path="/market/:type" component={MarketPage} />
-          <PrivateRoute
-            path="/market/:type/:id"
-            component={MarketPage}
-            setDialog={setDialog}
-            dialog={dialog}
-            onConfirm={onConfirm}
-          />
-          <Route path="/search" component={SearchResultPage} />
-          <Route component={page404} />
-        </Switch>
-        <Footer path={currentPath} />
+                  <Route path="/cafeteria" component={CafeteriaMenuPage} />
+                  <Route path="/faq" component={FaqPage} />
+                  <Route path="/bus" component={BusPage}/>
+                  <Route path="/timetable" component={TimeTablePage} />
+                  
+                  <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
+                  {/* Board page */}
+                  <Route exact strict path="/board/:type" component={BoardPage} />
+                  <PrivateRoute
+                    path="/board/:type/:id"
+                    component={BoardPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  {/* Market page */}
+                  <Route exact strict path="/market/:type" component={MarketPage} />
+                  <PrivateRoute
+                    path="/market/:type/:id"
+                    component={MarketPage}
+                    setDialog={setDialog}
+                    dialog={dialog}
+                    onConfirm={onConfirm}
+                  />
+                  <Route path="/search" component={SearchResultPage} />
+                  <Route component={page404} />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          )}>
+        </Route>
       </Main>
+      <Footer path={currentPath} />
     </AppWrapper>
   );
 }

@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.section`
   @media(max-width: 576px){
     max-width: 100%;
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
   width: 100%;
   font-family: NanumSquare;
   font-weight: 800;
@@ -19,6 +19,7 @@ const Title = styled.div`
   text-align: left;
   color: #175c8e;
   cursor: pointer;
+  margin: 0;
   
   @media(max-width: 576px){
     font-size: 18px;
@@ -95,6 +96,11 @@ const Menu = styled.div`
   color: #252525;
   text-align: left;
   margin-bottom: 4px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
 `;
 
 const ShowMore = styled.div`
@@ -111,7 +117,7 @@ const ShowMore = styled.div`
 `;
 
 const ShowMoreIcon = styled.img.attrs({
-  src: "http://static.koreatech.in/assets/img/ic-more.png"
+  src: "https://static.koreatech.in/assets/img/ic-more.png"
 })`
   width: 15px;
   height: 15px;
@@ -131,16 +137,14 @@ const NoMenu = styled.div`
   margin: 27px 0 0 0;
 `
 
-export default function IndexCafeteria(
-  {
-    history,
-    cafeteriaList,
-    selected,
-    setSelected,
-    type,
-    allMenus
-  }
-) {
+export default React.memo(function IndexCafeteria({
+  history,
+  cafeteriaList,
+  selected,
+  setSelected,
+  type,
+  allMenus
+}) {
   const today = new Date;
   function getType(type) {
     if(type === 0 && today.getHours() < 9) {
@@ -219,4 +223,4 @@ export default function IndexCafeteria(
       </CafeteriaCard>
     </Container>
   )
-}
+})

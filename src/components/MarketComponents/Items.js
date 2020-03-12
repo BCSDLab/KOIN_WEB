@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components';
 import Pagination from '../SharedComponents/Pagination';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const List = styled.div`
   width: 1132px;
@@ -35,7 +36,15 @@ const Row = styled.div`
   }
 `;
 
-const Item = styled.div`
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Item = styled.article`
   width: 262px;
   height: 322px;
   text-align: left;
@@ -87,8 +96,19 @@ const ItemInfo = styled.div`
   @media (max-width: 576px) {
     color: #a1a1a1;
     margin: 3px 0 0 0;
+    width: 100%;
+    text-align: left;
   }
 `;
+
+const Author = styled.span`
+  max-width: 145px;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 const ItemThumbnailContainer = styled.div`
   width: 262px;
@@ -181,7 +201,7 @@ const Line = styled.hr`
   }
 `;
 
-const MobileItem = styled.div`
+const MobileItem = styled.article`
   display: none;
   @media (max-width: 576px) {
     display: flex;
@@ -203,6 +223,15 @@ const MobileItemInfo = styled.div`
   align-items: flex-start;
   justify-content: center;
   width: calc(100% - 55px);
+`;
+
+const MobileAuthor = styled.span`
+  width: 100%;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default function Items({
@@ -265,8 +294,18 @@ export default function Items({
   return (
     <>
       <List>
-        <ItemCount>총 {numOfItems.toLocaleString()}개의 게시물이 있습니다.</ItemCount>
+        <ItemCount>
+          {loading ? '게시물을 로드하고 있습니다.' : `총 ${numOfItems.toLocaleString()}개의 게시물이 있습니다.`}</ItemCount>
         <Row>
+          {loading &&
+            <LoaderWrapper>
+              <ClipLoader
+                color={"#175c8e"}
+                size={150}
+                loading={loading}
+              />
+            </LoaderWrapper>
+          }
           {items && items.map((item, index) =>
             <Fragment key={item.id}>
               <Item onClick={() => history.push(`/market/${path}/${item.id}`)}>
@@ -274,10 +313,10 @@ export default function Items({
                   <ItemTitleContent>{item.title.length > 22 ? `${item.title.substr(0, 22)}···` : item.title}</ItemTitleContent>
                   {setDate(item.created_at)[1] &&
                     <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
-                  }  
+                  }
                 </ItemTitleContainer>
                 <ItemInfo>
-                  <span style={{ color: "#175c8e" }}>{item.nickname}</span>
+                  <Author style={{ color: "#175c8e" }}>{item.nickname}</Author>
                   <span style={{ color: "#858585", fontSize: '12px', marginLeft: '15px' }}>{setDate(item.created_at)[0]}</span>
                 </ItemInfo>
                 <ItemThumbnailContainer>
@@ -302,11 +341,10 @@ export default function Items({
                     <ItemTitleContent>{item.title}</ItemTitleContent>
                     {setDate(item.created_at)[1] &&
                       <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
-                    } 
+                    }
                   </ItemTitleContainer>
                   <ItemInfo>
-                    <span>조회 {item.hit} ·</span>
-                    <span> {item.nickname}</span>
+                    <MobileAuthor>조회 {item.hit} · {item.nickname}</MobileAuthor>
                   </ItemInfo>
                   <ItemPrice>{item.price ? item.price.toLocaleString() : '- '}원</ItemPrice>
 

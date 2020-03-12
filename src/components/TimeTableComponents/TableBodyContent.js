@@ -26,7 +26,7 @@ const Content = styled.div`
   border-right: #d2dae2 1px solid;
   float: left;
   word-break: break-all;
-  overflow-x: scroll;
+  overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
   ${ContentStyle};

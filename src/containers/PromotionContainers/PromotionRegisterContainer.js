@@ -13,6 +13,7 @@ export default function PromotionEditContainer({ history, match }) {
   const { data, error, post, myStore } = useSelector(state => state.promotionReducer);
   const [helpButtontonFlag, setHelpButtonFlag] = useState(false);
   const [shops, setShops] = useState([]);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   const [promotion, setPromotion] = useState({
     title: '',
     summary: '',
@@ -59,19 +60,37 @@ export default function PromotionEditContainer({ history, match }) {
     console.log('작성 버튼 클릭');
     const {title, content, summary, start, end, shop } = promotion;
     if (title === "" || content === "") {
-      alert("제목과 내용을 채워주세요");
+      addToast('제목과 내용을 채워주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (title.length > 20) {
-      alert(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`);
+      addToast(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
     if (summary.length > 50) {
-      alert(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`);
+      addToast(`홍보 문구 길이는 최대 50자 입니다. 지금 제목의 길이는 ${summary.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
+    if(!dateRegex.test(start) || !dateRegex.test(end)) {
+      addToast('날짜는 형식에 맞춰 적어주세요. 예시)2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
+    }
     if (shops.length !== 0 && promotion.shop === "") {
-      alert('홍보할 상점을 선택해주세요.');
+      addToast('홍보할 상점을 선택해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return;
     }
 
@@ -82,15 +101,24 @@ export default function PromotionEditContainer({ history, match }) {
     const limitTime = startDate.getTime();
     const endTime = (new Date(end)).getTime();
     if (endTime <= startTime) {
-      alert("시작 일자는 종료 일자보다 앞서야 합니다.");
+      addToast('시작 일자는 종료 일자보다 앞서야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     if (endTime >= limitTime) {
-      alert("최대 홍보 기간은 한 달입니다.");
+      addToast('최대 홍보 기간은 한 달입니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     if (endTime <= today) {
-      alert("종료 일자는 오늘 이후여야 합니다.");
+      addToast('종료 일자는 오늘 이후여야 합니다.', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
       return;
     }
     const link = content.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,256}\b(\/?[-a-zA-Z0-9@:;|_\+.~#%?&//=]*)?/gi)
@@ -147,23 +175,29 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    dispatch(checkMyPendingPromotion({
-      token: sessionStorage.getItem("token")
-    }))
-    dispatch(getMyStore({
-      token: sessionStorage.getItem("token")
-    }))
+    if(!(sessionStorage.getItem("userInfo") && sessionStorage.getItem("userInfo").identity === 5)) {
+      alert("점주만이 홍보 게시글을 작성할 수 있습니다");
+      history.goBack();
+    }
+    if(sessionStorage.getItem("token")) {
+      dispatch(checkMyPendingPromotion({
+        token: sessionStorage.getItem("token")
+      }))
+      dispatch(getMyStore({
+        token: sessionStorage.getItem("token")
+      }))
 
-    const today = new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000);
-    const startDate = today.toISOString().slice(0, 10);
-    today.setDate(today.getDate() + 3);
-    const endDate = today.toISOString().slice(0, 10);
-    setPromotion(promoiton => ({
-      ...promoiton,
-      start: startDate,
-      end: endDate,
-      nickname: JSON.parse(sessionStorage.getItem("userInfo")).nickname
-    }));
+      const today = new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000);
+      const startDate = today.toISOString().slice(0, 10);
+      today.setDate(today.getDate() + 3);
+      const endDate = today.toISOString().slice(0, 10);
+      setPromotion(promoiton => ({
+        ...promoiton,
+        start: startDate,
+        end: endDate,
+        nickname: sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem("userInfo")).nickname : ""
+      }));
+    }
     window.addEventListener('click' , () => {
       setHelpButtonFlag(false)
     })
@@ -197,11 +231,10 @@ export default function PromotionEditContainer({ history, match }) {
   }, [error]);
 
   useEffect(() => {
-    if (post.data) {
-      if (post.data.id) {
-        console.log(post.data)
+    if (post.pendingData) {
+      if (post.pendingData.id) {
         if (window.confirm('현재 진행중인 이벤트가 있습니다.\n수정하시겠습니까?')) {
-          sessionStorage.setItem("postId", post.data.id);
+          sessionStorage.setItem("postId", post.pendingData.id);
           history.replace('/board/promotion/edit');
         } else {
           history.goBack();

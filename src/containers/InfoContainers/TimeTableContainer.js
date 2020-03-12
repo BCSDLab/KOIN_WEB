@@ -165,7 +165,11 @@ export default function TimeTableContainer() {
       sortedData = sortedData.sort((a, b) => a[selectedColumnKey] < b[selectedColumnKey] ? reverse * -1 : reverse * 1);
     }
     isMyLecture ? setLocalMyLectures(sortedData) : setLocalLectures(sortedData);
-  }, [localLectures, localMyLectures])
+  }, [localLectures, localMyLectures]);
+
+  const removeSelectionBorder = useCallback(() => {
+    dispatch(resetSelectedLayout());
+  }, [dispatch]);
 
   // 전체 학기 및 상태 초기화
   useEffect(() => {
@@ -204,12 +208,6 @@ export default function TimeTableContainer() {
   }, [saveLecture]);
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      console.log(window.innerWidth);
-    })
-  }, []);
-
-  useEffect(() => {
     lectures && setLocalLectures(lectures);
   }, [lectures]);
 
@@ -219,50 +217,49 @@ export default function TimeTableContainer() {
 
   return (
     <div>
-      {window.innerWidth > 576 &&
-        <TimeTable
-          isLectureLoading={isLectureLoading}
-          lectures={localLectures}
-          nowLectureIdx={nowLectureIdx}
-          selectLectureInTotalTable={selectLectureInTotalTable}
-          addLectureOnMyTable={addLectureOnMyTable}
-          removeLectureFromMyTable={removeLectureFromMyTable}
-          selectLecturesByMajor={selectLecturesByMajor}
-          searchLecturesByName={searchLecturesByName}
-          sortLectureByColumn={sortLectureByColumn}
+      <TimeTable
+        isLectureLoading={isLectureLoading}
+        lectures={localLectures}
+        nowLectureIdx={nowLectureIdx}
+        selectLectureInTotalTable={selectLectureInTotalTable}
+        addLectureOnMyTable={addLectureOnMyTable}
+        removeLectureFromMyTable={removeLectureFromMyTable}
+        selectLecturesByMajor={selectLecturesByMajor}
+        searchLecturesByName={searchLecturesByName}
+        sortLectureByColumn={sortLectureByColumn}
 
-          isMyLectureLoading={isMyLectureLoading}
-          myLectures={localMyLectures}
-          selectedLayout={selectedLayout}
-          layout={layout}
-          totalSemesters={totalSemesters}
-          selectedSemester={selectedSemester}
-          initStateBySemester={initStateBySemester}
+        isMyLectureLoading={isMyLectureLoading}
+        myLectures={localMyLectures}
+        selectedLayout={selectedLayout}
+        layout={layout}
+        totalSemesters={totalSemesters}
+        selectedSemester={selectedSemester}
+        initStateBySemester={initStateBySemester}
 
-          myTimeTableGrade={myTimeTableGrade}
-        />
-      }
-      {window.innerWidth <= 576 &&
-        <MobileTimeTable
-          totalSemesters={totalSemesters}
-          selectedSemester={selectedSemester}
-          selectedLayout={selectedLayout}
-          layout={layout}
-          initStateBySemester={initStateBySemester}
+        myTimeTableGrade={myTimeTableGrade}
+        removeSelectionBorder={removeSelectionBorder}
+      />
+      <MobileTimeTable
+        totalSemesters={totalSemesters}
+        selectedSemester={selectedSemester}
+        selectedLayout={selectedLayout}
+        layout={layout}
+        initStateBySemester={initStateBySemester}
 
-          lectures={localLectures}
-          myLectures={localMyLectures}
-          nowLectureIdx={nowLectureIdx}
-          isInfoSheet={isInfoSheet}
-          isOpen={isOpen}
-          selectedMyLecture={selectedMyLecture}
-          selectLectureInTotalTable={selectLectureInTotalTable}
-          addLectureOnMyTable={addLectureOnMyTable}
-          removeLectureFromMyTable={removeLectureFromMyTable}
-          selectLecturesByMajor={selectLecturesByMajor}
-          searchLecturesByName={searchLecturesByName}
-        />
-      }
+        lectures={localLectures}
+        myLectures={localMyLectures}
+        nowLectureIdx={nowLectureIdx}
+        isInfoSheet={isInfoSheet}
+        isOpen={isOpen}
+        selectedMyLecture={selectedMyLecture}
+        selectLectureInTotalTable={selectLectureInTotalTable}
+        addLectureOnMyTable={addLectureOnMyTable}
+        removeLectureFromMyTable={removeLectureFromMyTable}
+        selectLecturesByMajor={selectLecturesByMajor}
+        searchLecturesByName={searchLecturesByName}
+        
+        removeSelectionBorder={removeSelectionBorder}
+      />
     </div>
   );
 }

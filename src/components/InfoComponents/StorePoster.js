@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StorePosterImage = styled.img`  
@@ -17,7 +17,7 @@ const StorePosterImage = styled.img`
 const StorePosterArrowButton = styled.a`
   width: 60px;
   height: 60px;
-  background-image: url(${props => 'http://static.koreatech.in/assets/img/' + props.type + '-arrow.png'});
+  background-image: url(${props => 'https://static.koreatech.in/assets/img/' + props.type + '-arrow.png'});
   background-size: 24px 24px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -54,7 +54,7 @@ const StorePosterCloseButton = styled.div`
   width: 33px;
   height: 41px;
   cursor: pointer;
-  background-image: url('http://static.koreatech.in/assets/img/close.png');
+  background-image: url('https://static.koreatech.in/assets/img/close.png');
   
   @media (max-width: 576px) {
     & {
@@ -73,17 +73,17 @@ const StorePosterCloseButton = styled.div`
 
 export default function StorePoster ({
   image,
-  selectedImage,
-  selectImage,
-  close
+  selectedImage: initialImage,
+  toggleDarkBackground
 }) {
+  const [selectedImage, setSelectedImage] = useState(initialImage);
   const selectedIndex = image.findIndex(value => value === selectedImage);
 
   return (
     <>
-      {selectedIndex !== 0 && <StorePosterArrowButton type={'prev'} onClick={() => selectImage(image[selectedIndex - 1])} />}
-      {selectedIndex !== image.length - 1 && <StorePosterArrowButton type={'next'} onClick={() => selectImage(image[selectedIndex + 1])} />}
-      <StorePosterCloseButton onClick={close} />
+      {selectedIndex !== 0 && <StorePosterArrowButton type={'prev'} onClick={() => setSelectedImage(image[selectedIndex - 1])} />}
+      {selectedIndex !== image.length - 1 && <StorePosterArrowButton type={'next'} onClick={() => setSelectedImage(image[selectedIndex + 1])} />}
+      <StorePosterCloseButton onClick={toggleDarkBackground} />
       <StorePosterImage src={selectedImage} />
     </>
   )

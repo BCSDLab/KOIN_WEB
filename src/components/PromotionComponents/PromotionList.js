@@ -63,8 +63,11 @@ const FilterCheckbox = styled.input.attrs({type: 'checkbox'})`
 const PromotionWrapper = styled.div`
   margin-bottom: 73px;
   width: 100%;
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 263px);
   grid-auto-rows: 336px;
   grid-column-gap: 22px;
   grid-row-gap: 33px;
@@ -74,7 +77,7 @@ const PromotionWrapper = styled.div`
     width: 328px;
     min-height: 471px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 156px);
     grid-auto-rows: 226px;
     grid-column-gap: 12px;
     grid-row-gap: 19px;
@@ -108,12 +111,41 @@ const Promotion = styled(Link)`
       }
     }
   ` : css`
-    @media (max-width: 576px) {
-      &:hover ${PromotionStore} {
-        color: #f7941e;
-      }
+    &:hover {
+      border: solid 1px #f7941e;
+    }
+    
+    &:hover ${PromotionStore} {
+      color: #f7941e;
     }
   `)}
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: 261px;
+    height: 334px;
+    margin-right: 22px;
+    margin-bottom: 33px;
+    
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+  
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    width: 154px;
+    height: 226px;
+    margin-right: 12px;
+    margin-bottom: 19px;
+    
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+    
+    &:nth-child(3n) {
+      margin-right: 12px;
+    }
+  }
 `;
 
 const PromotionCover = styled.div`
@@ -191,6 +223,9 @@ const PromotionStore = styled.div`
   letter-spacing: normal;
   text-align: center;
   color: #175c8e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (max-width: 576px) {
     margin-top: 10px;
@@ -201,7 +236,6 @@ const PromotionStore = styled.div`
     line-height: 1.14;
     letter-spacing: normal;
     text-align: center;
-    color: #175c8e;
   }
 `;
 
@@ -236,6 +270,12 @@ const PromotionTitle = styled.div`
     -webkit-line-clamp: 2;
     text-align: center;
     color: #252525;
+  }
+  
+  @media all and (-ms-high-contrast: none) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
   }
 `;
 

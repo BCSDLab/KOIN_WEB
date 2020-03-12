@@ -4,12 +4,7 @@ import storeCategory from '../../static/storeCategory';
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
-
-  @media (max-width: 576px) {
-    border: none;
-  }
 `;
 
 const ListSection = styled.div`
@@ -233,6 +228,9 @@ const ListWrapper = styled.div`
   margin-top: 15px;
   margin-bottom: 30px;
   height: 100%;
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(3, 358px);
   grid-column-gap: 29px;
@@ -250,6 +248,7 @@ const ListWrapper = styled.div`
 `
 
 const ListItem = styled(Link)`
+  display: block;
   border: 1px #175c8e solid;
   padding: 22px 27px;
   cursor: pointer;
@@ -274,6 +273,25 @@ const ListItem = styled(Link)`
     &:hover {
       border: 1px #f7941e solid;
     }
+  }
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: 300px;
+    height: 132px;
+    margin-right: 30px;
+    margin-bottom: 29px;
+    
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+  }
+  
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    width: calc(100% - 34px);
+    height: 60px;
+    margin-right: 0;
+    margin-bottom: 14px;
   }
 `;
 
@@ -487,9 +505,10 @@ export default function StoreList ({
         {!!mobileFlag && <ListHeaderMobile />}
         <ListWrapper>
           {
-            storeList.map(store => (
+            storeList.map((store, index) => (
               <ListItem
                 to={`/store/${store.permalink}`}
+                index={index}
                 key={store.id}>
                 <ListItemTitle>{store.name}</ListItemTitle>
                 {!mobileFlag ? (

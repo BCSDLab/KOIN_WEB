@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
 `;
 
 const DetailInfoSection = styled.div`
   width: 1132px;
-  min-height: 300px;
+  min-height: 600px;
   height: 100%;
   margin: 63px auto 50px auto;
 
@@ -19,7 +18,7 @@ const DetailInfoSection = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   display: flex;
   justify-content: space-between;
   margin-bottom: 21px;
@@ -29,12 +28,13 @@ const Header = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-family: NanumSquare, serif;
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -1.5px;
   color: #175c8e;
+  margin: 0;
 `;
 
 const ListButton = styled.button`
@@ -216,7 +216,7 @@ const LinkButton = styled.button`
   cursor: pointer;
   padding: 8px 16px;
   color: #fff;
-
+  margin-right: 5px;
   @media (max-width: 576px) {
     width: 100%;
     font-size: 14px;
@@ -313,7 +313,7 @@ export default function CircleDetail({ circle, loading, error }) {
                 <LinkButtonList>
                   {circle.link_urls &&
                     circle.link_urls.map((link, index) => (
-                      <LinkButton
+                      link.link && <LinkButton
                         key={index}
                         onClick={() => window.open(link.link)}
                         style={LinkButtonStyle(link.type)}

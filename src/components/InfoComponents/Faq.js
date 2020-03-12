@@ -1,13 +1,8 @@
 import React from 'react'
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width:100%;
-  
-    @media (max-width: 576px) {
-      border-top: none;
-    }
 `;
 
 const Faqs = styled.div`
@@ -23,7 +18,7 @@ const Faqs = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-size: 30px;
   letter-spacing: -1.5px;
   float: left;
@@ -33,11 +28,11 @@ const Title = styled.div`
   height: 59px;
   width: 100%;
   text-align: left;
-  
+  margin: 0;
   @media (max-width: 576px) {
     height: 22px;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
     display: none;
   }
 `;
@@ -272,15 +267,115 @@ const Number = styled.button`
   }
 `;
 
-export default function Faq(
-  {
-    faqList,
-    totalPageNum,
-    nowPageNum,
-    clickPrevButton,
-    clickNextButton,
-    clickPageNum
-  }) {
+const Shine = (height) => keyframes`
+  to {
+    background-position:
+      120% 0, /* move highlight to right */
+      0 0,
+      0 ${height}px,
+      0 ${height*2}px,
+      0 ${height*3}px,
+      0 ${height*4}px,
+      0 ${height*5}px,
+      0 ${height*6}px,
+      0 ${height*7}px,
+      0 ${height*8}px,
+      0 ${height*9}px;
+  }
+`;
+
+const Skeleton = styled.div`
+  width: 1134px;
+  height: 720px;
+  background-image:
+    linear-gradient( 
+      100deg, rgba(255, 255, 255, 0), 
+      rgba(255, 255, 255, 0.5) 50%, 
+      rgba(255, 255, 255, 0) 80% ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 ),
+    linear-gradient( lightgray 57px, transparent 0 );
+
+  background-repeat: no-repeat;
+  background-size:
+    10% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%; 
+    
+    /* highlight */
+  background-position:
+    0 0, /* highlight */
+    0 0,
+    0 72px,
+    0 144px,
+    0 216px,
+    0 288px,
+    0 360px,
+    0 432px,
+    0 504px,
+    0 576px,
+    0 648px;
+   animation: ${Shine(72)} 1s infinite;
+
+  @media (max-width: 576px) {
+    width: 100%;
+    height: 760px;
+    background-image:
+      linear-gradient( 
+        100deg, rgba(255, 255, 255, 0), 
+        rgba(255, 255, 255, 0.5) 50%, 
+        rgba(255, 255, 255, 0) 100% ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 ),
+      linear-gradient( lightgray 61px, transparent 0 );
+
+    background-position:
+      0 0, /* highlight */
+      0 0,
+      0 76px,
+      0 152px,
+      0 228px,
+      0 304px,
+      0 380px,
+      0 456px,
+      0 532px,
+      0 608px,
+      0 684px;
+    animation: ${Shine(76)} 1s infinite;
+  }
+`;
+
+export default function Faq({
+  faqList,
+  loading,
+  totalPageNum,
+  nowPageNum,
+  clickPrevButton,
+  clickNextButton,
+  clickPageNum
+}) {
   return (
     <Container>
       <Faqs>
@@ -296,6 +391,11 @@ export default function Faq(
         }}>
           질문하기
         </AskButton>
+        {loading && 
+          <Tab>
+            <Skeleton />
+          </Tab>
+        }
         {faqList.map((faq, index) => {
           return (
             <Tab key={index}>

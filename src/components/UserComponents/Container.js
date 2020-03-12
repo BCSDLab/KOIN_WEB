@@ -8,6 +8,12 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    text-align: center;
+    display: block;
+  }
 `;
 
 const FormWrapper = styled.div`

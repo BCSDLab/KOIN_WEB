@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
-  height: 81px;
+  height: 80px;
   background-color: #175c8e;
   padding-right: 14px;
   z-index: 15;
@@ -180,7 +180,7 @@ export default React.memo(function SearchBar({
           onClick={() => onClickSearchButton(searchWord)}
         />
       </Row>
-      {searchWordList && <SearchWordListContainer>
+      {!!searchWordList.length && <SearchWordListContainer>
         <SearchWordListHead>
           <span>최근 검색</span>
           <span style={{ cursor: 'pointer' }} onClick={() => onClickDeleteSearchWordBtn()}>전체 삭제</span>

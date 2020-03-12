@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled.section`
   width: 813px;
 `;
 
@@ -17,7 +17,7 @@ const BoardList = styled.div`
   justify-content: space-between;
 `;
 
-const BoardName = styled.div`
+const BoardName = styled.h2`
   font-family: NanumSquare;
   font-size: 17px;
   font-weight: ${props => props.isSelected ? "600" : "500"};
@@ -26,7 +26,7 @@ const BoardName = styled.div`
   text-align: center;
   color: ${props => props.isSelected ? "#175c8e" : "#bbbbbb"};
   padding: 0 0 5px 0;
-  margin-right: 20px;
+  margin: 0 20px 0 0;
   cursor: pointer;
   border-bottom: ${props => props.isSelected ? "2px solid #175c8e" : "none"};
 `;
@@ -46,13 +46,13 @@ const ShowMore = styled.div`
 `;
 
 const MoreIcon = styled.img.attrs({
-  src: "http://static.koreatech.in/assets/img/ic-more.png"
+  src: "https://static.koreatech.in/assets/img/ic-more.png"
 })`
   width: 15px;
   height: 15px;
 `;
 
-const Article = styled.div`
+const Article = styled.article`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -120,15 +120,13 @@ const ArticleComment = styled.span`
   margin-left: 10px;
 `;
 
-export default function IndexBoardList(
-  {
-    history,
-    boardList,
-    selectedBoard,
-    selectBoard,
-    articles
-  }
-) {
+export default React.memo(function IndexBoardList({
+  history,
+  boardList,
+  selectedBoard,
+  selectBoard,
+  articles
+}) {
   function clickShowMore(index) {
     switch (index) {
       case 0:
@@ -306,4 +304,4 @@ export default function IndexBoardList(
       </ArticleList>
     </Container>
   )
-}
+})

@@ -46,7 +46,7 @@ const StyledMarker = styled.div`
   animation-fill-mode: both;
   animation-duration: 1s;
   border: 4px solid transparent;
-  --webkit-animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 
   &::after {

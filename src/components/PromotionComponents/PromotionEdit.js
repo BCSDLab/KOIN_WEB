@@ -456,6 +456,8 @@ const WarningText = styled.div`
 
 const DatePickerField = styled.div`
   display: flex;
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
   justify-content: flex-start;
   width: 147px;
   border: 1px solid #175c8e;
@@ -464,27 +466,24 @@ const DatePickerField = styled.div`
   margin: 0 7px;
   
   & label {
-    display: flex;
-    padding-left: 14px;
+    display: block;
+    flex: none;
+    margin-left: 12px;
+    margin-right: 2px;
+    width: 19px;
+    height: 19px;
     cursor: pointer;
     color: #707070;
     line-height: 1.7;
-  }
-  
-  & label::before {
-    display: inline-block;
-    content: "";
-    width: 19px;
-    height: 19px;
-    flex: none;
-    background-image: url("http://static.koreatech.in/assets/img/ic_calendar%403x.png");
+    background-image: url("https://static.koreatech.in/assets/img/ic_calendar%403x.png");
     background-repeat: no-repeat;
-    background-size: 19px;
+    background-size: 19px 19px;
   }
 `;
 
 const DatePicker  = styled.input.attrs({type: 'date'})`
   border: 0;
+  width: 122px;
   font-family: NanumBarunGothic, serif;
   font-size: 13px;
   
@@ -563,6 +562,7 @@ const EditButton = styled.input.attrs({type: 'button'})`
     padding: 16px;
     border: none;
     right: 0;
+    z-index: 21;
   }
 `;
 
@@ -593,6 +593,7 @@ const CancelButton = styled.input.attrs({type: 'button'})`
     padding: 16px;
     border: none;
     left: 0;
+    z-index: 21;
   }
 `;
 

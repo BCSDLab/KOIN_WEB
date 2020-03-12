@@ -64,6 +64,7 @@ const initialState = {
     data: null,
     loading: false,
     error: null,
+    pendingData: null,
     totalPageNum: 0,
     pageNum: 1,
     PAGE_MAX_SIZE: 5
@@ -219,7 +220,7 @@ export default function promotionReducer(state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          data: null,
+          pendingData: null,
           loading: true,
           error: null
         }
@@ -229,7 +230,7 @@ export default function promotionReducer(state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          data: action.payload,
+          pendingData: action.payload,
           loading: false,
           error: null
         }
@@ -239,7 +240,7 @@ export default function promotionReducer(state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          data: null,
+          pendingData: null,
           loading: false,
           error: action.error
         }

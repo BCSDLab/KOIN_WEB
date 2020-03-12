@@ -1,15 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Pagination from "../SharedComponents/Pagination";
-import {Link} from "react-router-dom";
 
 const Main = styled.div`
   width: 100%;
-  border-top: #f7941e 5px solid;
-  
-  @media (max-width: 576px) {
-    border-top: none;
-  }
 `;
 
 const Container = styled.div`
@@ -36,14 +30,14 @@ const List = styled.div`
   }
 `;
 
-const HeadTitle = styled.div`
+const HeadTitle = styled.h1`
   float: left;
   font-size: 30px;
   letter-spacing: -1.5px;
   font-weight: 800;
   color: #175c8e;
   font-family: "NanumSquare", serif;
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
   cursor: pointer;
   
   @media (max-width: 576px) {
@@ -77,15 +71,7 @@ const Table = styled.table`
   margin-bottom: 22px;
   
   @media (max-width: 576px) {
-    border: none;
-    
-    thead {
-      display: none;
-    }
-
-    tbody td {
-      display: none;
-    }
+    display: none;
   }
   
   thead tr {
@@ -171,8 +157,26 @@ const CommentCount = styled.span`
 `;
 
 const Nickname = styled.td`
-  width: 147px;
-  color: #175c8e;
+  span {
+    width: 147px;
+    color: #175c8e;
+    overflow: hidden;
+    white-space: pre-line;
+    display:-webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-box-pack: center;
+    line-height: 15px;
+    margin: 21px auto;
+  }
+  
+  @media all and (-ms-high-contrast: none) {
+    span {
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
 `;
 
 const LostDate = styled.td`
@@ -226,6 +230,12 @@ const MobileMiddleInfo = styled.span`
   line-height: 1.54;
   letter-spacing: -0.7px;
   color: #a1a1a1;
+  width: 100%;
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const MobileDate = styled.span`
@@ -267,6 +277,10 @@ const MobileWrite = styled.img.attrs({
   }
 `;
 
+const Mobile = styled.div`
+  margin-bottom: 22px;
+`;
+
 export default function LostItemList(
   {
     lostItems,
@@ -278,8 +292,13 @@ export default function LostItemList(
 ) {
   function goRegister() {
     if (sessionStorage.getItem('userInfo')) {
-      history.push('/lost/register');
-    } else {
+      if(!(JSON.parse(sessionStorage.getItem('userInfo')).nickname)){
+        alert("닉네임이 필요합니다.");
+        history.push('/modifyinfo');
+      }
+      else history.push('/lost/register');
+    }
+    else {
       if (window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
@@ -290,14 +309,14 @@ export default function LostItemList(
     <Main>
       <Container>
         <List>
-          <div>
+          <header>
             <HeadTitle>
               분실물
             </HeadTitle>
             <WriteBtn onClick={() => goRegister()}>
               글쓰기
             </WriteBtn>
-          </div>
+          </header>
           <Table>
             <thead>
             <tr>
@@ -336,7 +355,9 @@ export default function LostItemList(
                     </CommentCount>
                   </Title>
                   <Nickname>
-                    {items.nickname}
+                    <span>
+                      {items.nickname}
+                    </span>
                   </Nickname>
                   <LostDate>
                     {items.date}
@@ -347,27 +368,34 @@ export default function LostItemList(
                   <Hit>
                     {items.hit}
                   </Hit>
-                  <MobileList>
-                    <MobileTitle>
-                      <span>{items.title}</span>
-                      <MobileCommentCount>
-                        {items.comment_count !== 0 &&
-                        " (" + items.comment_count + ")"
-                        }
-                      </MobileCommentCount>
-                    </MobileTitle>
-                    <MobileInfo>
-                      <MobileMiddleInfo>조회 {items.hit} · </MobileMiddleInfo>
-                      <MobileMiddleInfo>{items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
-                      <MobileDate>{items.created_at.slice(0, 10).replace('-', '.').replace('-', '.')}</MobileDate>
-                    </MobileInfo>
-                    <MobileLostDate>{items.type === 0 ? '습득일' : '분실일'}&nbsp;{items.date}</MobileLostDate>
-                  </MobileList>
                 </tr>
               )
             })}
             </tbody>
           </Table>
+          <Mobile>
+          {lostItems.map((items, id) => {
+            return (
+              <MobileList
+                key={id}
+                onClick={() => history.push(`/lost/detail/${items.id}`)}>
+                <MobileTitle>
+                  <span>{items.title}</span>
+                  <MobileCommentCount>
+                    {items.comment_count !== 0 &&
+                    " (" + items.comment_count + ")"
+                    }
+                  </MobileCommentCount>
+                </MobileTitle>
+                <MobileInfo>
+                  <MobileMiddleInfo>조회 {items.hit} · {items.nickname === undefined ? items.author : items.nickname}</MobileMiddleInfo>
+                  <MobileDate>{items.created_at.slice(0, 10).replace('-', '.').replace('-', '.')}</MobileDate>
+                </MobileInfo>
+                <MobileLostDate>{items.type === 0 ? '습득일' : '분실일'}&nbsp;{items.date}</MobileLostDate>
+              </MobileList>
+            )
+          })}
+          </Mobile>
           <Pagination
             totalPageNum={totalPageNum}
             setPageData={setPageData}

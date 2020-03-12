@@ -21,6 +21,29 @@ export default function PostListContainer({ history, match }) {
   
   // 게시판 진입 시
   useEffect(() => {
+    switch(match.params.type) {
+      case 'notice':
+        sessionStorage.setItem("boardId", 4);
+        break;
+      case 'free':
+        sessionStorage.setItem("boardId", 1);
+        break;
+      case 'job':
+        sessionStorage.setItem("boardId", 2);
+        break;
+      case 'question':
+        sessionStorage.setItem("boardId", 10);
+        break;
+      case 'anonymous':
+        sessionStorage.setItem("boardId", -1);
+        break;
+      case 'promotion':
+        sessionStorage.setItem("boardId", 6);
+        break;
+      default:
+        sessionStorage.setItem("boardId", 1);
+        break;
+    }
     setBoardId(sessionStorage.getItem("boardId"));
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
@@ -35,6 +58,7 @@ export default function PostListContainer({ history, match }) {
       }
       sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
     } else {
+      // 게시판 -> 다른 게시판 이동 or 다른 서비스 -> 게시판 이동
       console.log("세션에 페이지 있을 때");
       const boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
       getPostList(boardPageNum[match.params.type])
@@ -42,15 +66,15 @@ export default function PostListContainer({ history, match }) {
   }, []);
 
   // 게시판 -> 다른 게시판 이동 시 data 변경.
-  useEffect(() => {
-    if (lastLocation && !lastLocation.pathname.indexOf('/board')) {
-      if (!lastLocation.pathname.includes(match.url)) {
-        console.log("게시판 -> 다른 게시판");
-        const boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
-        getPostList(boardPageNum[match.params.type]);
-      }
-    }
-  },[match]);
+  // useEffect(() => {
+  //   if (lastLocation && !lastLocation.pathname.indexOf('/board')) {
+  //     if (!lastLocation.pathname.includes(match.url)) {
+  //       console.log("게시판 -> 다른 게시판");
+  //       const boardPageNum = JSON.parse(sessionStorage.getItem("bpn"));
+  //       getPostList(boardPageNum[match.params.type]);
+  //     }
+  //   }
+  // },[match]);
 
   return (
     <>

@@ -127,6 +127,10 @@ const LectureWrapper = styled.div`
   background: ${props => props.selected ? 'rgb(246, 246, 246)' : '#ffffff'};
 `;
 
+const LectureSelectArea = styled.div`
+  flex: 1;
+`;
+
 const LectureName = styled.div`
   font-size: 15px;
   font-weight: bold;
@@ -285,18 +289,24 @@ export default function MobileLectureSheet({
     }
   }
 
-  const removeLecture = () => {
-    let index, id;
+  const removeLecture = lecture => {
+    let index, id, lectureData;
+    if (lecture) {
+      lectureData = lecture;
+    } else {
+      lectureData = selectedMyLecture;
+    }
     for (let i = 0; i < myLectures.length; i++) {
-      if (myLectures[i].name === selectedMyLecture.name &&
-          JSON.stringify(myLectures[i].class_time) === JSON.stringify(selectedMyLecture.class_time) &&
-          myLectures[i].lecture_class === selectedMyLecture.lecture_class) 
+      if (myLectures[i].name === lectureData.name &&
+          JSON.stringify(myLectures[i].class_time) === JSON.stringify(lectureData.class_time) &&
+          myLectures[i].lecture_class === lectureData.lecture_class) 
         {
           index = i;
           id = myLectures[i].id
           break;
         }
     }
+    
     removeLectureFromMyTable(index, id);
     dispatch(updateSheetType({
       flag: false,
@@ -307,7 +317,7 @@ export default function MobileLectureSheet({
   return (
     <Container isOpen={isOpen}>
       <Header>
-        {isInfoSheet && <RemoveButton onClick={removeLecture}>삭제</RemoveButton>}
+        {isInfoSheet && <RemoveButton onClick={() => removeLecture()}>삭제</RemoveButton>}
         <Title>{isInfoSheet ? '수업 상세' : '수업 추가'}</Title>
         {!isInfoSheet && <CloseButton onClick={() => dispatch(toggleSheetOpen())}>완료</CloseButton>}
       </Header>
@@ -327,7 +337,7 @@ export default function MobileLectureSheet({
               />
               <IconImage
                 onClick={() => searchLecturesByName(searchWord)}
-                src={"http://static.koreatech.in/assets/img/ic-search-gray.png"} />
+                src={"https://static.koreatech.in/assets/img/ic-search-gray.png"} />
             </SearchFieldWrapper>
           </HelperSection>
           {lectures &&
@@ -341,9 +351,8 @@ export default function MobileLectureSheet({
                 <LectureWrapper
                   style={style}
                   key={index}
-                  selected={nowLectureIdx === index}
-                  onClick={() => selectLectureInTotalTable(false, lectures[index], index)}>
-                  <div>
+                  selected={nowLectureIdx === index}>
+                  <LectureSelectArea onClick={() => selectLectureInTotalTable(false, lectures[index], index)}>
                     <LectureName>{lectures[index].name}</LectureName>
                     <LectureInfo>
                       {`${lectures[index].lecture_class}분반 / ${lectures[index].department} / ${lectures[index].target}`}
@@ -351,16 +360,16 @@ export default function MobileLectureSheet({
                     <LectureInfo>
                       { `${convertClassTime(lectures[index].class_time)} / ${lectures[index].professor === " " ? "미배정" : `${lectures[index].professor}`} / ${lectures[index].code}`}
                     </LectureInfo>
-                  </div>
+                  </LectureSelectArea>
                   <Button>
                     <ButtonImage
                       src={
                         isMyLecture(lectures[index])
-                          ? "http://static.koreatech.in/assets/img/ic-delete.png"
-                          : "http://static.koreatech.in/assets/img/ic-add.png"}
+                          ? "https://static.koreatech.in/assets/img/ic-delete.png"
+                          : "https://static.koreatech.in/assets/img/ic-add.png"}
                       onClick={
                         isMyLecture(lectures[index])
-                          ? () => removeLectureFromMyTable(index, lectures[index].id)
+                          ? () => removeLecture(lectures[index])
                           : () => addLectureOnMyTable(lectures[index])
                       }      
                     />

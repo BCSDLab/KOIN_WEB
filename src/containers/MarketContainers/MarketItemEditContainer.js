@@ -94,6 +94,13 @@ export default function MarketItemEditContainer({ history, match }) {
       });
       return;
     }
+    if(isNaN(price)) {
+      addToast('가격은 숫자로 입력해주세요', {
+        appearance: 'warning',
+        autoDismiss: true
+      })
+      return
+    }
     if (isOpen && !regExp.test(phone)) {
       addToast(`핸드폰 번호 형식이 잘못되었습니다.`, {
         appearance: 'warning',
@@ -117,11 +124,13 @@ export default function MarketItemEditContainer({ history, match }) {
     }
     if (price || price.length) body['price'] = parseInt(price);
     if (isOpen) body['phone'] = phone;
-    dispatch(editItem({
-      id: sessionStorage.getItem("itemId"),
-      token: sessionStorage.getItem("token"),
-      body
-    }));
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
+      dispatch(editItem({
+        id: sessionStorage.getItem("itemId"),
+        token: sessionStorage.getItem("token"),
+        body
+      }));
+    }
   }
 
   const onClickCheckbox = flag => {
@@ -231,7 +240,9 @@ export default function MarketItemEditContainer({ history, match }) {
 
   return (
     <>
-      <Header match={match}>
+      <Header
+        match={match}
+        history={history}>
         <ButtonGroup
           match={match}
           history={history}

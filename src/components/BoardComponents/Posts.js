@@ -10,7 +10,7 @@ const Table = styled.div`
   font-size: 13px;
   width: 834px;
   margin-bottom: 22px;
-
+  letter-spacing: -0.8px;
   @media (max-width: 576px) {
     width: 100%;
     border: none;
@@ -47,7 +47,7 @@ const TableHeadContent = styled.div`
   justify-content: center;
 `;
 
-const TableBodyRow = styled.div`
+const TableBodyRow = styled.article`
   height: 68px;
   cursor: pointer;
   border-bottom: 1px #d2dae2 solid;
@@ -63,14 +63,42 @@ const TableBodyRow = styled.div`
   }
 `;
 
+const PostTitle = styled.span`
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const PostTitleStyle = css`
-  width: 422px;
+  width: 412px;
   font-size: 15px;
   justify-content: flex-start;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-right: 10px;
 `;
+
+const PostAuthorStyle = css`
+  overflow: hidden;
+  white-space: pre-line;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  line-height: 15px;
+  height: 30px;
+  margin: 19px 5px;
+  
+  @media all and (-ms-high-contrast: none) {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: normal;
+    margin-top: 23px;
+  }
+`
 
 const TableBodyContent = styled.div`
   height: 100%;
@@ -78,7 +106,9 @@ const TableBodyContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${props => props.title && PostTitleStyle};
+  ${props => props.isTitle && PostTitleStyle};
+  ${props => props.isAuthor && PostAuthorStyle}
+  
   @media (max-width: 576px) {
     display: none;
   }
@@ -151,6 +181,15 @@ const MobilePostInfo = styled.div`
   }
 `;
 
+const MobileNicknameStyle = css`
+  width: calc(100% - 66px);
+  display: inline-block;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const MobilePostInfoText = styled.span`
   display: none;
   @media (max-width: 576px) {
@@ -160,6 +199,8 @@ const MobilePostInfoText = styled.span`
     line-height: 1.54;
     letter-spacing: -0.7px;
     color: #a1a1a1;
+    
+    ${props => props.nickname && MobileNicknameStyle}
   }
 `;
 
@@ -481,7 +522,7 @@ export default function Posts({
           </TableHeadRow>
         </TableHead>
         <div>
-          {loading && 
+          {loading &&
             <LoaderWrapper>
               <ClipLoader
                 color={"#175c8e"}
@@ -490,29 +531,28 @@ export default function Posts({
               />
             </LoaderWrapper>
           }
-          {!loading && posts && posts.map((post, index) => 
+          {!loading && posts && posts.map((post, index) =>
             <TableBodyRow key={index} onClick={() => history.push(`/board/${path}/${post.id}`)}>
               <TableBodyContent style={{ width: '85px' }}>{post.id}</TableBodyContent>
-              <TableBodyContent title="true">
+              <TableBodyContent isTitle>
                 <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
-                <span>{convertTitle(post.title)}</span>
+                <PostTitle>{convertTitle(post.title)}</PostTitle>
                 {post.comment_count !== 0 && <CommentCount>[{post.comment_count}]</CommentCount>}
                 {setDate(post.created_at)[1] &&
                   <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"} />
                 }
               </TableBodyContent>
-              <TableBodyContent style={{ width: '149px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
+              <TableBodyContent isAuthor style={{ width: '139px', color: "#175c8e" }}>{post.nickname || post.author}</TableBodyContent>
               <TableBodyContent style={{ width: '70px', fontSize: '15px' }}>{setDate(post.created_at)[0]}</TableBodyContent>
               <TableBodyContent style={{ width: '108px' }}>{post.hit}</TableBodyContent>
-              <MobilePostWrapper key={index} onClick={() => history.push(`${path}/${post.id}`)}>
+              <MobilePostWrapper key={index}>
                 <MobilePostTitle>
                   <span style={{ fontWeight: '600' }}>{convertNoticeTag(post.board_id)}</span>
                   <span>{convertTitle(post.title)}</span>
                   {post.comment_count !== 0 && <span style={{ color: '#175c8e' }}>[{post.comment_count}]</span>}
                 </MobilePostTitle>
                 <MobilePostInfo>
-                  <MobilePostInfoText>조회 {post.hit} · </MobilePostInfoText>
-                  <MobilePostInfoText>{post.nickname || post.author}</MobilePostInfoText>
+                  <MobilePostInfoText nickname>조회 {post.hit} · {post.nickname || post.author}</MobilePostInfoText>
                   <MobilePostInfoText style={{fontWeight: "300", float: 'right' }}>{setDate(post.created_at)[0]}</MobilePostInfoText>
                 </MobilePostInfo>
               </MobilePostWrapper>

@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import parse from 'html-react-parser';
 
 const Container = styled.div`
-  border-top: #f7941e 5px solid;
   width: 100%;
-  height: 100%;
   min-height: calc(100vh - 84px);
   margin: auto;
-
-  @media (max-width: 576px) {
-    border: none;
-  }
 `;
 
 const DetailSection = styled.div`
@@ -46,7 +41,7 @@ const Header = styled.div`
 const StoreInfo = styled.div`
   width: 100%;
   text-align: left;
-  height: 407px;
+  min-height: 407px;
   padding: 39px 0;
   box-sizing: border-box;
   border-bottom: solid 1px #ececec;
@@ -65,7 +60,7 @@ const StoreInfo = styled.div`
 `;
 
 const StoreInfoDetail = styled.div`
-  height: 330px;
+  min-height: 330px;
   display: flex;
   flex-direction: column;
   
@@ -140,6 +135,14 @@ const StoreInfoDetailText = styled.div`
   }
 `;
 
+const StoreOtherInfo = styled.div`
+  display: flex;
+`;
+
+const StoreOtherInfoContent = styled.div`
+  display: inline-block;
+`;
+
 const StoreInfoImageWrapper = styled.div`
   width: 330px;
   height: 330px;
@@ -173,7 +176,7 @@ const StoreInfoImage = styled.img`
     
     & + & {
       display: block;
-      margin-left 10px;
+      margin-left: 10px;
     }
   }
 `;
@@ -253,6 +256,9 @@ const StoreMenuTitle = styled.div`
 `;
 
 const StoreMenuCardWrapper = styled.div`
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 74px;
@@ -305,6 +311,25 @@ const StoreMenuCard = styled.div`
       font-size: 13px;
     }
   }
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: 497px;
+    height: 72px;
+    margin-right: 14px;
+    margin-bottom: 11px;
+    
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+  
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    width: calc(100% - 26px);
+    height: 60px;
+    margin-right: 0;
+    margin-bottom: 14px;
+  }
 `
 
 export default function StoreDetail ({
@@ -340,10 +365,15 @@ export default function StoreDetail ({
                 <span>배달요금</span>
                 {store.delivery_price.toLocaleString()}원
                 <br/>
-                <span>기타정보</span>
-                {store.description ?
-                  store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />') :
-                  '-'}
+                <StoreOtherInfo>
+                  <span>기타정보</span>
+                  <StoreOtherInfoContent>
+                    {store.description ?
+                      parse(store.description.replace(/(?:\\r\\n|\\r|\\n|\r|\n|\r\n)/g, '<br />')) :
+                      '-'
+                    }
+                  </StoreOtherInfoContent>
+                </StoreOtherInfo>
               </StoreInfoDetailText>
               <StoreInfoTagWrapper>
                 {store.delivery && <span>#배달가능</span>}
@@ -378,7 +408,7 @@ export default function StoreDetail ({
             <>
               <StoreMenuTitle>MENU</StoreMenuTitle>
               <StoreMenuCardWrapper>
-                {store.menus.map(
+                {store.menus.filter(menu => menu.price_type).map(
                   menu => {
                     return menu.price_type.map(
                         price => ({...price, name: menu.name})
