@@ -1,18 +1,44 @@
 {
   "name": "koin-web",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.0",
+    "dom-to-image": "^2.6.0",
+    "env-cmd": "^10.1.0",
+    "html-react-parser": "^0.10.1",
+    "js-cookie": "^2.2.1",
+    "polished": "^3.4.2",
+    "query-string": "^6.11.0",
     "react": "^16.12.0",
+    "react-app-polyfill": "^1.0.6",
+    "react-awesome-swiper": "^1.4.10",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-naver-maps": "^0.0.13",
+    "react-quill": "^1.3.3",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "react-router-last-location": "^2.0.1",
+    "react-scripts": "3.4.0",
+    "react-spinners": "^0.7.2",
+    "react-toast-notifications": "^2.4.0",
+    "react-transition-group": "^4.3.0",
+    "react-window": "^1.8.5",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^1.1.3",
+    "redux-thunk": "^2.3.0",
+    "sha256": "^0.2.0",
+    "styled-components": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build:staging": "GENERATE_SOURCEMAP=false env-cmd -f .env.staging react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -26,6 +52,7 @@
       "not op_mini all"
     ],
     "development": [
+      "ie 11",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
