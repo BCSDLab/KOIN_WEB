@@ -221,7 +221,7 @@ export default React.memo(function LectureListTable({
       {lectures &&
         <StyledList
           width={766}
-          height={420}
+          height={isMyLecture ? 139 : 420}
           itemData={lectures}
           itemCount={lectures.length}
           itemSize={34}>
