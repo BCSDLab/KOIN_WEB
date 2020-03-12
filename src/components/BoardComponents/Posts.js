@@ -88,7 +88,8 @@ const PostAuthorStyle = css`
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   line-height: 15px;
-  margin: 19px 5px 20px 5px;
+  height: 30px;
+  margin: 19px 5px;
   
   @media all and (-ms-high-contrast: none) {
     display: inline-block;
