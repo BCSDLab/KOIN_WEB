@@ -233,6 +233,10 @@ const Body = styled.div`
   line-height: 1.73;
   letter-spacing: -0.8px;
   color: #555555;
+  
+  & img {
+    max-width: 100%;
+  }
 
   @media (max-width: 576px) {
     width: 100%;
@@ -240,6 +244,10 @@ const Body = styled.div`
     padding: 15px 16px;
     border-top: none;
     color: #252525;
+    
+    & img {
+      max-width: 100%;
+    }
   }
 `;
 
@@ -406,7 +414,7 @@ export default function Item({
                 {item.comments.length !== 0 && <ItemCommentNum>[{item.comments.length}]</ItemCommentNum>}
                 {setDate(item.created_at)[1] &&
                   <NewTag src={"https://static.koreatech.in/upload/7f2af097aeeca368b0a491f9e00f80ca.png"}/>
-                } 
+                }
               </ItemTitleContainer>
               <ItemInfo style={{ fontSize: '13px' }}>
                 <span style={{ color: "#175c8e" }}>{item.nickname}</span>
@@ -416,7 +424,7 @@ export default function Item({
                 <ItemState state={item.state}>{setState(item.state)}</ItemState>
                 <ItemPrice state={item.state}>{item.price ? item.price.toLocaleString() : '- '}원</ItemPrice>
               </ItemInfo>
-              
+
 
               <Guide>
                 <AlretImage src={"https://static.koreatech.in/upload/6179219f1d42a44c5063d779f20ad3b0.png"} />
@@ -446,7 +454,7 @@ export default function Item({
                 <MobileItemInfo>
                   <span>조회{item.hit}·{item.nickname}</span>
                   <span>{setDate(item.created_at)[0]}</span>
-                </MobileItemInfo>    
+                </MobileItemInfo>
                 <ItemPrice state={item.state}>{item.price ? item.price.toLocaleString() : '- '}원</ItemPrice>
                 {isMyItem &&
                   <ButtonGroup>
