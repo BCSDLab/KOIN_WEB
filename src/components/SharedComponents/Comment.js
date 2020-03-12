@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 import parse from 'html-react-parser';
+import { useToasts } from 'react-toast-notifications';
 
 const BoardSubInfo = styled.div`
   border-top: 1px solid #edf0f3;
@@ -323,7 +324,7 @@ export default function Comment(
   }); // 익명게시판 게시글 등록용
   const [content, setContent] = useState(''); // 게시글 수정용 comment data
   const [password, setPassword] = useState(''); // 익명게시판 게시글 수정용
-
+  const { addToast } = useToasts();
   const changeTime = time => {
     let times = time.split(" ");
     let date = times[0].split("-");
@@ -364,8 +365,25 @@ export default function Comment(
     if(comment.length) {
       if (sessionStorage.getItem('boardId') === '-1') {
         const { nickname, password } = tempInfo;
-        if (!nickname.length || !password.length) {
-          alert("닉네임과 비밀번호는 필수입니다.");
+        if (!nickname.length || !nickname) {
+          addToast("닉네임을 입력해주세요.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
+          return;
+        }
+        if (nickname.length > 10) {
+          addToast("닉네임은 10글자 이하여야 합니다.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
+          return;
+        }
+        if (!password.length || !password) {
+          addToast("비밀번호를 입력해주세요.", {
+            appearance: "warning",
+            autoDismiss: true
+          });
           return;
         }
         registerComment(comment, tempInfo)
@@ -378,7 +396,11 @@ export default function Comment(
         password: ""
       });
     } else {
-      alert("내용을 입력해주세요.");
+      addToast("내용을 입력해주세요.", {
+        appearance: "warning",
+        autoDismiss: true
+      });
+      return;
     }
   }
 
@@ -397,12 +419,12 @@ export default function Comment(
   }
 
   const checkPermission = () => {
-    if ((sessionStorage.getItem("token")) === null && sessionStorage.getItem('boardId') !== '-1') {
+    const userInfo = sessionStorage.getItem("userInfo");
+    if ( sessionStorage.getItem('boardId') !== '-1' && !sessionStorage.getItem("token")) {
       if (window.confirm('로그인해야 작성하실 수 있습니다. 로그인하시겠습니까?')) {
         history.push('/login');
       }
-    }
-    else if(!(JSON.parse(sessionStorage.getItem('userInfo')).nickname) && sessionStorage.getItem('boardId') !== '-1'){
+    } else if(sessionStorage.getItem('boardId') !== '-1' && userInfo && !JSON.parse(userInfo).nickname){
       alert("닉네임이 필요합니다.");
       history.push('/modifyinfo');
     }
