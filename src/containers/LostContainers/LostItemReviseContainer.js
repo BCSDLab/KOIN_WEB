@@ -74,7 +74,7 @@ export default function LostItemReviseContainer({history}) {
     let registerPhoneNumber = phoneNumber;
     let registerDate = date;
 
-    if(title === '' || content === '') {
+    if(title === '' || !content) {
       addToast('제목이나 내용을 추가해주세요.', {
         appearance: 'warning',
         autoDismiss: true
