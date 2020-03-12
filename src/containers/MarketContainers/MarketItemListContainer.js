@@ -36,6 +36,11 @@ export default function MarketItemListContainer({ history, match }) {
 
   // 중고장터 진입 시
   useEffect(() => {
+    if (match.params.type === 'sell') {
+      sessionStorage.setItem("marketId", 0);
+    } else {
+      sessionStorage.setItem("marketId", 1);
+    }
     setMarketId(sessionStorage.getItem("marketId"));
     if (!sessionStorage.getItem("mpn")) {
       console.log("세션에 페이지 없을 때");
@@ -52,16 +57,16 @@ export default function MarketItemListContainer({ history, match }) {
   }, []);
 
   // 팝니다 -> 삽니다, 삽니다 -> 팝니다 전환
-  useEffect(() => {
-    if (lastLocation && !lastLocation.pathname.indexOf('/market')) {
-      if (!lastLocation.pathname.includes(match.url)) {
-        console.log("팝->삽 || 삽->팝");
-        setIsMyItems(false);
-        const marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
-        getItemList(marketPageNum[match.params.type]);
-      }
-    }
-  }, [match]);
+  // useEffect(() => {
+  //   if (lastLocation && !lastLocation.pathname.indexOf('/market')) {
+  //     if (!lastLocation.pathname.includes(match.url)) {
+  //       console.log("팝->삽 || 삽->팝");
+  //       setIsMyItems(false);
+  //       const marketPageNum = JSON.parse(sessionStorage.getItem("mpn"));
+  //       getItemList(marketPageNum[match.params.type]);
+  //     }
+  //   }
+  // }, [match]);
 
   return (
     <>

@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const MenusContainer = styled.div`
+  display: -ms-grid;
+  -ms-grid-columns: 163px 162px 163px 162px 163px 162px 160px;
   display: grid;
   grid-template-columns: 163px 162px 163px 162px 163px 162px 160px;
   position: relative;
@@ -32,6 +34,15 @@ const Menus = styled.div`
 
 const InnerContainer = styled.div`
   margin-right: 3px;
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    -ms-grid-column: ${props => Number(props.index) + 1};
+    
+    &:last-child {
+      margin: 0;
+    }
+  }
 `;
 
 const Menu = styled.div`
@@ -64,7 +75,9 @@ export default function CafeteriaMenuList({cafeteriaList, cafeteriaMenus, time})
     <MenusContainer>
       {cafeteriaList.map((cafeteria,index) => {
         return(
-          <InnerContainer key={index}>
+          <InnerContainer
+            key={index}
+            index={index}>
             {cafeteriaMenus.map((menus, idx) => {
               if(menus.type===time){
                 if(menus.place===cafeteria){

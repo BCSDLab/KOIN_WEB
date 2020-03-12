@@ -30,10 +30,8 @@ export default React.memo(function Header({
 }) {
   const setTitle = () => {
     if (match.params.type === 'sell') {
-      sessionStorage.setItem("marketId", 0);
       return '팝니다';
     } else {
-      sessionStorage.setItem("marketId", 1);
       return '삽니다';
     }
   }

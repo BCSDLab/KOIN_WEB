@@ -18,6 +18,7 @@ export default function LostItemRegisterContainer({history}) {
   const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const dispatch = useDispatch();
   const editorRef = createRef();
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   const createdAt = today.toISOString().slice(0,10).replace('-','. ').replace('-','. ');
 
@@ -36,11 +37,24 @@ export default function LostItemRegisterContainer({history}) {
     let contents = editorRef.current.state.value;
 
     if(title === '' || contents === '') {
-      alert('제목이나 내용을 추가해주세요.');
+      addToast('제목이나 내용을 추가해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
     if(title.length > 255) {
-      alert(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`);
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return ;
+    }
+    if(!dateRegex.test(registerDate)) {
+      addToast('날짜 형식을 맞춰주세요. 예시) 2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
 
@@ -59,10 +73,16 @@ export default function LostItemRegisterContainer({history}) {
       'token': sessionStorage.getItem('token')
     })).then(data => {
       console.log(data);
-      alert("게시물이 등록되었습니다.");
+      addToast('게시글이 등록되었습니다.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
       history.push('/lost');
     }, error => {
-      alert('네트워크를 확인하세요.');
+      addToast('네트워크를 확인해주세요', {
+        appearance: 'error',
+        autoDismiss: true
+      });
     })
   };
 

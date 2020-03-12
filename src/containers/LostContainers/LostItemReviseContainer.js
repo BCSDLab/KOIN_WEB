@@ -18,6 +18,7 @@ export default function LostItemReviseContainer({history}) {
   const userInfo = sessionStorage.getItem("userInfo");
   const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
   const [content, setContent] = useState(specificData.content);
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   const onChangeContent = (content) => {
     setContent(content)
@@ -74,11 +75,24 @@ export default function LostItemReviseContainer({history}) {
     let registerDate = date;
 
     if(title === '' || content === '') {
-      alert('제목이나 내용을 추가해주세요.');
+      addToast('제목이나 내용을 추가해주세요.', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
     if(title.length > 255) {
-      alert(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`);
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return ;
+    }
+    if(!dateRegex.test(registerDate)) {
+      addToast('날짜 형식을 맞춰주세요. 예시) 2020-01-01', {
+        appearance: 'warning',
+        autoDismiss: true
+      });
       return ;
     }
 
@@ -104,7 +118,10 @@ export default function LostItemReviseContainer({history}) {
         });
         history.push(`/lost/detail/${specificData.id}`);
       }, error => {
-        alert('네트워크를 확인하세요.');
+        addToast('네트워크를 확인해주세요', {
+          appearance: 'error',
+          autoDismiss: true
+        });
       })
     }
   }

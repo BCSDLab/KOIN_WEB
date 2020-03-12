@@ -268,14 +268,10 @@ const LeftForm = styled.div`
   }
   
   input::placeholder {
-    width: 187px;
-    height: 15px;
     font-size: 15px;
     letter-spacing: -0.8px;
     text-align: left;
     color: #bec9d5;
-    padding-top: 10px;
-    padding-bottom: 10px;
   }
   
   @media(max-width: 576px){

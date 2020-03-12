@@ -172,6 +172,7 @@ function App({ history }) {
                   {/* User Page */}
                   <PrivateRoute 
                     path="/login"
+                    history={history}
                     component={LoginPage}
                     setDialog={setDialog}
                     dialog={dialog}
@@ -179,6 +180,7 @@ function App({ history }) {
                   />
                   <PrivateRoute 
                     path="/signup"
+                    history={history}
                     component={SignUpPage}
                     setDialog={setDialog}
                     dialog={dialog}
@@ -186,6 +188,7 @@ function App({ history }) {
                   />
                   <PrivateRoute 
                     path="/modifyinfo"
+                    history={history}
                     component={ModifyInfoPage}
                     setDialog={setDialog}
                     dialog={dialog}
@@ -193,6 +196,7 @@ function App({ history }) {
                   />
                   <PrivateRoute
                     path="/findpw"
+                    history={history}
                     component={FindPasswordPage}
                     setDialog={setDialog}
                     dialog={dialog}

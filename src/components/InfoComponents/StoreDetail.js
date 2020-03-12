@@ -256,6 +256,9 @@ const StoreMenuTitle = styled.div`
 `;
 
 const StoreMenuCardWrapper = styled.div`
+  display: -ms-flexbox;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 74px;
@@ -307,6 +310,25 @@ const StoreMenuCard = styled.div`
     & span {
       font-size: 13px;
     }
+  }
+  
+  // IE 10+
+  @media all and (-ms-high-contrast: none) {
+    width: 497px;
+    height: 72px;
+    margin-right: 14px;
+    margin-bottom: 11px;
+    
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+  }
+  
+  @media all and (-ms-high-contrast: none) and (max-width: 576px) {
+    width: calc(100% - 26px);
+    height: 60px;
+    margin-right: 0;
+    margin-bottom: 14px;
   }
 `
 
