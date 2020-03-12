@@ -93,6 +93,13 @@ export default function PostRegisterContainer({ history, match }) {
         });
         return;
       }
+      if (nickname.length > 10) {
+        addToast("닉네임은 10글자 이하여야 합니다.", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
       if (!password.length || !password) {
         addToast("비밀번호를 입력해주세요.", {
           appearance: "warning",
