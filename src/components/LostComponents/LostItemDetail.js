@@ -309,6 +309,10 @@ const BoardContent = styled.div`
     display: none;
   }
   
+  & img {
+    max-width: 100%;
+  }
+  
   @media(max-width: 576px){
     padding-top: 20px;
     padding-bottom: 20px;
@@ -318,6 +322,10 @@ const BoardContent = styled.div`
     letter-spacing: -0.7px;
     min-height: 400px;
     color: #252525;
+  }
+  
+  & img {
+    max-width: 100%;
   }
 `;
 
