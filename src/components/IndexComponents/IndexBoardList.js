@@ -240,6 +240,7 @@ export default React.memo(function IndexBoardList({
   }
   function clickArticle(boardId, id){
     console.log(boardId)
+    sessionStorage.setItem("boardId", boardId || -1);
     switch(boardId){
       case 1:
         return history.push(`/board/free/${id}`)
