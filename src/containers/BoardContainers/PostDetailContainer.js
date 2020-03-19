@@ -139,7 +139,32 @@ export default function PostDetailContainer({
 
   useEffect(() => {
     console.log("게시글 진입");
+
     if (match) {
+      switch(match.params.type) {
+        case 'notice':
+          sessionStorage.setItem("boardId", 4);
+          break;
+        case 'free':
+          sessionStorage.setItem("boardId", 1);
+          break;
+        case 'job':
+          sessionStorage.setItem("boardId", 2);
+          break;
+        case 'question':
+          sessionStorage.setItem("boardId", 10);
+          break;
+        case 'anonymous':
+          sessionStorage.setItem("boardId", -1);
+          break;
+        case 'promotion':
+          sessionStorage.setItem("boardId", 6);
+          break;
+        default:
+          sessionStorage.setItem("boardId", 1);
+          break;
+      }
+
       setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPost({
@@ -156,7 +181,26 @@ export default function PostDetailContainer({
         }));
       }
     }
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(post.data) {
+      if (sessionStorage.getItem("boardId") !== '-1' && post.data.board_id !== Number(sessionStorage.getItem("boardId")) && !(sessionStorage.getItem("boardId") === '4' && post.data.board_id > 4)) {
+        alert('해당 게시글이 존재하지 않습니다.')
+        history.go(-1);
+      }
+    }
+
+    if(post.error) {
+      if(post.error.status === '404') {
+        addToast('해당 게시글이 존재하지 않습니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        })
+        history.go(-1);
+      }
+    }
+  }, [post]);
 
   // 게시글에서 게시글 이동
   useEffect(() => {
