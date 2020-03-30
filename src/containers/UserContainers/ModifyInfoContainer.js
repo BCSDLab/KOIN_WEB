@@ -234,7 +234,13 @@ export default function ModifyInfoContainer() {
   }, [userInfo.studentNumber])
 
   useEffect(() => {
-    console.log(data);
+    if (data && data.data.success === true) {
+      addToast('성공적으로 탈퇴했습니다.', {
+        appearance: 'success',
+        autoDismiss: true
+      });
+      return;
+    }
     if (data && data.data.success) {
       addToast('사용가능한 닉네임입니다.', {
         appearance: 'success',
@@ -244,13 +250,6 @@ export default function ModifyInfoContainer() {
     }
     if (data && data.status === 201) {
       addToast('성공적으로 회원정보를 수정했습니다.', {
-        appearance: 'success',
-        autoDismiss: true
-      });
-      return;
-    }
-    if (data && data.data.success === true) {
-      addToast('성공적으로 탈퇴했습니다.', {
         appearance: 'success',
         autoDismiss: true
       });
