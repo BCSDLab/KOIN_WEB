@@ -133,6 +133,7 @@ function App({ history }) {
     // 자동 로그인이 켜져있을 경우.
     if (Cookies.get("token")) {
       sessionStorage.setItem("token", Cookies.get("token"));
+      sessionStorage.setItem("userInfo", Cookies.get("userInfo"));
     }
     // 글로벌 토큰, 유저정보 유지
     dispatch(updateAuthInfo(
@@ -141,7 +142,6 @@ function App({ history }) {
     // sessionStorage.setItem("storeCheckbboxs", [false, false, false]);
     // sessionStorage.setItem("storeTag", null);
     // sessionStorage.setItem("storeNewFlag", true);
-
   }, []);
 
   useEffect(() => {
