@@ -5,6 +5,7 @@ import { getPost, checkPermission, deletePost, registerComment, deleteComment, e
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
+import * as BOARD_INFO from '../../static/boardInfo';
 
 export default function PostDetailContainer({
   match,
@@ -17,6 +18,7 @@ export default function PostDetailContainer({
   const [password, setPassword] = useState('');
   const [path, setPath] = useState();
   const [buttonFlag, setButtonFlag] = useState(0);
+  const boardInfo = BOARD_INFO.default;
 
   const onClickDeleteButton = useCallback(() => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
@@ -137,34 +139,46 @@ export default function PostDetailContainer({
     setPassword(e.target.value);
   }
 
+  const checkBoardId = id => {
+    // if ()
+  }
+
   useEffect(() => {
     console.log("게시글 진입");
-    if (!sessionStorage.getItem("boardId")) {
-      switch(match.params.type) {
-        case 'notice':
-          sessionStorage.setItem("boardId", 4);
-          break;
-        case 'free':
-          sessionStorage.setItem("boardId", 1);
-          break;
-        case 'job':
-          sessionStorage.setItem("boardId", 2);
-          break;
-        case 'question':
-          sessionStorage.setItem("boardId", 10);
-          break;
-        case 'anonymous':
-          sessionStorage.setItem("boardId", -1);
-          break;
-        case 'promotion':
-          sessionStorage.setItem("boardId", 6);
-          break;
-        default:
-          sessionStorage.setItem("boardId", 1);
-          break;
-      }
-    }
     if (match) {
+      console.log(match);
+      if (!sessionStorage.getItem("boardId")) {
+        switch(match.params.type) {
+          case 'notice':
+            sessionStorage.setItem("boardId", 4);
+            break;
+          case 'free':
+            sessionStorage.setItem("boardId", 1);
+            break;
+          case 'job':
+            sessionStorage.setItem("boardId", 2);
+            break;
+          case 'question':
+            sessionStorage.setItem("boardId", 10);
+            break;
+          case 'anonymous':
+            sessionStorage.setItem("boardId", -1);
+            break;
+          case 'promotion':
+            sessionStorage.setItem("boardId", 6);
+            break;
+          default:
+            sessionStorage.setItem("boardId", 1);
+            break;
+        }
+      } else {
+        for (let info of boardInfo) {
+          if (info.id === Number(sessionStorage.getItem("boardId")) && !match.url.includes(info.path)) {
+            alert("해당 게시글이 존재하지 않습니다");
+            history.push('/');
+          }
+        }
+      }
       setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPost({
@@ -182,6 +196,18 @@ export default function PostDetailContainer({
       }
     }
   }, []);
+
+  useEffect(() => {
+    if(post.error) {
+      if(post.error.status === '404') {
+        addToast('해당 게시글이 존재하지 않습니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        })
+        history.go(-1);
+      }
+    }
+  }, [post]);
 
   // 게시글에서 게시글 이동
   useEffect(() => {
