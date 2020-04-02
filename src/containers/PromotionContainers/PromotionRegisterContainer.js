@@ -86,7 +86,7 @@ export default function PromotionEditContainer({ history, match }) {
         autoDismiss: true
       })
     }
-    if (shops.length !== 0 && promotion.shop === "") {
+    if (promotion.shop === "") {
       addToast('홍보할 상점을 선택해주세요.', {
         appearance: 'warning',
         autoDismiss: true
@@ -157,7 +157,7 @@ export default function PromotionEditContainer({ history, match }) {
 
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
@@ -175,9 +175,11 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    if(!(sessionStorage.getItem("userInfo") && sessionStorage.getItem("userInfo").identity === 5)) {
-      alert("점주만이 홍보 게시글을 작성할 수 있습니다");
+    if(!(sessionStorage.getItem("userInfo") && JSON.parse(sessionStorage.getItem("userInfo")).identity === 5)) {
+      console.log(sessionStorage.getItem("userInfo").identity)
       history.goBack();
+      alert("점주만이 홍보 게시글을 작성할 수 있습니다");
+      return;
     }
     if(sessionStorage.getItem("token")) {
       dispatch(checkMyPendingPromotion({

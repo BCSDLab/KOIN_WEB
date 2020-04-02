@@ -36,7 +36,7 @@ export default function LostItemRegisterContainer({history}) {
     let registerDate = date;
     let contents = editorRef.current.state.value;
 
-    if(title === '' || contents === '') {
+    if(title === '' || !contents) {
       addToast('제목이나 내용을 추가해주세요.', {
         appearance: 'warning',
         autoDismiss: true
@@ -95,7 +95,7 @@ export default function LostItemRegisterContainer({history}) {
     const range = editor.getEditor().getSelection();
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
