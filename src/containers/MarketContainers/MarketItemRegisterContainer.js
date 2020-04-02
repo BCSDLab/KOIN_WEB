@@ -165,7 +165,7 @@ export default function MarketItemRegisterContainer({ history, match }) {
 
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
