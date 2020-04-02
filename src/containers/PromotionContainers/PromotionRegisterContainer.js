@@ -175,7 +175,8 @@ export default function PromotionEditContainer({ history, match }) {
   }
 
   useEffect(() => {
-    if(!(sessionStorage.getItem("userInfo") && sessionStorage.getItem("userInfo").identity === 5)) {
+    if(!(sessionStorage.getItem("userInfo") && JSON.parse(sessionStorage.getItem("userInfo")).identity === 5)) {
+      console.log(sessionStorage.getItem("userInfo").identity)
       history.goBack();
       alert("점주만이 홍보 게시글을 작성할 수 있습니다");
       return;
