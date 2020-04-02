@@ -13,7 +13,7 @@ export default function RoomListContainer({ history }) {
 
   return (
     <RoomList
-      roomList={data}
+      roomList={data.lands || []}
       loading={loading}
       history={history}
     />

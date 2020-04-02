@@ -21,8 +21,6 @@ const Menus = styled.div`
   width:100%;
   height:100%;
   border-radius: 2px;
-  // rgb(247,148,30) = 학생식당 외 
-  // rgb(23,92,142)  = 학생식당
   background-color: rgba(
     ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
     ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
@@ -67,7 +65,7 @@ const Info = styled.div`
   letter-spacing: -0.17px;
   text-align: left;
   color: #7a7a7a;
-  margin-top: 17px
+  margin-top: 17px;
 `;
 
 export default function CafeteriaMenuList({cafeteriaList, cafeteriaMenus, time}) {

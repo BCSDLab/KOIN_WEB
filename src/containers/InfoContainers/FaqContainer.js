@@ -6,7 +6,7 @@ import {getFaqList} from "../../modules/faq"
 export default function FaqContainer() {
   const [totalPageNum] = useState(4);
   const [nowPageNum, setNowPageNum] = useState(1);
-  const {filteredData, loading, error} = useSelector(state => state.faqReducer.faqs)
+  const {data, loading, error} = useSelector(state => state.faqReducer.faqs)
 
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export default function FaqContainer() {
 
   return (
     <Faq
-      faqList={filteredData}
+      faqList={data.faqs || []}
       loading={loading}
       error={error}
       totalPageNum={totalPageNum}
