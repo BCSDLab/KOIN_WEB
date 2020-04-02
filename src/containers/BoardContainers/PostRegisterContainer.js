@@ -32,7 +32,7 @@ export default function PostRegisterContainer({ history, match }) {
         [{'list': 'ordered'}, {'list': 'bullet'}],
         ['image', 'video']
       ]
-    }            
+    }
   }
 
   const onChangeTitle = e => {
@@ -130,7 +130,7 @@ export default function PostRegisterContainer({ history, match }) {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('. ');
   }
-  
+
   function imageUpload ()  {
     const _this = this;
     const editor = editorRef.current;
@@ -140,7 +140,7 @@ export default function PostRegisterContainer({ history, match }) {
 
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
@@ -168,7 +168,7 @@ export default function PostRegisterContainer({ history, match }) {
           autoDismiss: true
         });
       }
-    } 
+    }
   }, [data]);
 
   useEffect(() => {

@@ -24,7 +24,7 @@ export default function PostEditContainer({ history, match }) {
         [{'list': 'ordered'}, {'list': 'bullet'}],
         ['image', 'video']
       ]
-    }            
+    }
   }
 
   const onChangeTitle = e => {
@@ -96,7 +96,7 @@ export default function PostEditContainer({ history, match }) {
 
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
@@ -125,7 +125,7 @@ export default function PostEditContainer({ history, match }) {
       alert("잘못된 접근입니다.");
       history.goBack();
     }
-    
+
     dispatch(checkPermission({
       token: sessionStorage.getItem("token"),
       id: sessionStorage.getItem("postId"),
@@ -142,7 +142,7 @@ export default function PostEditContainer({ history, match }) {
           token: sessionStorage.getItem("token"),
           boardId: sessionStorage.getItem("boardId")
         }))
-      }  
+      }
       if (data.status === 201) {
         addToast("게시글을 수정했습니다", {
           appearance: 'success',
