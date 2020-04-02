@@ -1,63 +1,24 @@
 import { infoAPI } from "../api";
+import { reducerUtils, handleAsyncActions, createPromiseThunk } from '../lib/asyncUtils';
 
 const GET_CAFETERIA_MENU = "GET_CAFETERIA_MENU";
 const GET_CAFETERIA_MENU_SUCCESS = "GET_CAFETERIA_MENU_SUCCESS";
 const GET_CAFETERIA_MENU_ERROR = "GET_CAFETERIA_MENU_ERROR";
 
-export const getCafeteriaMenu = date => async dispatch => {
-  dispatch({ type: GET_CAFETERIA_MENU });
-  try {
-    const res = await infoAPI.getCafeteriaMenu(date);
-    dispatch({
-      type: GET_CAFETERIA_MENU_SUCCESS,
-      res
-    });
-  } catch (e) {
-    dispatch({
-      type: GET_CAFETERIA_MENU_ERROR,
-      error: e
-    });
-  }
-};
+export const getCafeteriaMenu = createPromiseThunk(GET_CAFETERIA_MENU, infoAPI.getCafeteriaMenu)
 
 const initialState = {
-  cafeteriaMenus: {
-    loading: false,
-    data: [],
-    error: null
-  }
+  cafeteriaMenus: reducerUtils.initial([])
 };
+
+const getCafeteriaMenuReducer = handleAsyncActions(GET_CAFETERIA_MENU, 'cafeteriaMenus');
 
 export default function cafeteriaMenuReducer(state = initialState, action) {
   switch (action.type) {
     case GET_CAFETERIA_MENU:
-      return {
-        ...state,
-        cafeteriaMenus: {
-          loading: true,
-          data: state.cafeteriaMenus.data,
-          error: null
-        }
-      };
     case GET_CAFETERIA_MENU_SUCCESS:
-      return {
-        ...state,
-        cafeteriaMenus: {
-          loading: false,
-          data: action.res.data,
-          error: null
-        }
-      };
     case GET_CAFETERIA_MENU_ERROR:
-      return {
-        ...state,
-        cafeteriaMenus: {
-          loading: false,
-          data: null,
-          error: action.error
-        }
-      };
-
+      return getCafeteriaMenuReducer(state, action);
     default:
       return state;
   }
