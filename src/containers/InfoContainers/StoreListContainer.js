@@ -82,7 +82,7 @@ export default function StoreListContainer () {
       selectFilter={selectFilter}
       handleStoreEvent={handleStoreEvent}
       convertEventDDay={convertEventDDay} >
-      {promotionData !== null && promotionData !== undefined && (
+      {promotionData !== null && promotionData !== "" && (
         <StoreBanner
           promotionData={promotionData} />
       )}

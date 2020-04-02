@@ -41,7 +41,7 @@ export default function LostItemReviseContainer({history}) {
     const range = editor.getEditor().getSelection();
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
@@ -74,7 +74,7 @@ export default function LostItemReviseContainer({history}) {
     let registerPhoneNumber = phoneNumber;
     let registerDate = date;
 
-    if(title === '' || content === '') {
+    if(title === '' || !content) {
       addToast('제목이나 내용을 추가해주세요.', {
         appearance: 'warning',
         autoDismiss: true

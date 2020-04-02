@@ -31,7 +31,7 @@ export default function MarketItemRegisterContainer({ history, match }) {
         [{'list': 'ordered'}, {'list': 'bullet'}],
         ['image', 'video']
       ]
-    }            
+    }
   }
 
   const onChangeItem = async e => {
@@ -120,7 +120,7 @@ export default function MarketItemRegisterContainer({ history, match }) {
     }
     let body = {
       title,
-      content,      
+      content,
       type: sessionStorage.getItem("marketId"),
       is_phone_open: isOpen ? 1 : 0,
       thumbnail: image
@@ -152,7 +152,7 @@ export default function MarketItemRegisterContainer({ history, match }) {
       setItem({
         ...item,
         phone: ""
-      });      
+      });
     }
   }
 
@@ -165,12 +165,12 @@ export default function MarketItemRegisterContainer({ history, match }) {
 
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('style', 'display: none');
-    fileInput.setAttribute('accept', 'image/png', 'image/gif', 'image/jpeg', 'image/bmp', 'image/x-icon');
+    fileInput.setAttribute('accept', 'image/*');
 
     fileInput.addEventListener('change', async () => {
       formData.append('image', fileInput.files[0]);
       try {
-        const result = marketAPI.uploadImage(sessionStorage.getItem("token"), formData)
+        const result = await marketAPI.uploadImage(sessionStorage.getItem("token"), formData)
         _this.quill.insertEmbed(range.index, 'image', result.data.url[0]);
       } catch(e) {
         addToast("이미지의 크기가 너무 큽니다.", {
@@ -227,6 +227,6 @@ export default function MarketItemRegisterContainer({ history, match }) {
         onClickRegisterButton={onClickRegisterButton}
       />
     </>
-    
+
   )
 }

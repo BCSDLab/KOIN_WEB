@@ -239,18 +239,28 @@ export default React.memo(function IndexBoardList({
     }
   }
   function clickArticle(boardId, id){
-    console.log(boardId)
+    if (boardId >= 4 && boardId <= 8) {
+      sessionStorage.setItem("boardId", 4)
+    } else {
+      sessionStorage.setItem("boardId", boardId || -1);
+    }
     switch(boardId){
       case 1:
         return history.push(`/board/free/${id}`)
       case 2:
         return history.push(`/board/job/${id}`)
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+        return history.push(`/board/notice/${id}`)
       case undefined:
         return history.push(`/board/anonymous/${id}`)
       case 10:
         return history.push(`/board/question/${id}`)
       default:
-        return history.push(`/board/notice/${id}`)
+        return;
     }
   }
   return (

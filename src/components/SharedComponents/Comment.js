@@ -251,6 +251,10 @@ const Counter = styled.div`
   margin-top: 49px;
   z-index: 10;
   user-select: none;
+  
+  @media(max-width: 576px){
+    width: 100%;
+  }
 `;
 
 const RegisterBtn = styled.button`

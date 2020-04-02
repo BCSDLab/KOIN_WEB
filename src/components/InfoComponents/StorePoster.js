@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 const StorePosterImage = styled.img`  
   width: 600px;
+  max-height: 100%;
   cursor: pointer;
   position: fixed;
   margin: auto;
   
   @media (max-width: 576px) {
     & {
-      width: 275px;
+      max-width: calc(100% - 68px);
+      max-height: calc(100% - 100px);
     }
   }
 `;

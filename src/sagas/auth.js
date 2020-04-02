@@ -42,14 +42,12 @@ function* login (payload) {
       res
     });
     if (autoLoginFlag) {
-      Cookies.remove("autoLoginFlag");
-      Cookies.set("autoLoginFlag", true);
       Cookies.set("token", res.data.token, { expires: 3 });
+      Cookies.set("userInfo", res.data.user, { expires: 3 });
       console.log("자동 로긴 O");
     } else {
-      Cookies.remove("autoLoginFlag");
-      Cookies.set("autoLoginFlag", false);
       Cookies.remove("token");
+      Cookies.remove("userInfo");
       console.log("자동 로긴 X");
     }
     sessionStorage.setItem("userInfo", JSON.stringify(res.data.user));
@@ -77,6 +75,7 @@ function* logout (payload) {
     });
     sessionStorage.clear();
     Cookies.remove("token");
+    Cookies.remove("userInfo");
     history.push('/');
   } catch (e) {
     yield put({
