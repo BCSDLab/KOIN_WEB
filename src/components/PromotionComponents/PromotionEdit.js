@@ -118,6 +118,9 @@ const ShopSelectWrapper = styled.div`
     border-radius: 0;
     line-height: 1.4;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   &::after {
