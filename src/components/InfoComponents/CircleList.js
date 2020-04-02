@@ -150,7 +150,6 @@ export default function CircleList({
   onMouseOutCategory,
   categoryIndex
 }) {
-  // console.log(tag);
   return (
     <Container>
       <ListSection>
