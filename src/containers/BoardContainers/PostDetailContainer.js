@@ -29,7 +29,7 @@ export default function PostDetailContainer({
             boardId: sessionStorage.getItem("boardId"),
             id: match.params.id,
           }));
-        
+
       } else {
         console.log("익게에서 삭제버튼 클릭")
         if (!password.length) {
@@ -47,7 +47,7 @@ export default function PostDetailContainer({
           password
         }));
       }
-    }    
+    }
   }, [match, dispatch, password]);
 
   const onClickEditButton = useCallback(() => {
@@ -172,12 +172,6 @@ export default function PostDetailContainer({
             break;
         }
       } else {
-        for (let info of boardInfo) {
-          if (info.id === Number(sessionStorage.getItem("boardId")) && !match.url.includes(info.path)) {
-            alert("해당 게시글이 존재하지 않습니다");
-            history.push('/');
-          }
-        }
       }
       setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
@@ -198,6 +192,15 @@ export default function PostDetailContainer({
   }, []);
 
   useEffect(() => {
+    if(post.data) {
+      for (let info of boardInfo) {
+        if (info.id === post.data.board_id && !match.url.includes(info.path)) {
+          alert("해당 게시글이 존재하지 않습니다");
+          history.push('/');
+        }
+      }
+      console.log('Finished')
+    }
     if(post.error) {
       if(post.error.status === '404') {
         addToast('해당 게시글이 존재하지 않습니다.', {
@@ -227,7 +230,7 @@ export default function PostDetailContainer({
   useEffect(() => {
     if (data) {
       console.log(data);
-      // 일반 게시글 권한 체크 후 내 게시글 판별 
+      // 일반 게시글 권한 체크 후 내 게시글 판별
       if (data.data.grantEdit && sessionStorage.getItem("boardId") !== '-1') {
         setIsMyPost(data.data.grantEdit);
       }
