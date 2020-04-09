@@ -312,7 +312,6 @@ export default function Footer({ path }) {
   const clickMenu = (menu) => {
     if (menu.tag !== null) {
       sessionStorage.setItem("boardPageNum", 1);
-      sessionStorage.setItem("boardId", menu.tag);
     } else {
       if (menu.planFlag === false && menu.title !== null) {
         if (menu.link === '/market/sell')
