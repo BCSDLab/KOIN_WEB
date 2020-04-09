@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom';
 import PostRegisterContainer from '../../containers/BoardContainers/PostRegisterContainer';
 import PostListContainer from '../../containers/BoardContainers/PostListContainer';
@@ -39,12 +39,43 @@ const Row = styled.div`
 
 export default function BoardPage({ history, match }) {
   const dispatch = useDispatch();
+  const [ showFlag, setShowFlag ] = useState(true);
   const { data, loading, error } = useSelector(state => state.boardReducer.hotPosts);
   const { type, id } = match.params;
 
   useEffect(() => {
     dispatch(getHotPosts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!id || Number.isInteger(parseInt(id))) {
+      setShowFlag(false);
+      switch(match.params.type) {
+        case 'notice':
+          sessionStorage.setItem("boardId", 4);
+          break;
+        case 'free':
+          sessionStorage.setItem("boardId", 1);
+          break;
+        case 'job':
+          sessionStorage.setItem("boardId", 2);
+          break;
+        case 'question':
+          sessionStorage.setItem("boardId", 10);
+          break;
+        case 'anonymous':
+          sessionStorage.setItem("boardId", -1);
+          break;
+        case 'promotion':
+          sessionStorage.setItem("boardId", 6);
+          break;
+        default:
+          sessionStorage.setItem("boardId", 1);
+          break;
+      }
+      setShowFlag(true);
+    }
+  }, [match.path]);
 
   return (
     <div>
@@ -53,16 +84,16 @@ export default function BoardPage({ history, match }) {
           <Switch>
             {type === 'promotion' && (
               <>
-                {!id && <Route exact path={match.path} component={PromotionListContainer} />}
+                {showFlag && !id && <Route exact path={match.path} component={PromotionListContainer} />}
                 {id === 'register' && <Route exact path={match.path} component={PromotionRegisterContainer} />}
                 {id === 'edit' && <Route path={match.path} component={PromotionEditContainer} />}
-                {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PromotionDetailContainer} />}
+                {showFlag && Number.isInteger(parseInt(id)) && <Route path={match.path} component={PromotionDetailContainer} />}
               </>
             )}
-            {!id && <Route exact path={match.path} component={(PostListContainer)} />}
+            {showFlag && !id && <Route exact path={match.path} component={(PostListContainer)} />}
             {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
             {id === 'edit' && <Route path={match.path} component={PostEditContainer} />}
-            {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
+            {showFlag && Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
           </Switch>
         </Row>
       </Container>

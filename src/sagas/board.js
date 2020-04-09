@@ -37,14 +37,15 @@ import {
   CLEAR_STATE
 } from '../modules/board';
 import { boardAPI } from '../api';
+import * as BOARD_INFO from '../static/boardInfo';
 
 function* getPosts({ payload }) {
   const { pageNum, boardId } = payload;
   const state  = (yield select()).boardReducer;
   let displayPageNum, displayMinNum;
   try {
-    const res = yield call(boardAPI.getArticleList, pageNum, boardId);  
-    
+    const res = yield call(boardAPI.getArticleList, pageNum, boardId);
+
     if (pageNum < (state.PAGE_MAX_SIZE / 2 + 1)) {
       if (res.data.totalPage >= state.PAGE_MAX_SIZE) displayPageNum = state.PAGE_MAX_SIZE;
       displayMinNum = 1;
@@ -77,12 +78,19 @@ function* getPosts({ payload }) {
 
 function* getPost({ payload }) {
   const { token, id, boardId } = payload;
+  const history = yield getContext('history');
   try {
     const res = yield call(boardAPI.getArticle, id, token, boardId);
     yield put({
       type: GET_POST_SUCCESS,
       payload: res
     });
+    for (let info of BOARD_INFO.default) {
+      if (info.id === res.data.board_id && !history.location.pathname.includes(info.path)) {
+        alert("해당 게시글이 존재하지 않습니다");
+        history.push('/');
+      }
+    }
   } catch (e) {
     yield put({
       type: GET_POST_ERROR,

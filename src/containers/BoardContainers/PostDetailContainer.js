@@ -16,7 +16,7 @@ export default function PostDetailContainer({
   const { data, error, post, comment } = useSelector(state => state.boardReducer);
   const [isMyPost, setIsMyPost] = useState(false);
   const [password, setPassword] = useState('');
-  const [path, setPath] = useState();
+  // const [path, setPath] = useState();
   const [buttonFlag, setButtonFlag] = useState(0);
   const boardInfo = BOARD_INFO.default;
 
@@ -29,7 +29,7 @@ export default function PostDetailContainer({
             boardId: sessionStorage.getItem("boardId"),
             id: match.params.id,
           }));
-        
+
       } else {
         console.log("익게에서 삭제버튼 클릭")
         if (!password.length) {
@@ -47,7 +47,7 @@ export default function PostDetailContainer({
           password
         }));
       }
-    }    
+    }
   }, [match, dispatch, password]);
 
   const onClickEditButton = useCallback(() => {
@@ -146,40 +146,7 @@ export default function PostDetailContainer({
   useEffect(() => {
     console.log("게시글 진입");
     if (match) {
-      console.log(match);
-      if (!sessionStorage.getItem("boardId")) {
-        switch(match.params.type) {
-          case 'notice':
-            sessionStorage.setItem("boardId", 4);
-            break;
-          case 'free':
-            sessionStorage.setItem("boardId", 1);
-            break;
-          case 'job':
-            sessionStorage.setItem("boardId", 2);
-            break;
-          case 'question':
-            sessionStorage.setItem("boardId", 10);
-            break;
-          case 'anonymous':
-            sessionStorage.setItem("boardId", -1);
-            break;
-          case 'promotion':
-            sessionStorage.setItem("boardId", 6);
-            break;
-          default:
-            sessionStorage.setItem("boardId", 1);
-            break;
-        }
-      } else {
-        for (let info of boardInfo) {
-          if (info.id === Number(sessionStorage.getItem("boardId")) && !match.url.includes(info.path)) {
-            alert("해당 게시글이 존재하지 않습니다");
-            history.push('/');
-          }
-        }
-      }
-      setPath(match.url);
+      // setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPost({
         id: match.params.id,
@@ -210,24 +177,25 @@ export default function PostDetailContainer({
   }, [post]);
 
   // 게시글에서 게시글 이동
-  useEffect(() => {
-    if (path) {
-      if (path !== match.url) {
-        console.log("게시글 -> 다른 게시글");
-        setPath(match.url);
-        dispatch(getPost({
-          id: match.params.id,
-          token: sessionStorage.getItem("token") || undefined,
-          boardId: sessionStorage.getItem("boardId")
-        }))
-      }
-    }
-  }, [match]);
+  // useEffect(() => {
+  //   if (path) {
+  //     if (path !== match.url) {
+  //       console.log("게시글 -> 다른 게시글");
+  //       sessionStorage.setItem("postId", match.params.id)
+  //       setPath(match.url);
+  //       dispatch(getPost({
+  //         id: match.params.id,
+  //         token: sessionStorage.getItem("token") || undefined,
+  //         boardId: sessionStorage.getItem("boardId")
+  //       }))
+  //     }
+  //   }
+  // }, [match]);
 
   useEffect(() => {
     if (data) {
       console.log(data);
-      // 일반 게시글 권한 체크 후 내 게시글 판별 
+      // 일반 게시글 권한 체크 후 내 게시글 판별
       if (data.data.grantEdit && sessionStorage.getItem("boardId") !== '-1') {
         setIsMyPost(data.data.grantEdit);
       }

@@ -580,7 +580,6 @@ export default React.memo(function IndexTopBoard({
     }
   }
   function clickList(id, boardId) {
-    sessionStorage.setItem("boardId",boardId || -1);
     if(boardId === 1) {
       history.push(`board/free/${id}`);
     }

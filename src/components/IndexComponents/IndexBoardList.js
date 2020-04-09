@@ -239,11 +239,6 @@ export default React.memo(function IndexBoardList({
     }
   }
   function clickArticle(boardId, id){
-    if (boardId >= 4 && boardId <= 8) {
-      sessionStorage.setItem("boardId", 4)
-    } else {
-      sessionStorage.setItem("boardId", boardId || -1);
-    }
     switch(boardId){
       case 1:
         return history.push(`/board/free/${id}`)

@@ -117,16 +117,12 @@ export default function HotPosts({
 
   const onClickPost = useCallback((id, boardId) => {
     console.log("가장 많이 본 게시물 클릭");
-    sessionStorage.setItem("postId", id);
     if (boardId >= 5 && boardId <= 9) {
-      // 공지사항
-      sessionStorage.setItem("boardId", 4);
       history.push(`/board/notice/${id}`);
-    } else {
-      sessionStorage.setItem("boardId", boardId);
     }
     for(let board of BOARD_INFO.default) {
       if (boardId === board.id) {
+        console.log(`${board.path}/${id}`)
         history.push(`${board.path}/${id}`);
       }
     }
@@ -136,13 +132,13 @@ export default function HotPosts({
     <Container>
       <List>
         <Title>가장 많이 본 게시물</Title>
-        {hotPosts && hotPosts.map((post, index) => 
+        {hotPosts && hotPosts.map((post, index) =>
           <Post key={index} onClick={() => onClickPost(post.id, post.board_id)}>
             <Rank>{index + 1}</Rank>
             <PostTitle>{post.title}</PostTitle>
           </Post>
         )}
-        {(loading || error) && 
+        {(loading || error) &&
           <LoaderWrapper>
             <ClipLoader
               size={80}
@@ -154,7 +150,7 @@ export default function HotPosts({
         }
       </List>
       <LinkWrapper>
-        {linkList.map((link, index) => 
+        {linkList.map((link, index) =>
           <LinkButton key={index}>
             <LinkImage
               onClick={() => window.open(link.url)}

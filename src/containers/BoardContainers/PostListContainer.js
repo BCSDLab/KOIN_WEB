@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../modules/board';
 import Posts from '../../components/BoardComponents/Posts';
@@ -9,7 +9,6 @@ import { useLastLocation } from 'react-router-last-location';
 export default function PostListContainer({ history, match }) {
   const dispatch = useDispatch();
   const { posts, totalPageNum, displayPageNum, displayMinNum } = useSelector(state => state.boardReducer);
-  const [boardId, setBoardId] = useState(0);
   const lastLocation = useLastLocation();
   const getPostList = page => {
     console.log(page);
@@ -18,33 +17,9 @@ export default function PostListContainer({ history, match }) {
       boardId: sessionStorage.getItem("boardId")
     }));
   }
-  
+
   // 게시판 진입 시
   useEffect(() => {
-    switch(match.params.type) {
-      case 'notice':
-        sessionStorage.setItem("boardId", 4);
-        break;
-      case 'free':
-        sessionStorage.setItem("boardId", 1);
-        break;
-      case 'job':
-        sessionStorage.setItem("boardId", 2);
-        break;
-      case 'question':
-        sessionStorage.setItem("boardId", 10);
-        break;
-      case 'anonymous':
-        sessionStorage.setItem("boardId", -1);
-        break;
-      case 'promotion':
-        sessionStorage.setItem("boardId", 6);
-        break;
-      default:
-        sessionStorage.setItem("boardId", 1);
-        break;
-    }
-    setBoardId(sessionStorage.getItem("boardId"));
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
       getPostList(1);

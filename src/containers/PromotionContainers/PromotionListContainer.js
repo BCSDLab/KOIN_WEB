@@ -52,7 +52,6 @@ export default function PromotionListContainer ({history, match}) {
 
   useEffect(() => {
     console.log("홍보게시판 진입");
-    sessionStorage.setItem("boardId", 6);
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
       getPromotionList(1, filter);
