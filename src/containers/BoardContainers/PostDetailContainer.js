@@ -165,15 +165,6 @@ export default function PostDetailContainer({
   }, []);
 
   useEffect(() => {
-    if(post.data) {
-      for (let info of boardInfo) {
-        if (info.id === post.data.board_id && !match.url.includes(info.path)) {
-          alert("해당 게시글이 존재하지 않습니다");
-          history.push('/');
-        }
-      }
-      console.log('Finished')
-    }
     if(post.error) {
       if(post.error.status === '404') {
         addToast('해당 게시글이 존재하지 않습니다.', {
