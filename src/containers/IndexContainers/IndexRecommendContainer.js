@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import IndexRecommend from "../../components/IndexComponents/IndexRecommend";
-import {getStoreList, filterStoreList, getRandomPromotion} from '../../modules/store';
+import {getStoreList} from '../../modules/store';
 import {useDispatch, useSelector} from "react-redux";
 
 export default function IndexRecommendContainer({history}) {
@@ -10,8 +10,8 @@ export default function IndexRecommendContainer({history}) {
   const [randomNum, setRandomNum] = useState(0);
 
   useEffect(() => {
-    dispatch(getStoreList("","ALL"));
-  },[dispatch]);
+    dispatch(getStoreList());
+  },[]);
 
   useEffect(() => {
     setStoreList(data.filter(value => !(value.category === "S000" || value.category === "S001" || value.category === "S009")));

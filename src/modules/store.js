@@ -4,11 +4,7 @@ const GET_STORE_LIST = "GET_STORE_LIST";
 const GET_STORE_LIST_SUCCESS = "GET_STORE_LIST_SUCCESS";
 const GET_STORE_LIST_ERROR = "GET_STORE_ERROR";
 
-const UPDATE_STORE_FILTER = "UPDATE_STORE_FILTER";
-
 const SHUFFLE_STORE_LIST = "SHUFFLE_STORE_LIST";
-
-const FILTER_STORE_LIST = "FILTER_STORE_LIST";
 
 const GET_STORE_DETAIL_INFO = "GET_STORE_DETAIL_INFO";
 const GET_STORE_DETAIL_INFO_SUCCESS = "GET_STORE_DETAIL_INFO_SUCCESS";
@@ -18,7 +14,7 @@ const GET_STORE_PROMOTION = "GET_STORE_PROMOTION";
 const GET_STORE_PROMOTION_SUCCESS = "GET_STORE_PROMOTION_SUCCESS";
 const GET_STORE_PROMOTION_ERROR = "GET_STORE_PROMOTION_ERROR";
 
-  export const getStoreList = (tag, filter) => async dispatch => {
+export const getStoreList = () => async dispatch => {
   dispatch({ type: GET_STORE_LIST });
   try {
     const res = await infoAPI.getStoreList();
@@ -33,12 +29,6 @@ const GET_STORE_PROMOTION_ERROR = "GET_STORE_PROMOTION_ERROR";
     });
   }
   dispatch(shuffleStoreList());
-  dispatch({
-    type: UPDATE_STORE_FILTER,
-    tag,
-    filter
-  });
-  dispatch({type: FILTER_STORE_LIST});
 };
 
 export const shuffleStoreList = () => (dispatch, getState) => {
@@ -48,22 +38,10 @@ export const shuffleStoreList = () => (dispatch, getState) => {
     let j = Math.floor(Math.random() * (i + 1));
     [data[i], data[j]] = [data[j], data[i]];
   }
-  console.log(data)
   dispatch({
     type: SHUFFLE_STORE_LIST,
     data
   })
-}
-
-export const filterStoreList = (tag, filter) => dispatch => {
-  dispatch({
-    type: UPDATE_STORE_FILTER,
-    tag,
-    filter
-  });
-  dispatch({
-    type: FILTER_STORE_LIST
-  });
 }
 
 
@@ -106,7 +84,6 @@ const initialState = {
     data: [],
     tag: "ALL",
     filter: 0,
-    filteredData: [],
     error: null,
     promotionData: null,
     promotionLoading: false,
@@ -129,7 +106,6 @@ export default function storeReducer(state = initialState, action) {
           ...state.stores,
           loading: true,
           data: [],
-          filteredData: [],
           error: null
         }
       };
@@ -140,7 +116,6 @@ export default function storeReducer(state = initialState, action) {
           ...state.stores,
           loading: false,
           data: action.res.data.shops,
-          filteredData: [],
           error: null
         }
       };
@@ -151,7 +126,6 @@ export default function storeReducer(state = initialState, action) {
           ...state.stores,
           loading: false,
           data: null,
-          filteredData: null,
           error: action.error
         }
       };
@@ -161,29 +135,6 @@ export default function storeReducer(state = initialState, action) {
         stores: {
           ...state.stores,
           data: action.data,
-          filteredData: [],
-        }
-      };
-    case UPDATE_STORE_FILTER:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          filter: action.filter === undefined ? state.stores.filter : action.filter,
-          tag: action.tag === undefined ? state.stores.tag : action.tag
-        }
-      };
-    case FILTER_STORE_LIST:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          filteredData:
-            state.stores.data.filter(store =>
-              (state.stores.tag === "ALL" || store.category === state.stores.tag) &&
-                ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & state.stores.filter) === state.stores.filter
-            ),
-          error: null
         }
       };
     case GET_STORE_DETAIL_INFO:

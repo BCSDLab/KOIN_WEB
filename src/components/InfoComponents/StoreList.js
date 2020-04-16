@@ -445,6 +445,10 @@ export default function StoreList ({
   convertEventDDay,
   children
 }) {
+  const filteredStoreList = storeList.filter(store =>
+      (tag === "ALL" || store.category === tag) &&
+      ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & filter) === filter
+  )
 
   return (
     <Container>
@@ -476,7 +480,7 @@ export default function StoreList ({
         { children }
         <FilterWrapper>
           <Counter>
-            총 <b>{ storeList.length }개의 업체가</b> 있습니다.
+            총 <b>{ filteredStoreList.length }개의 업체가</b> 있습니다.
           </Counter>
           <CheckboxWrapper first>
             <Checkbox
@@ -505,7 +509,7 @@ export default function StoreList ({
         {!!mobileFlag && <ListHeaderMobile />}
         <ListWrapper>
           {
-            storeList.map((store, index) => (
+            filteredStoreList.map((store, index) => (
               <ListItem
                 to={`/store/${store.permalink}`}
                 index={index}
