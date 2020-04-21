@@ -30,22 +30,7 @@ export const shuffleStoreList = () => (dispatch, getState) => {
   })
 }
 
-
-export const getStoreDetailInfo = id => async dispatch => {
-  dispatch({ type: GET_STORE_DETAIL_INFO });
-  try {
-    const res = await infoAPI.getStoreInfo(id);
-    dispatch({
-      type: GET_STORE_DETAIL_INFO_SUCCESS,
-      res
-    })
-  } catch(e) {
-    dispatch({
-      type: GET_STORE_DETAIL_INFO_ERROR,
-      error: e
-    })
-  }
-};
+export const getStoreDetailInfo = createPromiseThunk(GET_STORE_DETAIL_INFO, infoAPI.getStoreInfo);
 
 export const getRandomPromotion = () => async dispatch => {
   dispatch({ type: GET_STORE_PROMOTION });
@@ -68,7 +53,6 @@ const initialState = {
   stores: reducerUtils.initial([]),
   store: {
     loading: false,
-    image: [],
     data: null,
     error: null
   },
@@ -80,6 +64,7 @@ const initialState = {
 };
 
 const getStoreListReducer = handleAsyncActions(GET_STORE_LIST, 'stores', 'array', e => e.shops);
+const getStoreDetailReducer = handleAsyncActions(GET_STORE_DETAIL_INFO, 'store', 'null');
 
 export default function storeReducer(state = initialState, action) {
   switch (action.type) {
@@ -96,35 +81,9 @@ export default function storeReducer(state = initialState, action) {
         }
       };
     case GET_STORE_DETAIL_INFO:
-      return {
-        ...state,
-        store: {
-          ...state.store,
-          loading: true,
-          data: null,
-          error: null,
-        }
-      }
     case GET_STORE_DETAIL_INFO_SUCCESS:
-      return {
-        ...state,
-        store: {
-          loading: false,
-          image: action.res.data.image_urls,
-          data: action.res.data,
-          error: null
-        }
-      }
     case GET_STORE_DETAIL_INFO_ERROR:
-      return {
-        ...state,
-        store: {
-          ...state.store,
-          loading: false,
-          data: null,
-          error: action.error
-        }
-      }
+      return getStoreDetailReducer(state, action);
     case GET_STORE_PROMOTION:
       return {
         ...state,
