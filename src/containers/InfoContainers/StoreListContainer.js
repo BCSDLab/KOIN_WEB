@@ -12,7 +12,7 @@ export default function StoreListContainer () {
   // 이진수로 체크한다. 계좌이체 / 카드결제 / 배달 순
   const [filter, setFilter] = useState(Number(sessionStorage.getItem("storeFilter")) || 0);
   const dispatch = useDispatch();
-  const { data, loading, error, promotionData } = useSelector(state => state.storeReducer.stores);
+  const { stores: { data, loading, error }, promotion: { promotionData } } = useSelector(state => state.storeReducer);
 
   const history = useHistory();
   const mobileFlag = useMobileFlag();
@@ -59,7 +59,11 @@ export default function StoreListContainer () {
 
   useEffect(() => {
     if(JSON.parse(sessionStorage.getItem("storeNewFlag")) === true || data.length === 0) {
-      dispatch(getStoreList());
+      async function getStores() {
+        await dispatch(getStoreList());
+        dispatch(shuffleStoreList());
+      }
+      getStores();
       console.log("refresh StoreList");
     } else if (JSON.parse(sessionStorage.getItem("storeNewFlag")) !== false) {
       dispatch(shuffleStoreList());

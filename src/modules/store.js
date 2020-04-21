@@ -1,4 +1,5 @@
 import {infoAPI, promotionAPI} from "../api";
+import { reducerUtils, handleAsyncActions, createPromiseThunk } from "../lib/asyncUtils";
 
 const GET_STORE_LIST = "GET_STORE_LIST";
 const GET_STORE_LIST_SUCCESS = "GET_STORE_LIST_SUCCESS";
@@ -14,22 +15,7 @@ const GET_STORE_PROMOTION = "GET_STORE_PROMOTION";
 const GET_STORE_PROMOTION_SUCCESS = "GET_STORE_PROMOTION_SUCCESS";
 const GET_STORE_PROMOTION_ERROR = "GET_STORE_PROMOTION_ERROR";
 
-export const getStoreList = () => async dispatch => {
-  dispatch({ type: GET_STORE_LIST });
-  try {
-    const res = await infoAPI.getStoreList();
-    dispatch({
-      type: GET_STORE_LIST_SUCCESS,
-      res
-    });
-  } catch (e) {
-    dispatch({
-      type: GET_STORE_LIST_ERROR,
-      error: e
-    });
-  }
-  dispatch(shuffleStoreList());
-};
+export const getStoreList = createPromiseThunk(GET_STORE_LIST, infoAPI.getStoreList);
 
 export const shuffleStoreList = () => (dispatch, getState) => {
   const data = getState().storeReducer.stores.data.concat();
@@ -79,56 +65,28 @@ export const getRandomPromotion = () => async dispatch => {
 };
 
 const initialState = {
-  stores: {
-    loading: false,
-    data: [],
-    tag: "ALL",
-    filter: 0,
-    error: null,
-    promotionData: null,
-    promotionLoading: false,
-    promotionError: null
-  },
+  stores: reducerUtils.initial([]),
   store: {
     loading: false,
     image: [],
     data: null,
     error: null
+  },
+  promotion: {
+    promotionData: null,
+    promotionLoading: false,
+    promotionError: null
   }
 };
+
+const getStoreListReducer = handleAsyncActions(GET_STORE_LIST, 'stores', 'array', e => e.shops);
 
 export default function storeReducer(state = initialState, action) {
   switch (action.type) {
     case GET_STORE_LIST:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          loading: true,
-          data: [],
-          error: null
-        }
-      };
     case GET_STORE_LIST_SUCCESS:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          loading: false,
-          data: action.res.data.shops,
-          error: null
-        }
-      };
     case GET_STORE_LIST_ERROR:
-      return {
-        ...state,
-        stores: {
-          ...state.stores,
-          loading: false,
-          data: null,
-          error: action.error
-        }
-      };
+      return getStoreListReducer(state, action);
     case SHUFFLE_STORE_LIST:
       return {
         ...state,
