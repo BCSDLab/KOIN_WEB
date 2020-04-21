@@ -40,6 +40,8 @@ export default function StoreDetailContainer ({ id }) {
 
   useEffect(() => {
     sessionStorage.setItem("storeNewFlag", false);
+
+    return () => toggleDarkBackground(false)
   }, []);
 
   const handleClickImage = useCallback(
