@@ -51,11 +51,7 @@ export const getRandomPromotion = () => async dispatch => {
 
 const initialState = {
   stores: reducerUtils.initial([]),
-  store: {
-    loading: false,
-    data: null,
-    error: null
-  },
+  store: reducerUtils.initial(null),
   promotion: {
     promotionData: null,
     promotionLoading: false,
