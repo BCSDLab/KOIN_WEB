@@ -36,9 +36,6 @@ export default function PostListContainer({ history, match }) {
       case 'anonymous':
         sessionStorage.setItem("boardId", -1);
         break;
-      case 'promotion':
-        sessionStorage.setItem("boardId", 6);
-        break;
       default:
         sessionStorage.setItem("boardId", 1);
         break;
