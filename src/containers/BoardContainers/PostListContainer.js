@@ -11,7 +11,7 @@ export default function PostListContainer({ history, match }) {
   const { posts, totalPageNum, displayPageNum, displayMinNum } = useSelector(state => state.boardReducer);
   const lastLocation = useLastLocation();
   const getPostList = page => {
-    console.log(page);
+    console.log(page, sessionStorage.getItem("boardId"));
     dispatch(getPosts({
       pageNum: page,
       boardId: sessionStorage.getItem("boardId")
@@ -20,9 +20,32 @@ export default function PostListContainer({ history, match }) {
 
   // 게시판 진입 시
   useEffect(() => {
+    switch(match.params.type) {
+      case 'notice':
+        sessionStorage.setItem("boardId", 4);
+        break;
+      case 'free':
+        sessionStorage.setItem("boardId", 1);
+        break;
+      case 'job':
+        sessionStorage.setItem("boardId", 2);
+        break;
+      case 'question':
+        sessionStorage.setItem("boardId", 10);
+        break;
+      case 'anonymous':
+        sessionStorage.setItem("boardId", -1);
+        break;
+      case 'promotion':
+        sessionStorage.setItem("boardId", 6);
+        break;
+      default:
+        sessionStorage.setItem("boardId", 1);
+        break;
+    }
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
-      getPostList(1);
+
       const boardPageNum = {
         'free': 1,
         'job': 1,
@@ -32,6 +55,7 @@ export default function PostListContainer({ history, match }) {
         'promotion': 1
       }
       sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      getPostList(1);
     } else {
       // 게시판 -> 다른 게시판 이동 or 다른 서비스 -> 게시판 이동
       console.log("세션에 페이지 있을 때");
