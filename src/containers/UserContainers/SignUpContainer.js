@@ -121,7 +121,7 @@ export default function SignUpContainer() {
       }
       const year = studentNumber.substring(0, 4);
       const majorCode = studentNumber.substring(4, 7);
-      
+
       if (year < 1992 || year > new Date().getFullYear()) {
         addToast('올바른 입학년도가 아닙니다.', {
           appearance: 'warning',
@@ -215,7 +215,7 @@ export default function SignUpContainer() {
       });
       return;
     }
-    dispatch(checkNickname(nickname));
+    dispatch(checkNickname({nickname}));
   }
 
   const setUserMajor = useCallback(() => {
@@ -312,6 +312,6 @@ export default function SignUpContainer() {
       />
       <CopyRight style={{ marginBottom: '50px' }}/>
     </Container>
-    
+
   )
 }
