@@ -36,9 +36,6 @@
     "sha256": "^0.2.0",
     "styled-components": "^4.4.1"
   },
-  "devDependencies": {
-    "redux-mock-store": "^1.5.4"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
