@@ -5,12 +5,11 @@ import { ToastProvider } from "react-toast-notifications";
 import rootReducer from "../modules";
 import ReduxThunk from "redux-thunk";
 import configureStore from 'redux-mock-store';
-import { Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 // TODO: if react-scripts support jest 25, delete jest-environment-jsdom-sixteen
-function makeStore (customHistory, customState = {}) {
-  let middleware = [];
-  middleware = [...middleware, ReduxThunk.withExtraArgument({ history: customHistory })];
+function makeStore ( customState = {}) {
+  let middleware = [ReduxThunk];
   const mockStore = configureStore(middleware)
   const store = mockStore(customState);
   store.replaceReducer(rootReducer)
@@ -29,13 +28,13 @@ function render(
 ) {
   function Wrapper({ children }) {
     return (
-      <Router history={customHistory}>
+      <BrowserRouter>
         <ToastProvider>
           <Provider store={store}>
             {children}
           </Provider>
         </ToastProvider>
-      </Router>
+      </BrowserRouter>
     )
   }
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions })
