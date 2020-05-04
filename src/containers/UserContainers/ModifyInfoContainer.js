@@ -32,7 +32,7 @@ export default function ModifyInfoContainer() {
   });
 
   const [dropdown, setDropdown] = useState(false);
-  const { data, isAvailable, authInProgress, checkInProgress, error } = useSelector(state => state.authReducer);
+  const { data, isAvailable, authInProgress, checkInProgress, error, nicknameCheckError } = useSelector(state => state.authReducer);
 
   const onModify = useCallback(e => {
     e.preventDefault();
@@ -80,7 +80,7 @@ export default function ModifyInfoContainer() {
       }
       const year = studentNumber.substring(0, 4);
       const majorCode = studentNumber.substring(4, 7);
-      
+
       if (year < 1992 || year > new Date().getFullYear()) {
         addToast('올바른 입학년도가 아닙니다.', {
           appearance: 'warning',
@@ -277,6 +277,28 @@ export default function ModifyInfoContainer() {
       }
     }
   }, [error]);
+
+  useEffect(() => {
+    if (error) {
+      console.log(error)
+      if (error.status === 409) {
+        addToast('사용 불가능한 닉네임입니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else if (error.status === 412) {
+        addToast('올바르지 않은 닉네임 형식입니다.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else {
+        addToast('네트워크 연결을 확인해주세요.', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
+    }
+  }, [nicknameCheckError]);
 
   return (
     <Container>
