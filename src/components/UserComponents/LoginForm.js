@@ -173,9 +173,11 @@ function LoginForm({
           type="checkbox"
           checked={autoLoginFlag}
           onChange={onToggleAutoLoginFlag}
+          id="autoLoginCheckBox"
         />
         <AutoLoginText
-          onClick={onToggleAutoLoginFlag}>
+          onClick={onToggleAutoLoginFlag}
+          htmlFor="autoLoginCheckBox">
           자동 로그인
         </AutoLoginText>
       </AutoLoginField>
