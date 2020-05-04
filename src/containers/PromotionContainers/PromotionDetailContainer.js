@@ -73,12 +73,13 @@ export default function PromotionDetailContainer ({
     const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     if (match) {
       setPath(match.url);
+      sessionStorage.setItem("boardId", 11);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPromotion({
         id: match.params.id,
         token: sessionStorage.getItem("token") || undefined
       }));
-      
+
       // 점주일 때만 퍼미션 체크
       if (userInfo && userInfo.identity === 5 && sessionStorage.getItem("token")) {
         dispatch(checkPromotionPermission({

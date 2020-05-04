@@ -68,7 +68,7 @@ export default React.memo(function ButtonGroup({
     if (!match.params.id) {
       if (boardId === -1) {
         history.push(`${match.url}/register`);
-      } else if (boardId === 6) {
+      } else if (boardId === 11) {
         if (!userInfo) {
           alert("로그인이 필요합니다.");
           history.push('/login');
@@ -105,7 +105,7 @@ export default React.memo(function ButtonGroup({
                 <EditButton onClick={onClickEditButton}>수정</EditButton>
               </>
             }
-            {parseInt(sessionStorage.getItem("boardId")) === -1 && 
+            {parseInt(sessionStorage.getItem("boardId")) === -1 &&
               <TempPasswordInputField
                 type="password"
                 value={password}

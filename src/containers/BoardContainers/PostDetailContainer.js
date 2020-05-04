@@ -146,6 +146,26 @@ export default function PostDetailContainer({
   useEffect(() => {
     console.log("게시글 진입");
     if (match) {
+      switch(match.params.type) {
+        case 'notice':
+          sessionStorage.setItem("boardId", 4);
+          break;
+        case 'free':
+          sessionStorage.setItem("boardId", 1);
+          break;
+        case 'job':
+          sessionStorage.setItem("boardId", 2);
+          break;
+        case 'question':
+          sessionStorage.setItem("boardId", 10);
+          break;
+        case 'anonymous':
+          sessionStorage.setItem("boardId", -1);
+          break;
+        default:
+          sessionStorage.setItem("boardId", 1);
+          break;
+      }
       // setPath(match.url);
       sessionStorage.setItem("postId", match.params.id)
       dispatch(getPost({
