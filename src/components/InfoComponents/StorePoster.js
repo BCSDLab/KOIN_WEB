@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StorePosterImage = styled.img`  
-  width: 600px;
+  max-width: 600px;
   max-height: 100%;
   cursor: pointer;
   position: fixed;

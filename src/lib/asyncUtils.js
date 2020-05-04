@@ -20,21 +20,38 @@ export const createPromiseThunk = (type, promiseCreator) => {
   }
 }
 
-export const handleAsyncActions = (type, key) => {
+export const handleAsyncActions = (type, key, stateType = 'array', successCallback = e => e) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  let loadingData;
+  // loadingData is string only if stateType is before
+  switch (stateType) {
+    case "object":
+      loadingData = {};
+      break;
+    case "null":
+      loadingData = null;
+      break;
+    case "before":
+      loadingData = key
+      break;
+    case "array":
+    default:
+      loadingData = [];
+      break;
+  }
   return (state, action) => {
     switch(action.type) {
       case type:
         return {
           ...state,
-          [key]: reducerUtils.loading([])
+          [key]: reducerUtils.loading(typeof loadingData === 'string' ? state[key].data : loadingData)
         }
       case SUCCESS:
         return {
           ...state,
-          [key]: reducerUtils.success(action.payload)
+          [key]: reducerUtils.success(successCallback(action.payload))
         }
-      case ERROR: 
+      case ERROR:
         return {
           ...state,
           [key]: reducerUtils.error(action.payload)
