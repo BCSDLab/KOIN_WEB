@@ -10,7 +10,7 @@ import { useToasts } from 'react-toast-notifications';
 export default function ModifyInfoContainer() {
   const { addToast } = useToasts();
   const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-  const passwordRegex = /[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]/g;
+  const passwordRegex = /(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]).+/g;
   const emailRegex =  /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   const studentNumberRegex = /^\d{10}$/;
   const nicknameRegex = /admin|관리자/;
@@ -59,7 +59,7 @@ export default function ModifyInfoContainer() {
         return;
       }
       if (!passwordRegex.test(firstPassword)) {
-        addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
+        addToast('비밀번호는 영문자, 숫자, 특수문자를 각각 하나 이상 사용해야 합니다.', {
           appearance: 'warning',
           autoDismiss: true
         });

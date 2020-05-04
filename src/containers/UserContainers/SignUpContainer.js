@@ -12,7 +12,7 @@ export default function SignUpContainer() {
   const emailLocalPartRegex = /^[a-z_0-9]{1,12}$/;
   const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
   const studentNumberRegex = /^\d{10}$/;
-  const passwordRegex = /[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]/g;
+  const passwordRegex = /(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[`₩~!@#$%<>^&*()\-=+_?<>:;"',.{}|[\]\/\\]).+/g;
   const nicknameRegex = /admin|관리자/;
   const dispatch = useDispatch();
   const { data, authInProgress, checkInProgress, isAvailable, error, nicknameCheckError } = useSelector(state => state.authReducer);
@@ -91,7 +91,7 @@ export default function SignUpContainer() {
       return;
     }
     if (!passwordRegex.test(firstPassword)) {
-      addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
+      addToast('비밀번호는 영문자, 숫자, 특수문자를 각각 하나 이상 사용해야 합니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
