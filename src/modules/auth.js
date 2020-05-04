@@ -29,7 +29,7 @@ export const WITHDRAW_ERROR = "WITHDRAW_ERROR";
 
 export const CLEAR_STATE = "CLEAR_STATE";
 const UPDATE_AUTHINFO = "UPDATE_AUTHINFO";
- 
+
 // Action Creators
 export const login = payload => ({ type: LOGIN, payload });
 export const logout = payload => ({ type: LOGOUT, payload });
@@ -50,6 +50,7 @@ const initialState = {
   isLoggedIn: false,
   isAvailable: false,
   error: null,
+  nicknameCheckError: null
 }
 
 export default function authReducer(state = initialState, action) {
@@ -132,7 +133,7 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         checkInProgress: false,
-        error: action.error
+        nicknameCheckError: action.error
       }
     case MODIFY_INFO:
       return {
