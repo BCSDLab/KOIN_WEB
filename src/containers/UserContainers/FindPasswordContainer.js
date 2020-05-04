@@ -13,7 +13,7 @@ export default function FindPasswordContainer() {
   const [findSuccess, setFindSuccess] = useState(false);
   const { data, authInProgress, error } = useSelector(state => state.authReducer);
   const emailLocalPartRegex = /^[a-z_0-9]{1,12}$/;
-  
+
   const onChange = e => {
     setUserId(e.target.value);
   }
@@ -27,16 +27,15 @@ export default function FindPasswordContainer() {
       });
       return;
     }
-    setUserId(userId.trim());
-    if (!emailLocalPartRegex.test(userId)) {
-      addToast('아우누리 계정 형식이 아닙니다.', {
+    if (!userId.trim()) {
+      addToast('계정명을 입력해주세요.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (!userId) {
-      addToast('계정명을 입력해주세요.', {
+    if (!emailLocalPartRegex.test(userId.trim())) {
+      addToast('아우누리 계정 형식이 아닙니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
@@ -89,6 +88,6 @@ export default function FindPasswordContainer() {
       />
       <CopyRight />
     </Container>
-    
+
   )
 }
