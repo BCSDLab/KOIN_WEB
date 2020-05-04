@@ -49,18 +49,21 @@ export default function ModifyInfoContainer() {
           appearance: 'warning',
           autoDismiss: true
         });
+        return;
       }
       if (firstPassword.length < 6 || firstPassword.length > 18) {
         addToast('비밀번호는 6자 이상 18자 이하여야 합니다.', {
           appearance: 'warning',
           autoDismiss: true
         });
+        return;
       }
       if (!passwordRegex.test(firstPassword)) {
         addToast('비밀번호는 하나 이상의 특수문자가 필요합니다.', {
           appearance: 'warning',
           autoDismiss: true
         });
+        return;
       }
     }
     if (phoneNumber && !phoneNumberRegex.test(phoneNumber)) {
