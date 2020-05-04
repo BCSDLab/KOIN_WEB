@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from "react-spinners";
 import styled from 'styled-components';
 import Input from './Input';
+import PropTypes from 'prop-types'
 
 const AutoLoginField = styled.div`
   width: 100%;
@@ -173,9 +174,11 @@ function LoginForm({
           type="checkbox"
           checked={autoLoginFlag}
           onChange={onToggleAutoLoginFlag}
+          id="autoLoginCheckBox"
         />
         <AutoLoginText
-          onClick={onToggleAutoLoginFlag}>
+          onClick={onToggleAutoLoginFlag}
+          htmlFor="autoLoginCheckBox">
           자동 로그인
         </AutoLoginText>
       </AutoLoginField>
@@ -196,4 +199,13 @@ function LoginForm({
   )
 }
 
-export default LoginForm;
+LoginForm.propTypes = {
+  loginInfo: PropTypes.object,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  authInProgress: PropTypes.bool,
+  autoLoginFlag: PropTypes.bool,
+  onToggleAutoLoginFlag: PropTypes.func
+};
+
+export default LoginForm
