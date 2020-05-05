@@ -76,7 +76,7 @@ export default function SignUpContainer() {
       });
       return;
     }
-    if (firstPassword.length < 6 || firstPassword > 18) {
+    if (firstPassword.length < 6 || firstPassword.length > 18) {
       addToast('비밀번호는 6자 이상 18자 이하여야 합니다.', {
         appearance: 'warning',
         autoDismiss: true
