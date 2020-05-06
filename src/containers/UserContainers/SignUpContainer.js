@@ -145,7 +145,6 @@ export default function SignUpContainer() {
         }
       }
     }
-    console.log(!nickname);
     if (nickname && !isAvailable) {
       addToast('닉네임 중복확인을 해주세요.', {
         appearance: 'warning',
@@ -266,7 +265,6 @@ export default function SignUpContainer() {
 
   useEffect(() => {
     if (error) {
-      console.log(error)
       if (error.status === 409) {
         addToast('이미 가입된 계정입니다.', {
           appearance: 'error',
@@ -293,7 +291,6 @@ export default function SignUpContainer() {
 
   useEffect(() => {
     if (nicknameCheckError) {
-      console.log(error)
       if (nicknameCheckError.status === 409) {
         addToast('사용 불가능한 닉네임입니다.', {
           appearance: 'error',
