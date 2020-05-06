@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
 import Input from './Input';
 import { privacy, koin } from '../../static/terms';
+import PropTypes from 'prop-types'
 
 const Row = styled.div`
   display: flex;
@@ -252,7 +253,7 @@ const TermsContent = styled.textarea`
   }
 `;
 
-export default function SignupForm({
+function SignupForm({
   userInfo,
   terms,
   onChange,
@@ -433,3 +434,18 @@ export default function SignupForm({
     </>
   );
 }
+
+SignupForm.propTypes = {
+  userInfo: PropTypes.object,
+  terms: PropTypes.object,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  checkDuplication: PropTypes.func,
+  checkTerms: PropTypes.func,
+  dropdown: PropTypes.bool,
+  setDropdown: PropTypes.func,
+  authInProgress: PropTypes.bool,
+  checkInProgress: PropTypes.bool
+};
+
+export default SignupForm
