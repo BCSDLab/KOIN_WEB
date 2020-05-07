@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Input from './Input';
 import ClipLoader from "react-spinners/ClipLoader";
-import PropsType from 'prop-types';
+import PropTypes from 'prop-types';
 
 const StyledButton = styled.button`
   width: 389px;
@@ -73,12 +73,12 @@ function FindPwForm({
   );
 }
 
-FindPwForm.PropsType = {
-  userId: PropsType.string,
-  onChange: PropsType.func.isRequired,
-  onSubmit: PropsType.func.isRequired,
-  authInProgress: PropsType.bool,
-  findSuccess: PropsType.bool
+FindPwForm.propTypes = {
+  userId: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  authInProgress: PropTypes.bool,
+  findSuccess: PropTypes.bool
 }
 
 export default FindPwForm;
