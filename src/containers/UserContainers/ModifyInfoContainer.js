@@ -28,7 +28,7 @@ export default function ModifyInfoContainer() {
     major: parsedUserInfo.major || "",
     identity: parsedUserInfo.identity,
     isGraduated: parsedUserInfo.is_graduated,
-    email: parsedUserInfo.email
+    email: parsedUserInfo.email || ""
   });
 
   const [dropdown, setDropdown] = useState(false);
