@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Pagination from "../SharedComponents/Pagination";
+import PropTypes from 'prop-types'
 
 const Main = styled.div`
   width: 100%;
@@ -281,7 +282,7 @@ const Mobile = styled.div`
   margin-bottom: 22px;
 `;
 
-export default function LostItemList(
+function LostItemList(
   {
     lostItems,
     totalPageNum,
@@ -410,3 +411,13 @@ export default function LostItemList(
     </Main>
   )
 }
+
+LostItemList.propTypes = {
+  lostItems: PropTypes.array,
+  totalPageNum: PropTypes.number,
+  setPageData: PropTypes.func,
+  history: PropTypes.object,
+  path: PropTypes.string
+}
+
+export default LostItemList
