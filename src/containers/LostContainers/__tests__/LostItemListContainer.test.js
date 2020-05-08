@@ -50,4 +50,26 @@ describe('<LostItemListContainer>',() => {
     expect(sessionStorage.getItem('lpn')).toBe("2");
     expect(store.getActions()).toEqual(expect.arrayContaining([{type: GET_LOST_ITEMS}]));
   })
+
+  it("Click register button with non-login, confirm login", async () => {
+    const store = makeStore({
+      lostReducer: {
+        lostItems: {
+          loading: false,
+          data: {
+            totalPage: 5,
+            lostItems: []
+          },
+          error: null
+        },
+        data: null,
+      }
+    });
+    const { getAllByText } =render(<LostItemListContainer/>, {store});
+    const registerBtn = getAllByText('글쓰기');
+    jest.spyOn(window, 'confirm').mockImplementation(() => {});
+
+    userEvent.click(registerBtn[0]);
+    expect(window.confirm).toHaveBeenCalled();
+  })
 })
