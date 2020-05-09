@@ -62,15 +62,15 @@ export default function SignUpContainer() {
       ...userInfo,
       userId: userId.trim()
     });
-    if (!emailLocalPartRegex.test(userId)) {
-      addToast('아우누리 계정 형식이 아닙니다.', {
+    if (!firstPassword || !secondPassword || !userId) {
+      addToast('필수정보는 반드시 입력해야 합니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
       return;
     }
-    if (!firstPassword || !secondPassword || !userId) {
-      addToast('필수정보는 반드시 입력해야 합니다.', {
+    if (!emailLocalPartRegex.test(userId)) {
+      addToast('아우누리 계정 형식이 아닙니다.', {
         appearance: 'warning',
         autoDismiss: true
       });
@@ -145,7 +145,6 @@ export default function SignUpContainer() {
         }
       }
     }
-    console.log(!nickname);
     if (nickname && !isAvailable) {
       addToast('닉네임 중복확인을 해주세요.', {
         appearance: 'warning',
@@ -266,7 +265,6 @@ export default function SignUpContainer() {
 
   useEffect(() => {
     if (error) {
-      console.log(error)
       if (error.status === 409) {
         addToast('이미 가입된 계정입니다.', {
           appearance: 'error',
@@ -292,14 +290,13 @@ export default function SignUpContainer() {
   }, [error]);
 
   useEffect(() => {
-    if (error) {
-      console.log(error)
-      if (error.status === 409) {
+    if (nicknameCheckError) {
+      if (nicknameCheckError.status === 409) {
         addToast('사용 불가능한 닉네임입니다.', {
           appearance: 'error',
           autoDismiss: true
         });
-      } else if (error.status === 412) {
+      } else if (nicknameCheckError.status === 412) {
         addToast('올바르지 않은 닉네임 형식입니다.', {
           appearance: 'error',
           autoDismiss: true
