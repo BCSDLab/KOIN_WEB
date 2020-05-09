@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 import Input from './Input';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from 'prop-types';
 
 const Advice = styled.div`
   height: 12px;
@@ -181,7 +182,7 @@ const WithdrawButton = styled.button`
   border: 1px solid #c83535;
 `;
 
-export default function ModifyForm({
+function ModifyForm({
   userInfo,
   authInProgress,
   checkInProgress,
@@ -343,3 +344,17 @@ export default function ModifyForm({
     </>
   )
 }
+
+ModifyForm.propTypes = {
+  userInfo: PropTypes.object,
+  authInProgress: PropTypes.bool,
+  checkInProgress: PropTypes.bool,
+  dropdown: PropTypes.bool,
+  setDropdown: PropTypes.func,
+  checkDuplication: PropTypes.func,
+  onModify: PropTypes.func,
+  onWithdraw: PropTypes.func,
+  onChange: PropTypes.func,
+}
+
+export default ModifyForm

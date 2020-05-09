@@ -28,7 +28,7 @@ export default function ModifyInfoContainer() {
     major: parsedUserInfo.major || "",
     identity: parsedUserInfo.identity,
     isGraduated: parsedUserInfo.is_graduated,
-    email: parsedUserInfo.email
+    email: parsedUserInfo.email || ""
   });
 
   const [dropdown, setDropdown] = useState(false);
@@ -282,14 +282,13 @@ export default function ModifyInfoContainer() {
   }, [error]);
 
   useEffect(() => {
-    if (error) {
-      console.log(error)
-      if (error.status === 409) {
+    if (nicknameCheckError) {
+      if (nicknameCheckError.status === 409) {
         addToast('사용 불가능한 닉네임입니다.', {
           appearance: 'error',
           autoDismiss: true
         });
-      } else if (error.status === 412) {
+      } else if (nicknameCheckError.status === 412) {
         addToast('올바르지 않은 닉네임 형식입니다.', {
           appearance: 'error',
           autoDismiss: true
