@@ -5,10 +5,17 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvents from "@testing-library/user-event";
 import {CHECK_NICKNAME, MODIFY_INFO, WITHDRAW} from "../../../modules/auth";
 
+let storageGetItemMock, dateGetFullYearMock;
+
 beforeAll(() => {
-  if (!jest.isMockFunction(Storage.prototype.getItem)) {
-    Storage.prototype.getItem = jest.fn()
-  }
+  storageGetItemMock = jest.spyOn(Storage.prototype, 'getItem');
+  dateGetFullYearMock = jest.spyOn(Date.prototype, 'getFullYear');
+  window.confirm = jest.fn().mockReturnValue(true);
+})
+
+afterAll(() => {
+  storageGetItemMock.mockRestore();
+  dateGetFullYearMock.mockRestore();
 })
 
 describe('<ModifyInfoContainer/>', () => {
@@ -36,7 +43,7 @@ describe('<ModifyInfoContainer/>', () => {
 
 
     it('If password and passwordConfirm is empty, Skip Change Password', async () => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin'
       }));
@@ -57,7 +64,7 @@ describe('<ModifyInfoContainer/>', () => {
       ['Should fill password', 'temp', ''],
       ['Should fill passwordConfirm', '', 'temp'],
     ]) ('%s', async (_, password, passwordConfirm) => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin'
       }));
@@ -86,7 +93,7 @@ describe('<ModifyInfoContainer/>', () => {
       ['Should password contain english', '123456_', '비밀번호는 영문자, 숫자, 특수문자를 각각 하나 이상 사용해야 합니다.'],
       ['Should password contain special character', 'temp123', '비밀번호는 영문자, 숫자, 특수문자를 각각 하나 이상 사용해야 합니다.'],
     ]) ('%s', async (_, password, toastContext) =>  {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin'
       }));
@@ -105,7 +112,7 @@ describe('<ModifyInfoContainer/>', () => {
 
 
     it('Should phone number match regex', async () => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin'
       }));
@@ -124,7 +131,7 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('Should fill nickname if nickname existed', async () => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin',
         nickname: 'koin',
@@ -149,7 +156,7 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('Should duplicate check if nickname is not same', async () => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin',
         nickname: 'koin',
@@ -172,7 +179,7 @@ describe('<ModifyInfoContainer/>', () => {
       ['Should not be nickname admin or 관리자', 'admin', '사용할 수 없는 닉네임입니다.'],
       ['Should be different nickname from before', 'koin', '기존에 등록한 닉네임입니다.'],
     ]) ('%s', async (_, nickname, toastContext) => {
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin',
         nickname: 'koin',
@@ -193,22 +200,21 @@ describe('<ModifyInfoContainer/>', () => {
 
     describe('Common Dispatch Check', () => {
       it('If click withdraw button, Dispatch WITHDRAW', () => {
-        Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+        storageGetItemMock.mockReturnValue(JSON.stringify({
           // requiredValue
           portal_account: 'koin',
           nickname: 'koin',
         }));
         const { getByPlaceholderText, getByText } = render(<ModifyInfoContainer/>, {store: defaultStore});
         const withdrawButton = getByText('회원탈퇴');
-        Storage.prototype.getItem.mockReturnValue('1234');
-        window.confirm = jest.fn().mockReturnValue(true)
+        storageGetItemMock.mockReturnValue('1234');
         userEvents.click(withdrawButton);
 
         expect(defaultStore.getActions()).toEqual(expect.arrayContaining([{type: WITHDRAW, payload: {token: '1234'}}]));
       });
 
       it('If nickname has no error, Dispatch CHECK_NICKNAME', () => {
-        Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+        storageGetItemMock.mockReturnValue(JSON.stringify({
           // requiredValue
           portal_account: 'koin',
           nickname: 'koin',
@@ -243,7 +249,7 @@ describe('<ModifyInfoContainer/>', () => {
             nicknameCheckError: null
           }
         });
-        Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+        storageGetItemMock.mockReturnValue(JSON.stringify({
           // requiredValue
           portal_account: 'koin'
         }));
@@ -275,7 +281,7 @@ describe('<ModifyInfoContainer/>', () => {
         };
         customState.authReducer[errorType] = {status: errorStatus, data: {error: {}}};
         const errorStore = makeStore(customState);
-        Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+        storageGetItemMock.mockReturnValue(JSON.stringify({
           // requiredValue
           portal_account: 'koin'
         }));
@@ -292,10 +298,8 @@ describe('<ModifyInfoContainer/>', () => {
   });
 
   describe('If user is Student', () => {
-    let DateGetFullYear = Date.prototype.getFullYear;
     beforeAll(() => {
-      Date.prototype.getFullYear = jest.fn();
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin',
         identity: 1,
@@ -304,17 +308,13 @@ describe('<ModifyInfoContainer/>', () => {
       }));
     })
 
-    afterAll(() => {
-      Date.prototype.getFullYear = DateGetFullYear
-    })
-
     it.each([
       ['Should be studentNumber length is 10', '12345678910', '학번은 열자리 숫자여야 합니다.'],
       ['Should be year in studentNumber more than 1992', '1991136001', '올바른 입학년도가 아닙니다.'],
       ['Should not be year in studentNumber more than now(2019)', '2020136001', '올바른 입학년도가 아닙니다.'],
       ['Should be match studentNumber regex', '2019222001', '올바른 학부코드가 아닙니다.'],
     ]) ('%s', async (_, studentNumber , toastContext) => {
-      Date.prototype.getFullYear.mockReturnValue(2019)
+      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText } = render(<ModifyInfoContainer/>, {store: defaultStore});
       const studentNumberInput = getByPlaceholderText('학번 (선택)');
       const submitButton = getByText('정보수정');
@@ -343,7 +343,7 @@ describe('<ModifyInfoContainer/>', () => {
           nicknameCheckError: null
         }
       });
-      Date.prototype.getFullYear.mockReturnValue(2019)
+      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText, debug } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const passwordInput = getByPlaceholderText('비밀번호 (필수)');
       const passwordConfirmInput = getByPlaceholderText('비밀번호 확인 (필수)');
@@ -364,7 +364,7 @@ describe('<ModifyInfoContainer/>', () => {
       fireEvent.click(genderDropdownMaleItem)
       fireEvent.mouseLeave(genderDropdownMaleItem)
       expect(genderDropdownMaleItem).not.toBeVisible()
-      Storage.prototype.getItem.mockReturnValue('1234');
+      storageGetItemMock.mockReturnValue('1234');
       userEvents.click(submitButton);
 
       expect(nicknameCheckedStore.getActions())
@@ -408,8 +408,7 @@ describe('<ModifyInfoContainer/>', () => {
       }
     });
     beforeAll(() => {
-      Date.prototype.getFullYear = jest.fn();
-      Storage.prototype.getItem.mockReturnValue(JSON.stringify({
+      storageGetItemMock.mockReturnValue(JSON.stringify({
         // requiredValue
         portal_account: 'koin',
         identity: 5,
@@ -417,7 +416,7 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('Should match email regex', async () => {
-      Date.prototype.getFullYear.mockReturnValue(2019)
+      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const emailInput = getByPlaceholderText('이메일 등록');
       const submitButton = getByText('정보수정');
@@ -433,7 +432,7 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('If data has no error, Dispatch MODIFY_INFO', () => {
-      Date.prototype.getFullYear.mockReturnValue(2019)
+      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText, debug } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const passwordInput = getByPlaceholderText('비밀번호 (필수)');
       const passwordConfirmInput = getByPlaceholderText('비밀번호 확인 (필수)');
@@ -447,7 +446,7 @@ describe('<ModifyInfoContainer/>', () => {
       fireEvent.change(nameInput,{target: {value: '한기대'}})
       fireEvent.change(phoneNumberInput,{target: {value: '010-1234-5678'}})
       fireEvent.change(emailInput,{target: {value: 'asdf@asdf.com'}})
-      Storage.prototype.getItem.mockReturnValue('1234');
+      storageGetItemMock.mockReturnValue('1234');
       userEvents.click(submitButton);
 
       expect(nicknameCheckedStore.getActions())
