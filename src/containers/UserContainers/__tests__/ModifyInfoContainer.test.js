@@ -9,7 +9,7 @@ let storageGetItemMock, dateGetFullYearMock;
 
 beforeAll(() => {
   storageGetItemMock = jest.spyOn(Storage.prototype, 'getItem');
-  dateGetFullYearMock = jest.spyOn(Date.prototype, 'getFullYear');
+  dateGetFullYearMock = jest.spyOn(Date.prototype, 'getFullYear').mockReturnValue(2019);
   window.confirm = jest.fn().mockReturnValue(true);
 })
 
@@ -314,7 +314,6 @@ describe('<ModifyInfoContainer/>', () => {
       ['Should not be year in studentNumber more than now(2019)', '2020136001', '올바른 입학년도가 아닙니다.'],
       ['Should be match studentNumber regex', '2019222001', '올바른 학부코드가 아닙니다.'],
     ]) ('%s', async (_, studentNumber , toastContext) => {
-      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText } = render(<ModifyInfoContainer/>, {store: defaultStore});
       const studentNumberInput = getByPlaceholderText('학번 (선택)');
       const submitButton = getByText('정보수정');
@@ -343,7 +342,6 @@ describe('<ModifyInfoContainer/>', () => {
           nicknameCheckError: null
         }
       });
-      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText, debug } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const passwordInput = getByPlaceholderText('비밀번호 (필수)');
       const passwordConfirmInput = getByPlaceholderText('비밀번호 확인 (필수)');
@@ -416,7 +414,6 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('Should match email regex', async () => {
-      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const emailInput = getByPlaceholderText('이메일 등록');
       const submitButton = getByText('정보수정');
@@ -432,7 +429,6 @@ describe('<ModifyInfoContainer/>', () => {
     })
 
     it('If data has no error, Dispatch MODIFY_INFO', () => {
-      dateGetFullYearMock.mockReturnValue(2019)
       const { getByPlaceholderText, getByText, debug } = render(<ModifyInfoContainer/>, {store: nicknameCheckedStore});
       const passwordInput = getByPlaceholderText('비밀번호 (필수)');
       const passwordConfirmInput = getByPlaceholderText('비밀번호 확인 (필수)');
