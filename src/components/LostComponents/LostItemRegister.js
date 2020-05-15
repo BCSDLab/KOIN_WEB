@@ -536,7 +536,9 @@ export default function LostItemRegister(
     setTitle,
     setDate,
     setPlace,
+    content,
     editorRef,
+    onChangeContent,
     history,
     register,
     setPhoneNumber,
@@ -672,6 +674,8 @@ export default function LostItemRegister(
               ref={editorRef}
               modules={modules}
               style={{ height: '400px' }}
+              value={content}
+              onChange={content => onChangeContent(content)}
             />
           </Wysiwyg>
         </Detail>
