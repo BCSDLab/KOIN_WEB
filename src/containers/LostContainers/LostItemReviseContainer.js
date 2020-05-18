@@ -127,7 +127,6 @@ export default function LostItemReviseContainer({history}) {
   }
   return (
     <LostItemRevise
-      createdAt={"2019.12.12"}
       specificData={specificData}
       type={type}
       setType={setType}

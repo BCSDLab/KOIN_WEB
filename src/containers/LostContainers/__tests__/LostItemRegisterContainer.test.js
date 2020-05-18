@@ -2,7 +2,7 @@ import React from "react";
 import {render, cleanup, makeStore, waitFor, fireEvent} from "../../../lib/testUtils";
 import LostItemRegisterContainer from "../LostItemRegisterContainer";
 import userEvent from "@testing-library/user-event";
-import {GET_LOST_ITEMS, REGISTER_LOST_ITEM} from "../../../modules/lost";
+import { REGISTER_LOST_ITEM } from "../../../modules/lost";
 import { createMemoryHistory } from "history"
 
 jest.mock('react-quill', () => {
@@ -50,7 +50,6 @@ describe("<LostItemRegisterContainer>", () => {
       },
       data: null,
     },
-
   })
 
   it("Title and contents must be filled", async () => {
