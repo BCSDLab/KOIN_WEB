@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
 import Comment from '../SharedComponents/Comment';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from 'prop-types';
 
 const LoaderWrapper = styled.div`
   width: 1132px;
@@ -339,7 +340,7 @@ const MobilePhone = styled.div`
 `;
 
 
-export default function Item({
+function Item({
   history,
   item,
   loading,
@@ -485,3 +486,17 @@ export default function Item({
     </>
   )
 }
+
+Item.propTypes = {
+  history: PropTypes.object,
+  item: PropTypes.object,
+  loading: PropTypes.bool,
+  isMyItem: PropTypes.bool,
+  onClickEditButton: PropTypes.func,
+  onClickDeleteButton: PropTypes.func,
+  registerComment: PropTypes.func,
+  editComment: PropTypes.func,
+  deleteComment: PropTypes.func
+}
+
+export default Item
