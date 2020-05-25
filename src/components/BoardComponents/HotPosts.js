@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components';
 import * as BOARD_INFO from '../../static/boardInfo';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from 'prop-types';
 
 const Container = styled.aside`
   float: left;
@@ -86,7 +87,7 @@ const LinkImage = styled.img`
   width: 100%;
 `;
 
-export default function HotPosts({
+function HotPosts({
   hotPosts,
   loading,
   error,
@@ -161,3 +162,12 @@ export default function HotPosts({
     </Container>
   )
 }
+
+HotPosts.propTypes = {
+  hotPosts: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+  history: PropTypes.object
+}
+
+export default HotPosts

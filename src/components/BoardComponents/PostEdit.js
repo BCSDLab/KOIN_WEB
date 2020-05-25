@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import '../../static/quill.snow.css';
+import PropTypes from 'prop-types';
 
 const PostHead = styled.div`
   border-top: 2px solid #175c8e;
@@ -194,7 +195,7 @@ const MobileEditButton = styled.button`
   right: 0;
 `;
 
-export default function PostEdit({
+function PostEdit({
   children,
   post,
   title,
@@ -202,7 +203,6 @@ export default function PostEdit({
   password,
   editorRef,
   modules,
-  match,
   imageUpload,
   onChangePassword,
   onChangeTitle,
@@ -277,7 +277,7 @@ export default function PostEdit({
           style={{ height: '400px' }}
         />
       </PostBody>
-      
+
       <PostFooter>
         <CancelButton onClick={onClickCancelButton}>취소</CancelButton>
         <EditButton onClick={onClickEditButton}>수정</EditButton>
@@ -286,3 +286,33 @@ export default function PostEdit({
     </>
   )
 }
+
+PostEdit.propTypes = {
+  children: PropTypes.element,
+  post: PropTypes.shape({
+    title: PropTypes.string,
+    comment_count: PropTypes.number,
+    created_at: PropTypes.string,
+    nickname: PropTypes.string,
+    content: PropTypes.string,
+    hit: PropTypes.number,
+    comment: PropTypes.object
+  }),
+  title: PropTypes.string,
+  content: PropTypes.string,
+  password: PropTypes.string,
+  editorRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+  modules: PropTypes.object,
+  imageUpload: PropTypes.func,
+  onChangePassword: PropTypes.func,
+  onChangeTitle: PropTypes.func,
+  onChangeContent: PropTypes.func,
+  onClickEditButton: PropTypes.func,
+  onClickCancelButton: PropTypes.func,
+  computedOnlyDateByDateType: PropTypes.func
+}
+
+export default PostEdit

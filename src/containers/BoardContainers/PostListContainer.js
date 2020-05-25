@@ -5,8 +5,9 @@ import Posts from '../../components/BoardComponents/Posts';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useLastLocation } from 'react-router-last-location';
+import PropTypes from "prop-types";
 
-export default function PostListContainer({ history, match }) {
+function PostListContainer({ history, match }) {
   const dispatch = useDispatch();
   const { posts, totalPageNum, displayPageNum, displayMinNum } = useSelector(state => state.boardReducer);
   const lastLocation = useLastLocation();
@@ -96,3 +97,10 @@ export default function PostListContainer({ history, match }) {
     </>
   )
 }
+
+PostListContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+}
+
+export default PostListContainer

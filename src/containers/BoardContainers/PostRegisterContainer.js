@@ -6,8 +6,9 @@ import { useToasts } from 'react-toast-notifications';
 import { marketAPI, boardAPI } from '../../api'
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
+import PropTypes from "prop-types";
 
-export default function PostRegisterContainer({ history, match }) {
+function PostRegisterContainer({ history, match }) {
   const { addToast } = useToasts();
   const dispatch = useDispatch();
   const { data, error } = useSelector(state => state.boardReducer);
@@ -212,3 +213,10 @@ export default function PostRegisterContainer({ history, match }) {
     </>
   )
 }
+
+PostRegisterContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+}
+
+export default PostRegisterContainer
