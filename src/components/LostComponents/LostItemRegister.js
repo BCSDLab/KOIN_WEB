@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import styled from "styled-components";
 import '../../static/quill.snow.css';
 import ReactQuill from "react-quill";
+import PropTypes from "prop-types"
 
 const Main = styled.div`
   width: 100%;
@@ -526,7 +527,7 @@ const MobileRegisterBtn = styled.button`
   z-index: 25;
 `;
 
-export default function LostItemRegister(
+function LostItemRegister(
   {
     createdAt,
     type,
@@ -536,7 +537,9 @@ export default function LostItemRegister(
     setTitle,
     setDate,
     setPlace,
+    content,
     editorRef,
+    onChangeContent,
     history,
     register,
     setPhoneNumber,
@@ -672,6 +675,8 @@ export default function LostItemRegister(
               ref={editorRef}
               modules={modules}
               style={{ height: '400px' }}
+              value={content}
+              onChange={content => onChangeContent(content)}
             />
           </Wysiwyg>
         </Detail>
@@ -692,6 +697,27 @@ export default function LostItemRegister(
     </Main>
   )
 }
+
+LostItemRegister.propTypes = {
+  createdAt: PropTypes.string,
+  type: PropTypes.number,
+  clickType: PropTypes.func,
+  phoneFlag: PropTypes.number,
+  phoneFlagChange: PropTypes.func,
+  setTitle: PropTypes.func,
+  setDate: PropTypes.func,
+  setPlace: PropTypes.func,
+  content: PropTypes.string,
+  editorRef: PropTypes.object,
+  onChangeContent: PropTypes.func,
+  history: PropTypes.object,
+  register: PropTypes.func,
+  setPhoneNumber: PropTypes.func,
+  modules: PropTypes.object,
+  imageUpload: PropTypes.func,
+}
+
+export default LostItemRegister
 
 export { Main, Container, Footer, Author, BoardHead, BoardInfo, BoardTitleInput,
   CancelBtn, CheckBoxes, CreatedAt, Detail, Form, GoListBtn, Header, LeftForm, LeftFormInput, LeftFormTitle

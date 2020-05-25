@@ -2,13 +2,13 @@ import React, {useEffect} from "react";
 import styled from "styled-components";
 import '../../static/quill.snow.css';
 import ReactQuill from "react-quill";
+import PropTypes from "prop-types"
 import { Main, Container, Footer, Author, BoardHead, BoardInfo,
   BoardTitleInput, CancelBtn, CheckBoxes, CreatedAt, Detail, Form, GoListBtn, Header, LeftForm, LeftFormInput, LeftFormTitle
   , MobileCancelBtn, MobileMenus, MobileRegisterBtn, P, Phone, Place, RegisterBtn, StateSelect, Title, Wysiwyg } from "./LostItemRegister"
 
-export default function LostItemRevise(
+function LostItemRevise(
   {
-    createdAt,
     specificData,
     type,
     setType,
@@ -46,7 +46,7 @@ export default function LostItemRevise(
               onInput={e => setTitle(e.target.value)}/>
             <BoardInfo>
               <Author>{specificData.nickname}</Author>
-              <CreatedAt>{createdAt}</CreatedAt>
+              <CreatedAt>{specificData.created_at}</CreatedAt>
             </BoardInfo>
           </BoardHead>
           <StateSelect>
@@ -179,3 +179,24 @@ export default function LostItemRevise(
     </Main>
   )
 }
+
+LostItemRevise.propTypes = {
+  specificData: PropTypes.object,
+  type: PropTypes.number,
+  setType: PropTypes.func,
+  phoneFlag: PropTypes.bool,
+  setPhoneFlag: PropTypes.func,
+  setTitle: PropTypes.func,
+  setDate: PropTypes.func,
+  setPlace: PropTypes.func,
+  editorRef: PropTypes.object,
+  content: PropTypes.string,
+  onChangeContent: PropTypes.func,
+  history: PropTypes.object,
+  revise: PropTypes.func,
+  setPhoneNumber: PropTypes.func,
+  modules: PropTypes.object,
+  imageUpload: PropTypes.func,
+}
+
+export default LostItemRevise;

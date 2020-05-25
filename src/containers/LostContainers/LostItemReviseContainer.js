@@ -82,7 +82,7 @@ export default function LostItemReviseContainer({history}) {
       return ;
     }
     if(title.length > 255) {
-      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
         appearance: 'warning',
         autoDismiss: true
       });
@@ -127,7 +127,6 @@ export default function LostItemReviseContainer({history}) {
   }
   return (
     <LostItemRevise
-      createdAt={"2019.12.12"}
       specificData={specificData}
       type={type}
       setType={setType}

@@ -16,6 +16,7 @@ export default function LostItemRegisterContainer({history}) {
   const [place, setPlace] = useState('');
   const userInfo = sessionStorage.getItem("userInfo");
   const [phoneNumber, setPhoneNumber] = useState(userInfo ? JSON.parse(userInfo).phone_number : '');
+  const [content, setContent] = useState('')
   const dispatch = useDispatch();
   const editorRef = createRef();
   const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
@@ -30,11 +31,15 @@ export default function LostItemRegisterContainer({history}) {
     setPhoneFlag(flag)
   };
 
+  const onChangeContent = content => {
+    setContent(content)
+  }
+
   const register = () => {
     let registerPlace = place;
     let registerPhoneNumber = phoneNumber;
     let registerDate = date;
-    let contents = editorRef.current.state.value;
+    let contents = content;
 
     if(title === '' || !contents) {
       addToast('제목이나 내용을 추가해주세요.', {
@@ -44,7 +49,7 @@ export default function LostItemRegisterContainer({history}) {
       return ;
     }
     if(title.length > 255) {
-      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${this.length}자 입니다.`, {
+      addToast(`제목 길이는 최대 255자입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
         appearance: 'warning',
         autoDismiss: true
       });
@@ -134,6 +139,8 @@ export default function LostItemRegisterContainer({history}) {
       setTitle={setTitle}
       setDate={setDate}
       setPlace={setPlace}
+      content={content}
+      onChangeContent={onChangeContent}
       editorRef={editorRef}
       history={history}
       register={register}

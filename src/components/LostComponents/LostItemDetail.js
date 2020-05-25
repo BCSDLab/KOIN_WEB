@@ -3,6 +3,7 @@ import styled, {css} from "styled-components";
 import {Link} from "react-router-dom";
 import Comment from "../SharedComponents/Comment";
 import parse from "html-react-parser"
+import PropTypes from "prop-types"
 
 const Main = styled.div`
   width: 100%;
@@ -361,7 +362,7 @@ const MobileRegisterBtn = styled.img.attrs({
 `;
 
 
-export default function LostItemDetail(
+function LostItemDetail(
   {
     history,
     specificData,
@@ -750,3 +751,16 @@ export default function LostItemDetail(
     </Main>
   )
 }
+
+LostItemDetail.propTypes = {
+  history: PropTypes.object,
+  specificData: PropTypes.object,
+  newFlag: PropTypes.bool,
+  adjustComment: PropTypes.func,
+  deleteComment: PropTypes.func,
+  registerComment: PropTypes.func,
+  deleteItem: PropTypes.func,
+  reviseItem: PropTypes.func,
+}
+
+export default LostItemDetail
