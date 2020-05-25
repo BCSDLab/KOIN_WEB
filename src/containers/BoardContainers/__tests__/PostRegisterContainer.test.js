@@ -38,6 +38,10 @@ beforeAll(() => {
   storageGetItemMock = jest.spyOn(Storage.prototype, 'getItem');
 })
 
+afterAll(() => {
+  storageGetItemMock.mockRestore()
+})
+
 describe('<PostRegisterContainer/>', () => {
   const defaultStore = makeStore({
     boardReducer: {
@@ -87,7 +91,7 @@ describe('<PostRegisterContainer/>', () => {
       })
     })
 
-    it('Should fill title', async () => {
+    it('Should fill content', async () => {
       const history = createMemoryHistory();
       const { getAllByPlaceholderText, getByText, getAllByText } = render(
         <PostRegisterContainer history={history} match={registerMatch}/>,
