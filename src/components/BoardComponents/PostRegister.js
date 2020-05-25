@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
+import PropTypes from 'prop-types';
 import '../../static/quill.snow.css';
 
 const PostHead = styled.div`
@@ -195,7 +196,7 @@ const MobileRegisterButton = styled.button`
   right: 0;
 `;
 
-export default function PostRegister({
+function PostRegister({
   children,
   post,
   nickname,
@@ -295,3 +296,24 @@ export default function PostRegister({
     </>
   )
 }
+
+PostRegister.propTypes = {
+  children: PropTypes.element,
+  post: PropTypes.object,
+  nickname: PropTypes.string,
+  editorRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+  modules: PropTypes.object,
+  tempInfo: PropTypes.object,
+  imageUpload: PropTypes.func,
+  onChangeTempInfo: PropTypes.func,
+  onClickRegisterButton: PropTypes.func,
+  onClickCancelButton: PropTypes.func,
+  onChangeTitle: PropTypes.func,
+  onChangeContent: PropTypes.func,
+  computedOnlyDateByDateType: PropTypes.func
+}
+
+export default PostRegister;

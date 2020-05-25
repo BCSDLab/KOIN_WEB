@@ -6,8 +6,9 @@ import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useToasts } from 'react-toast-notifications';
 import * as BOARD_INFO from '../../static/boardInfo';
+import PropTypes from 'prop-types';
 
-export default function PostDetailContainer({
+function PostDetailContainer({
   match,
   history
 }) {
@@ -351,3 +352,10 @@ export default function PostDetailContainer({
     </>
   )
 }
+
+PostDetailContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+}
+
+export default PostDetailContainer

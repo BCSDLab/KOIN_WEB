@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Container = styled.header`
   width: 100%;
@@ -23,7 +24,7 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-export default React.memo(function Header({
+function Header({
   match,
   history,
   children
@@ -53,4 +54,12 @@ export default React.memo(function Header({
       {children}
     </Container>
   )
-})
+}
+
+Header.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  children: PropTypes.element
+}
+
+export default React.memo(Header)

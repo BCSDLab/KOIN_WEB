@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledButtonGroup = styled.div`
   position: absolute;
@@ -53,7 +54,7 @@ const TempPasswordInputField = styled.input`
   width: 83px;
 `;
 
-export default React.memo(function ButtonGroup({
+function ButtonGroup({
   match,
   history,
   isMyPost,
@@ -124,4 +125,17 @@ export default React.memo(function ButtonGroup({
       }
     </StyledButtonGroup>
   )
-})
+}
+
+
+ButtonGroup.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  isMyPost: PropTypes.bool,
+  password: PropTypes.string,
+  onChangePassword: PropTypes.func,
+  onClickEditButton: PropTypes.func,
+  onClickDeleteButton: PropTypes.func
+}
+
+export default React.memo(ButtonGroup)
