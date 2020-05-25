@@ -35,7 +35,7 @@ const defaultMarketReducer = {
   }
 }
 
-describe('<MarketItemContainer>', () => {
+describe('<MarketItemContainer/>', () => {
   console.log = () => {};
   afterEach(() =>{
     cleanup()

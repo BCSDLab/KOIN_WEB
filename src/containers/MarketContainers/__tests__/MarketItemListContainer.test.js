@@ -26,7 +26,7 @@ const defaultStore = makeStore({
   }
 })
 
-describe('<MarketItemListContainer>', () => {
+describe('<MarketItemListContainer/>', () => {
   console.log = () => {};
   afterEach(() =>{
     cleanup()
