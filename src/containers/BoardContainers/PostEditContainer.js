@@ -42,6 +42,21 @@ export default function PostEditContainer({ history, match }) {
   const onClickEditButton = () => {
     if (window.confirm("게시글을 수정하시겠습니까?")) {
       const boardId = sessionStorage.getItem("boardId");
+
+      if (!title.length || !title) {
+        addToast("제목을 입력해주세요.", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
+      if (!content.length || !content) {
+        addToast("내용을 입력해주세요.", {
+          appearance: "warning",
+          autoDismiss: true
+        });
+        return;
+      }
       if (boardId !== '-1') {
         dispatch(editPost({
           body: {
@@ -172,8 +187,7 @@ export default function PostEditContainer({ history, match }) {
     <>
       <Header
         match={match}
-        history={history}
-        isMyPost={post.isMyPost}>
+        history={history}>
         <ButtonGroup
           match={match}
           history={history}
