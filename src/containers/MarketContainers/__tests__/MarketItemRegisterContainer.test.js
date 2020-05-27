@@ -79,7 +79,7 @@ describe("<MarketItemRegisterContainer/>", () => {
       let toast = getByText("가격은 음수일 수 없습니다.");
       expect(toast).toBeInTheDocument();
     });
-  })
+  }) 
 
   it("With full input, dispatch'REGISTER_ITEM' and make toast", async () => {
     const store = makeStore({
