@@ -197,7 +197,7 @@ export default function MarketItemEditContainer({ history, match }) {
   }, []);
 
   useEffect(() => {
-    console.log(data);
+
     if (data) {
       if (data.data.grantEdit) {
         dispatch(getItem({

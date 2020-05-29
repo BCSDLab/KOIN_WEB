@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from "prop-types"
 
 const Container = styled.div`
   border-top: 2px solid #175c8e;
@@ -326,7 +327,7 @@ const MobileInputFieldWrapper = styled.div`
   border-bottom: 1px solid #ececec;
 `;
 
-export default function ItemEdit({
+function ItemEdit({
   history,
   item,
   content,
@@ -445,7 +446,7 @@ export default function ItemEdit({
                   <ImageGuideButton>내 컴퓨터에서 선택</ImageGuideButton>
                 </>
             )}
-            {item.image && !loading 
+            {item.image && !loading
               && (
                 <>
                   <PreviewImage src={item.image} />
@@ -459,7 +460,7 @@ export default function ItemEdit({
               color={"#175c8e"}
               css={LoaderStyle}
               loading={loading}
-            />            
+            />
           </ImageInputDropbox>
         </Form>
         <MobileWrapper>
@@ -487,7 +488,7 @@ export default function ItemEdit({
           </MobileInputFieldWrapper>
           <MobileInputFieldWrapper style={{ position: 'relative', padding: '0 16px' }}>
             <Label>대표 이미지</Label>
-            {!item.image && !loading 
+            {!item.image && !loading
               && (
                 <>
                   <ImageInputField
@@ -558,3 +559,21 @@ export default function ItemEdit({
     </Container>
   )
 }
+
+ItemEdit.propTypes = {
+  history: PropTypes.object,
+  item: PropTypes.object,
+  content: PropTypes.string,
+  isOpen: PropTypes.bool,
+  editorRef: PropTypes.object,
+  modules: PropTypes.object,
+  loading: PropTypes.bool,
+  setItem: PropTypes.func,
+  imageUpload: PropTypes.func,
+  onChangeItem: PropTypes.func,
+  onChangeContent: PropTypes.func,
+  onClickCheckbox: PropTypes.func,
+  onClickEditButton: PropTypes.func,
+}
+
+export default ItemEdit;

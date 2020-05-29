@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled, { css } from 'styled-components';
 import ReactQuill from 'react-quill';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from "prop-types";
 
 const Head = styled.div`
   border-top: 2px solid #175c8e;
@@ -301,7 +302,7 @@ const MobileInputFieldWrapper = styled.div`
   border-bottom: 1px solid #ececec;
 `;
 
-export default function ItemRegister({
+function ItemRegister({
   history,
   item,
   isOpen,
@@ -382,7 +383,7 @@ export default function ItemRegister({
                   <ImageGuideButton>내 컴퓨터에서 선택</ImageGuideButton>
                 </>
             )}
-            {item.image && !loading 
+            {item.image && !loading
               && (
                 <>
                   <PreviewImage src={item.image} />
@@ -396,7 +397,7 @@ export default function ItemRegister({
               color={"#175c8e"}
               css={LoaderStyle}
               loading={loading}
-            />            
+            />
           </ImageInputDropbox>
         </Form>
         <MobileWrapper>
@@ -424,7 +425,7 @@ export default function ItemRegister({
           </MobileInputFieldWrapper>
           <MobileInputFieldWrapper style={{ position: 'relative', padding: '0 16px' }}>
             <Label>대표 이미지</Label>
-            {!item.image && !loading 
+            {!item.image && !loading
               && (
                 <>
                   <ImageInputField
@@ -495,3 +496,20 @@ export default function ItemRegister({
     </>
   )
 }
+
+ItemRegister.propTypes = {
+  history: PropTypes.object,
+  item: PropTypes.object,
+  isOpen: PropTypes.bool,
+  editorRef: PropTypes.object,
+  modules: PropTypes.object,
+  loading: PropTypes.bool,
+  setItem: PropTypes.func,
+  imageUpload: PropTypes.func,
+  onChangeItem: PropTypes.func,
+  onChangeContent: PropTypes.func,
+  onClickCheckbox: PropTypes.func,
+  onClickRegisterButton: PropTypes.func
+}
+
+export default ItemRegister

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components';
 import Pagination from '../SharedComponents/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from "prop-types"
 
 const List = styled.div`
   width: 1132px;
@@ -234,7 +235,7 @@ const MobileAuthor = styled.span`
   text-overflow: ellipsis;
 `;
 
-export default function Items({
+function Items({
   history,
   path,
   items,
@@ -372,3 +373,17 @@ export default function Items({
     </>
   )
 }
+
+Items.propTypes = {
+  history: PropTypes.object,
+  path: PropTypes.string,
+  items: PropTypes.object,
+  isMyItems: PropTypes.bool,
+  loading: PropTypes.bool,
+  totalPageNum: PropTypes.number,
+  numOfItems: PropTypes.number,
+  getItemList: PropTypes.func,
+  getMyItemList: PropTypes.func
+};
+
+export default Items;
