@@ -137,7 +137,7 @@ describe("<MarketItemEditContainer/>",() => {
           phone: "010-1111-2222",
           state: 0,
           thumbnail: "",
-          title: "EditTesting"
+          title: "testEditTesting"
         },
         id: "1",
         token: "1111"
