@@ -11,18 +11,15 @@ export default function PromotionEditContainer({ history, match }) {
   const { addToast } = useToasts();
   const dispatch = useDispatch();
   const { data, error, post, myStore } = useSelector(state => state.promotionReducer);
-  const [helpButtontonFlag, setHelpButtonFlag] = useState(false);
+  const [helpButtonFlag, setHelpButtonFlag] = useState(false);
   const [shops, setShops] = useState([]);
   const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-  const [promotion, setPromotion] = useState({
-    title: '',
-    summary: '',
-    content: '',
-    start: '',
-    end: '',
-    shop: '',
-    nickname: ''
-  });
+  const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
+  const [content, setContent] = useState('');
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
+  const [shop, setShop] = useState('');
   const editorRef = useRef();
   const modules = {
     toolbar: {
@@ -36,20 +33,12 @@ export default function PromotionEditContainer({ history, match }) {
     }
   }
 
-  const onChangeItem = e => {
-    const target = e.target;
-    if (target) {
-      setPromotion(promotion =>({
-        ...promotion,
-        [target.name]: target.value
-      }));
-    } else {
-      setPromotion(promotion =>({
-        ...promotion,
-        content: e
-      }));
-    }
-  }
+  const onChangeTitle = e => setTitle(e.target.value)
+  const onChangeSummary = e => setSummary(e.target.value)
+  const onChangeContent = value => setContent(value)
+  const onChangeStart = e => setStart(e.target.value)
+  const onChangeEnd = e => setEnd(e.target.value)
+  const onChangeShop = e => setShop(e.target.value)
 
   const onClickHelpButton = e => {
     e.stopPropagation();
@@ -58,7 +47,6 @@ export default function PromotionEditContainer({ history, match }) {
 
   const onClickRegisterButton = () => {
     console.log('작성 버튼 클릭');
-    const {title, content, summary, start, end, shop } = promotion;
     if (title === "" || content === "") {
       addToast('제목과 내용을 채워주세요', {
         appearance: 'warning',
@@ -68,6 +56,13 @@ export default function PromotionEditContainer({ history, match }) {
     }
     if (title.length > 20) {
       addToast(`제목 길이는 최대 20자 입니다. 지금 제목의 길이는 ${title.length}자 입니다.`, {
+        appearance: 'warning',
+        autoDismiss: true
+      });
+      return;
+    }
+    if (summary === "") {
+      addToast('홍보 문구를 채워주세요', {
         appearance: 'warning',
         autoDismiss: true
       });
@@ -86,7 +81,7 @@ export default function PromotionEditContainer({ history, match }) {
         autoDismiss: true
       })
     }
-    if (promotion.shop === "") {
+    if (shop === "") {
       addToast('홍보할 상점을 선택해주세요.', {
         appearance: 'warning',
         autoDismiss: true
@@ -193,22 +188,21 @@ export default function PromotionEditContainer({ history, match }) {
       const startDate = today.toISOString().slice(0, 10);
       today.setDate(today.getDate() + 3);
       const endDate = today.toISOString().slice(0, 10);
-      setPromotion(promoiton => ({
-        ...promoiton,
-        start: startDate,
-        end: endDate,
-        nickname: sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem("userInfo")).nickname : ""
-      }));
-    }
-    window.addEventListener('click' , () => {
-      setHelpButtonFlag(false)
-    })
+      setStart(startDate);
+      setEnd(endDate);
 
-    return () => {
-      console.log("out")
-      window.removeEventListener('click' , () => {
-        setHelpButtonFlag(false)
+      window.addEventListener('click' , () => {
+        if (setHelpButtonFlag)
+          setHelpButtonFlag(false)
       })
+
+      return () => {
+        console.log("out")
+        window.removeEventListener('click' , () => {
+          if (setHelpButtonFlag)
+            setHelpButtonFlag(false)
+        })
+      }
     }
   }, []);
 
@@ -254,11 +248,8 @@ export default function PromotionEditContainer({ history, match }) {
   useEffect(() => {
     if(myStore.data) {
       const firstShop = myStore.data[0];
-      setPromotion(promotion => ({
-        ...promotion,
-        shop: firstShop ? String(firstShop.shop_id) : ""
-      }))
-      setShops(myStore.data)
+      setShop(firstShop ? String(firstShop.shop_id) : "");
+      setShops(myStore.data);
     }
     if(myStore.error) {
       addToast("내 상점을 불러오는 중 에러가 발생했습니다.", {
@@ -280,14 +271,24 @@ export default function PromotionEditContainer({ history, match }) {
       </Header>
       <PromotionEdit
         type="등록"
-        promotion={promotion}
+        title={title}
+        summary={summary}
+        content={content}
+        start={start}
+        end={end}
+        shop={shop}
         shops={shops}
-        helpButtonFlag={helpButtontonFlag}
+        helpButtonFlag={helpButtonFlag}
         editorRef={editorRef}
         modules={modules}
         match={match}
         imageUpload={imageUpload}
-        onChangeItem={onChangeItem}
+        onChangeTitle={onChangeTitle}
+        onChangeSummary={onChangeSummary}
+        onChangeContent={onChangeContent}
+        onChangeStart={onChangeStart}
+        onChangeEnd={onChangeEnd}
+        onChangeShop={onChangeShop}
         onClickHelpButton={onClickHelpButton}
         onClickEditButton={onClickRegisterButton}
         onClickCancelButton={onClickCancelButton} />

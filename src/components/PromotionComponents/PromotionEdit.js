@@ -604,13 +604,23 @@ const CancelButton = styled.input.attrs({type: 'button'})`
 
 export default function PromotionEdit({
   type,
-  promotion,
+  title,
+  summary,
+  content,
+  start,
+  end,
+  shop,
   shops,
   helpButtonFlag,
   editorRef,
   modules,
   imageUpload,
-  onChangeItem,
+  onChangeTitle,
+  onChangeSummary,
+  onChangeContent,
+  onChangeStart,
+  onChangeEnd,
+  onChangeShop,
   onClickHelpButton,
   onClickEditButton,
   onClickCancelButton
@@ -626,19 +636,19 @@ export default function PromotionEdit({
       <PromotionHead>
         <PromotionTitle>
           <TextInput
-            value={promotion.title}
+            value={title}
             name="title"
             placeholder="제목을 입력해주세요. (20자 이내)"
-            onChange={onChangeItem} />
+            onChange={onChangeTitle} />
           <PromotionShop>
             <span>상점 선택</span>
             <ShopSelectWrapper>
-              <label htmlFor="shop">{filterShop(promotion.shop, shops).name}</label>
+              <label htmlFor="shop">{filterShop(shop, shops).name}</label>
               <ShopSelect
                 id="shop"
                 name="shop"
-                value={promotion.shop}
-                onChange={onChangeItem}>
+                value={shop}
+                onChange={onChangeShop}>
                 {shops.map(value => (
                   <option
                     value={Number(value.shop_id)}
@@ -655,11 +665,11 @@ export default function PromotionEdit({
           <SummaryFieldWrapper>
             <TextInput
               id="summary"
-              value={promotion.summary}
+              value={summary}
               name="summary"
               type="summary"
               placeholder="홍보문구를 입력해주세요. (50자 이내)"
-              onChange={onChangeItem}/>
+              onChange={onChangeSummary}/>
             <HelpPopupWrapper>
               <HelpPopupButton value={helpButtonFlag} onClick={onClickHelpButton}>?</HelpPopupButton>
               {helpButtonFlag && (
@@ -685,34 +695,36 @@ export default function PromotionEdit({
           <DatePickerField>
             <label htmlFor="start"/>
             <DatePicker
+              data-testid="start"
               id="start"
               name="start"
-              value={promotion.start}
-              onChange={onChangeItem} />
+              value={start}
+              onChange={onChangeStart} />
           </DatePickerField>
           ~
           <DatePickerField>
             <label htmlFor="end"/>
             <DatePicker
+              data-testid="end"
               id="end"
               name="end"
-              value={promotion.end}
-              onChange={onChangeItem}/>
+              value={end}
+              onChange={onChangeEnd}/>
           </DatePickerField>
         </PromotionPeriod>
         <PromotionAuthor>
           <span>닉네임</span>
-          { promotion.nickname }
+          { sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem("userInfo")).nickname : "" }
         </PromotionAuthor>
-        {!promotion.content &&
+        {!content &&
         <WarningText>계정 당 하나의 게시물을 작성하여 업데이트, 수정 할 수 있습니다.<span>!</span></WarningText>
         }
       </PromotionHead>
       <PromotionBody>
         <ReactQuill
           ref={editorRef}
-          value={promotion.content}
-          onChange={content => onChangeItem(content)}
+          value={content}
+          onChange={onChangeContent}
           modules={modules}
           style={{height: '425px'}} />
       </PromotionBody>
