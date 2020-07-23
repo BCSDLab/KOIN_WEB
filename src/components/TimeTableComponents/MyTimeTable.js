@@ -34,6 +34,7 @@ const SaveButton = styled.button`
   width: 166px;
   height: 45px;
   border: solid 1px #175c8e;
+  padding: 1px 6px;
   background-color: #175c8e;
   font-size: 15px;
   line-height: 1.6;
