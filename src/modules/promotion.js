@@ -64,7 +64,6 @@ const initialState = {
     data: null,
     loading: false,
     error: null,
-    pendingData: null,
     totalPageNum: 0,
     pageNum: 1,
     PAGE_MAX_SIZE: 5
@@ -72,7 +71,8 @@ const initialState = {
   post: {
     data: null,
     loading: false,
-    error: null
+    error: null,
+    pendingData: null
   },
   comment: {
     loading: false,
