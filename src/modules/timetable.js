@@ -533,7 +533,9 @@ export default function timetableReducer(state = initialState, action) {
         ...state,
         myLectures: state.myLectures.filter((lecture, index) => index !== action.payload.id),
         layout: action.payload.layout,
-        removedColors: state.removedColors.concat(action.payload.bgColor)
+        removedColors: action.payload.bgColor
+          ? state.removedColors.concat(action.payload.bgColor)
+          : state.removedColors
       }
     case REMOVE_LECTURE_ERROR:
       return {
