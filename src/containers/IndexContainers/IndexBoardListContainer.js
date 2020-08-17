@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from "react";
 import IndexBoardList from "../../components/IndexComponents/IndexBoardList";
 import {useDispatch, useSelector} from "react-redux";
+import {getHotPosts, getNewPosts} from "../../modules/board";
 
 export default function IndexBoardListContainer({history}) {
   const dispatch = useDispatch();
   const {notice, free, job, anonymous, question, loading, error} = useSelector(state => state.boardReducer.newPosts);
   const [selectedBoard, selectBoard] = useState(0);
   const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    dispatch(getHotPosts());
+    dispatch(getNewPosts());
+  }, []);
 
   useEffect(()=> {
     switch (selectedBoard) {

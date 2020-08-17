@@ -3,13 +3,9 @@ import styled from "styled-components";
 import AwesomeSwiper from 'react-awesome-swiper';
 import useMobileFlag from "../hooks/useMobileFlag";
 
-import IndexTopBoardContainer from "../containers/IndexContainers/IndexTopBoardContainer";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/IndexCafeteriaContainer";
-import IndexRecommendContainer from "../containers/IndexContainers/IndexRecommendContainer";
 import IndexBoardListContainer from "../containers/IndexContainers/IndexBoardListContainer";
-import IndexMarketContainer from '../containers/IndexContainers/IndexMarketContainer';
-import IndexCardNewsContainer from "../containers/IndexContainers/IndexCardNewsContainer";
 
 const Container = styled.div`
   width: 1132px;
@@ -91,13 +87,8 @@ export default function IndexPage({history}) {
         </IndexRow>
       }
 
-      <IndexRow top>
-        <IndexTopBoardContainer history={history}/>
-      </IndexRow>
-
       <IndexRow>
         <CardList>
-          <IndexRecommendContainer history={history}/>
           <IndexBusContainer history={history}/>
           <IndexCafeteriaContainer history={history}/>
         </CardList>
@@ -105,30 +96,16 @@ export default function IndexPage({history}) {
 
       <IndexRow>
         <MobileSwiper>
-          <AwesomeSwiper config={config}>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <IndexCafeteriaContainer history={history}/>
-              </div>
-              <div className="swiper-slide">
-                <IndexRecommendContainer history={history}/>
-              </div>
-            </div>
-            <div className="swiper-pagination" />
-          </AwesomeSwiper>
+
         </MobileSwiper>
       </IndexRow>
 
       <IndexRow>
         <BoardList>
           <IndexBoardListContainer history={history}/>
-          <IndexCardNewsContainer />
         </BoardList>
       </IndexRow>
 
-      <IndexRow>
-        <IndexMarketContainer history={history}/>
-      </IndexRow>
     </Container>
   )
 }

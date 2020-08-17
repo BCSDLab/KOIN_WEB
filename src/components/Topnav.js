@@ -2,7 +2,6 @@ import React from 'react'
 import styled, { keyframes} from 'styled-components';
 import { Link } from 'react-router-dom';
 import MobileTopnav from './MobileTopnav';
-import SearchBar from './SearchComponents/SearchBar';
 
 const SlideEnter = keyframes`
   0% {
@@ -344,7 +343,7 @@ export default React.memo(function Topnav({
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
-          {!searchBar && 
+          {!searchBar &&
           <MegaMenu>
             {categories.map((category, index) => (
               <MegaMenuItem
@@ -372,16 +371,7 @@ export default React.memo(function Topnav({
               </MegaMenuContainer>
             </MegaMenuPanelContainer>
           </MegaMenu>}
-          {searchBar &&
-            <SearchBar
-              searchWord={searchWord}
-              searchWordList={searchWordList}
-              setSearchBar={setSearchBar}
-              onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
-              onChangeSearchWord={onChangeSearchWord}
-              onClickSearchButton={onClickSearchButton}
-            />
-          }
+
           {!searchBar && <SearchIcon
             src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
@@ -398,7 +388,7 @@ export default React.memo(function Topnav({
             <Link to="/login" onClick={() => toggleDarkBackground(false)}>
               <AuthLinkButton style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
                   로그인
-              </AuthLinkButton>   
+              </AuthLinkButton>
             </Link>
           </>
         ) :(
@@ -439,16 +429,6 @@ export default React.memo(function Topnav({
           <RouteIcon
             src={"https://static.koreatech.in/assets/img/ic-search.png"}
             onClick={() => setSearchBar(true)}
-          />
-        }
-        {searchBar && !mobileMenu &&
-          <SearchBar
-            searchWord={searchWord}
-            searchWordList={searchWordList}
-            setSearchBar={setSearchBar}
-            onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
-            onChangeSearchWord={onChangeSearchWord}
-            onClickSearchButton={onClickSearchButton}
           />
         }
       </MobileRow>
