@@ -6,6 +6,8 @@ import useMobileFlag from "../hooks/useMobileFlag";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/IndexCafeteriaContainer";
 import IndexBoardListContainer from "../containers/IndexContainers/IndexBoardListContainer";
+import IndexStoreCategoryContainer from "../containers/IndexContainers/IndexStoreCategoryContainer";
+import IndexTimeTableContainer from "../containers/IndexContainers/IndexTimeTableContainer";
 
 const Container = styled.div`
   width: 1132px;
@@ -55,15 +57,6 @@ const MobileSwiper = styled.div`
     display: block;
     margin-top: 45px;
     padding-bottom: 21px!important;
-    
-    .swiper-slide {
-      width: 85%;
-    }
-    
-    .swiper-pagination {
-      position: relative;
-      margin-top: 20px;
-    }
   }
 `;
 
@@ -87,23 +80,25 @@ export default function IndexPage({history}) {
         </IndexRow>
       }
 
-      <IndexRow>
+      <IndexRow top>
         <CardList>
-          <IndexBusContainer history={history}/>
-          <IndexCafeteriaContainer history={history}/>
+          <div>
+            <IndexStoreCategoryContainer history={history}/>
+            <IndexBusContainer history={history}/>
+          </div>
+          <IndexTimeTableContainer/>
         </CardList>
       </IndexRow>
 
-      <IndexRow>
-        <MobileSwiper>
 
-        </MobileSwiper>
-      </IndexRow>
 
       <IndexRow>
+        <CardList>
         <BoardList>
           <IndexBoardListContainer history={history}/>
         </BoardList>
+        <IndexCafeteriaContainer history={history}/>
+        </CardList>
       </IndexRow>
 
     </Container>
