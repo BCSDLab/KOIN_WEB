@@ -17,12 +17,10 @@ const SlideEnter = keyframes`
 const Container = styled.nav`
   height: 80px;
   font-size: 12px;
-  border-bottom: 1px solid #0000002b;
   font-family: NanumSquare, serif;
   font-weight: 800;
   background: #175c8e;
   color: #fff;
-  border-bottom: 5px solid #f7941e;
   display: ${props => {
     switch(props.path) {
       case '/login':

@@ -20,6 +20,7 @@ const BusTitle = styled.h2`
   color: #175c8e;
   cursor: pointer;
   margin: 0;
+  padding-left: 1px;
 
   @media(max-width: 576px){
     font-size: 18px;
@@ -29,7 +30,7 @@ const BusTitle = styled.h2`
 const BusCard = styled.div`
   margin-top: 20px;
   width: 494px;
-  height: 157px;
+  height: 204px;
   box-sizing: border-box;
   border: 1px solid ${props => props.busType === "shuttle" ? "#f7941e" : props.busType === "daesung" ? "#7c9fae" : "#4db297"};
   
