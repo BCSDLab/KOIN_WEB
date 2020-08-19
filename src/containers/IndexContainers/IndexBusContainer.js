@@ -8,9 +8,12 @@ import {useDispatch, useSelector} from "react-redux";
 export default function IndexBusContainer({history}) {
   const dispatch = useDispatch();
   const busTypes = ["shuttle","daesung","cityBus"];
-  const [selectedType, setSelectedType] = useState("shuttle");
   const [depart, setDepart] = useState("한기대");
   const [arrival, setArrival] = useState("야우리");
+  const [daesungDepart, setDaesungDepart] = useState("한기대");
+  const [daesungArrival, setDaesungArrival] = useState("야우리");
+  const [cityDepart, setCityDepart] = useState("한기대");
+  const [cityArrival, setCityArrival] = useState("야우리");
 
   const [fastestShuttleTime, setFastestShuttleTime] = useState(0);
   const [fastestDaesungTime, setFastestDaesungTime] = useState(0);
@@ -19,10 +22,9 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
-  const [isCityBus, setIsCityBus] = useState(false)
 
   useInterval(() => {
-    setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(depart+arrival, daesungDepart+daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },1000);
 
   function changeEnglish (place) {
@@ -36,35 +38,46 @@ export default function IndexBusContainer({history}) {
     }
   }
 
-  const shiftDestination = () => {
-    setDepart(arrival);
-    setArrival(depart);
+  const shiftDestination = (index) => {
+    switch(index){
+      case 0:
+        setDepart(arrival);
+        setArrival(depart);
+        break;
+      case 1:
+        setDaesungDepart(daesungArrival);
+        setDaesungArrival(daesungDepart);
+        break;
+      case 2:
+        setCityDepart(cityArrival);
+        setCityArrival(cityDepart);
+        break;
+    }
   };
 
   useEffect(() => {
-    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-    setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
-  },[arrival])
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    console.log(depart+arrival)
+    setBusTime(depart+arrival, daesungDepart+daesungArrival ,setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+  },[arrival, daesungArrival, cityArrival])
 
   useEffect(() => {
-    if(selectedType === "cityBus"){
-      dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-      setIsCityBus(true);
-    }
-    else setIsCityBus(false);
-  },[selectedType]);
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+  },[]);
 
   useInterval(() => {
-    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-  }, (isCityBus? 1000 : null));
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+  }, 1000);
 
   return (
     <IndexBus
       busTypes={busTypes}
-      selectedType={selectedType}
-      setSelectedType={setSelectedType}
       depart={depart}
       arrival={arrival}
+      daesungDepart={daesungDepart}
+      daesungArrival={daesungArrival}
+      cityDepart={cityDepart}
+      cityArrival={cityArrival}
       shiftDestination={shiftDestination}
       shuttleTime={shuttleTime}
       daesungTime={daesungTime}

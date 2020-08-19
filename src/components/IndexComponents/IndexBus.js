@@ -27,12 +27,18 @@ const BusTitle = styled.h2`
   }
 `;
 
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 848px;
+`;
+
 const BusCard = styled.div`
-  margin-top: 20px;
-  width: 494px;
+  margin-top: 16px;
+  width: 272px;
   height: 204px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.busType === "shuttle" ? "#f7941e" : props.busType === "daesung" ? "#7c9fae" : "#4db297"};
+  //border: 1px solid ${props => props.busType === "shuttle" ? "#f7941e" : props.busType === "daesung" ? "#7c9fae" : "#4db297"};
   
   @media(max-width: 576px){
     width: 544px;
@@ -44,9 +50,9 @@ const BusCard = styled.div`
 const DestinationShiftRow = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 40px;
-  background-color: ${props => props.busType === "shuttle" ? "#fff4e9" : props.busType === "daesung" ? "#f2f5f7" : "#edf7f4"};
+  padding-top: 12px;
+  height: 28px;
+  background-color: ${props => props.busType === "shuttle" ? "#f7941e" : props.busType === "daesung" ? "#7c9fae" : "#4db297"};
   
   @media(max-width: 576px){
     height: 38px;
@@ -77,18 +83,16 @@ const Badge = styled.div`
   }
 `;
 
-const Departure = styled.div`
-  height: 18px;
-  font-family: "NanumBarunGothic", serif;
-  font-size: 15px;
+const BusType = styled.div`
+  font-family: NanumBarunGothic;
+  font-size: 14px;
   font-weight: bold;
-  font-style: normal;
   font-stretch: normal;
-  line-height: 1.2;
+  font-style: normal;
+  line-height: normal;
   letter-spacing: normal;
-  text-align: left;
-  color: #252525;
-  padding-left: 8px;
+  color: #ffffff;
+  margin-left: 10px;
   
   @media(max-width: 576px){
     font-size: 12px;
@@ -97,10 +101,10 @@ const Departure = styled.div`
 `;
 
 const DestinationShiftBtn = styled.img`
-  height: 20px;
-  width: 19px;
-  padding-left: 40px;
-  padding-right: 40px;
+  height: 16px;
+  width: 16px;
+  padding-left: 26px;
+  padding-right: 25px;
   cursor: pointer;
   
   @media(max-width: 576px){
@@ -109,22 +113,25 @@ const DestinationShiftBtn = styled.img`
 `;
 
 const Info = styled.div`
-  width: 100%;
-  margin-top: 17px;
+  width: 270px;
+  height: 120px;
+  padding-top: 41px;
+  border-bottom: 1px #e4e4e4 solid;
+  border-left: 1px #e4e4e4 solid;
+  border-right: 1px #e4e4e4 solid;
   
   @media(max-width: 576px){
-    margin-top: 15px;
+    padding-top: 15px;
   }
 `;
 
 const BusIcon = styled.img.attrs({
-  src : "https://static.koreatech.in/assets/img/bus_icon.png"
+  src: "https://static.koreatech.in/assets/img/bus_icon-white.png"
 })`
   position: relative;
   height: 15px;
   width: auto;
-  right: 5px;
-  top: 3px;
+  right: -2px;
 `;
 
 const Type = styled.div`
@@ -152,18 +159,16 @@ const Type = styled.div`
 
 const Time = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  font-family: "NanumBarunGothic", serif;
+  font-family: NanumBarunGothic;
   font-size: 16px;
-  font-weight: bold;
-  font-style: normal;
+  font-weight: normal;
   font-stretch: normal;
-  line-height: 1.19;
+  font-style: normal;
+  line-height: normal;
   letter-spacing: normal;
-  text-align: center;
   color: #252525;
-  padding: 0 26px;
   
   @media(max-width: 576px){
     font-size: 20px;
@@ -180,19 +185,19 @@ const BusTypeChangeIcon = styled.img`
 
 const LeftTime = styled.div`
   cursor: pointer;
-  padding-top: 15px;
 `;
 
 const TimeDetail = styled.div`
-  height: 18px;
+  height: 14px;
+  padding-top: 3px;
+  font-family: NanumBarunGothic;
   font-size: 12px;
   font-weight: normal;
-  font-style: normal;
   font-stretch: normal;
-  line-height: 1.2;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   color: #252525;
-  padding-top: 3px;
-  text-align: center;
   
   @media(max-width: 576px){
     font-size: 11px;
@@ -200,12 +205,29 @@ const TimeDetail = styled.div`
   }
 `;
 
+const Destination = styled.div`
+  margin-top: 24px;
+  font-family: NanumBarunGothic;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #252525;
+  
+  display: flex;
+  justify-content: center;
+`
+
 export default React.memo(function IndexBus({
   busTypes,
-  selectedType,
-  setSelectedType,
   depart,
   arrival,
+  daesungDepart,
+  daesungArrival,
+  cityDepart,
+  cityArrival,
   shiftDestination,
   shuttleTime,
   daesungTime,
@@ -215,25 +237,29 @@ export default React.memo(function IndexBus({
   history
 }) {
   function getShiftBtn(type) {
-    if(type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_reverse.png';
-    else if(type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_reverse.png';
+    if (type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_reverse.png';
+    else if (type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_reverse.png';
     else return 'https://static.koreatech.in/assets/img/city_reverse.png';
   }
+
   function getTypeName(type) {
-    if(type === "shuttle") return "셔틀버스";
-    else if(type === "daesung") return "대성고속";
+    if (type === "shuttle") return "셔틀버스";
+    else if (type === "daesung") return "대성고속";
     else return "시내버스";
   }
+
   function getLeftIcon(type) {
-    if(type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_left.png';
-    else if(type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_left.png';
+    if (type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_left.png';
+    else if (type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_left.png';
     else return 'https://static.koreatech.in/assets/img/city_left.png';
   }
+
   function getRightIcon(type) {
-    if(type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_right.png';
-    else if(type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_right.png';
+    if (type === "shuttle") return 'https://static.koreatech.in/assets/img/shuttle_right.png';
+    else if (type === "daesung") return 'https://static.koreatech.in/assets/img/daesung_right.png';
     else return 'https://static.koreatech.in/assets/img/city_right.png';
   }
+
   // 시간 반환 함수
   const hour = (val) => {
     return Math.floor(val / 1000 / 60 / 60) % 24;
@@ -247,58 +273,41 @@ export default React.memo(function IndexBus({
     return Math.floor(val / 1000) % 60;
   };
   const timeToString = (time) => {
-    if(time === 0){
+    if (time === 0) {
       return "운행정보없음"
-    } else if (time === "미운행"){
+    } else if (time === "미운행") {
       return "미운행"
-    } else if(hour(time) === 0){
+    } else if (hour(time) === 0) {
       return minute(time) + "분 " + second(time) + "초 남음"
-    } else if(hour(time) === 0 && minute(time) === 0){
+    } else if (hour(time) === 0 && minute(time) === 0) {
       return second(time) + "초 남음"
     } else return hour(time) + "시간 " + minute(time) + "분 " + second(time) + "초 남음"
   };
-  function changeType(type, direction) {
-    switch (type) {
-      case "shuttle":
-        if(direction === "prev"){
-          setSelectedType("cityBus")
-        } else setSelectedType("daesung");
-        break;
-      case "daesung":
-        if(direction === "prev"){
-          setSelectedType("shuttle")
-        } else setSelectedType("cityBus");
-        break;
-      case "cityBus":
-        if(direction === "prev"){
-          setSelectedType("daesung")
-        } else setSelectedType("shuttle");
-        break;
-    }
-  }
-  function cityBusString (remain_time) {
-    if(remain_time !== null && remain_time !== undefined) {
-      return "약 "+ Math.ceil(remain_time/60)%60 +"분 남음"
-    }
-    else if(remain_time === undefined || remain_time === null) {
+
+  function cityBusString(remain_time) {
+    if (remain_time !== null && remain_time !== undefined) {
+      return "약 " + Math.ceil(remain_time / 60) % 60 + "분 남음"
+    } else if (remain_time === undefined || remain_time === null) {
       return "운행정보없음"
     }
   }
+
   const timeLength = (val) => {
     return val < 10 ? '0' + val : val;
   };
-  function detailString (shuttleTime, daesungTime, cityBusTime, type) {
+
+  function detailString(shuttleTime, daesungTime, cityBusTime, type) {
     switch (type) {
       case "shuttle":
-        return (shuttleTime[0].hour !== 0 ? "(" + timeLength(shuttleTime[0].hour) + ":"+timeLength(shuttleTime[0].minute) + " 출발)" : "");
+        return (shuttleTime[0].hour !== 0 ? timeLength(shuttleTime[0].hour) + "시 " + timeLength(shuttleTime[0].minute) + "분 출발" : "");
       case "daesung":
-        return (daesungTime[0].hour !== 0 ? "(" + timeLength(daesungTime[0].hour) + ":" + timeLength(daesungTime[0].minute) + " 출발)" : "");
+        return (daesungTime[0].hour !== 0 ? timeLength(daesungTime[0].hour) + "시 " + timeLength(daesungTime[0].minute) + "분 출발" : "");
       case "cityBus":
-        if(cityBusTime === null || cityBusTime === undefined ){
+        if (cityBusTime === null || cityBusTime === undefined) {
           return ""
         }
         let today = new Date();
-        let minutes = today.getMinutes() + (Math.ceil(cityBusTime/60)%60);
+        let minutes = today.getMinutes() + (Math.ceil(cityBusTime / 60) % 60);
         let hours = today.getHours();
         if (minutes >= 60) {
           hours = hours + 1;
@@ -307,67 +316,55 @@ export default React.memo(function IndexBus({
         hours = hours < 10 ? '0' + hours : hours;
         minutes = minutes < 10 ? '0' + minutes : minutes;
 
-        return "(" + hours + ":" + minutes + " 출발)";
+        return hours + "시 " + minutes + "분 출발";
     }
   }
+
   return (
     <Container>
       <BusTitle onClick={() => history.push('/bus')}>
         실시간 버스
       </BusTitle>
-      {busTypes.map((type, index) => {
-        return (
-          <div key={index}>
-            {selectedType === type &&
+      <CardContainer>
+        {busTypes.map((type, index) => {
+          return (
+            <div key={index}>
               <BusCard busType={type}>
                 <DestinationShiftRow busType={type}>
-                  <Badge
-                    busType={type}
-                    depart>
-                    출발
-                  </Badge>
-                  <Departure>
-                    {depart}
-                  </Departure>
-                  <DestinationShiftBtn
-                    src={getShiftBtn(type)}
-                    onClick={() => shiftDestination()}/>
-                  <Badge
-                    busType={type}
-                    arrive>
-                    도착
-                  </Badge>
-                  <Departure>
-                    {arrival}
-                  </Departure>
+                  <BusIcon/>
+                  <BusType>
+                    {getTypeName(type)}
+                  </BusType>
                 </DestinationShiftRow>
                 <Info>
-                  <Type>
-                    <BusIcon onClick={() => history.push('/bus')}/>
-                    <span onClick={() => history.push('/bus')}>{getTypeName(type)}</span>
-                  </Type>
                   <Time>
-                    <BusTypeChangeIcon
-                      src={getLeftIcon(type)}
-                      onClick={() => changeType(type,"prev")}/>
                     <LeftTime onClick={() => history.push('/bus')}>
-                      {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time) }
+                      {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time)}
                     </LeftTime>
-                    <BusTypeChangeIcon
-                      src={getRightIcon(type)}
-                      onClick={() => changeType(type, "next")}/>
                   </Time>
                   {cityBusData &&
                   <TimeDetail>
                     {detailString(shuttleTime, daesungTime, cityBusData.remain_time, type)}
                   </TimeDetail>
                   }
+                  <Destination>
+                    <span>
+                      {type === "shuttle" ? depart : type === "daesung" ? daesungDepart : cityDepart}
+                    </span>
+                    <DestinationShiftBtn
+                      src={getShiftBtn(type)}
+                      onClick={() => shiftDestination(index)}/>
+                    <span>
+                      {type === "shuttle" ? arrival : type === "daesung" ? daesungArrival : cityArrival}
+                    </span>
+                  </Destination>
                 </Info>
               </BusCard>
-            }
-          </div>
-        )
-      })}
+
+            </div>
+          )
+        })}
+      </CardContainer>
     </Container>
   )
 })
