@@ -52,6 +52,7 @@ const TimetableContent = styled.div`
   overflow: hidden;
   display: inline-flex;
   flex: none;
+  position: relative;
   border-bottom: #d2dae2 1px solid;
 `;
 const TimetableRowContainer = styled.div`
@@ -75,6 +76,15 @@ const TimetableRowLine = styled.div`
   :last-child {
     height: 52px;
   }
+`;
+
+const TimetableCol = styled.div`
+  position: absolute;
+  width: 41px;
+  overflow: hidden;
+  z-index: 3;
+  display: flex;
+  align-items: center;
 `;
 
 const TimetableSideCol = styled.div`
@@ -102,13 +112,15 @@ const TimetableSideTime = styled.div`
   width: 26px;
 `;
 
-const TimetableCol = styled.div`
+const TimetableColContainer = styled.div`
   border-right: #dadada 1px solid;
   width: 41px;
   
 `;
 
-export default function IndexTimeTable() {
+export default function IndexTimeTable({
+  lectures
+}) {
   let timeAlias = ["01A", "01B", "02A", "02B", "03A", "03B", "04A", "04B", "05A", "05B", "06A", "06B", "07A", "07B", "08A", "08B", "09A", "09B"];
   let times = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
   return (
@@ -143,11 +155,21 @@ export default function IndexTimeTable() {
               그 이후
             </TimetableSideRow>
           </TimetableSideCol>
-          <TimetableCol></TimetableCol>
-          <TimetableCol></TimetableCol>
-          <TimetableCol></TimetableCol>
-          <TimetableCol></TimetableCol>
-          <TimetableCol></TimetableCol>
+          {lectures ? lectures.map((lecture, index) => (
+            <TimetableColContainer key={index}>
+              {lecture.map(({name, start, end, backgroundColor}) => (
+                <TimetableCol
+                  key={start}
+                  style={{
+                    backgroundColor: backgroundColor,
+                    height: end - start + 'px',
+                    top: start
+                  }}>
+                  {name}
+                </TimetableCol>
+              ))}
+            </TimetableColContainer>
+          )) : null}
         </TimetableContent>
       </Timetable>
     </Container>
