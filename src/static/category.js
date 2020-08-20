@@ -1,6 +1,6 @@
 export default [
   {
-    title: "학교정보",
+    title: "서비스",
     planFlag: false,
     submenu: [
       {

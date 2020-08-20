@@ -37,7 +37,9 @@ const Container = styled.nav`
   position: ${props => props.searchBar ? 'relative' : 'unset'};
 
   @media (max-width: 576px) {
-    height: 56px;
+    height: ${props => props.path === '/' ? '77px' : '56px'};
+    border-radius: ${props => props.path === '/' ? '0 0 20px 20px' : '0'};
+    box-shadow: ${props => props.path === '/' ? '0 2px 4px 0 rgba(0, 0, 0, 0.34)' : 'none'};
     position: sticky;
     position: -webkit-sticky;
     top: 0;
@@ -234,7 +236,7 @@ const MobileRow = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    padding: 16px;
+    padding: ${props => props.isMain ? '20px' : '16px'};
     box-sizing: border-box;
     text-align: center;
   }
@@ -251,8 +253,8 @@ const MenuIcon = styled.img`
 
 const RouteIcon = styled.img`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: ${props => props.isMain ? '26px' : '16px'};
+  right: ${props => props.isMain ? '20px' : '16px'};
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -262,7 +264,7 @@ const Title = styled.div`
   font-size: 16px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: ${props => props.isMain ? 'none' : 'center'};
   align-items: center;
 `;
 
@@ -278,6 +280,7 @@ export default React.memo(function Topnav({
   categories,
   menu,
   path,
+  history,
   onMouseOverMenu,
   token,
   userInfo,
@@ -300,39 +303,39 @@ export default React.memo(function Topnav({
     if (path === '/timetable') return '시간표';
     else if (path === '/cafeteria') return '식단';
     else if (path === '/bus') return '버스/교통';
-    else if (path === '/faq') return 'FAQ';
+    // else if (path === '/faq') return 'FAQ';
     else if (!path.indexOf('/room')) return '복덕방';
-    else if (!path.indexOf('/circle')) return '동아리';
+    // else if (!path.indexOf('/circle')) return '동아리';
     else if (!path.indexOf('/store')) return '주변상점';
 
-    else if (!path.indexOf('/board/free')) return '자유게시판';
-    else if (!path.indexOf('/board/anonymous')) return '익명게시판';
+    // else if (!path.indexOf('/board/free')) return '자유게시판';
+    // else if (!path.indexOf('/board/anonymous')) return '익명게시판';
     else if (!path.indexOf('/board/notice')) return '공지사항';
-    else if (!path.indexOf('/board/job')) return '취업게시판';
-    else if (!path.indexOf('/board/question')) return '질문게시판';
-    else if (!path.indexOf('/board/promotion')) return '홍보게시판';
-    else if (!path.indexOf('/lost')) return '분실물';
-
-    else if (!path.indexOf('/market/sell')) return '팝니다';
-    else if (!path.indexOf('/market/buy')) return '삽니다';
-    else if (!path.indexOf('/search')) return '검색 결과';
+    // else if (!path.indexOf('/board/job')) return '취업게시판';
+    // else if (!path.indexOf('/board/question')) return '질문게시판';
+    // else if (!path.indexOf('/board/promotion')) return '홍보게시판';
+    // else if (!path.indexOf('/lost')) return '분실물';
+    //
+    // else if (!path.indexOf('/market/sell')) return '팝니다';
+    // else if (!path.indexOf('/market/buy')) return '삽니다';
+    // else if (!path.indexOf('/search')) return '검색 결과';
   }
 
-  const setRoutingButtonVisible = () => {
-    switch(path) {
-      case '/timetable':
-      case '/board/free':
-      case '/board/job':
-      case '/board/anonymous':
-      case '/board/question':
-      case '/board/promotion':
-      case '/lost':
-      case '/market/buy':
-      case '/market/sell':
-        return true;
-      default: return false;
-    }
-  }
+  // const setRoutingButtonVisible = () => {
+  //   switch(path) {
+  //     case '/timetable':
+  //     case '/board/free':
+  //     case '/board/job':
+  //     case '/board/anonymous':
+  //     case '/board/question':
+  //     case '/board/promotion':
+  //     case '/lost':
+  //     case '/market/buy':
+  //     case '/market/sell':
+  //       return true;
+  //     default: return false;
+  //   }
+  // }
 
   return (
     <Container path={path} mobileMenu={mobileMenu} searchBar={searchBar}>
@@ -403,32 +406,22 @@ export default React.memo(function Topnav({
         )}
         </AuthButtonGroup>
       </Row>
-      <MobileRow>
-        <MenuIcon
-          src={mobileMenu
-            ? "https://static.koreatech.in/assets/img/back-menu.png"
-            : "https://static.koreatech.in/assets/img/menu.png"}
-          onClick={mobileMenu
-            ? () => { setMobileMenu(false); onClickFooterMenu(1); }
-            : () => { setMobileMenu(true); onClickFooterMenu(1); }}
-        />
-        <Title>
+      <MobileRow isMain={path === '/'}>
+        {path !== '/' && (
+          <MenuIcon
+            src="https://static.koreatech.in/assets/img/back-menu.png"
+            onClick={() => history.goBack()}
+          />
+        )}
+        <Title isMain={path === '/'}>
           {path === '/' && !mobileMenu && <KOINLogoImage />}
           {path !== '/' && !mobileMenu && getTitle()}
-          {mobileMenu && '전체 서비스'}
         </Title>
-        {(!mobileMenu && setRoutingButtonVisible()) &&
-          <RouteIcon
-            src={"https://static.koreatech.in/assets/img/mobile__create.png"}
-            onClick={onClickMultiPurposeBtn}
-          />
-        }
-        {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
-          <RouteIcon
-            src={"https://static.koreatech.in/assets/img/ic-search.png"}
-            onClick={() => setSearchBar(true)}
-          />
-        }
+        <RouteIcon
+          isMain={path === '/'}
+          src={"https://static.koreatech.in/assets/img/menu.png"}
+          onClick={() => { setMobileMenu(true); onClickFooterMenu(1); }}
+        />
       </MobileRow>
       <MobileTopnav
         mobileMenu={mobileMenu}

@@ -147,6 +147,7 @@ export default function TopnavContainer({ history, path }) {
         categories={categories}
         menu={menu}
         path={path}
+        history={history}
         onMouseOverMenu={onMouseOverMenu}
         token={token}
         userInfo={userInfo}
