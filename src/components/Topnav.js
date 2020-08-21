@@ -293,6 +293,7 @@ export default React.memo(function Topnav({
   setSearchBar,
   onClickMultiPurposeBtn,
   onClickDeleteSearchWordBtn,
+  onClickFooterMenu,
   onClickSearchButton,
   onClickLogoImage,
   onChangeSearchWord,
@@ -419,7 +420,7 @@ export default React.memo(function Topnav({
         <RouteIcon
           isMain={path === '/'}
           src={"https://static.koreatech.in/assets/img/menu.png"}
-          onClick={() => setMobileMenu(true)}
+          onClick={() => { setMobileMenu(true); onClickFooterMenu(1); }}
         />
       </MobileRow>
       <MobileTopnav
@@ -429,6 +430,7 @@ export default React.memo(function Topnav({
         categories={categories}
         onLogout={onLogout}
         setMobileMenu={setMobileMenu}
+        onClickFooterMenu={onClickFooterMenu}
       />
     </Container>
   )

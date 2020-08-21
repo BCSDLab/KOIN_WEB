@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../modules/auth';
 import { useToasts } from 'react-toast-notifications';
 import { toggleSheetOpen, updateSheetType } from '../modules/timetable';
+import { updateFooterMenu } from '../modules/common';
 import { useDarkenBackground } from '../hooks/useDarkenBackground';
 
 export default function TopnavContainer({ history, path }) {
@@ -60,6 +61,10 @@ export default function TopnavContainer({ history, path }) {
       history.push(`${path}/register`);
     }
   }, [path]);
+
+  const onClickFooterMenu = useCallback(idx => {
+    dispatch(updateFooterMenu(idx));
+  }, []);
 
   const onClickSearchButton = useCallback(searchWord => {
     // 검색
@@ -155,6 +160,7 @@ export default function TopnavContainer({ history, path }) {
         setSearchBar={setSearchBar}
         onClickMultiPurposeBtn={onClickMultiPurposeBtn}
         onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
+        onClickFooterMenu={onClickFooterMenu}
         onClickSearchButton={onClickSearchButton}
         onClickLogoImage={onClickLogoImage}
         onChangeSearchWord={onChangeSearchWord}
