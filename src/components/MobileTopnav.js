@@ -177,12 +177,10 @@ export default function MobileTopnav({
   userInfo,
   categories,
   onLogout,
-  setMobileMenu,
-  onClickFooterMenu
+  setMobileMenu
 }) {
 
   const onCloseNav = useCallback(() => {
-    onClickFooterMenu(1);
     setMobileMenu(false);
   }, []);
 

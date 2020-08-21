@@ -5,7 +5,6 @@ import roomReducer from './room';
 import busReducer from "./bus";
 import storeReducer from "./store";
 import timetableReducer from './timetable';
-import commonReducer from './common';
 import boardReducer from './board';
 
 const rootReducer = combineReducers({
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
   busReducer,
   storeReducer,
   timetableReducer,
-  commonReducer,
   boardReducer,
 });
 
