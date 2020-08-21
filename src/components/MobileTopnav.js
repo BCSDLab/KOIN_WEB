@@ -47,24 +47,26 @@ const BackRouteButton = styled.button`
 const Nickname = styled.span`
   font-size: 16px;
   display: block;
-  width: 240px;
+  max-width: 240px;
+  text-align: left;
   margin-bottom: 16px;
-  font-weight: 500;
+  font-weight: bold;
   
   ::after {
-    content: '님, 안녕하세요!';
     font-size: 13px;
-  font-weight: normal;
+    font-weight: normal;
+    content: "${props => props.isLoggedIn ? '님, 안녕하세요!' : '을 해주세요!'}";
   }
 `;
 
 const MyInfoLink = styled(Link)`
+  display: flex;
+  margin-right: auto;
+  width: 80px;
   text-decoration: none;
   font-size: 15px;
-  width: 80px;
   font-weight: normal;
   color: black;
-  display: flex;
   line-height: 24px;
   
   :before {
@@ -79,15 +81,25 @@ const MyInfoLink = styled(Link)`
 
 const AuthLinkStyle = css`
   cursor: pointer;
-  margin-right: 9px;
+  margin-right: 14px;
   height: 12px;
+  color: #252525;
   text-decoration: none;
-  color: #175c8e;
   & + & {
-    margin-left: 9px;
+    margin-left: 14px;
     margin-right: 0;
   }
 `;
+
+const AuthRow = styled.div`
+  display: ${props => props.isLoggedIn ? 'flex' : 'block'};
+  align-items: center;
+  font-size: 15px;
+  font-weight: normal;
+  color: #252525;
+  text-align: right;
+  
+`
 
 const StyledAuthLink = styled(Link)`
   ${AuthLinkStyle}
@@ -95,6 +107,7 @@ const StyledAuthLink = styled(Link)`
 const AuthLinkButton = styled.span`
   cursor: pointer;
   margin-left: 9px;
+  text-align: left;
 `
 
 const TitleSection = styled.div`
@@ -177,13 +190,13 @@ export default function MobileTopnav({
     <Container mobileMenu={mobileMenu}>
       <UserInfoSection>
         <BackRouteButton onClick={() => setMobileMenu(false)} />
-        <Nickname>
-          {userInfo && userInfo.nickname}
+        <Nickname isLoggedIn={!!userInfo}>
+          {userInfo ? userInfo.nickname : '로그인'}
         </Nickname>
-        <div>
+        <AuthRow isLoggedIn={!!userInfo}>
           {token && 
             <>
-              <MyInfoLink to="/modifyinfo" onClick={onCloseNav}>내 정보</MyInfoLink>|
+              <MyInfoLink to="/modifyinfo" onClick={onCloseNav}>내 정보</MyInfoLink>
               <AuthLinkButton onClick={() => {onLogout(); onCloseNav()}}>로그아웃</AuthLinkButton>
             </>
           }
@@ -193,7 +206,7 @@ export default function MobileTopnav({
               <StyledAuthLink to="/login" onClick={onCloseNav}>로그인</StyledAuthLink>
             </>
           }
-        </div>
+        </AuthRow>
       </UserInfoSection>
       {categories.map((category, idx) => (
         <div key={idx}>
