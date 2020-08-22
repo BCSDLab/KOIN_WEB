@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const Container = styled.div`
   width: 256px;
@@ -22,7 +23,6 @@ const Timetable = styled.div`
   width: 256px;
   height: 369px;
   position: relative;
-  border-left: solid 1px #d2dae2;
   margin-left: -1px;
   font-size: 10px;
 `;
@@ -32,6 +32,7 @@ const TimetableHead = styled.div`
   height: 27px;
   background-color: #f1f1f1;;
   border-top: solid 1px #d2dae2;
+  border-left: solid 1px #d2dae2;
   display: flex;
 `;
 const TimetableHeadCol = styled.div`
@@ -54,6 +55,7 @@ const TimetableContent = styled.div`
   flex: none;
   position: relative;
   border-bottom: #d2dae2 1px solid;
+  border-left: solid 1px #d2dae2;
 `;
 const TimetableRowContainer = styled.div`
   border-top: #d2dae2 1px solid;
@@ -118,6 +120,33 @@ const TimetableColContainer = styled.div`
   
 `;
 
+const TimetableNotLogin = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 4;
+  width: calc(100% + 1px);
+  height: 100%;
+  background-color: #f4f4f4;
+  color: #aaaaaa;
+  font-size: 12px;
+  text-decoration: none;
+  
+  ::before {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 16px;
+    background: url("http://static.koreatech.in/assets/img/ic-calendar.png") center/36px 36px no-repeat;
+    content: '';
+  }
+  ::after {
+    content: '로그인을 해주세요';
+  }
+`;
+
 export default function IndexTimeTable({
   lectures
 }) {
@@ -171,6 +200,7 @@ export default function IndexTimeTable({
             </TimetableColContainer>
           )) : null}
         </TimetableContent>
+        {!sessionStorage.getItem("token") && <TimetableNotLogin to="/signup" />}
       </Timetable>
     </Container>
   )
