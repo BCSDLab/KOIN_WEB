@@ -3,6 +3,7 @@ import * as TIMETABLE from "../static/busTimeTable"
 
 export default function setBusTime(
   route,
+  daesungRoute,
   setFastestShuttleTime,
   setNextFastestShuttleTime,
   setFastestDaesungTime,
@@ -53,13 +54,13 @@ export default function setBusTime(
     setShuttleTime(shuttleTime);
   }
 
-  if(timetable[route].daesung === "none"){
+  if(timetable[daesungRoute].daesung === "none"){
     setFastestDaesungTime("미운행");
     setNextFastestDaesungTime("미운행");
     setDaesungTime(daesungTime);
   }
   else{
-    const daesungTimeTable = timetable[route].daesung;
+    const daesungTimeTable = timetable[daesungRoute].daesung;
     //대성
     for(let i=0; i<daesungTimeTable.length; i++){
 

@@ -72,12 +72,12 @@ export default function BusContainer() {
   }
   useInterval(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(departList[0]+arrivalList[0],departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },1000);
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(departList[0]+arrivalList[0],departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   }, [departList, arrivalList, dispatch]);
 
   useEffect(() => {
