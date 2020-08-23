@@ -22,11 +22,10 @@ const Title = styled.h2`
   letter-spacing: normal;
   text-align: left;
   color: #175c8e;
-  cursor: pointer;
   margin: 0;
   
   @media(max-width: 576px){
-    font-size: 18px;
+    font-size: 15px;
   }
 `;
 
@@ -36,6 +35,7 @@ const MoreLink = styled(Link)`
   font-weight: normal;
   color: #252525;
   text-decoration: none;
+  cursor: pointer;
   
   ::after {
     display: inline-block;
@@ -44,6 +44,10 @@ const MoreLink = styled(Link)`
     background: url("https://static.koreatech.in/assets/img/bus_dropdown.png") center/12px 8px no-repeat;
     transform: rotate(-90deg);
     content: "";
+  }
+  
+  @media(max-width: 576px){
+    display: none;
   }
 `;
 
@@ -58,10 +62,11 @@ const CafeteriaCard = styled.div`
   box-sizing: border-box;
   
   @media(max-width: 576px){
+    grid-template: 27px 156px/ 1fr 28px;
     max-width: 100%;
     width: 544px;
-    height: 154px;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    padding: 18px 16px 0 16px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
     border: solid 1px rgba(216, 216, 216, 0);
     background-image: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0)), linear-gradient(to bottom, #ffffff, #ffffff);
   }
@@ -73,6 +78,13 @@ const CafeteriaContainer = styled.div`
   grid-row: 1 / 3;
   width: 27px;
   height: 100%;
+  
+  @media(max-width: 576px){
+    flex-direction: row;
+    align-items: center;
+    grid-row: 1 / 2;
+    width: 100%;
+  }
 `
 
 const Cafeteria = styled.div`
@@ -87,6 +99,11 @@ const Cafeteria = styled.div`
   text-align: center;
   color: ${props => props.selected ? "#175c8e" :"#bbbbbb"};
   cursor: pointer;
+  
+  @media(max-width: 576px) {
+    margin-right: 18px;
+    margin-bottom: 0;
+  }
 `;
 
 const TypeContainer = styled.div`
@@ -104,6 +121,10 @@ const Type = styled.div`
   color: #000000;
   letter-spacing: normal;
   text-align: center;
+  
+  @media(max-width: 576px) {
+    font-size: 13px;  
+  }
 `;
 
 const TypeControlButton = styled.button`
@@ -115,6 +136,10 @@ const TypeControlButton = styled.button`
   background: url("https://static.koreatech.in/assets/img/ic-more.png") center/26px 26px no-repeat;
   transform: ${props => props.direction === 'left' ? 'rotate(180deg)' : 'none'};
   cursor: pointer;
+  
+  @media(max-width: 576px) {
+    display: none;
+  }
 `
 
 const MenuContainer = styled.div`
@@ -125,6 +150,11 @@ const MenuContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 15px 0 0 19px;
+  
+  @media(max-width: 576px){
+    grid-column: 1 / 3;
+    padding: 27px 0 0 19px;
+  }
 `;
 
 const Menu = styled.div`
@@ -142,6 +172,11 @@ const Menu = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 75px;
+  
+  @media(max-width: 576px){
+    margin-bottom: 10px;
+    width: 78px;
+  }
 `;
 
 
@@ -156,7 +191,11 @@ const NoMenu = styled.div`
   letter-spacing: normal;
   color: #9fa9b3;
   text-align: center;
-  margin: 27px 0 0 0;
+  margin: 27px 0 0 -15px;
+  
+  @media(max-width: 576px){
+    margin: 27px 0 0 -19px;
+  }
 `
 
 export default React.memo(function IndexCafeteria({
