@@ -5,7 +5,6 @@ import * as CATEGORY from '../static/category';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../modules/auth';
 import { useToasts } from 'react-toast-notifications';
-import MobileFooterMenu from '../components/MobileFooterMenu';
 import { toggleSheetOpen, updateSheetType } from '../modules/timetable';
 import { updateFooterMenu } from '../modules/common';
 import { useDarkenBackground } from '../hooks/useDarkenBackground';
@@ -148,6 +147,7 @@ export default function TopnavContainer({ history, path }) {
         categories={categories}
         menu={menu}
         path={path}
+        history={history}
         onMouseOverMenu={onMouseOverMenu}
         token={token}
         userInfo={userInfo}
@@ -165,15 +165,6 @@ export default function TopnavContainer({ history, path }) {
         onClickLogoImage={onClickLogoImage}
         onChangeSearchWord={onChangeSearchWord}
         toggleDarkBackground={toggleDarkBackground}
-      />
-      <MobileFooterMenu
-        history={history}
-        path={path}
-        mobileMenu={mobileMenu}
-        setMobileMenu={setMobileMenu}
-        onClickFooterMenu={onClickFooterMenu}
-        searchBar={searchBar}
-        setSearchBar={setSearchBar}
       />
     </>
   )
