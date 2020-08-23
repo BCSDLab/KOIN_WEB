@@ -1,9 +1,14 @@
 import storeCategory from "../../static/storeCategory";
 import React from "react";
 import styled from "styled-components";
+import useMobileFlag from "../../hooks/useMobileFlag";
 
 const Container = styled.div`
   margin: 0;
+  
+  @media (max-width: 576px) {
+    margin-top: 29px;
+  }
 `;
 
 const CategoryWrapper = styled.div`
@@ -12,14 +17,11 @@ const CategoryWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 120px;
-  margin-bottom: 25px;
   
   @media (max-width: 576px) {
     justify-content: center;
-    width: calc(100% - 34px);
-    padding: 10px 0 14px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    padding-top: 2px;
     height: auto;
   }
 `;
@@ -35,6 +37,13 @@ const CategoryTitle = styled.div`
   text-align: left;
   cursor: pointer;
   color: #175c8e;
+  
+  @media(max-width: 576px){
+    font-size: 15px;
+    font-weight: bold;
+    color: #175c8e;
+    padding-left: 3px;
+  }
 `
 
 const CategoryMenuWrapper = styled.div`
@@ -44,7 +53,14 @@ const CategoryMenuWrapper = styled.div`
   padding-left: 5px;
   
   @media (max-width: 576px) {
-    width: 330px;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    &::-webkit-scrollbar { 
+      display: none !important;
+    }
   }
 `;
 
@@ -72,9 +88,11 @@ const CategoryMenu = styled.div`
   
   @media (max-width: 576px) {
     letter-spacing: -0.8px;
-    width: 64px;
+    width: 40px;
     padding-top: 11px;
-    margin-right: ${props => props.index === 4 || props.index === 8 ? 0 : '2px'};
+    margin-right: 8px;
+    font-size: 12px;
+    color: #252525;
   }
 `;
 
@@ -85,8 +103,8 @@ const CategoryImage = styled.img`
   margin: 0 auto 13px;
   
   @media (max-width: 576px) {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -96,6 +114,7 @@ export default function IndexStoreCategory(
     selectCategory
   }
 ){
+  const mobileFlag = useMobileFlag();
   return (
     <Container>
     <CategoryTitle onClick={() => selectCategory("ALL")}>
@@ -110,7 +129,9 @@ export default function IndexStoreCategory(
               index={index}
               onClick={() => selectCategory(value.tag)}>
               <CategoryImage src={value.image} />
-              {value.title}
+              {value.title &&
+                value.title === "일반음식점"? mobileFlag ? "일반음식" : value.title: value.title
+              }
             </CategoryMenu>
           ))
         }
