@@ -396,7 +396,7 @@ export default React.memo(function IndexBus({
                     </span>
                       <DestinationShiftBtn
                         src={"http://static.koreatech.in/assets/img/reverse_destination.png"}
-                        onClick={() => shiftDestination(index)}/>
+                        onClick={() => shiftDestination(type)}/>
                       <span>
                       {type === "shuttle" ? arrival : type === "daesung" ? daesungArrival : cityArrival}
                     </span>
