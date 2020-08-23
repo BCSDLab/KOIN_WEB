@@ -5,8 +5,7 @@ import {getCafeteriaMenu} from "../../modules/cafeteriaMenu";
 
 export default function IndexCafeteriaContainer({history}) {
   const [selected, setSelected] = useState(0);
-  // 19시를 하루의 기준으로.
-  const timezoneOffset = (new Date().getTimezoneOffset() - 300) * 60 * 1000;
+  const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
   const today = new Date(Date.now() - timezoneOffset);
   const realTime = new Date;
   const { data } = useSelector(state => state.cafeteriaMenuReducer.cafeteriaMenus);
@@ -19,7 +18,7 @@ export default function IndexCafeteriaContainer({history}) {
   }
   function setTime() {
     const hour = realTime.getHours()
-    if(hour >= 19 || hour < 9){
+    if(hour < 9){
       setType(0)
     }
     else if (hour < 14){
@@ -80,10 +79,11 @@ export default function IndexCafeteriaContainer({history}) {
   return (
     <IndexCafeteria
       history={history}
-      cafeteriaList={["한식","일품식","양식","특식"]}
+      cafeteriaList={["한식","일품","양식","특식"]}
       selected={selected}
       setSelected={setSelected}
       type={type}
+      setType={setType}
       allMenus={allMenus}/>
   )
 }
