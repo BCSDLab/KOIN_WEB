@@ -10,19 +10,19 @@ const PlusButton = styled.div`
   bottom: 40px;
   right: 16px;
   width: 48px;
-  height: 46px;
+  height: 48px;
   text-align: center;
   border-radius: 24px;
   background-color: #175c8e;
   
   ::before {
-    color: white;
-    content: '+';
     display: block;
-    font-size: 42px;
-    padding-top: 2px;
+    background: url("https://static.koreatech.in/assets/img/mobile__create.png") center/24px 24px no-repeat;
     width: 48px;
     height: 48px;
+    font-size: 42px;
+    color: white;
+    content: '';
   }
 `;
 
