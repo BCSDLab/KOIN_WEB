@@ -1,7 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
-import Comment from "../SharedComponents/Comment";
 import ClipLoader from 'react-spinners/ClipLoader';
 import PropTypes from 'prop-types';
 
@@ -570,23 +569,6 @@ function Post({
           <PostBody>
             {parse(post.content)}
           </PostBody>
-          <Comment
-            history={history}
-
-            // 게시글 정보
-            specificData={post}
-
-            // dispatch를 발생시키는 댓글 관련 함수들
-            registerComment={registerComment}
-            editComment={editComment}
-            deleteComment={deleteComment}
-
-            // 원문 바로가기
-            originalLink={null}
-
-            // 익명게시판
-            isAnonymousFlag={type==='anonymous'}
-          />
         </div>
       }
     </>
