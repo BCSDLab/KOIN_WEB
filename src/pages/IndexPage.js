@@ -63,15 +63,6 @@ const MobileSwiper = styled.div`
 export default function IndexPage({history}) {
   const mobileFlag = useMobileFlag();
 
-  const config = {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    }
-  }
-
   return (
     <Container>
       {mobileFlag &&

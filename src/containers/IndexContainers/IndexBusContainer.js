@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import IndexBus from "../../components/IndexComponents/IndexBus";
 import useInterval from "../../hooks/useInterval";
 import setBusTime from "../../modules/setBusTime";
@@ -22,6 +22,9 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
+
+  const sliderRef = useRef();
+  const [mobileTypes, setMobileTypes] = useState(["cityBus","shuttle","daesung"]);
 
   useInterval(() => {
     setBusTime(depart+arrival, daesungDepart+daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
@@ -63,6 +66,43 @@ export default function IndexBusContainer({history}) {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    sliderRef.current.scrollLeft = ((window.innerWidth - 20) * 0.78 - (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+    console.log((window.innerWidth - 20) * 0.78, (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+
+    let walk;
+    let startX;
+    let scrollValue;
+
+    function slideTouchStart (e){
+      startX = e.touches[0].pageX - sliderRef.current.offsetLeft;
+      scrollValue = sliderRef.current.scrollLeft;
+    }
+
+    function slideTouchEnd (){
+      if(walk) {
+        sliderRef.current.scrollLeft = sliderRef.current.scrollLeft + walk;
+        if (walk < 0) {
+          if (walk < -120) {
+            setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
+          }
+        } else if (walk > 0) {
+          if (walk > 120) {
+            setMobileTypes((state) => [state[2]].concat(state.slice(0, 2)))
+          }
+        }
+      }
+    }
+
+    function slideTouchMove (e){
+      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.8;
+      sliderRef.current.scrollLeft = scrollValue - walk;
+    }
+
+    sliderRef.current.addEventListener('touchstart', slideTouchStart);
+    sliderRef.current.addEventListener('touchend', slideTouchEnd);
+    sliderRef.current.addEventListener('touchmove', slideTouchMove);
+
+    return () => {if(sliderRef.current)sliderRef.current.removeEventListener('touchmove',slideTouchMove);}
   },[]);
 
   useInterval(() => {
@@ -84,6 +124,8 @@ export default function IndexBusContainer({history}) {
       fastestShuttleTime={fastestShuttleTime}
       fastestDaesungTime={fastestDaesungTime}
       cityBusData={data}
+      sliderRef={sliderRef}
+      mobileTypes={mobileTypes}
       history={history}/>
   )
 }
