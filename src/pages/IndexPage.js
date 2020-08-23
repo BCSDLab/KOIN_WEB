@@ -25,7 +25,7 @@ const IndexRow = styled.div`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  
+  padding-top: ${props => props.mobileTop ? "20px" : "0"};
   @media(max-width: 576px){
     margin-top: 0;
   }
@@ -66,8 +66,9 @@ export default function IndexPage({history}) {
   return (
     <Container>
       {mobileFlag &&
-        <IndexRow>
+        <IndexRow mobileTop>
           <IndexBusContainer history={history}/>
+          <IndexStoreCategoryContainer history={history}/>
           <IndexCafeteriaContainer history={history}/>
         </IndexRow>
       }

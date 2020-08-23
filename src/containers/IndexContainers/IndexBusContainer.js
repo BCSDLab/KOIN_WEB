@@ -41,17 +41,18 @@ export default function IndexBusContainer({history}) {
     }
   }
 
-  const shiftDestination = (index) => {
-    switch(index){
-      case 0:
+  const shiftDestination = (type) => {
+    console.log(type)
+    switch(type){
+      case "shuttle":
         setDepart(arrival);
         setArrival(depart);
         break;
-      case 1:
+      case "daesung":
         setDaesungDepart(daesungArrival);
         setDaesungArrival(daesungDepart);
         break;
-      case 2:
+      case "cityBus":
         setCityDepart(cityArrival);
         setCityArrival(cityDepart);
         break;
@@ -76,6 +77,7 @@ export default function IndexBusContainer({history}) {
     function slideTouchStart (e){
       startX = e.touches[0].pageX - sliderRef.current.offsetLeft;
       scrollValue = sliderRef.current.scrollLeft;
+
     }
 
     function slideTouchEnd (){
@@ -91,9 +93,11 @@ export default function IndexBusContainer({history}) {
           }
         }
       }
+      walk = 0;
     }
 
     function slideTouchMove (e){
+      e.preventDefault()
       walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.8;
       sliderRef.current.scrollLeft = scrollValue - walk;
     }

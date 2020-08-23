@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 
 const Container = styled.section`
   @media(max-width: 576px){
+    margin-top: 33px;
     max-width: 100%;
   }
 `;
@@ -26,6 +27,7 @@ const Title = styled.h2`
   
   @media(max-width: 576px){
     font-size: 15px;
+    padding-left: 3px;
   }
 `;
 
@@ -65,7 +67,7 @@ const CafeteriaCard = styled.div`
     grid-template: 27px 156px/ 1fr 28px;
     max-width: 100%;
     width: 544px;
-    padding: 18px 16px 0 16px;
+    padding: 11px 15px 0 17px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
     border: solid 1px rgba(216, 216, 216, 0);
     background-image: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0)), linear-gradient(to bottom, #ffffff, #ffffff);
@@ -101,7 +103,7 @@ const Cafeteria = styled.div`
   cursor: pointer;
   
   @media(max-width: 576px) {
-    margin-right: 18px;
+    margin-right: 16px;
     margin-bottom: 0;
   }
 `;

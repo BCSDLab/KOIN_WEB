@@ -25,6 +25,7 @@ const BusTitle = styled.h2`
   padding-left: 1px;
 
   @media(max-width: 576px){
+    padding-left: 3px;
     height: 22px;
     font-family: NanumSquare;
     font-size: 15px;
@@ -51,10 +52,11 @@ const BusCard = styled.div`
   //border: 1px solid ${props => props.busType === "shuttle" ? "#f7941e" : props.busType === "daesung" ? "#7c9fae" : "#4db297"};
   
   @media(max-width: 576px){
+    margin-top: 10px;
     display: inline-block;
     width: calc(78% + 10px);
     max-width: 100%;
-    height: 200px;
+    height: 140px;
     
     transform: scale(${props => props.index === 1 ? 1.0 : 0.9 });
     transition: transform .3s;
@@ -263,7 +265,7 @@ const MobileSwiper = styled.div`
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-  touch-action: none;
+  
   &::-webkit-scrollbar { 
     display: none !important; // 윈도우 크롬 등
   }
@@ -410,7 +412,7 @@ export default React.memo(function IndexBus({
       {mobileFlag &&
         <>
           <BusTitle>
-            버스 / 교통
+            버스/교통
           </BusTitle>
           <MobileSwiper
             ref={sliderRef}
@@ -436,7 +438,7 @@ export default React.memo(function IndexBus({
                       </span>
                       <DestinationShiftBtn
                         src={"http://static.koreatech.in/assets/img/reverse_destination.png"}
-                        onClick={() => shiftDestination(index)}/>
+                        onClick={() => shiftDestination(type)}/>
                         <span>
                           {type === "shuttle" ? arrival : type === "daesung" ? daesungArrival : cityArrival}
                         </span>
