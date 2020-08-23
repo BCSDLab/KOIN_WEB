@@ -112,7 +112,6 @@ const Container = styled.footer`
 
   @media (max-width: 576px) {
     height: 110px;
-    margin-bottom: 58px;
    }
    
    @-webkit-keyframes slide-down {
