@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const Container = styled.section`
   @media(max-width: 576px){
@@ -8,6 +9,9 @@ const Container = styled.section`
 `;
 
 const Title = styled.h2`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   font-family: NanumSquare;
   font-weight: 800;
@@ -18,62 +22,125 @@ const Title = styled.h2`
   letter-spacing: normal;
   text-align: left;
   color: #175c8e;
-  cursor: pointer;
   margin: 0;
   
   @media(max-width: 576px){
-    font-size: 18px;
+    font-size: 15px;
+  }
+`;
+
+const MoreLink = styled(Link)`
+  font-family: NanumBarunGothic;
+  font-size: 12px;
+  font-weight: normal;
+  color: #252525;
+  text-decoration: none;
+  cursor: pointer;
+  
+  ::after {
+    display: inline-block;
+    width: 12px;
+    height: 8px;
+    background: url("https://static.koreatech.in/assets/img/bus_dropdown.png") center/12px 8px no-repeat;
+    transform: rotate(-90deg);
+    content: "";
+  }
+  
+  @media(max-width: 576px){
+    display: none;
   }
 `;
 
 const CafeteriaCard = styled.div`
-  margin-top: 20px;
-  width: 295px;
-  height: 157px;
-  padding: 15px 15px 0 15px;
-  border: solid 1px #175c8e;
+  display: grid;
+  grid-template: 26px 159px/27px 1fr;
+  width: 256px;
+  height: 203px;
+  margin-top: 16px;
+  padding: 15px 12px 0 12px;
+  border: solid 1px #e4e4e4;
   box-sizing: border-box;
   
   @media(max-width: 576px){
+    grid-template: 27px 156px/ 1fr 28px;
     max-width: 100%;
     width: 544px;
-    height: 154px;
+    padding: 18px 16px 0 16px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    border: solid 1px rgba(216, 216, 216, 0);
+    background-image: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0)), linear-gradient(to bottom, #ffffff, #ffffff);
   }
 `;
 
-const CafeteriaCategory = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-`;
+const CafeteriaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  grid-row: 1 / 3;
+  width: 27px;
+  height: 100%;
+  
+  @media(max-width: 576px){
+    flex-direction: row;
+    align-items: center;
+    grid-row: 1 / 2;
+    width: 100%;
+  }
+`
 
-const CafeteriaList = styled.div`
-  float:left;
-  margin-right: 10px;
-  width: auto;
-  height: 18px;
-  font-size: 13px;
-  font-weight: ${props => props.selected? "bold": "normal"};
+const Cafeteria = styled.div`
+  margin-bottom: 24px;
+  width: 26px;
+  font-size: 14px;
+  font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.2;
   letter-spacing: normal;
   text-align: center;
   color: ${props => props.selected ? "#175c8e" :"#bbbbbb"};
-  border-bottom: ${props => props.selected? "solid 1px #175c8e": "none"};
   cursor: pointer;
+  
+  @media(max-width: 576px) {
+    margin-right: 18px;
+    margin-bottom: 0;
+  }
+`;
+
+const TypeContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const Type = styled.div`
-  float: right;
-  font-size: 13px;
+  font-family: NanumSquare;
+  font-size: 14px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.2;
+  line-height: 26px;
+  color: #000000;
   letter-spacing: normal;
   text-align: center;
-  color: #175c8e;
+  
+  @media(max-width: 576px) {
+    font-size: 13px;  
+  }
 `;
+
+const TypeControlButton = styled.button`
+  width: 26px;
+  height: 26px;
+  margin: 0 8px;
+  padding: 0;
+  border: 0;
+  background: url("https://static.koreatech.in/assets/img/ic-more.png") center/26px 26px no-repeat;
+  transform: ${props => props.direction === 'left' ? 'rotate(180deg)' : 'none'};
+  cursor: pointer;
+  
+  @media(max-width: 576px) {
+    display: none;
+  }
+`
 
 const MenuContainer = styled.div`
   display: flex;
@@ -81,9 +148,13 @@ const MenuContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  height: 95px;
   box-sizing: border-box;
-  padding: 21px 35px 0 35px;
+  padding: 15px 0 0 19px;
+  
+  @media(max-width: 576px){
+    grid-column: 1 / 3;
+    padding: 27px 0 0 19px;
+  }
 `;
 
 const Menu = styled.div`
@@ -95,33 +166,19 @@ const Menu = styled.div`
   letter-spacing: normal;
   color: #252525;
   text-align: left;
-  margin-bottom: 4px;
+  margin-bottom: 14px;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 50%;
+  width: 75px;
+  
+  @media(max-width: 576px){
+    margin-bottom: 10px;
+    width: 78px;
+  }
 `;
 
-const ShowMore = styled.div`
-  font-family: NanumBarunGothic;
-  font-size: 12px;
-  width: 60px;
-  letter-spacing: -0.48px;
-  color: #bbbbbb;
-  cursor: pointer;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  float:right;
-`;
-
-const ShowMoreIcon = styled.img.attrs({
-  src: "https://static.koreatech.in/assets/img/ic-more.png"
-})`
-  width: 15px;
-  height: 15px;
-`;
 
 const NoMenu = styled.div`
   height: 18px;
@@ -134,7 +191,11 @@ const NoMenu = styled.div`
   letter-spacing: normal;
   color: #9fa9b3;
   text-align: center;
-  margin: 27px 0 0 0;
+  margin: 27px 0 0 -15px;
+  
+  @media(max-width: 576px){
+    margin: 27px 0 0 -19px;
+  }
 `
 
 export default React.memo(function IndexCafeteria({
@@ -143,6 +204,7 @@ export default React.memo(function IndexCafeteria({
   selected,
   setSelected,
   type,
+  setType,
   allMenus
 }) {
   const today = new Date;
@@ -160,66 +222,72 @@ export default React.memo(function IndexCafeteria({
   }
   return (
     <Container>
-      <Title onClick={() => history.push('/cafeteria')}>오늘의 식단</Title>
+      <Title>
+        식단
+        <MoreLink to="/cafeteria">더 보기</MoreLink>
+      </Title>
       <CafeteriaCard>
-        <CafeteriaCategory>
+        <CafeteriaContainer>
           {cafeteriaList.map((cafeteria, index) => {
             return (
-              <CafeteriaList
+              <Cafeteria
                 selected={selected === index}
                 onClick={() => setSelected(index)}
                 key={index}>
                 {cafeteria}
-              </CafeteriaList>
+              </Cafeteria>
             )
           })}
+        </CafeteriaContainer>
+        <TypeContainer>
+          <TypeControlButton
+            direction="left"
+            onClick={() => setType(state => state === 0 ? 0 : state - 1)} />
           <Type>
             {getType(type)}
           </Type>
-          <MenuContainer>
-            {allMenus.map((menus,idx) => {
-              return (
-                <Fragment key={idx}>
-                  {selected === idx &&
-                    menus.map((menu,index) => {
-                    return (
-                      <Fragment key={index}>
+          <TypeControlButton
+            onClick={() => setType(state => state === 2 ? 2 : state + 1)} />
+        </TypeContainer>
+        <MenuContainer>
+          {allMenus.map((menus,idx) => {
+            return (
+              <Fragment key={idx}>
+                {selected === idx &&
+                menus.map((menu,index) => {
+                  return (
+                    <Fragment key={index}>
                       {index === type &&
-                        <>
-                          {menu &&
-                            menu.map((dish,id) => {
-                            return(
-                              <Fragment key={id}>
-                                {id < 7 &&
-                                  <Menu>
-                                    {dish}
-                                  </Menu>
-                                }
-                                {id === 7 &&
-                                  <Menu>
-                                    ...
-                                  </Menu>
-                                }
-                              </Fragment>
-                            )
-                          })}
-                          {!menu &&
-                            <NoMenu>
-                              오늘의 식단 정보가 없습니다!
-                            </NoMenu>
-                          }
-                        </>}
-                      </Fragment>
-                    )})}
-                </Fragment>
-              )})
-            }
-          </MenuContainer>
-          <ShowMore onClick={() => history.push('/cafeteria')}>
-            더보기
-            <ShowMoreIcon/>
-          </ShowMore>
-        </CafeteriaCategory>
+                      <>
+                        {menu &&
+                        menu.map((dish,id) => {
+                          return(
+                            <Fragment key={id}>
+                              {id < 10 &&
+                              <Menu>
+                                {dish}
+                              </Menu>
+                              }
+                              {id === 10 &&
+                              <Menu>
+                                ...
+                              </Menu>
+                              }
+                            </Fragment>
+                          )
+                        })}
+                        {!menu &&
+                        <NoMenu>
+                          오늘의 식단 정보가 없습니다!
+                        </NoMenu>
+                        }
+                      </>}
+                    </Fragment>
+                  )})}
+              </Fragment>
+            )})
+          }
+        </MenuContainer>
       </CafeteriaCard>
     </Container>
   )

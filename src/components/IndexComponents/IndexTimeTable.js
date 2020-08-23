@@ -81,13 +81,20 @@ const TimetableRowLine = styled.div`
 `;
 
 const TimetableCol = styled.div`
-  position: absolute;
-  width: 41px;
-  overflow: hidden;
-  z-index: 3;
   display: flex;
   align-items: center;
+  position: absolute;
+  width: 41px;
+  height: ${props => `${props.height}px`};
+  z-index: 3;
 `;
+const TimetableColText = styled.div`
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: ${props => props.height <= 16 ? 1 : props.height <= 32 ? 2 : 3};
+  -webkit-box-orient: vertical; 
+  word-wrap: break-word;
+`
 
 const TimetableSideCol = styled.div`
   width: 45px;
@@ -189,12 +196,14 @@ export default function IndexTimeTable({
               {lecture.map(({name, start, end, backgroundColor}) => (
                 <TimetableCol
                   key={start}
+                  height={end - start}
                   style={{
                     backgroundColor: backgroundColor,
-                    height: end - start + 'px',
                     top: start
                   }}>
-                  {name}
+                  <TimetableColText height={end - start}>
+                    {name}
+                  </TimetableColText>
                 </TimetableCol>
               ))}
             </TimetableColContainer>

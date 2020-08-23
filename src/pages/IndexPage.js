@@ -68,6 +68,7 @@ export default function IndexPage({history}) {
       {mobileFlag &&
         <IndexRow>
           <IndexBusContainer history={history}/>
+          <IndexCafeteriaContainer history={history}/>
         </IndexRow>
       }
 
