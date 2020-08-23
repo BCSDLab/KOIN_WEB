@@ -5,7 +5,7 @@ import {getHotPosts, getNewPosts} from "../../modules/board";
 
 export default function IndexBoardListContainer({history}) {
   const dispatch = useDispatch();
-  const {notice, free, job, anonymous, question, loading, error} = useSelector(state => state.boardReducer.newPosts);
+  const {notice, loading, error} = useSelector(state => state.boardReducer.newPosts);
   const [selectedBoard, selectBoard] = useState(0);
   const [articles, setArticles] = useState([]);
 
@@ -17,22 +17,22 @@ export default function IndexBoardListContainer({history}) {
   useEffect(()=> {
     switch (selectedBoard) {
       case 0:
-        return setArticles(notice);
-      case 1:
-        return setArticles(free);
-      case 2:
-        return setArticles(job);
-      case 3:
-        return setArticles(anonymous);
-      case 4:
-        return setArticles(question);
+        return setArticles(notice.slice(0,7));
+      // case 1:
+      //   return setArticles(free);
+      // case 2:
+      //   return setArticles(job);
+      // case 3:
+      //   return setArticles(anonymous);
+      // case 4:
+      //   return setArticles(question);
     }
   },[selectedBoard, notice]);
 
   return (
     <IndexBoardList
       history={history}
-      boardList={["공지사항","자유게시판","취업게시판","익명게시판","질문게시판"]}
+      boardList={["공지사항"]}
       selectedBoard={selectedBoard}
       selectBoard={selectBoard}
       articles={articles}/>

@@ -116,18 +116,18 @@ function* getHotPosts() {
 
 function* getNewPosts() {
   try {
-    const notice = yield call(boardAPI.getIndexPageArticleList, 4);
-    const job = yield call(boardAPI.getIndexPageArticleList, 2);
-    const free = yield call(boardAPI.getIndexPageArticleList, 1);
-    const anonymous = yield call(boardAPI.getIndexPageArticleList, -1);
-    const question = yield call(boardAPI.getIndexPageArticleList, 10);
-
+    const notice = yield call(boardAPI.getArticleList, 1, 4);
+    // const job = yield call(boardAPI.getIndexPageArticleList, 2);
+    // const free = yield call(boardAPI.getIndexPageArticleList, 1);
+    // const anonymous = yield call(boardAPI.getIndexPageArticleList, -1);
+    // const question = yield call(boardAPI.getIndexPageArticleList, 10);
+    console.log(notice, "123123123123")
     const res = {
-      "notice": notice.data,
-      "job": job.data,
-      "free": free.data,
-      "anonymous": anonymous.data.articles,
-      "question": question.data
+      "notice": notice.data.articles,
+      // "job": job.data,
+      // "free": free.data,
+      // "anonymous": anonymous.data.articles,
+      // "question": question.data
     }
     yield put({
       type: GET_NEW_POSTS_SUCCESS,
