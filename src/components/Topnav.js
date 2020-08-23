@@ -132,11 +132,11 @@ const MegaMenuContainer = styled.div`
 `;
 
 const MegaMenuPanelContent = styled.div`
+  display: flex;
   margin-left: 135px;
   height: 100%;
   padding: 0;
   width: 430px;
-  display: block;
   position: relative;
 `;
 
@@ -162,17 +162,14 @@ const MegaMenu = styled.div`
   &:hover ${MegaMenuPanelContainer} {
     -webkit-transform: translateY(0px);
     transform: translateY(0px);
-    height: 176px;
+    height: 75px;
     box-sizing: border-box;
   }
 `;
 
 const MenuItem = styled.div`
   line-height: 2;
-  display: inline;
-  position: absolute;
-  top: ${props => props.index % 4 * 31.5 + 'px'};
-  left: ${props => props.index < 4 ? '0px' : '100px'};
+  margin-right: 38px;
 `;
 
 const MenuItemLink = styled(Link)`
@@ -286,18 +283,10 @@ export default React.memo(function Topnav({
   userInfo,
   onLogout,
   mobileMenu,
-  searchWord,
-  searchWordList,
   searchBar,
   setMobileMenu,
-  setSearchBar,
-  onClickMultiPurposeBtn,
-  onClickDeleteSearchWordBtn,
   onClickFooterMenu,
-  onClickSearchButton,
   onClickLogoImage,
-  onChangeSearchWord,
-  toggleDarkBackground,
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
@@ -372,34 +361,29 @@ export default React.memo(function Topnav({
               </MegaMenuContainer>
             </MegaMenuPanelContainer>
           </MegaMenu>}
-
-          {!searchBar && <SearchIcon
-            src={"https://static.koreatech.in/assets/img/ic-search.png"}
-            onClick={() => setSearchBar(true)}
-          />}
         </MenuWrapper>
         <AuthButtonGroup>
         {!token ? (
           <>
-            <Link to="/signup" onClick={() => toggleDarkBackground(false)}>
+            <Link to="/signup">
               <AuthLinkButton>
                 회원가입
               </AuthLinkButton>
             </Link>
-            <Link to="/login" onClick={() => toggleDarkBackground(false)}>
-              <AuthLinkButton style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
+            <Link to="/login">
+              <AuthLinkButton>
                   로그인
               </AuthLinkButton>
             </Link>
           </>
         ) :(
           <>
-            <Link to="/modifyinfo" onClick={() => toggleDarkBackground(false)}>
+            <Link to="/modifyinfo">
               <AuthLinkButton>
                 정보수정
               </AuthLinkButton>
             </Link>
-            <AuthLinkButton onClick={onLogout} style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
+            <AuthLinkButton onClick={onLogout}>
               로그아웃
             </AuthLinkButton>
           </>
