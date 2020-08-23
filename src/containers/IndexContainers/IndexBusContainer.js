@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import IndexBus from "../../components/IndexComponents/IndexBus";
 import useInterval from "../../hooks/useInterval";
 import setBusTime from "../../modules/setBusTime";
@@ -8,9 +8,12 @@ import {useDispatch, useSelector} from "react-redux";
 export default function IndexBusContainer({history}) {
   const dispatch = useDispatch();
   const busTypes = ["shuttle","daesung","cityBus"];
-  const [selectedType, setSelectedType] = useState("shuttle");
   const [depart, setDepart] = useState("한기대");
   const [arrival, setArrival] = useState("야우리");
+  const [daesungDepart, setDaesungDepart] = useState("한기대");
+  const [daesungArrival, setDaesungArrival] = useState("야우리");
+  const [cityDepart, setCityDepart] = useState("한기대");
+  const [cityArrival, setCityArrival] = useState("야우리");
 
   const [fastestShuttleTime, setFastestShuttleTime] = useState(0);
   const [fastestDaesungTime, setFastestDaesungTime] = useState(0);
@@ -19,10 +22,12 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
-  const [isCityBus, setIsCityBus] = useState(false)
+
+  const sliderRef = useRef();
+  const [mobileTypes, setMobileTypes] = useState(["cityBus","shuttle","daesung"]);
 
   useInterval(() => {
-    setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(depart+arrival, daesungDepart+daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
   },1000);
 
   function changeEnglish (place) {
@@ -36,41 +41,91 @@ export default function IndexBusContainer({history}) {
     }
   }
 
-  const shiftDestination = () => {
-    setDepart(arrival);
-    setArrival(depart);
+  const shiftDestination = (index) => {
+    switch(index){
+      case 0:
+        setDepart(arrival);
+        setArrival(depart);
+        break;
+      case 1:
+        setDaesungDepart(daesungArrival);
+        setDaesungArrival(daesungDepart);
+        break;
+      case 2:
+        setCityDepart(cityArrival);
+        setCityArrival(cityDepart);
+        break;
+    }
   };
 
   useEffect(() => {
-    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-    setBusTime(depart+arrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
-  },[arrival])
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    console.log(depart+arrival)
+    setBusTime(depart+arrival, daesungDepart+daesungArrival ,setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+  },[arrival, daesungArrival, cityArrival])
 
   useEffect(() => {
-    if(selectedType === "cityBus"){
-      dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-      setIsCityBus(true);
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    sliderRef.current.scrollLeft = ((window.innerWidth - 20) * 0.78 - (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+    console.log((window.innerWidth - 20) * 0.78, (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+
+    let walk;
+    let startX;
+    let scrollValue;
+
+    function slideTouchStart (e){
+      startX = e.touches[0].pageX - sliderRef.current.offsetLeft;
+      scrollValue = sliderRef.current.scrollLeft;
     }
-    else setIsCityBus(false);
-  },[selectedType]);
+
+    function slideTouchEnd (){
+      if(walk) {
+        sliderRef.current.scrollLeft = sliderRef.current.scrollLeft + walk;
+        if (walk < 0) {
+          if (walk < -120) {
+            setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
+          }
+        } else if (walk > 0) {
+          if (walk > 120) {
+            setMobileTypes((state) => [state[2]].concat(state.slice(0, 2)))
+          }
+        }
+      }
+    }
+
+    function slideTouchMove (e){
+      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.8;
+      sliderRef.current.scrollLeft = scrollValue - walk;
+    }
+
+    sliderRef.current.addEventListener('touchstart', slideTouchStart);
+    sliderRef.current.addEventListener('touchend', slideTouchEnd);
+    sliderRef.current.addEventListener('touchmove', slideTouchMove);
+
+    return () => {if(sliderRef.current)sliderRef.current.removeEventListener('touchmove',slideTouchMove);}
+  },[]);
 
   useInterval(() => {
-    dispatch(getBusInfo(changeEnglish(depart), changeEnglish(arrival)));
-  }, (isCityBus? 1000 : null));
+    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+  }, 1000);
 
   return (
     <IndexBus
       busTypes={busTypes}
-      selectedType={selectedType}
-      setSelectedType={setSelectedType}
       depart={depart}
       arrival={arrival}
+      daesungDepart={daesungDepart}
+      daesungArrival={daesungArrival}
+      cityDepart={cityDepart}
+      cityArrival={cityArrival}
       shiftDestination={shiftDestination}
       shuttleTime={shuttleTime}
       daesungTime={daesungTime}
       fastestShuttleTime={fastestShuttleTime}
       fastestDaesungTime={fastestDaesungTime}
       cityBusData={data}
+      sliderRef={sliderRef}
+      mobileTypes={mobileTypes}
       history={history}/>
   )
 }
