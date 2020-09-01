@@ -25,7 +25,6 @@ const BusTitle = styled.h2`
   padding-left: 1px;
 
   @media(max-width: 576px){
-    padding-left: 3px;
     height: 22px;
     font-family: NanumSquare;
     font-size: 15px;
@@ -35,7 +34,8 @@ const BusTitle = styled.h2`
     line-height: normal;
     letter-spacing: normal;
     color: #175c8e;
-    margin-left: 16px;
+    padding-left: 19px;
+    width: 100px;
   }
 `;
 

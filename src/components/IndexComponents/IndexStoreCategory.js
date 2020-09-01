@@ -44,6 +44,7 @@ const CategoryTitle = styled.div`
     color: #175c8e;
     padding-left: 3px;
     margin-left: 16px;
+    width: 100px;
   }
 `
 
