@@ -321,17 +321,17 @@ export default function Footer({ path }) {
       <PcFooter>
         <FooterNav>
           {category.map((section, index) => (
-            <>
+            <React.Fragment key={section.title}>
               {section.submenu.map((menu, idx) => {
                 return (
                   <NavLink
-                    key={idx}
+                    key={menu.name}
                     to={menu.link}>
                     {menu.title}
                   </NavLink>
                 )
               })}
-            </>
+            </React.Fragment>
           ))}
         </FooterNav>
         <FooterLink>
