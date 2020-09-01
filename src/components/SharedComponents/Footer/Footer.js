@@ -325,7 +325,7 @@ export default function Footer({ path }) {
               {section.submenu.map((menu, idx) => {
                 return (
                   <NavLink
-                    key={menu.name}
+                    key={menu.title}
                     to={menu.link}>
                     {menu.title}
                   </NavLink>
