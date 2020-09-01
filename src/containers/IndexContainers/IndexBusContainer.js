@@ -96,15 +96,32 @@ export default function IndexBusContainer({history}) {
       walk = 0;
     }
 
+    function slideTouchCancel (){
+      if(walk) {
+        sliderRef.current.scrollLeft = sliderRef.current.scrollLeft + walk;
+        if (walk < 0) {
+          if (walk < -120) {
+            setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
+          }
+        } else if (walk > 0) {
+          if (walk > 120) {
+            setMobileTypes((state) => [state[2]].concat(state.slice(0, 2)))
+          }
+        }
+      }
+      walk = 0;
+    }
+
     function slideTouchMove (e){
       e.preventDefault()
-      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.8;
+      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.7;
       sliderRef.current.scrollLeft = scrollValue - walk;
     }
 
     sliderRef.current.addEventListener('touchstart', slideTouchStart);
     sliderRef.current.addEventListener('touchend', slideTouchEnd);
     sliderRef.current.addEventListener('touchmove', slideTouchMove);
+    sliderRef.current.addEventListener('touchcancel', slideTouchCancel);
 
     return () => {if(sliderRef.current)sliderRef.current.removeEventListener('touchmove',slideTouchMove);}
   },[]);
