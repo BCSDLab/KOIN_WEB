@@ -55,7 +55,7 @@ const BusCard = styled.div`
   @media(max-width: 576px){
     margin-top: 10px;
     display: inline-block;
-    width: calc(78% + 10px);
+    width: 75%;
     max-width: 100%;
     height: 140px;
     

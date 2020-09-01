@@ -67,7 +67,7 @@ export default function IndexBusContainer({history}) {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    sliderRef.current.scrollLeft = (16 + window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75 - 10) / 2);
+    sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
 
     let walk;
     let startX;
@@ -81,7 +81,7 @@ export default function IndexBusContainer({history}) {
 
     function slideTouchEnd (){
       if(walk) {
-        sliderRef.current.scrollLeft = (16 + window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75 - 10) / 2);
+        sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
         if (walk < 0) {
           if (walk < -120) {
             setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
@@ -98,7 +98,7 @@ export default function IndexBusContainer({history}) {
 
     function slideTouchCancel (){
       if(walk) {
-        sliderRef.current.scrollLeft = (16 + window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75 - 10) / 2);
+        sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
         if (walk < 0) {
           if (walk < -120) {
             setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
@@ -114,7 +114,7 @@ export default function IndexBusContainer({history}) {
 
     function slideTouchMove (e){
       e.preventDefault()
-      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.65;
+      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.9;
       sliderRef.current.scrollLeft = scrollValue - walk;
     }
 
