@@ -43,6 +43,7 @@ const CategoryTitle = styled.div`
     font-weight: bold;
     color: #175c8e;
     padding-left: 3px;
+    margin-left: 16px;
   }
 `
 
@@ -93,6 +94,12 @@ const CategoryMenu = styled.div`
     margin-right: 8px;
     font-size: 12px;
     color: #252525;
+    &:first-child{
+      margin-left: 20px;
+    }
+    &:last-child{
+      padding-right: 20px;
+    }
   }
 `;
 

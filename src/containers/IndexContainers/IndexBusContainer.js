@@ -67,8 +67,7 @@ export default function IndexBusContainer({history}) {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    sliderRef.current.scrollLeft = ((window.innerWidth - 20) * 0.78 - (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
-    console.log((window.innerWidth - 20) * 0.78, (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+    sliderRef.current.scrollLeft = (16 + window.innerWidth*0.736 - (window.innerWidth - window.innerWidth*0.736- 20) / 2);
 
     let walk;
     let startX;

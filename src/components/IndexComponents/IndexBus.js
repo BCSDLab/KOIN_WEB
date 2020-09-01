@@ -35,6 +35,7 @@ const BusTitle = styled.h2`
     line-height: normal;
     letter-spacing: normal;
     color: #175c8e;
+    margin-left: 16px;
   }
 `;
 

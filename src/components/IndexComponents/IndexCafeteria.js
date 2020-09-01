@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 const Container = styled.section`
   @media(max-width: 576px){
     margin-top: 33px;
-    max-width: 100%;
+    max-width: calc(100% - 32px);
+    padding: 0 16px;
   }
 `;
 
