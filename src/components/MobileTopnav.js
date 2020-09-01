@@ -36,7 +36,7 @@ const UserInfoSection = styled.div`
 
 const BackRouteButton = styled.button`
   display: block;
-  margin: 5px 0 8px -2px;
+  margin: 18px 0 8px -2px;
   width: 28px;
   height: 28px;
   padding: 0;
@@ -49,7 +49,7 @@ const Nickname = styled.span`
   display: block;
   max-width: 240px;
   text-align: left;
-  margin-bottom: 19px;
+  margin-bottom: 16px;
   font-weight: bold;
   
   ::after {
@@ -81,12 +81,13 @@ const MyInfoLink = styled(Link)`
 
 const AuthLinkStyle = css`
   cursor: pointer;
-  margin-right: 14px;
+  margin-right: 15px;
+  font-size: 15px;
   height: 12px;
   color: #252525;
   text-decoration: none;
   & + & {
-    margin-left: 14px;
+    margin-left: 15px;
     margin-right: 0;
   }
 `;
@@ -155,7 +156,7 @@ const BCSDLabLogo = styled.img.attrs({
 })`
   position: absolute;
   right: 16px;
-  bottom: 53px;
+  bottom: 20px;
   width: 33px;
   height: 33px;
 `;
@@ -165,7 +166,7 @@ const KOINLogo = styled.img.attrs({
   alt: 'KOIN 컬러 로고'
 })`
   position: absolute;
-  right: 16px;
+  right: 16px;  
   top: 16px;
   width: 40px;
   height: 40px;
@@ -195,7 +196,7 @@ export default function MobileTopnav({
           {userInfo ? userInfo.nickname : '로그인'}
         </Nickname>
         <AuthRow isLoggedIn={!!userInfo}>
-          {token && 
+          {token &&
             <>
               <MyInfoLink to="/modifyinfo" onClick={onCloseNav}>내 정보</MyInfoLink>
               <AuthLinkButton onClick={() => {onLogout(); onCloseNav()}}>로그아웃</AuthLinkButton>
