@@ -13,6 +13,7 @@ const PlusButton = styled.div`
   height: 48px;
   text-align: center;
   border-radius: 24px;
+  z-index: 3;
   background-color: #175c8e;
   
   ::before {

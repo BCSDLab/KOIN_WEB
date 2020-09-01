@@ -39,19 +39,20 @@ export default [
       //   tag: null
       // },
       {
-        title: "복덕방",
-        link: "/room",
-        newFlag: false,
-        planFlag: false,
-        tag: null
-      },
-      {
         title: "시간표",
         link: "/timetable",
         newFlag: false,
         planFlag: false,
         tag: null
+      },
+      {
+        title: "복덕방",
+        link: "/room",
+        newFlag: false,
+        planFlag: false,
+        tag: null
       }
+
     ]
   },
   {
