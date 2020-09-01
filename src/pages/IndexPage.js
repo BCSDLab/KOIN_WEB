@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components";
-import AwesomeSwiper from 'react-awesome-swiper';
 import useMobileFlag from "../hooks/useMobileFlag";
 
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";

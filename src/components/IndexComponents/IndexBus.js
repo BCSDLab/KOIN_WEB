@@ -21,7 +21,7 @@ const BusTitle = styled.h2`
   text-align: left;
   color: #175c8e;
   cursor: pointer;
-  margin: 0;
+  margin: 24px 0 0 0;
   padding-left: 1px;
 
   @media(max-width: 576px){

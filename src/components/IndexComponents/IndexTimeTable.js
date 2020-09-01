@@ -15,7 +15,6 @@ const Title = styled.div`
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  cursor: pointer;
   color: #175c8e;
   margin-bottom: 16px;
 `
@@ -209,7 +208,7 @@ export default function IndexTimeTable({
             </TimetableColContainer>
           )) : null}
         </TimetableContent>
-        {!sessionStorage.getItem("token") && <TimetableNotLogin to="/signup" />}
+        {!sessionStorage.getItem("token") && <TimetableNotLogin to="/login" />}
       </Timetable>
     </Container>
   )
