@@ -36,6 +36,7 @@ const BusTitle = styled.h2`
     color: #175c8e;
     padding-left: 19px;
     width: 100px;
+    margin: 0;
   }
 `;
 
