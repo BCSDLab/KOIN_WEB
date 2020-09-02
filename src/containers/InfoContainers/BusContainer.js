@@ -22,7 +22,7 @@ export default function BusContainer() {
   const {term} = useSelector(state => state.busReducer.term);
 
   // BusTimeTable.js
-  const [vacationFlag, setVacationFlag] = useState(true);
+  const [vacationFlag, setVacationFlag] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
   const [shuttleTimeTable, setShuttleTimeTable] = useState(semesterTimeTable);
@@ -78,21 +78,26 @@ export default function BusContainer() {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0]+arrivalList[0],departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   }, [departList, arrivalList, dispatch]);
 
   useEffect(() => {
+    if(term) {
+      setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+    }
+  },[term])
+
+  useEffect(() => {
     setIsVacation(vacationFlag);
-  }, [shuttleTimeTable]);
+  }, [vacationFlag]);
 
   useEffect(() => {
     if(term) {
       if (String(term)[1] == 0) {
         setVacationFlag(false)
-        console.log("vacation")
+        console.log("not vacation")
       } else {
         setVacationFlag(true);
-        console.log("not vacation")
+        console.log("vacation")
       }
     }
   },[term])

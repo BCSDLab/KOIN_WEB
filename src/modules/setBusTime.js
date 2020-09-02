@@ -13,7 +13,6 @@ export default function setBusTime(
   setDaesungTime,
   term
   ) {
-  console.log(term + "함수입니다.")
   let timetable = {};
   if(String(term)[1] == 0){
     timetable = TIMETABLE.default;
