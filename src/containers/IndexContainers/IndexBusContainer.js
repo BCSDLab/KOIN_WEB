@@ -64,7 +64,7 @@ export default function IndexBusContainer({history}) {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    console.log(depart+arrival)
+    setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   },[arrival, daesungArrival, cityArrival])
 
   useEffect(() => {
