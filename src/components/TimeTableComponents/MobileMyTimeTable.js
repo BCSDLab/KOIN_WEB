@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 
 const PlusButton = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 40px;
   right: 16px;
   width: 48px;
