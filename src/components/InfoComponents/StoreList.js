@@ -99,8 +99,11 @@ const CategoryMenu = styled.div`
   margin-right: 35px;
   cursor: pointer;
   
-  &:hover {
-    color: #f7941e;
+  
+  @media (min-width: 577px) {
+    &:hover {
+      color: #f7941e;
+    }
   }
   
   @media (max-width: 576px) {

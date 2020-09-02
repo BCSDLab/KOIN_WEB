@@ -6,6 +6,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   min-width: 360px;
