@@ -78,7 +78,8 @@ export default function BusContainer() {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-  }, [departList, arrivalList, dispatch]);
+    setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+  }, [departList, arrivalList]);
 
   useEffect(() => {
     if(term) {
