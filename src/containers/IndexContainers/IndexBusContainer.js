@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import IndexBus from "../../components/IndexComponents/IndexBus";
 import useInterval from "../../hooks/useInterval";
 import setBusTime from "../../modules/setBusTime";
-import {getBusInfo} from "../../modules/bus";
+import {getBusInfo, getTerm} from "../../modules/bus";
 import {useDispatch, useSelector} from "react-redux";
 
 export default function IndexBusContainer({history}) {
@@ -22,12 +22,15 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
+  const {term} = useSelector(state => state.busReducer.term);
 
   const sliderRef = useRef();
   const [mobileTypes, setMobileTypes] = useState(["cityBus","shuttle","daesung"]);
 
   useInterval(() => {
-    setBusTime(depart+arrival, daesungDepart+daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    if(term) {
+      setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+    }
   },1000);
 
   function changeEnglish (place) {
@@ -62,11 +65,12 @@ export default function IndexBusContainer({history}) {
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
     console.log(depart+arrival)
-    setBusTime(depart+arrival, daesungDepart+daesungArrival ,setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(depart+arrival, daesungDepart+daesungArrival ,setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   },[arrival, daesungArrival, cityArrival])
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    dispatch(getTerm())
     sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
 
     let walk;
