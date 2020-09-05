@@ -23,7 +23,7 @@
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-router-last-location": "^2.0.1",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.3",
     "react-spinners": "^0.7.2",
     "react-toast-notifications": "^2.4.0",
     "react-transition-group": "^4.3.0",
