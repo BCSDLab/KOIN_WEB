@@ -1,8 +1,8 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import parse from 'html-react-parser';
-import Comment from "../SharedComponents/Comment";
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from 'prop-types';
 
 const LoaderWrapper = styled.div`
   width: 100%;
@@ -179,7 +179,7 @@ const TempPasswordInputField = styled.input`
   margin-right: 4px;
 `;
 
-export default function Post({
+function Post({
   post,
   type,
   history,
@@ -549,7 +549,7 @@ export default function Post({
             </MobilePostInfo>
             {((isMyPost || type === 'anonymous') && type !== 'notice') &&
               <MobileButtonGroup>
-                {type === 'anonymous' && 
+                {type === 'anonymous' &&
                   <TempPasswordInputField
                     type="password"
                     value={password}
@@ -569,25 +569,33 @@ export default function Post({
           <PostBody>
             {parse(post.content)}
           </PostBody>
-          <Comment
-            history={history}
-
-            // 게시글 정보
-            specificData={post}
-
-            // dispatch를 발생시키는 댓글 관련 함수들
-            registerComment={registerComment}
-            editComment={editComment}
-            deleteComment={deleteComment}
-
-            // 원문 바로가기
-            originalLink={null}
-
-            // 익명게시판
-            isAnonymousFlag={type==='anonymous'}
-          />
         </div>
       }
     </>
   )
 }
+
+Post.propTypes = {
+  post: PropTypes.shape({
+    title: PropTypes.string,
+    comment_count: PropTypes.number,
+    created_at: PropTypes.string,
+    nickname: PropTypes.string,
+    content: PropTypes.string,
+    hit: PropTypes.number,
+    comment: PropTypes.object
+  }),
+  type: PropTypes.oneOf(['notice', 'free', 'job', 'question', 'anonymous']),
+  history: PropTypes.object,
+  loading: PropTypes.bool,
+  isMyPost: PropTypes.bool,
+  password: PropTypes.string,
+  onChangePassword: PropTypes.func,
+  onClickEditButton: PropTypes.func,
+  onClickDeleteButton: PropTypes.func,
+  registerComment: PropTypes.func,
+  editComment: PropTypes.func,
+  deleteComment: PropTypes.func,
+}
+
+export default Post

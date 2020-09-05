@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 import Pagination from '../SharedComponents/Pagination';
 import ClipLoader from 'react-spinners/ClipLoader';
+import PropTypes from 'prop-types';
 
 const Table = styled.div`
   border-top: 2px solid #175c8e;
@@ -204,7 +205,7 @@ const MobilePostInfoText = styled.span`
   }
 `;
 
-export default function Posts({
+function Posts({
   history,
   path,
   posts,
@@ -571,3 +572,23 @@ export default function Posts({
     </>
   )
 }
+
+Posts.propTypes = {
+  history: PropTypes.object,
+  path: PropTypes.string,
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    comment_count: PropTypes.number,
+    created_at: PropTypes.string,
+    author: PropTypes.string,
+    nickname: PropTypes.string,
+    content: PropTypes.string,
+    hit: PropTypes.number,
+    comment: PropTypes.object
+  })),
+  loading: PropTypes.bool,
+  totalPageNum: PropTypes.number,
+  getPostList: PropTypes.func
+}
+
+export default Posts

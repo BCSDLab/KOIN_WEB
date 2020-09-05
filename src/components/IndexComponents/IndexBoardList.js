@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.section`
-  width: 813px;
+  width: 848px;
 `;
 
 const Header = styled.div`
@@ -27,8 +27,6 @@ const BoardName = styled.h2`
   color: ${props => props.isSelected ? "#175c8e" : "#bbbbbb"};
   padding: 0 0 5px 0;
   margin: 0 20px 0 0;
-  cursor: pointer;
-  border-bottom: ${props => props.isSelected ? "2px solid #175c8e" : "none"};
 `;
 
 const ShowMore = styled.div`
@@ -40,16 +38,18 @@ const ShowMore = styled.div`
     font-family: NanumBarunGothic;
     font-size: 12px;
     font-weight: normal;
+    color: #252525;
     letter-spacing: -0.6px;
-    color: #bbbbbb;
+    
+    ::after {
+      display: inline-block;
+      width: 12px;
+      height: 8px;
+      background: url("https://static.koreatech.in/assets/img/bus_dropdown.png") center/12px 8px no-repeat;
+      transform: rotate(-90deg);
+      content: "";
+    }
   }
-`;
-
-const MoreIcon = styled.img.attrs({
-  src: "https://static.koreatech.in/assets/img/ic-more.png"
-})`
-  width: 15px;
-  height: 15px;
 `;
 
 const Article = styled.article`
@@ -61,7 +61,7 @@ const Article = styled.article`
 `;
 
 const ArticleList = styled.div`
-  margin-top: 17px;
+  margin-top: 16px;
   
   ${Article}:last-child{
     margin-bottom: 0;
@@ -71,7 +71,7 @@ const ArticleList = styled.div`
 const ArticleTitleContainer = styled.div`
   width: 700px;
   height: 18px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1.12;
   text-align: left;
@@ -103,21 +103,13 @@ const N = styled.img.attrs({
 
 const ArticleDate = styled.div`
   font-family: NanumBarunGothic;
-  font-size: 13px;
-  font-weight: normal;
-  line-height: 1.15;
-  letter-spacing: normal;
-  color: #175c8e;
-`;
-
-const ArticleComment = styled.span`
-  opacity: 0.6;
-  font-family: NanumBarunGothic;
   font-size: 12px;
-  line-height: 1.17;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
   letter-spacing: normal;
-  color: #bbbbbb;
-  margin-left: 10px;
+  color: #999999;
 `;
 
 export default React.memo(function IndexBoardList({
@@ -239,11 +231,6 @@ export default React.memo(function IndexBoardList({
     }
   }
   function clickArticle(boardId, id){
-    if (boardId >= 4 && boardId <= 8) {
-      sessionStorage.setItem("boardId", 4)
-    } else {
-      sessionStorage.setItem("boardId", boardId || -1);
-    }
     switch(boardId){
       case 1:
         return history.push(`/board/free/${id}`)
@@ -280,7 +267,6 @@ export default React.memo(function IndexBoardList({
         </BoardList>
         <ShowMore onClick={() => clickShowMore(selectedBoard)}>
           <span>더 보기</span>
-          <MoreIcon/>
         </ShowMore>
       </Header>
       <ArticleList>
@@ -296,9 +282,6 @@ export default React.memo(function IndexBoardList({
                   <ArticleTitle>
                     {article.title}
                   </ArticleTitle>
-                  <ArticleComment>
-                    [{article.comment_count}]
-                  </ArticleComment>
                   {computedTime(article.created_at)[1] &&
                     <N/>
                   }

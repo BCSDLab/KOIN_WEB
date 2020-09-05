@@ -2,7 +2,6 @@ import React from 'react'
 import styled, { keyframes} from 'styled-components';
 import { Link } from 'react-router-dom';
 import MobileTopnav from './MobileTopnav';
-import SearchBar from './SearchComponents/SearchBar';
 
 const SlideEnter = keyframes`
   0% {
@@ -18,12 +17,10 @@ const SlideEnter = keyframes`
 const Container = styled.nav`
   height: 80px;
   font-size: 12px;
-  border-bottom: 1px solid #0000002b;
   font-family: NanumSquare, serif;
   font-weight: 800;
   background: #175c8e;
   color: #fff;
-  border-bottom: 5px solid #f7941e;
   display: ${props => {
     switch(props.path) {
       case '/login':
@@ -40,7 +37,9 @@ const Container = styled.nav`
   position: ${props => props.searchBar ? 'relative' : 'unset'};
 
   @media (max-width: 576px) {
-    height: 56px;
+    height: ${props => props.path === '/' ? '77px' : '56px'};
+    border-radius: ${props => props.path === '/' ? '0 0 20px 20px' : '0'};
+    box-shadow: ${props => props.path === '/' ? '0 2px 4px 0 rgba(0, 0, 0, 0.34)' : 'none'};
     position: sticky;
     position: -webkit-sticky;
     top: 0;
@@ -133,11 +132,11 @@ const MegaMenuContainer = styled.div`
 `;
 
 const MegaMenuPanelContent = styled.div`
+  display: flex;
   margin-left: 135px;
   height: 100%;
   padding: 0;
   width: 430px;
-  display: block;
   position: relative;
 `;
 
@@ -163,17 +162,14 @@ const MegaMenu = styled.div`
   &:hover ${MegaMenuPanelContainer} {
     -webkit-transform: translateY(0px);
     transform: translateY(0px);
-    height: 176px;
+    height: 75px;
     box-sizing: border-box;
   }
 `;
 
 const MenuItem = styled.div`
   line-height: 2;
-  display: inline;
-  position: absolute;
-  top: ${props => props.index % 4 * 31.5 + 'px'};
-  left: ${props => props.index < 4 ? '0px' : '100px'};
+  margin-right: 38px;
 `;
 
 const MenuItemLink = styled(Link)`
@@ -237,7 +233,7 @@ const MobileRow = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    padding: 16px;
+    padding: ${props => props.isMain ? '20px' : '16px'};
     box-sizing: border-box;
     text-align: center;
   }
@@ -254,8 +250,8 @@ const MenuIcon = styled.img`
 
 const RouteIcon = styled.img`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: ${props => props.isMain ? '26px' : '16px'};
+  right: ${props => props.isMain ? '20px' : '16px'};
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -265,7 +261,7 @@ const Title = styled.div`
   font-size: 16px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: ${props => props.isMain ? 'none' : 'center'};
   align-items: center;
 `;
 
@@ -281,61 +277,54 @@ export default React.memo(function Topnav({
   categories,
   menu,
   path,
+  history,
   onMouseOverMenu,
   token,
   userInfo,
   onLogout,
   mobileMenu,
-  searchWord,
-  searchWordList,
   searchBar,
   setMobileMenu,
-  setSearchBar,
-  onClickMultiPurposeBtn,
-  onClickDeleteSearchWordBtn,
   onClickFooterMenu,
-  onClickSearchButton,
   onClickLogoImage,
-  onChangeSearchWord,
-  toggleDarkBackground,
 }) {
   const getTitle = () => {
     if (path === '/timetable') return '시간표';
     else if (path === '/cafeteria') return '식단';
     else if (path === '/bus') return '버스/교통';
-    else if (path === '/faq') return 'FAQ';
+    // else if (path === '/faq') return 'FAQ';
     else if (!path.indexOf('/room')) return '복덕방';
-    else if (!path.indexOf('/circle')) return '동아리';
+    // else if (!path.indexOf('/circle')) return '동아리';
     else if (!path.indexOf('/store')) return '주변상점';
 
-    else if (!path.indexOf('/board/free')) return '자유게시판';
-    else if (!path.indexOf('/board/anonymous')) return '익명게시판';
+    // else if (!path.indexOf('/board/free')) return '자유게시판';
+    // else if (!path.indexOf('/board/anonymous')) return '익명게시판';
     else if (!path.indexOf('/board/notice')) return '공지사항';
-    else if (!path.indexOf('/board/job')) return '취업게시판';
-    else if (!path.indexOf('/board/question')) return '질문게시판';
-    else if (!path.indexOf('/board/promotion')) return '홍보게시판';
-    else if (!path.indexOf('/lost')) return '분실물';
-
-    else if (!path.indexOf('/market/sell')) return '팝니다';
-    else if (!path.indexOf('/market/buy')) return '삽니다';
-    else if (!path.indexOf('/search')) return '검색 결과';
+    // else if (!path.indexOf('/board/job')) return '취업게시판';
+    // else if (!path.indexOf('/board/question')) return '질문게시판';
+    // else if (!path.indexOf('/board/promotion')) return '홍보게시판';
+    // else if (!path.indexOf('/lost')) return '분실물';
+    //
+    // else if (!path.indexOf('/market/sell')) return '팝니다';
+    // else if (!path.indexOf('/market/buy')) return '삽니다';
+    // else if (!path.indexOf('/search')) return '검색 결과';
   }
 
-  const setRoutingButtonVisible = () => {
-    switch(path) {
-      case '/timetable':
-      case '/board/free':
-      case '/board/job':
-      case '/board/anonymous':
-      case '/board/question':
-      case '/board/promotion':
-      case '/lost':
-      case '/market/buy':
-      case '/market/sell':
-        return true;
-      default: return false;
-    }
-  }
+  // const setRoutingButtonVisible = () => {
+  //   switch(path) {
+  //     case '/timetable':
+  //     case '/board/free':
+  //     case '/board/job':
+  //     case '/board/anonymous':
+  //     case '/board/question':
+  //     case '/board/promotion':
+  //     case '/lost':
+  //     case '/market/buy':
+  //     case '/market/sell':
+  //       return true;
+  //     default: return false;
+  //   }
+  // }
 
   return (
     <Container path={path} mobileMenu={mobileMenu} searchBar={searchBar}>
@@ -344,7 +333,7 @@ export default React.memo(function Topnav({
           <KOINLogoImage />
         </StyledLink>
         <MenuWrapper>
-          {!searchBar && 
+          {!searchBar &&
           <MegaMenu>
             {categories.map((category, index) => (
               <MegaMenuItem
@@ -372,85 +361,51 @@ export default React.memo(function Topnav({
               </MegaMenuContainer>
             </MegaMenuPanelContainer>
           </MegaMenu>}
-          {searchBar &&
-            <SearchBar
-              searchWord={searchWord}
-              searchWordList={searchWordList}
-              setSearchBar={setSearchBar}
-              onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
-              onChangeSearchWord={onChangeSearchWord}
-              onClickSearchButton={onClickSearchButton}
-            />
-          }
-          {!searchBar && <SearchIcon
-            src={"https://static.koreatech.in/assets/img/ic-search.png"}
-            onClick={() => setSearchBar(true)}
-          />}
         </MenuWrapper>
         <AuthButtonGroup>
         {!token ? (
           <>
-            <Link to="/signup" onClick={() => toggleDarkBackground(false)}>
+            <Link to="/signup">
               <AuthLinkButton>
                 회원가입
               </AuthLinkButton>
             </Link>
-            <Link to="/login" onClick={() => toggleDarkBackground(false)}>
-              <AuthLinkButton style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
+            <Link to="/login">
+              <AuthLinkButton>
                   로그인
-              </AuthLinkButton>   
+              </AuthLinkButton>
             </Link>
           </>
         ) :(
           <>
-            <Link to="/modifyinfo" onClick={() => toggleDarkBackground(false)}>
+            <Link to="/modifyinfo">
               <AuthLinkButton>
                 정보수정
               </AuthLinkButton>
             </Link>
-            <AuthLinkButton onClick={onLogout} style={{ paddingRight: 0, borderLeft: '1px solid #a0d2f6' }}>
+            <AuthLinkButton onClick={onLogout}>
               로그아웃
             </AuthLinkButton>
           </>
         )}
         </AuthButtonGroup>
       </Row>
-      <MobileRow>
-        <MenuIcon
-          src={mobileMenu
-            ? "https://static.koreatech.in/assets/img/back-menu.png"
-            : "https://static.koreatech.in/assets/img/menu.png"}
-          onClick={mobileMenu
-            ? () => { setMobileMenu(false); onClickFooterMenu(1); }
-            : () => { setMobileMenu(true); onClickFooterMenu(1); }}
-        />
-        <Title>
+      <MobileRow isMain={path === '/'}>
+        {path !== '/' && (
+          <MenuIcon
+            src="https://static.koreatech.in/assets/img/back-menu.png"
+            onClick={() => history.goBack()}
+          />
+        )}
+        <Title isMain={path === '/'}>
           {path === '/' && !mobileMenu && <KOINLogoImage />}
           {path !== '/' && !mobileMenu && getTitle()}
-          {mobileMenu && '전체 서비스'}
         </Title>
-        {(!mobileMenu && setRoutingButtonVisible()) &&
-          <RouteIcon
-            src={"https://static.koreatech.in/assets/img/mobile__create.png"}
-            onClick={onClickMultiPurposeBtn}
-          />
-        }
-        {!mobileMenu && (path === '/' || !path.indexOf('/search')) &&
-          <RouteIcon
-            src={"https://static.koreatech.in/assets/img/ic-search.png"}
-            onClick={() => setSearchBar(true)}
-          />
-        }
-        {searchBar && !mobileMenu &&
-          <SearchBar
-            searchWord={searchWord}
-            searchWordList={searchWordList}
-            setSearchBar={setSearchBar}
-            onClickDeleteSearchWordBtn={onClickDeleteSearchWordBtn}
-            onChangeSearchWord={onChangeSearchWord}
-            onClickSearchButton={onClickSearchButton}
-          />
-        }
+        <RouteIcon
+          isMain={path === '/'}
+          src={"https://static.koreatech.in/assets/img/menu.png"}
+          onClick={() => { setMobileMenu(true); onClickFooterMenu(1); }}
+        />
       </MobileRow>
       <MobileTopnav
         mobileMenu={mobileMenu}

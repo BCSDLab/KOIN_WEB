@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom';
-import PostRegisterContainer from '../../containers/BoardContainers/PostRegisterContainer';
 import PostListContainer from '../../containers/BoardContainers/PostListContainer';
-import PostEditContainer from '../../containers/BoardContainers/PostEditContainer';
 import PostDetailContainer from '../../containers/BoardContainers/PostDetailContainer';
-
-import PromotionListContainer from '../../containers/PromotionContainers/PromotionListContainer';
-import PromotionDetailContainer from '../../containers/PromotionContainers/PromotionDetailContainer';
-import PromotionEditContainer from '../../containers/PromotionContainers/PromotionEditContainer';
-import PromotionRegisterContainer from "../../containers/PromotionContainers/PromotionRegisterContainer";
 
 import HotPosts from '../../components/BoardComponents/HotPosts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,17 +44,7 @@ export default function BoardPage({ history, match }) {
       <Container>
         <Row>
           <Switch>
-            {type === 'promotion' && (
-              <>
-                {!id && <Route exact path={match.path} component={PromotionListContainer} />}
-                {id === 'register' && <Route exact path={match.path} component={PromotionRegisterContainer} />}
-                {id === 'edit' && <Route path={match.path} component={PromotionEditContainer} />}
-                {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PromotionDetailContainer} />}
-              </>
-            )}
             {!id && <Route exact path={match.path} component={(PostListContainer)} />}
-            {id === 'register' && <Route exact path={match.path} component={PostRegisterContainer} />}
-            {id === 'edit' && <Route path={match.path} component={PostEditContainer} />}
             {Number.isInteger(parseInt(id)) && <Route path={match.path} component={PostDetailContainer} />}
           </Switch>
         </Row>

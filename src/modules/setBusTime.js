@@ -1,16 +1,24 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react'
 import * as TIMETABLE from "../static/busTimeTable"
+import * as VACATION_TIMETABLE from "../static/busVactionTimeTable"
 
 export default function setBusTime(
   route,
+  daesungRoute,
   setFastestShuttleTime,
   setNextFastestShuttleTime,
   setFastestDaesungTime,
   setNextFastestDaesungTime,
   setShuttleTime,
-  setDaesungTime
+  setDaesungTime,
+  term
   ) {
-  const timetable = TIMETABLE.default;
+  let timetable = {};
+  if(String(term)[1] == 0){
+    timetable = TIMETABLE.default;
+  }
+  else timetable = VACATION_TIMETABLE.default;
+
   const routeTime = new Date();
   const today = new Date();
   let shuttleTime = [{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}];
@@ -53,13 +61,13 @@ export default function setBusTime(
     setShuttleTime(shuttleTime);
   }
 
-  if(timetable[route].daesung === "none"){
+  if(timetable[daesungRoute].daesung === "none"){
     setFastestDaesungTime("미운행");
     setNextFastestDaesungTime("미운행");
     setDaesungTime(daesungTime);
   }
   else{
-    const daesungTimeTable = timetable[route].daesung;
+    const daesungTimeTable = timetable[daesungRoute].daesung;
     //대성
     for(let i=0; i<daesungTimeTable.length; i++){
 

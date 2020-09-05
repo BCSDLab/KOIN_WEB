@@ -16,9 +16,6 @@ import SignUpPage from './pages/UserPages/SignUpPage';
 import ModifyInfoPage from './pages/UserPages/ModifyInfoPage';
 import FindPasswordPage from './pages/UserPages/FindPasswordPage';
 // Info Page
-import FaqPage from "./pages/InfoPages/FaqPage";
-import CircleListPage from './pages/InfoPages/CircleListPage';
-import CircleDetailPage from './pages/InfoPages/CircleDetailPage';
 import CafeteriaMenuPage from "./pages/InfoPages/CafeteriaMenuPage";
 import RoomListPage from './pages/InfoPages/RoomListPage';
 import RoomDetailPage from './pages/InfoPages/RoomDetailPage';
@@ -28,15 +25,7 @@ import TimeTablePage from "./pages/InfoPages/TimeTablePage";
 import BusPage from "./pages/InfoPages/BusPage";
 // Board Page
 import BoardPage from './pages/BoardPages/BoardPage';
-// LostPages
-import LostItemListPage from "./pages/LostPages/LostItemListPage";
-import LostItemDetailPage from "./pages/LostPages/LostItemDetailPage";
-import LostItemRegisterPage from "./pages/LostPages/LostItemRegisterPage";
-import LostItemRevisePage from "./pages/LostPages/LostItemRevisePage";
-// Market Page
-import MarketPage from './pages/MarketPages/MarketPage';
 // etc
-import SearchResultPage from './pages/SearchResultPage';
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import page404 from './pages/404';
 import PrivateRoute from './components/PrivateRoute';
@@ -170,7 +159,7 @@ function App({ history }) {
                 <Switch location={location}>
                   <Route exact path="/" component={IndexPage} />
                   {/* User Page */}
-                  <PrivateRoute 
+                  <PrivateRoute
                     path="/login"
                     history={history}
                     component={LoginPage}
@@ -178,7 +167,7 @@ function App({ history }) {
                     dialog={dialog}
                     onConfirm={onConfirm}
                   />
-                  <PrivateRoute 
+                  <PrivateRoute
                     path="/signup"
                     history={history}
                     component={SignUpPage}
@@ -186,7 +175,7 @@ function App({ history }) {
                     dialog={dialog}
                     onConfirm={onConfirm}
                   />
-                  <PrivateRoute 
+                  <PrivateRoute
                     path="/modifyinfo"
                     history={history}
                     component={ModifyInfoPage}
@@ -203,37 +192,16 @@ function App({ history }) {
                     onConfirm={onConfirm}
                   />
                   {/* Info Page */}
-                  <Route exact path="/circle" component={CircleListPage} />
-                  <Route path="/circle/:id" component={CircleDetailPage} />
                   <Route exact path="/room" component={RoomListPage} />
                   <Route path="/room/:id" component={RoomDetailPage} />
 
                   <Route exact path="/store" component={StoreListPage} />
                   <Route path="/store/:id" component={StoreDetailPage} />
 
-                  <Route exact strict path="/lost" component={LostItemListPage}/>
-                  <PrivateRoute
-                    path="/lost/register"
-                    component={LostItemRegisterPage}
-                    setDialog={setDialog}
-                    dialog={dialog}
-                    onConfirm={onConfirm}
-                  />
-                  <Route path="/lost/detail/:id" component={LostItemDetailPage}/>
-                  <PrivateRoute
-                    path="/lost/edit"
-                    component={LostItemRevisePage}
-                    setDialog={setDialog}
-                    dialog={dialog}
-                    onConfirm={onConfirm}
-                  />
-            
-
                   <Route path="/cafeteria" component={CafeteriaMenuPage} />
-                  <Route path="/faq" component={FaqPage} />
                   <Route path="/bus" component={BusPage}/>
                   <Route path="/timetable" component={TimeTablePage} />
-                  
+
                   <Route path="/privacy-policy" component={PrivacyPolicyPage}/>
                   {/* Board page */}
                   <Route exact strict path="/board/:type" component={BoardPage} />
@@ -244,16 +212,6 @@ function App({ history }) {
                     dialog={dialog}
                     onConfirm={onConfirm}
                   />
-                  {/* Market page */}
-                  <Route exact strict path="/market/:type" component={MarketPage} />
-                  <PrivateRoute
-                    path="/market/:type/:id"
-                    component={MarketPage}
-                    setDialog={setDialog}
-                    dialog={dialog}
-                    onConfirm={onConfirm}
-                  />
-                  <Route path="/search" component={SearchResultPage} />
                   <Route component={page404} />
                 </Switch>
               </CSSTransition>

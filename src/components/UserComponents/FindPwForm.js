@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Input from './Input';
 import ClipLoader from "react-spinners/ClipLoader";
+import PropTypes from 'prop-types';
 
 const StyledButton = styled.button`
   width: 389px;
@@ -47,7 +48,7 @@ const Advice = styled.div`
 `;
 
 
-export default function FindPwForm({
+function FindPwForm({
   userId,
   onChange,
   onSubmit,
@@ -63,11 +64,21 @@ export default function FindPwForm({
         placeholder="아우누리 ID를 입력해주세요."
         autoFocus
       />
-      <StyledButton onClick={onSubmit} disabled={findSuccess || authInProgress}>
+      <StyledButton onClick={onSubmit} disabled={findSuccess || authInProgress} >
         {!authInProgress && "비밀번호 찾기"}
         <ClipLoader size={25} color={"#175c8e"} loading={authInProgress} />
       </StyledButton>
       <Advice>학교메일로 비밀번호 초기화 메일이 발송됩니다.</Advice>
-    </>  
+    </>
   );
 }
+
+FindPwForm.propTypes = {
+  userId: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  authInProgress: PropTypes.bool,
+  findSuccess: PropTypes.bool
+}
+
+export default FindPwForm;

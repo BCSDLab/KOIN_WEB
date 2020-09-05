@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import BusLookUp from "../../components/InfoComponents/BusLookUp";
 import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
 import setBusTime from "../../modules/setBusTime";
-import {getBusInfo} from "../../modules/bus";
+import {getBusInfo, getTerm} from "../../modules/bus";
 import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
 import useInterval from "../../hooks/useInterval";
 
@@ -19,9 +19,10 @@ export default function BusContainer() {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data, loading, error} = useSelector(state => state.busReducer.cityBusData);
+  const {term} = useSelector(state => state.busReducer.term);
 
   // BusTimeTable.js
-  const vacationFlag = true;
+  const [vacationFlag, setVacationFlag] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
   const [shuttleTimeTable, setShuttleTimeTable] = useState(semesterTimeTable);
@@ -72,17 +73,39 @@ export default function BusContainer() {
   }
   useInterval(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(departList[0]+arrivalList[0],departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   },1000);
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
-  }, [departList, arrivalList, dispatch]);
+    setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+  }, [departList, arrivalList]);
+
+  useEffect(() => {
+    if(term) {
+      setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+    }
+  },[term])
 
   useEffect(() => {
     setIsVacation(vacationFlag);
-  }, [shuttleTimeTable]);
+  }, [vacationFlag]);
+
+  useEffect(() => {
+    if(term) {
+      if (String(term)[1] == 0) {
+        setVacationFlag(false)
+        console.log("not vacation")
+      } else {
+        setVacationFlag(true);
+        console.log("vacation")
+      }
+    }
+  },[term])
+
+  useEffect(() => {
+    dispatch(getTerm())
+  },[])
 
   const selectTab = (tab) => () =>{
     setSelectedTab(tab);

@@ -1,15 +1,12 @@
 import React from 'react'
 import styled from "styled-components";
-import AwesomeSwiper from 'react-awesome-swiper';
 import useMobileFlag from "../hooks/useMobileFlag";
 
-import IndexTopBoardContainer from "../containers/IndexContainers/IndexTopBoardContainer";
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
 import IndexCafeteriaContainer from "../containers/IndexContainers/IndexCafeteriaContainer";
-import IndexRecommendContainer from "../containers/IndexContainers/IndexRecommendContainer";
 import IndexBoardListContainer from "../containers/IndexContainers/IndexBoardListContainer";
-import IndexMarketContainer from '../containers/IndexContainers/IndexMarketContainer';
-import IndexCardNewsContainer from "../containers/IndexContainers/IndexCardNewsContainer";
+import IndexStoreCategoryContainer from "../containers/IndexContainers/IndexStoreCategoryContainer";
+import IndexTimeTableContainer from "../containers/IndexContainers/IndexTimeTableContainer";
 
 const Container = styled.div`
   width: 1132px;
@@ -17,8 +14,8 @@ const Container = styled.div`
   padding: 40px 0 50px 0;
   
   @media(max-width: 576px){
-    padding: 16px 16px 55px 16px;
-    width: calc(100% - 32px);
+    padding: 16px 0 55px 0;
+    width: 100%;
   }
 `;
 
@@ -27,7 +24,7 @@ const IndexRow = styled.div`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  
+  padding-top: ${props => props.mobileTop ? "20px" : "0"};
   @media(max-width: 576px){
     margin-top: 0;
   }
@@ -59,76 +56,43 @@ const MobileSwiper = styled.div`
     display: block;
     margin-top: 45px;
     padding-bottom: 21px!important;
-    
-    .swiper-slide {
-      width: 85%;
-    }
-    
-    .swiper-pagination {
-      position: relative;
-      margin-top: 20px;
-    }
   }
 `;
 
 export default function IndexPage({history}) {
   const mobileFlag = useMobileFlag();
 
-  const config = {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    }
-  }
-
   return (
     <Container>
       {mobileFlag &&
-        <IndexRow>
+        <IndexRow mobileTop>
           <IndexBusContainer history={history}/>
+          <IndexStoreCategoryContainer history={history}/>
+          <IndexCafeteriaContainer history={history}/>
         </IndexRow>
       }
 
       <IndexRow top>
-        <IndexTopBoardContainer history={history}/>
-      </IndexRow>
-
-      <IndexRow>
         <CardList>
-          <IndexRecommendContainer history={history}/>
-          <IndexBusContainer history={history}/>
-          <IndexCafeteriaContainer history={history}/>
+          <div>
+            <IndexStoreCategoryContainer history={history}/>
+            <IndexBusContainer history={history}/>
+          </div>
+          <IndexTimeTableContainer/>
         </CardList>
       </IndexRow>
 
-      <IndexRow>
-        <MobileSwiper>
-          <AwesomeSwiper config={config}>
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <IndexCafeteriaContainer history={history}/>
-              </div>
-              <div className="swiper-slide">
-                <IndexRecommendContainer history={history}/>
-              </div>
-            </div>
-            <div className="swiper-pagination" />
-          </AwesomeSwiper>
-        </MobileSwiper>
-      </IndexRow>
+
 
       <IndexRow>
+        <CardList>
         <BoardList>
           <IndexBoardListContainer history={history}/>
-          <IndexCardNewsContainer />
         </BoardList>
+        <IndexCafeteriaContainer history={history}/>
+        </CardList>
       </IndexRow>
 
-      <IndexRow>
-        <IndexMarketContainer history={history}/>
-      </IndexRow>
     </Container>
   )
 }

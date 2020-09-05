@@ -10,7 +10,8 @@ import StoreBanner from "../../components/InfoComponents/StoreBanner";
 
 export default function StoreDetailContainer ({ id }) {
   const dispatch = useDispatch();
-  const { data, loading, error, image} = useSelector(state => state.storeReducer.store);
+  const [image, setImage] = useState([]);
+  const { data, loading, error } = useSelector(state => state.storeReducer.store);
   const history = useHistory();
   const { configDarkBackground, changeChildComponent, toggleDarkBackground } = useDarkenBackground();
 
@@ -28,9 +29,19 @@ export default function StoreDetailContainer ({ id }) {
     dispatch(getStoreDetailInfo(id));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if(data && data.image_urls) {
+      console.log(data.image_urls)
+      setImage(data.image_urls);
+    } else if (error) {
+      setImage([]);
+    }
+  }, [data]);
 
   useEffect(() => {
     sessionStorage.setItem("storeNewFlag", false);
+
+    return () => toggleDarkBackground(false)
   }, []);
 
   const handleClickImage = useCallback(
@@ -52,7 +63,7 @@ export default function StoreDetailContainer ({ id }) {
       convertEventDDay={convertEventDDay}
       history={history} >
       {
-        data !== null && data.event_articles.length !== 0 && (
+        data && data.event_articles && data.event_articles.length !== 0 && (
           <StoreBanner
             promotionData={data.event_articles[0]}
             expand={true} />

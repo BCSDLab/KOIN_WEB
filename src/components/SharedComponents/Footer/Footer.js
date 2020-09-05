@@ -19,10 +19,10 @@ const FooterNavLink = styled.div`
   align-items: flex-start;
 `;
 
-const NavLink = styled.div`
+const NavLink = styled(Link)`
   font-family: NanumSquareR,sans-serif;
-  font-size: 13px;
-  font-weight: normal;
+  font-size: 15px;
+  font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.7;
@@ -30,13 +30,17 @@ const NavLink = styled.div`
   text-align: left;
   color: #9fa9b3;
   cursor: pointer;
-  margin-right: ${props => props.isRight ? "0" : '39px'};
+  margin-right: ${props => props.isRight ? "0" : '68px'};
+  
+  :last-child {
+    margin-right: 0;
+  }
 `;
 
 const FooterNav = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 65px 36px auto;
+  margin: 0 0 36px auto;
   
   ${FooterNavSection}:first-child {
     width: 200px;
@@ -79,7 +83,7 @@ const Container = styled.footer`
   color: white;
   position: relative;
   font-size: 13px;
-  height: 288px;
+  height: 203px;
   vertical-align: middle;
   display: ${props => {
     switch(props.path) {
@@ -112,7 +116,6 @@ const Container = styled.footer`
 
   @media (max-width: 576px) {
     height: 110px;
-    margin-bottom: 58px;
    }
    
    @-webkit-keyframes slide-down {
@@ -146,7 +149,7 @@ const PcFooter = styled.div`
   width: 1132px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 29px;
+  padding-top: 44px;
   padding-bottom: 30px;
   
   @media (max-width: 576px) {
@@ -225,6 +228,10 @@ const LinkButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  :hover {
+    font-weight: bold;
+  }
 `;
 
 const FooterCopyRight = styled.div`
@@ -309,51 +316,23 @@ const MobileFooterLinkHome = styled.img.attrs({
 export default function Footer({ path }) {
   const category = CATEGORY.default;
 
-  const clickMenu = (menu) => {
-    if (menu.tag !== null) {
-      sessionStorage.setItem("boardPageNum", 1);
-      sessionStorage.setItem("boardId", menu.tag);
-    } else {
-      if (menu.planFlag === false && menu.title !== null) {
-        if (menu.link === '/market/sell')
-          sessionStorage.setItem("nowMarketId", 0);
-        else sessionStorage.setItem("nowMarketId", 1);
-        sessionStorage.setItem("nowMarketPageNum", 1);
-      } else {
-        alert("서비스 준비중 입니다.");
-      }
-    }
-  };
-
   return (
     <Container path={path}>
       <PcFooter>
         <FooterNav>
-          {category.map((section, index) => {
-            return (
-              <FooterNavSection
-                sequence={index}
-                key={index}>
-                <SectionTitle>
-                  {section.title}
-                </SectionTitle>
-                <FooterNavLink>
-                  {section.submenu.map((menu, idx) => {
-                    return (
-                      <Link
-                        key={idx}
-                        to={menu.link}
-                        onClick={() => clickMenu(menu)}>
-                        <NavLink>
-                          {menu.title}
-                        </NavLink>
-                      </Link>
-                    )
-                  })}
-                </FooterNavLink>
-              </FooterNavSection>
-            )
-          })}
+          {category.map((section, index) => (
+            <React.Fragment key={section.title}>
+              {section.submenu.map((menu, idx) => {
+                return (
+                  <NavLink
+                    key={menu.title}
+                    to={menu.link}>
+                    {menu.title}
+                  </NavLink>
+                )
+              })}
+            </React.Fragment>
+          ))}
         </FooterNav>
         <FooterLink>
           <FooterLogoContainer>

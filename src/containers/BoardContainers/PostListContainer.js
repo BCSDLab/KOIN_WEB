@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../modules/board';
 import Posts from '../../components/BoardComponents/Posts';
 import Header from '../../components/BoardComponents/Header';
 import ButtonGroup from '../../components/BoardComponents/ButtonGroup';
 import { useLastLocation } from 'react-router-last-location';
+import PropTypes from "prop-types";
 
-export default function PostListContainer({ history, match }) {
+function PostListContainer({ history, match }) {
   const dispatch = useDispatch();
   const { posts, totalPageNum, displayPageNum, displayMinNum } = useSelector(state => state.boardReducer);
-  const [boardId, setBoardId] = useState(0);
   const lastLocation = useLastLocation();
   const getPostList = page => {
-    console.log(page);
+    console.log(page, sessionStorage.getItem("boardId"));
     dispatch(getPosts({
       pageNum: page,
       boardId: sessionStorage.getItem("boardId")
     }));
   }
-  
+
   // 게시판 진입 시
   useEffect(() => {
     switch(match.params.type) {
@@ -37,17 +37,13 @@ export default function PostListContainer({ history, match }) {
       case 'anonymous':
         sessionStorage.setItem("boardId", -1);
         break;
-      case 'promotion':
-        sessionStorage.setItem("boardId", 6);
-        break;
       default:
         sessionStorage.setItem("boardId", 1);
         break;
     }
-    setBoardId(sessionStorage.getItem("boardId"));
     if (!sessionStorage.getItem("bpn")) {
       console.log("세션에 페이지 없을 때");
-      getPostList(1);
+
       const boardPageNum = {
         'free': 1,
         'job': 1,
@@ -57,6 +53,7 @@ export default function PostListContainer({ history, match }) {
         'promotion': 1
       }
       sessionStorage.setItem("bpn", JSON.stringify(boardPageNum));
+      getPostList(1);
     } else {
       // 게시판 -> 다른 게시판 이동 or 다른 서비스 -> 게시판 이동
       console.log("세션에 페이지 있을 때");
@@ -100,3 +97,10 @@ export default function PostListContainer({ history, match }) {
     </>
   )
 }
+
+PostListContainer.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+}
+
+export default PostListContainer
