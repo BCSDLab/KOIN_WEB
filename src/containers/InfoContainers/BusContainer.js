@@ -89,10 +89,8 @@ export default function BusContainer() {
         return "station";
     }
   }
+
   useInterval(() => {
-    dispatch(
-      getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0]))
-    );
     setBusTime(
       departList[0] + arrivalList[0],
       departList[0] + arrivalList[0],
@@ -103,6 +101,12 @@ export default function BusContainer() {
       setShuttleTime,
       setDaesungTime,
       term
+    );
+  }, 1000);
+
+  useInterval(() => {
+    dispatch(
+      getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0]))
     );
   }, 60000);
 
