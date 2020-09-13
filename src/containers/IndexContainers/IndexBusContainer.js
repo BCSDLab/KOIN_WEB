@@ -137,7 +137,7 @@ export default function IndexBusContainer({history}) {
 
   useInterval(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-  }, 1000);
+  }, 60000);
 
   return (
     <IndexBus

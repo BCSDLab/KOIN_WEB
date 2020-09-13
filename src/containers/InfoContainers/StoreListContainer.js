@@ -49,8 +49,6 @@ export default function StoreListContainer () {
       `마감 D-${DDay}`
   }, []);
 
-  useInterval(()=> {dispatch(getRandomPromotion())}, 5000);
-
   useEffect(() => {
     return () => {
       sessionStorage.setItem("storeNewFlag", JSON.stringify(true));
