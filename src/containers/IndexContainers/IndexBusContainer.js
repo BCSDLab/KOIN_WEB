@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import IndexBus from "../../components/IndexComponents/IndexBus";
 import useInterval from "../../hooks/useInterval";
 import setBusTime from "../../modules/setBusTime";
-import {getBusInfo} from "../../modules/bus";
+import {getBusInfo, getTerm} from "../../modules/bus";
 import {useDispatch, useSelector} from "react-redux";
 
 export default function IndexBusContainer({history}) {
@@ -22,12 +22,15 @@ export default function IndexBusContainer({history}) {
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const {data} = useSelector(state => state.busReducer.cityBusData);
+  const {term} = useSelector(state => state.busReducer.term);
 
   const sliderRef = useRef();
   const [mobileTypes, setMobileTypes] = useState(["cityBus","shuttle","daesung"]);
 
   useInterval(() => {
-    setBusTime(depart+arrival, daesungDepart+daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    if(term) {
+      setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+    }
   },1000);
 
   function changeEnglish (place) {
@@ -61,14 +64,19 @@ export default function IndexBusContainer({history}) {
 
   useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    console.log(depart+arrival)
-    setBusTime(depart+arrival, daesungDepart+daesungArrival ,setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime);
+    setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   },[arrival, daesungArrival, cityArrival])
 
   useEffect(() => {
+    if(term) {
+      setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
+    }
+  }, [term])
+
+  useEffect(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    sliderRef.current.scrollLeft = ((window.innerWidth - 20) * 0.78 - (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
-    console.log((window.innerWidth - 20) * 0.78, (window.innerWidth - 48 - (window.innerWidth - 32) * 0.78) / 2);
+    dispatch(getTerm())
+    sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
 
     let walk;
     let startX;
@@ -82,7 +90,24 @@ export default function IndexBusContainer({history}) {
 
     function slideTouchEnd (){
       if(walk) {
-        sliderRef.current.scrollLeft = sliderRef.current.scrollLeft + walk;
+        sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
+        if (walk < 0) {
+          if (walk < -120) {
+            setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
+          }
+        } else if (walk > 0) {
+          if (walk > 120) {
+            setMobileTypes((state) => [state[2]].concat(state.slice(0, 2)))
+          }
+        }
+      }
+      console.log(walk)
+      walk = 0;
+    }
+
+    function slideTouchCancel (){
+      if(walk) {
+        sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
         if (walk < 0) {
           if (walk < -120) {
             setMobileTypes((state) => state.slice(1, 3).concat(state[0]))
@@ -98,20 +123,21 @@ export default function IndexBusContainer({history}) {
 
     function slideTouchMove (e){
       e.preventDefault()
-      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.8;
+      walk = (e.touches[0].pageX - sliderRef.current.offsetLeft - startX) * 0.9;
       sliderRef.current.scrollLeft = scrollValue - walk;
     }
 
     sliderRef.current.addEventListener('touchstart', slideTouchStart);
     sliderRef.current.addEventListener('touchend', slideTouchEnd);
     sliderRef.current.addEventListener('touchmove', slideTouchMove);
+    sliderRef.current.addEventListener('touchcancel', slideTouchCancel);
 
     return () => {if(sliderRef.current)sliderRef.current.removeEventListener('touchmove',slideTouchMove);}
   },[]);
 
   useInterval(() => {
     dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-  }, 1000);
+  }, 60000);
 
   return (
     <IndexBus

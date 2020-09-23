@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components";
-import AwesomeSwiper from 'react-awesome-swiper';
 import useMobileFlag from "../hooks/useMobileFlag";
 
 import IndexBusContainer from "../containers/IndexContainers/IndexBusContainer";
@@ -15,8 +14,8 @@ const Container = styled.div`
   padding: 40px 0 50px 0;
   
   @media(max-width: 576px){
-    padding: 16px 16px 55px 16px;
-    width: calc(100% - 32px);
+    padding: 16px 0 55px 0;
+    width: 100%;
   }
 `;
 

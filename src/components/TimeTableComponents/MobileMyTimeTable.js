@@ -6,13 +6,14 @@ import styled from "styled-components";
 
 
 const PlusButton = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 40px;
   right: 16px;
   width: 48px;
   height: 48px;
   text-align: center;
   border-radius: 24px;
+  z-index: 3;
   background-color: #175c8e;
   
   ::before {

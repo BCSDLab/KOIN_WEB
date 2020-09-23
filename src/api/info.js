@@ -149,6 +149,10 @@ const deleteLostItem  = (token, id) => {
   })
 }
 
+const getTerm = () => {
+  return axios.get(`${API_PATH}/term`);
+}
+
 export {
   getBusInfo,
   getCafeteriaMenu,
@@ -173,5 +177,6 @@ export {
   deleteLostComment,
   registerLostComment,
   deleteLostItem,
-  getCardNews
+  getCardNews,
+  getTerm
 }

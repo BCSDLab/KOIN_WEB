@@ -15,6 +15,12 @@ const StyledTable = styled.div`
   overflow-y: hidden;
   white-space: nowrap;
   margin-top: 14px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
 
 const TableHeaderRow = styled.div`

@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 const Container = styled.section`
   @media(max-width: 576px){
     margin-top: 33px;
-    max-width: 100%;
+    max-width: calc(100% - 32px);
+    padding: 0 16px;
   }
 `;
 
@@ -209,13 +210,9 @@ export default React.memo(function IndexCafeteria({
   setType,
   allMenus
 }) {
-  const today = new Date;
   function getType(type) {
-    if(type === 0 && today.getHours() < 9) {
+    if(type === 0) {
       return "아침"
-    }
-    else if(type === 0) {
-      return "내일 아침"
     }
     else if(type === 1) {
       return "점심"

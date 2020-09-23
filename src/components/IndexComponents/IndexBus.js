@@ -21,11 +21,10 @@ const BusTitle = styled.h2`
   text-align: left;
   color: #175c8e;
   cursor: pointer;
-  margin: 0;
+  margin: 24px 0 0 0;
   padding-left: 1px;
 
   @media(max-width: 576px){
-    padding-left: 3px;
     height: 22px;
     font-family: NanumSquare;
     font-size: 15px;
@@ -35,6 +34,9 @@ const BusTitle = styled.h2`
     line-height: normal;
     letter-spacing: normal;
     color: #175c8e;
+    padding-left: 19px;
+    width: 100px;
+    margin: 0;
   }
 `;
 
@@ -54,7 +56,7 @@ const BusCard = styled.div`
   @media(max-width: 576px){
     margin-top: 10px;
     display: inline-block;
-    width: calc(78% + 10px);
+    width: 75%;
     max-width: 100%;
     height: 140px;
     

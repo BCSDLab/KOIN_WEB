@@ -1,7 +1,7 @@
 export default [
   {title: "치킨", state: "chicken", tag: "S005", image:"https://static.koreatech.in/assets/img/img-rest-chicken.png"},
   {title: "피자", state: "pizza", tag: "S006", image: "https://static.koreatech.in/assets/img/img-rest-pizza.png"},
-  {title: "탕수육", state: "tangsu", tag: "S007", image: "https://static.koreatech.in/assets/img/img-rest-pork.jpg"},
+  {title: "탕수육", state: "tangsu", tag: "S007", image: "https://static.koreatech.in/assets/img/img-rest-pork.png"},
   {title: "도시락", state: "dosirock", tag: "S002", image: "https://static.koreatech.in/assets/img/img-rest-box.png"},
   {title: "족발", state: "jockbar", tag: "S003", image: "https://static.koreatech.in/assets/img/img-rest-porkfeet.png"},
   {title: "중국집", state: "cafeteria", tag: "S004", image: "https://static.koreatech.in/assets/img/img-rest-blacknoodle.png"},

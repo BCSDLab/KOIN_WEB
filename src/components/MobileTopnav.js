@@ -6,6 +6,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   min-width: 360px;
@@ -21,7 +22,7 @@ const Container = styled.div`
 
 const UserInfoSection = styled.div`
   width: 100%;
-  height: 119px;
+  height: 111px;
   color: #175c8e;
   font-size: 14px;
   font-family: NanumSquare;
@@ -36,7 +37,7 @@ const UserInfoSection = styled.div`
 
 const BackRouteButton = styled.button`
   display: block;
-  margin: 5px 0 8px -2px;
+  margin: 18px 0 8px -2px;
   width: 28px;
   height: 28px;
   padding: 0;
@@ -81,12 +82,13 @@ const MyInfoLink = styled(Link)`
 
 const AuthLinkStyle = css`
   cursor: pointer;
-  margin-right: 14px;
+  margin-right: 15px;
+  font-size: 15px;
   height: 12px;
   color: #252525;
   text-decoration: none;
   & + & {
-    margin-left: 14px;
+    margin-left: 15px;
     margin-right: 0;
   }
 `;
@@ -114,6 +116,7 @@ const TitleSection = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 5px 16px 5px;
+  margin-top: 8px;
   margin-bottom: 8px;
   font-size: 15px;
   font-weight: normal;
@@ -136,7 +139,7 @@ const SubMenuLinkButton = styled(Link)`
   border-collapse: collapse;
   cursor: pointer;
   text-decoration: none;
-  padding: 11px 20px;
+  padding: 8px 20px;
   text-align: left;
   color: #252525;
   font-weight: 500;
@@ -154,7 +157,7 @@ const BCSDLabLogo = styled.img.attrs({
 })`
   position: absolute;
   right: 16px;
-  bottom: 53px;
+  bottom: 20px;
   width: 33px;
   height: 33px;
 `;
@@ -164,7 +167,7 @@ const KOINLogo = styled.img.attrs({
   alt: 'KOIN 컬러 로고'
 })`
   position: absolute;
-  right: 16px;
+  right: 16px;  
   top: 16px;
   width: 40px;
   height: 40px;
@@ -194,7 +197,7 @@ export default function MobileTopnav({
           {userInfo ? userInfo.nickname : '로그인'}
         </Nickname>
         <AuthRow isLoggedIn={!!userInfo}>
-          {token && 
+          {token &&
             <>
               <MyInfoLink to="/modifyinfo" onClick={onCloseNav}>내 정보</MyInfoLink>
               <AuthLinkButton onClick={() => {onLogout(); onCloseNav()}}>로그아웃</AuthLinkButton>

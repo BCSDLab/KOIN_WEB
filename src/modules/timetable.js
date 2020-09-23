@@ -379,26 +379,24 @@ export const addLectureOnTable = payload => dispatch => {
       }
     }
   }
-  for (let j = 0; j < times.length; j++) {
-    let layoutStyle = {
-      'start': { x: parseInt(times[j][0] / 100) + 2, y: parseInt(times[j][0] % 100) },
-      'end': { x: parseInt(times[j][times[j].length - 1] / 100) + 2, y: parseInt(times[j][times[j].length - 1] % 100) },
-      'backgroundColor': color,
-      'borderBottomColor': color,
-      'id': lecture.id ? lecture.id : `${lecture.code + lecture.lecture_class}`,
-      'title': titleArr[j],
-      'info': `${classArr[j] || ""} ${profArr[j] || ""}`,
-      'code': lecture.code + lecture.lecture_class
+  let layoutStyle = times.map((value, j) => ({
+    'start': { x: parseInt(times[j][0] / 100) + 2, y: parseInt(times[j][0] % 100) },
+    'end': { x: parseInt(times[j][times[j].length - 1] / 100) + 2, y: parseInt(times[j][times[j].length - 1] % 100) },
+    'backgroundColor': color,
+    'borderBottomColor': color,
+    'id': lecture.id ? lecture.id : `${lecture.code + lecture.lecture_class}`,
+    'title': titleArr[j],
+    'info': `${classArr[j] || ""} ${profArr[j] || ""}`,
+    'code': lecture.code + lecture.lecture_class
+  }))
+
+  dispatch({
+    type: UPDATE_LAYOUT,
+    payload: {
+      layout: layoutStyle,
+      flag
     }
-    dispatch({
-      type: UPDATE_LAYOUT,
-      payload: {
-        layout: layoutStyle,
-        flag
-      }
-    })
-  }
-  
+  })
 }
 
 export const removeLecture = payload => async (dispatch, getState) => {
@@ -624,7 +622,9 @@ export default function timetableReducer(state = initialState, action) {
         ...state,
         myLectures: state.myLectures.filter((lecture, index) => index !== action.payload.id),
         layout: action.payload.layout,
-        removedColors: state.removedColors.concat(action.payload.bgColor)
+        removedColors: action.payload.bgColor
+          ? state.removedColors.concat(action.payload.bgColor)
+          : state.removedColors
       }
     case REMOVE_LECTURE_ERROR:
       return {

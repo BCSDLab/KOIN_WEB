@@ -27,7 +27,6 @@ const BoardName = styled.h2`
   color: ${props => props.isSelected ? "#175c8e" : "#bbbbbb"};
   padding: 0 0 5px 0;
   margin: 0 20px 0 0;
-  cursor: pointer;
 `;
 
 const ShowMore = styled.div`
