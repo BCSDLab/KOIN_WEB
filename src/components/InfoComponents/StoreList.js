@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
-import storeCategory from '../../static/storeCategory';
+import storeCategory from "../../static/storeCategory";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -10,7 +10,7 @@ const Container = styled.div`
 const ListSection = styled.div`
   width: 1131px;
   margin: 63px auto 0 auto;
-    
+
   @media (max-width: 576px) {
     width: 100%;
     margin-top: 30px;
@@ -27,7 +27,7 @@ const Header = styled.div`
   color: #175c8e;
   text-align: left;
   margin-bottom: 19px;
-  
+
   @media (max-width: 576px) {
     display: none;
   }
@@ -42,7 +42,7 @@ const CategoryWrapper = styled.div`
   border-top: 2px #175c8e solid;
   border-bottom: 1px #175c8e solid;
   margin-bottom: 25px;
-  
+
   @media (max-width: 576px) {
     justify-content: center;
     width: calc(100% - 34px);
@@ -64,7 +64,7 @@ const CategoryTitle = styled.div`
   font-weight: 800;
   letter-spacing: -0.8px;
   width: 182px;
-  
+
   @media (max-width: 576px) {
     justify-content: flex-start;
     width: 100%;
@@ -78,7 +78,7 @@ const CategoryMenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  
+
   @media (max-width: 576px) {
     width: 330px;
   }
@@ -90,27 +90,27 @@ const CategoryMenu = styled.div`
   justify-content: center;
   flex-direction: column;
   font-family: NanumBarunGothic, serif;
-  font-weight: ${props => props.selected ? '700' : 'normal'};
+  font-weight: ${(props) => (props.selected ? "700" : "normal")};
   font-size: 15px;
   line-height: 1.2;
   height: 100%;
   width: 70px;
-  color: ${props => props.selected ? '#f7941e' : '#252525'};
+  color: ${(props) => (props.selected ? "#f7941e" : "#252525")};
   margin-right: 35px;
   cursor: pointer;
-  
-  
+
   @media (min-width: 577px) {
     &:hover {
       color: #f7941e;
     }
   }
-  
+
   @media (max-width: 576px) {
     letter-spacing: -0.8px;
     width: 64px;
     padding-top: 11px;
-    margin-right: ${props => props.index === 4 || props.index === 8 ? 0 : '2px'};
+    margin-right: ${(props) =>
+      props.index === 4 || props.index === 8 ? 0 : "2px"};
   }
 `;
 
@@ -119,18 +119,47 @@ const CategoryImage = styled.img`
   height: 57px;
   border-width: 50%;
   margin: 0 auto 13px;
-  
+
   @media (max-width: 576px) {
     width: 50px;
     height: 50px;
   }
 `;
-
+const SearchCategory = styled.div`
+  text-align: center;
+  position: relative;
+`;
+const Input = styled.input`
+  font-family: NanumBarunGothic0TF;
+  border: solid 1px #d2dae2;
+  height: 45px;
+  width: 1108px;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -2px;
+  padding-left: 20px;
+  @media (max-width: 576px) {
+    width: calc(100% - 54px);
+  }
+  &&::placeholder {
+    color: #d2dae2;
+  }
+`;
+const SearchIcon = styled.img`
+  position: absolute;
+  height: 24px;
+  right: 11px;
+  bottom: 10px;
+  @media (max-width: 576px) {
+    right: 25px;
+    bottom: 10px;
+  }
+`;
 const FilterWrapper = styled.div`
   display: flex;
   height: 24px;
   margin-top: 20px;
-  
+
   @media (max-width: 576px) {
     flex-wrap: wrap;
     margin-top: 24px;
@@ -148,7 +177,7 @@ const Counter = styled.span`
   font-color: #858585;
   color: #858585;
   letter-spacing: -0.6px;
-  
+
   @media (max-width: 576px) {
     width: 100%;
     margin-bottom: 33px;
@@ -158,19 +187,19 @@ const Counter = styled.span`
 
 const CheckboxWrapper = styled.div`
   width: fit-content;
-  margin-left: ${props => props.first ? 'auto' : '25px'};
+  margin-left: ${(props) => (props.first ? "auto" : "25px")};
   color: #175c8e;
   letter-spacing: -0.6px;
   font-size: 12px;
-  
+
   @media (max-width: 576px) {
     margin-bottom: 15px;
   }
 `;
 
-const Checkbox = styled.input.attrs({type: 'checkbox'})`
+const Checkbox = styled.input.attrs({ type: "checkbox" })`
   display: none;
-  
+
   &:checked + label:before {
     content: "";
     border: 1px solid #175c8e;
@@ -184,7 +213,7 @@ const CheckboxLabel = styled.label`
   cursor: pointer;
   position: relative;
   width: 100%;
-  
+
   &:before {
     content: "";
     display: block;
@@ -208,7 +237,7 @@ const ListHeaderMobile = styled.div`
   height: 31px;
   display: flex;
   align-items: center;
-  
+
   &::before {
     content: "상점목록";
     font-size: 13px;
@@ -220,7 +249,8 @@ const ListHeaderMobile = styled.div`
     line-height: 1.5;
     margin-left: auto;
     margin-right: 16px;
-    background: url("https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png") 0 50% no-repeat;
+    background: url("https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png")
+      0 50% no-repeat;
     background-size: 10px;
   }
 `;
@@ -239,7 +269,7 @@ const ListWrapper = styled.div`
   grid-column-gap: 29px;
   grid-row-gap: 30px;
   grid-auto-rows: 176px;
-  
+
   @media (max-width: 576px) {
     margin-left: auto;
     margin-right: auto;
@@ -248,7 +278,7 @@ const ListWrapper = styled.div`
     grid-auto-rows: 60px;
     grid-row-gap: 14px;
   }
-`
+`;
 
 const ListItem = styled(Link)`
   display: block;
@@ -258,11 +288,11 @@ const ListItem = styled(Link)`
   position: relative;
   color: #252525;
   text-decoration: none;
-  
+
   &:hover {
     border: 1px #f7941e solid;
   }
-  
+
   @media (max-width: 576px) {
     width: auto;
     height: auto;
@@ -272,24 +302,24 @@ const ListItem = styled(Link)`
     display: flex;
     align-items: center;
     flex: none;
-    
+
     &:hover {
       border: 1px #f7941e solid;
     }
   }
-  
+
   // IE 10+
   @media all and (-ms-high-contrast: none) {
     width: 300px;
     height: 132px;
     margin-right: 30px;
     margin-bottom: 29px;
-    
+
     &:nth-child(3n) {
       margin-right: 0;
     }
   }
-  
+
   @media all and (-ms-high-contrast: none) and (max-width: 576px) {
     width: calc(100% - 34px);
     height: 60px;
@@ -308,11 +338,11 @@ const ListItemTitle = styled.div`
   white-space: nowrap;
   word-wrap: normal;
   overflow: hidden;
-  
+
   ${ListItem}:hover & {
     color: #f7941e;
   }
-  
+
   @media (max-width: 576px) {
     height: auto;
     width: auto;
@@ -328,7 +358,7 @@ const ListItemTitle = styled.div`
     letter-spacing: normal;
     text-align: left;
     color: #252525;
-    
+
     ${ListItem}:hover & {
       color: #202020;
     }
@@ -347,13 +377,13 @@ const ListItemEventDate = styled.div`
   color: #ffffff;
   background-color: #175c8e;
   text-align: center;
-  
+
   ${ListItem}:hover & {
-    background-color:  #f7941e;
+    background-color: #f7941e;
   }
-  
+
   &:before {
-  content: "이벤트";
+    content: "이벤트";
   }
 `;
 
@@ -367,16 +397,16 @@ const ListItemEventLink = styled.div`
   text-decoration: none;
   line-height: 1.36;
   letter-spacing: normal;
-  
+
   ${ListItem}:hover & {
-    color:  #f7941e;
+    color: #f7941e;
   }
 `;
 
 const ListItemEventImage = styled.img`
   width: 11px;
   margin-left: 10px;
-`
+`;
 
 const ListItemPhone = styled.div`
   text-align: left;
@@ -384,7 +414,7 @@ const ListItemPhone = styled.div`
   height: 22px;
   width: 100%;
   letter-spacing: -0.7px;
-  
+
   & span {
     display: inline-block;
     margin-left: 17px;
@@ -398,7 +428,7 @@ const ListItemTime = styled.div`
   height: 32px;
   width: 100%;
   letter-spacing: -0.7px;
-  
+
   & span {
     display: inline-block;
     margin-left: 17px;
@@ -410,7 +440,7 @@ const ListItemOptionWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 24px;
-  
+
   @media (max-width: 576px) {
     margin-left: auto;
   }
@@ -424,20 +454,18 @@ const ListItemOption = styled.span`
   padding: 5px 10px;
   background: #f7931e;
   color: white;
-  
+
   @media (max-width: 576px) {
     font-size: 11px;
     background: transparent;
-    color: ${props => props.disabled ? "#d2dae2" : "#f7931e"};
+    color: ${(props) => (props.disabled ? "#d2dae2" : "#f7931e")};
     margin: 0 6px;
     padding: 0;
     border: 0;
   }
 `;
 
-
-
-export default function StoreList ({
+export default function StoreList({
   mobileFlag,
   selectCategory,
   selectFilter,
@@ -446,110 +474,151 @@ export default function StoreList ({
   storeList,
   handleStoreEvent,
   convertEventDDay,
-  children
+  children,
 }) {
-  const filteredStoreList = storeList.filter(store =>
+  const filteredStoreList = storeList.filter(
+    (store) =>
       (tag === "ALL" || store.category === tag) &&
-      ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & filter) === filter
-  )
+      ((store.pay_bank * 4 + store.pay_card * 2 + store.delivery) & filter) ===
+        filter
+  );
+  const [search, setSearch] = useState("");
+  const searchClick = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <Container>
       <ListSection>
-        <Header>
-          주변 상점
-        </Header>
+        <Header>주변 상점</Header>
         {/* Category 부분 */}
         <CategoryWrapper>
-          <CategoryTitle>
-            CATEGORY
-          </CategoryTitle>
+          <CategoryTitle>CATEGORY</CategoryTitle>
           <CategoryMenuWrapper>
-            {
-              storeCategory.map( (value, index) => (
-                <CategoryMenu
-                  key={value.tag}
-                  index={index}
-                  selected={tag === value.tag}
-                  onClick={() => selectCategory(value.tag)}>
-                  <CategoryImage src={value.image} />
-                  {value.title}
-                </CategoryMenu>
-              ))
-            }
+            {storeCategory.map((value, index) => (
+              <CategoryMenu
+                key={value.tag}
+                index={index}
+                selected={tag === value.tag}
+                onClick={() => selectCategory(value.tag)}
+              >
+                <CategoryImage src={value.image} />
+                {value.title}
+              </CategoryMenu>
+            ))}
           </CategoryMenuWrapper>
         </CategoryWrapper>
+        {/* 검색창 */}
+        <SearchCategory>
+          <Input
+            type="text"
+            name="search"
+            value={search}
+            placeholder="상점명을 입력하세요"
+            onChange={searchClick}
+          />
+          <SearchIcon
+            src={"https://static.koreatech.in/assets/img/search.png"}
+          />
+        </SearchCategory>
         {/* Category 밑에 있는 것들 */}
-        { children }
+        {children}
         <FilterWrapper>
           <Counter>
-            총 <b>{ filteredStoreList.length }개의 업체가</b> 있습니다.
+            총 <b>{filteredStoreList.length}개의 업체가</b> 있습니다.
           </Counter>
           <CheckboxWrapper first>
             <Checkbox
               id="delivery"
               checked={filter & 1}
-              onChange={() =>selectFilter(0)}
-              />
+              onChange={() => selectFilter(0)}
+            />
             <CheckboxLabel htmlFor="delivery">배달 가능</CheckboxLabel>
           </CheckboxWrapper>
           <CheckboxWrapper>
             <Checkbox
               id="card"
               checked={filter & 2}
-              onChange={() => selectFilter(1)} />
+              onChange={() => selectFilter(1)}
+            />
             <CheckboxLabel htmlFor="card">카드결제 가능</CheckboxLabel>
           </CheckboxWrapper>
           <CheckboxWrapper>
             <Checkbox
               id="bank"
               checked={filter & 4}
-              onChange={() => selectFilter(2)} />
+              onChange={() => selectFilter(2)}
+            />
             <CheckboxLabel htmlFor="bank">계좌이체 가능</CheckboxLabel>
           </CheckboxWrapper>
         </FilterWrapper>
         {/* 상점 리스트 */}
         {!!mobileFlag && <ListHeaderMobile />}
         <ListWrapper>
-          {
-            filteredStoreList.map((store, index) => (
-              <ListItem
-                to={`/store/${store.permalink}`}
-                index={index}
-                key={store.id}>
-                <ListItemTitle>{store.name}</ListItemTitle>
-                {!mobileFlag ? (
-                  <>
-                    {!!store.event_articles.length && (
-                      <>
-                        <ListItemEventDate> {convertEventDDay(store.event_articles[0].end_date)}</ListItemEventDate>
-                        <ListItemEventLink onClick={e => handleStoreEvent(e, store.event_articles[0].id)}>이벤트 확인하러 가기 ></ListItemEventLink>
-                      </>
+          {filteredStoreList.map((store, index) => (
+            <ListItem
+              to={`/store/${store.permalink}`}
+              index={index}
+              key={store.id}
+            >
+              <ListItemTitle>{store.name}</ListItemTitle>
+              {!mobileFlag ? (
+                <>
+                  {!!store.event_articles.length && (
+                    <>
+                      <ListItemEventDate>
+                        {" "}
+                        {convertEventDDay(store.event_articles[0].end_date)}
+                      </ListItemEventDate>
+                      <ListItemEventLink
+                        onClick={(e) =>
+                          handleStoreEvent(e, store.event_articles[0].id)
+                        }
+                      >
+                        이벤트 확인하러 가기
+                      </ListItemEventLink>
+                    </>
+                  )}
+                  <ListItemPhone>
+                    전화번호<span>{store.phone}</span>
+                  </ListItemPhone>
+                  <ListItemTime>
+                    운영시간<span>{store.phone}</span>
+                  </ListItemTime>
+                  <ListItemOptionWrapper>
+                    {!!store.delivery && (
+                      <ListItemOption>#배달가능</ListItemOption>
                     )}
-                    <ListItemPhone>전화번호<span>{store.phone}</span></ListItemPhone>
-                    <ListItemTime>운영시간<span>{store.phone}</span></ListItemTime>
-                    <ListItemOptionWrapper>
-                      {!!store.delivery && <ListItemOption>#배달가능</ListItemOption>}
-                      {!!store.pay_card && <ListItemOption>#카드가능</ListItemOption>}
-                      {!!store.pay_bank && <ListItemOption>#계좌이체가능</ListItemOption>}
-                    </ListItemOptionWrapper>
-                  </>
-                ) : (
-                  <>
-                    {!!store.event_articles.length && <ListItemEventImage src="https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png"/>}
-                    <ListItemOptionWrapper>
-                      <ListItemOption disabled={!store.delivery}>배달</ListItemOption>
-                      <ListItemOption disabled={!store.pay_card}>카드</ListItemOption>
-                      <ListItemOption disabled={!store.pay_bank}>계좌이체</ListItemOption>
-                    </ListItemOptionWrapper>
-                  </>
-                )}
-
-              </ListItem>
-            ))
-          }
+                    {!!store.pay_card && (
+                      <ListItemOption>#카드가능</ListItemOption>
+                    )}
+                    {!!store.pay_bank && (
+                      <ListItemOption>#계좌이체가능</ListItemOption>
+                    )}
+                  </ListItemOptionWrapper>
+                </>
+              ) : (
+                <>
+                  {!!store.event_articles.length && (
+                    <ListItemEventImage src="https://stage-static.koreatech.in/upload/8c621c1a7b4e016debf3a1164b51d96b.png" />
+                  )}
+                  <ListItemOptionWrapper>
+                    <ListItemOption disabled={!store.delivery}>
+                      배달
+                    </ListItemOption>
+                    <ListItemOption disabled={!store.pay_card}>
+                      카드
+                    </ListItemOption>
+                    <ListItemOption disabled={!store.pay_bank}>
+                      계좌이체
+                    </ListItemOption>
+                  </ListItemOptionWrapper>
+                </>
+              )}
+            </ListItem>
+          ))}
         </ListWrapper>
       </ListSection>
     </Container>
-  )
+  );
 }
