@@ -125,18 +125,18 @@ const CategoryImage = styled.img`
     height: 50px;
   }
 `;
-const SearchCategory = styled.div`
+const SearchStore = styled.div`
   text-align: center;
   position: relative;
 `;
 const Input = styled.input`
-  font-family: NanumBarunGothic0TF;
+  font-family: NanumBarunGothic;
   border: solid 1px #d2dae2;
   height: 45px;
   width: 1108px;
   font-size: 15px;
   line-height: 1.6;
-  letter-spacing: -2px;
+  letter-spacing: -0.09px;
   padding-left: 20px;
   @media (max-width: 576px) {
     width: calc(100% - 54px);
@@ -509,7 +509,7 @@ export default function StoreList({
           </CategoryMenuWrapper>
         </CategoryWrapper>
         {/* 검색창 */}
-        <SearchCategory>
+        <SearchStore>
           <Input
             type="text"
             name="search"
@@ -520,7 +520,7 @@ export default function StoreList({
           <SearchIcon
             src={"https://static.koreatech.in/assets/img/search.png"}
           />
-        </SearchCategory>
+        </SearchStore>
         {/* Category 밑에 있는 것들 */}
         {children}
         <FilterWrapper>
