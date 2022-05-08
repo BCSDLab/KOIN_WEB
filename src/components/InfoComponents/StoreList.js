@@ -486,6 +486,13 @@ export default function StoreList({
       store.name.includes(storeName)
   );
 
+  const getOpenCloseTime = (store) => {
+    if (store.open_time == undefined && store.close_time == undefined)
+      return "운영정보없음";
+
+    return store.open_time + " ~ " + store.close_time;
+  };
+
   return (
     <Container>
       <ListSection>
@@ -584,7 +591,7 @@ export default function StoreList({
                   </ListItemPhone>
                   <ListItemTime>
                     운영시간
-                    <span>{store.open_time + `  ~  ` + store.close_time}</span>
+                    <span>{getOpenCloseTime(store)}</span>
                   </ListItemTime>
                   <ListItemOptionWrapper>
                     {!!store.delivery && (
