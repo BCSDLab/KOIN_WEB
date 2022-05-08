@@ -486,12 +486,6 @@ export default function StoreList({
       store.name.includes(storeName)
   );
 
-  const searchStore = (e) => {
-    if (e.key === "Enter") {
-      filterStoreName(e.target.value);
-    }
-  };
-
   return (
     <Container>
       <ListSection>
@@ -589,7 +583,8 @@ export default function StoreList({
                     전화번호<span>{store.phone}</span>
                   </ListItemPhone>
                   <ListItemTime>
-                    운영시간<span>{store.phone}</span>
+                    운영시간
+                    <span>{store.open_time + `  ~  ` + store.close_time}</span>
                   </ListItemTime>
                   <ListItemOptionWrapper>
                     {!!store.delivery && (
