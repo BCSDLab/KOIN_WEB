@@ -280,6 +280,26 @@ const ListWrapper = styled.div`
   }
 `;
 
+const NotOpenAlert = styled.div`
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0;
+
+  :after { 
+    top: 73px;
+    left: 151px;
+    font-family: NotoSansCJKKR;
+    position: absolute;
+    font-size: 20px;
+    font-weight: 500
+    color: #fff;
+    content: "준비중";
+  }
+`;
+
 const ListItem = styled(Link)`
   display: block;
   border: 1px #175c8e solid;
@@ -493,6 +513,17 @@ export default function StoreList({
     return store.open_time + " ~ " + store.close_time;
   };
 
+  const isStoreOpen = (openTime, closeTime) => {
+    if (openTime == undefined && closeTime == undefined) return false;
+
+    const date = new Date();
+    const openTimeNum = openTime.replace(":", "");
+    const closeTimeNum = closeTime.replace(":", "");
+    const nowTimeNum = date.getHours() + "" + date.getMinutes();
+
+    if (nowTimeNum <= openTimeNum && nowTimeNum >= closeTimeNum) return true;
+  };
+
   return (
     <Container>
       <ListSection>
@@ -568,6 +599,10 @@ export default function StoreList({
               index={index}
               key={store.id}
             >
+              {isStoreOpen(store.open_time, store.close_time) && (
+                <NotOpenAlert />
+              )}
+
               <ListItemTitle>{store.name}</ListItemTitle>
               {!mobileFlag ? (
                 <>
