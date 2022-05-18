@@ -139,7 +139,7 @@ const Input = styled.input`
     padding-left: 20px;
     padding-right: 40px;
     @media (max-width: 576px) {
-        width: calc(100% - 54px);
+        width: calc(100% - 95px);
     }
     &&::placeholder {
         color: #d2dae2;
