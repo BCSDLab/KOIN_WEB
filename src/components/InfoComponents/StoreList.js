@@ -290,14 +290,21 @@ const NotOpenAlert = styled.div`
   top: 0;
 
   :after { 
-    top: 73px;
-    left: 151px;
+    width: 100%;
+    height: 100%;
+    display: flex;
     font-family: NotoSansCJKKR;
     position: absolute;
     font-size: 20px;
     font-weight: 500
     color: #fff;
     content: "준비중";
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 576px) {
+        font-size: 15px;
+    }
   }
 `;
 
