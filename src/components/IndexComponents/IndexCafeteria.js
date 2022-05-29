@@ -184,21 +184,32 @@ const Menu = styled.div`
 
 
 const NoMenu = styled.div`
-  height: 18px;
+  height: 31px;
   font-family: "NanumBarunGothic", serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.2;
   letter-spacing: normal;
-  color: #9fa9b3;
+  color: #252525;
   text-align: center;
-  margin: 27px 0 0 -15px;
+  margin: 15px 0 0 -15px;
   
   @media(max-width: 576px){
-    margin: 27px 0 0 -19px;
+    margin: 8px 0 0 -19px;
   }
+`
+const NoMenuContent = styled.div`
+  text-align: center;
+  margin-top: 21px;
+`
+const NoMenuImage = styled.img.attrs({
+  src: "https://static.koreatech.in/assets/img/ic-none.png"
+})`
+ width: 52px;
+ height: 47px;
+ margin-left: -19px;
 `
 
 export default React.memo(function IndexCafeteria({
@@ -276,9 +287,14 @@ export default React.memo(function IndexCafeteria({
                           )
                         })}
                         {!menu &&
-                        <NoMenu>
-                          오늘의 식단 정보가 없습니다!
-                        </NoMenu>
+                        <NoMenuContent>
+                          <NoMenuImage/>
+                          <NoMenu>
+                            식단이 제공되지 않아
+                            <div text={<br/>}/>
+                            표시할 수 없습니다.
+                          </NoMenu>
+                        </NoMenuContent>
                         }
                       </>}
                     </Fragment>
