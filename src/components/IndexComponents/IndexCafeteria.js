@@ -291,7 +291,7 @@ export default React.memo(function IndexCafeteria({
                           <NoMenuImage/>
                           <NoMenu>
                             식단이 제공되지 않아
-                            <div text={<br/>}/>
+                            <br/>
                             표시할 수 없습니다.
                           </NoMenu>
                         </NoMenuContent>
