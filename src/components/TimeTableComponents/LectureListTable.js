@@ -11,7 +11,7 @@ const StyledTable = styled.div`
   text-align: left;
   word-break: break-all;
   border-bottom: #858585 1px solid;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   margin-top: 14px;
