@@ -11,16 +11,12 @@ const StyledTable = styled.div`
   text-align: left;
   word-break: break-all;
   border-bottom: #858585 1px solid;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  margin-top: 14px;
+  margin-top: 14px; 
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
-  ::-webkit-scrollbar {
-    width: 0;
-  }
 `;
 
 const TableHeaderRow = styled.div`
