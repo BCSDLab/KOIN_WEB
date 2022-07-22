@@ -177,26 +177,24 @@ function LoginForm({
           id="autoLoginCheckBox"
         />
         <AutoLoginText
-          onClick={onToggleAutoLoginFlag}
-          htmlFor="autoLoginCheckBox">
+          onChange={onToggleAutoLoginFlag}
+          htmlFor="autoLoginCheckBox"
+        >
           자동 로그인
         </AutoLoginText>
       </AutoLoginField>
       <HelpField>
         <FindUserIdLink
           target="_blank"
-          href="https://portal.koreatech.ac.kr/kut/page/findUser.jsp">
+          href="https://portal.koreatech.ac.kr/kut/page/findUser.jsp"
+        >
           아이디 찾기
         </FindUserIdLink>
-        <FindPasswordLink to="/findpw">
-          비밀번호 찾기
-        </FindPasswordLink>
-        <SignUpLink to="/signup">
-          회원가입
-        </SignUpLink>
+        <FindPasswordLink to="/findpw">비밀번호 찾기</FindPasswordLink>
+        <SignUpLink to="/signup">회원가입</SignUpLink>
       </HelpField>
     </>
-  )
+  );
 }
 
 LoginForm.propTypes = {
