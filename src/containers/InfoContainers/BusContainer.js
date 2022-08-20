@@ -4,6 +4,7 @@ import BusLookUp from "../../components/InfoComponents/BusLookUp";
 import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
 import setBusTime from "../../modules/setBusTime";
 import {getBusInfo, getTerm} from "../../modules/bus";
+import {getCourses, getTimeTable} from "../../modules/course";
 import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
 import useInterval from "../../hooks/useInterval";
 
@@ -18,16 +19,32 @@ export default function BusContainer() {
   const [nextFastestDaesungTime, setNextFastestDaesungTime] = useState(0);
   const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
   const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
-  const {data, loading, error} = useSelector(state => state.busReducer.cityBusData);
+  // const {data, loading, error} = useSelector(state => state.busReducer.cityBusData);
   const {term} = useSelector(state => state.busReducer.term);
-
+ 
   // BusTimeTable.js
+  const dispatch2 = useDispatch();
+  const courses = useSelector(state=>state.courseReducer.courses);
+  const dispatch3 = useDispatch();
+  const course = useSelector(state=>state.courseReducer.course);
+  // console.log(courses.data[0]?.region);
+  const [regionList,setRegionList] = useState(["천안","세종","대전","서울","청주"]);
+  const [busTypeList,setBusTypeList]=useState(["shuttle","commuting","express"]);
+  
   const [vacationFlag, setVacationFlag] = useState(false);
-
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
   const [shuttleTimeTable, setShuttleTimeTable] = useState(semesterTimeTable);
   const [shuttleTimeTableTitle, setShuttleTimeTableTitle] = useState(semesterTimeTable[0].title);
   const [daesungTimeTableTitle, setDaesungTimeTableTitle] = useState("학교 -> 야우리");
+
+  // console.log(courses.data[0]?.region)
+  useEffect(()=>{
+    dispatch2(getCourses());
+  },[]);
+
+  useEffect(()=>{
+    dispatch3(getTimeTable(busTypeList[0],regionList[0]));
+  },[busTypeList,regionList]);
 
   const dispatch = useDispatch();
 
@@ -41,7 +58,7 @@ export default function BusContainer() {
         setFunction(["야우리","한기대","천안역"]);
         break;
       }
-      case "천안역": {
+      case "천안역": { 
         setFunction(["천안역","한기대","야우리"]);
         break;
       }
@@ -144,12 +161,14 @@ export default function BusContainer() {
         nextFastestDaesungTime={nextFastestDaesungTime}
         shuttleTime={shuttleTime}
         daesungTime={daesungTime}
-        cityBusData={data}/>
+        // cityBusData={data}
+      />
       <BusTimeTable
         tabs={["학교셔틀","대성고속","시내버스"]}
         vacationFlag={vacationFlag}
         selectedTab={selectedTab}
         selectTab={selectTab}
+
         shuttleTimeTable={shuttleTimeTable}
         shuttleTimeTableTitle={shuttleTimeTableTitle}
         setShuttleDropDownTitle={setShuttleDropDownTitle}

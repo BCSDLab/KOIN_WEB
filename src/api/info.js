@@ -3,6 +3,14 @@ import axios from 'axios';
 const API_PATH = process.env.REACT_APP_API_PATH;
 
 // 버스
+const getCourses = ()=> {
+  return axios.get(`${API_PATH}/bus/courses`);
+}
+
+const getTimetable = (bus_type,region) =>{
+  return axios.get(`${API_PATH}/bus/timetable/?bus_type=${bus_type}&region=${region}`)
+}
+
 const getBusInfo = (depart, arrival) => {
   return axios.get(`${API_PATH}/buses/?depart=${depart}&arrival=${arrival}`);
 }
@@ -154,6 +162,8 @@ const getTerm = () => {
 }
 
 export {
+  getCourses,
+  getTimetable,
   getBusInfo,
   getCafeteriaMenu,
   getFaqList,
