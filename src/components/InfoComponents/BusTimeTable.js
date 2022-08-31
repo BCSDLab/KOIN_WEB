@@ -72,6 +72,8 @@ const Tab = styled.div`
 `;
 
 const SubInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
   height: 58px;
   
   @media (max-width: 576px) {
@@ -92,9 +94,10 @@ const DropDownButton = styled.button`
   padding: 11px 19px;
   float: left;
   cursor: pointer;
-  width: 195px;
+  width: 225px;
   text-align: left;
   background-color: #ffffff;
+  margin-right: 10px;
   
   @media (max-width: 576px) {
     width: 100%;
@@ -102,11 +105,12 @@ const DropDownButton = styled.button`
 `;
 
 const DropDownContents = styled.div`
+  left: 0;
   display: none;
   position: absolute;
   background-color: #ffffff;
   border: 1px #d0d0d0 solid;
-  width: 193px;
+  width: 223px;
   z-index: 1;
   margin-top: 41px;
   font-weight: normal;
@@ -122,7 +126,9 @@ const DropDownContents = styled.div`
 `;
 
 const DropDown = styled.div`
-  width: 100%;
+  position: relative;
+  display: inline-block;
+  height: 44px;
   
   &:hover ${DropDownButton}{
     background-color: #efefef;
@@ -248,7 +254,15 @@ export default function BusTimeTable(
     setShuttleDropDownTitle,
     daesungTimeTable,
     daesungTimeTableTitle,
-    setDaesungDropDownTitle
+    setDaesungDropDownTitle,
+    allcourse,
+    allcourseId,
+    setAllCourseReset,
+    expressId,
+    setExpressId,
+    setRouteId,
+    routeId,
+    course
   }) {
   return(
     <Container>
@@ -276,98 +290,66 @@ export default function BusTimeTable(
             <SubInfo>
               <DropDown>
                 <DropDownButton>
-                  {shuttleTimeTableTitle}
+                  {allcourse[allcourseId].name}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {shuttleTimeTable.filter((timetable, index) => index < (vacationFlag? 9: 6))
-                    .map((timetable, index) =>
-                     (
-                       <DropDownContent
-                         key={index}
-                         onClick={setShuttleDropDownTitle(timetable.title)}>
-                         {timetable.title}
-                       </DropDownContent>
-                      )
-                  )}
+                {allcourse.filter((data,index)=> index <= 6).map((data,idx)=>{
+                  return(
+                  <DropDownContent
+                    onClick={()=>setAllCourseReset(idx)}>
+                    {data.name}
+                  </DropDownContent>)
+                })}
                 </DropDownContents>
               </DropDown>
-              <SubDesc>
-                천안(터미널/천안역) 등교/하교(18:10)
-              </SubDesc>
-            </SubInfo>
-            {shuttleTimeTable.filter(timeTable => timeTable.title === shuttleTimeTableTitle).map((timeTable, index) => (
-              vacationFlag ? (
-                <div key={index}>
-                  {/* 방학중 */}
-                  <Table>
-                    <tbody>
-                    {timeTable.timetable.map((times, rowIdx) => {
-                      return (
-                        <tr key={times[0] + rowIdx}>
-                          {times.map((time,index)=> {
-                            return (
-                              <Td
-                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                rowIdx={rowIdx}
-                                index={index}
-                                key={time + index}
-                                isShuttle={true}>
-                                {time}
-                              </Td>
-                            )
-                          })}
-                        </tr>
-                      )
-                    })}
-                    </tbody>
-                  </Table>
-                  {timeTable.timetable2 &&
-                  <Table>
-                    <tbody>
-                    {timeTable.timetable2.map((times, rowIdx) => {
-                      return (
-                        <tr key={times[0] + rowIdx}>
-                          {times.map((time,index)=> {
-                            return (
-                              <Td
-                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                rowIdx={rowIdx}
-                                index={index}
-                                key={time + index}
-                                isShuttle={true}>
-                                {time}
-                              </Td>
-                            )
-                          })}
-                        </tr>
-                      )
-                    })}
-                    </tbody>
-                  </Table>
-                  }
-                </div>
-              ) : (
-                <Table>
-                  {/* 학기중 */}
-                  <tbody>
-                  {timeTable.timetable.map((times, rowIndex) => {
-                    return (
-                      <tr key={times[0] + rowIndex}>
-                        {times.map((time,index)=> {
-                          return (
-                            <Td key={time + index}>
-                              {time}
-                            </Td>
-                          )
-                        })}
-                      </tr>
-                    )
+              <DropDown>
+                <DropDownButton>
+                  {course.data.to_school?.[routeId]?.route_name}
+                  <ArrowImg/>
+                </DropDownButton>
+                <DropDownContents>
+                  {course.data.to_school?.map((data,index)=>{
+                    return(
+                    <DropDownContent
+                      key={index}
+                      onClick={()=>setRouteId(index)}>
+                      {data.route_name}
+                    </DropDownContent>)
                   })}
-                  </tbody>
-                </Table>
-              )
-            ))}
+                </DropDownContents>
+              </DropDown>
+            </SubInfo>
+            <Table>
+              <tbody>
+                <tr>
+                  <Td>승차장소</Td>
+                  <Td>시간</Td>
+                </tr>
+                {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
+                  return(
+                    <tr>
+                        <Td>{data.node_name}</Td>
+                        <Td>{data.arrival_time}</Td>
+                    </tr>)  
+                  })}
+              </tbody>
+            </Table>
+            <Table>
+              <tbody>
+                <tr>
+                  <Td>승차장소</Td>
+                  <Td>시간</Td>
+                </tr>
+                {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
+                  return(
+                    <tr>
+                        <Td>{data.node_name}</Td>
+                        <Td>{data.arrival_time}</Td>
+                    </tr>)  
+                  })}
+              </tbody>
+            </Table>
           </div>
         }
 
@@ -377,149 +359,57 @@ export default function BusTimeTable(
             <SubInfo>
               <DropDown>
                 <DropDownButton>
-                  {daesungTimeTableTitle}
+                  {/* {daesungTimeTableTitle} */}
+                  {allcourse[allcourseId].name}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {daesungTimeTable.map((titles)=> (
+                  {/* {daesungTimeTable.map((titles)=> (
                     <DropDownContent
                       key={titles}
                       onClick={setDaesungDropDownTitle(titles)}>
                       {titles}
                     </DropDownContent>
-                  ))}
+                  ))} */}
+                  {allcourse.filter((data,index)=> index > 6).map((data,idx)=>{
+                    return(
+                      <DropDownContent
+                        onClick={()=>setAllCourseReset(idx+7)}>
+                        {data.name}
+                      </DropDownContent>)
+                  })}
                 </DropDownContents>
               </DropDown>
             </SubInfo>
-            {daesungTimeTableTitle === "학교 -> 야우리" &&
+            {allcourse[allcourseId].name==="한기대->야우리" &&
               <Table>
                 <tbody>
                 <tr>
                   <Td>출발시간</Td>
                   <Td>도착시간</Td>
                 </tr>
-                <tr>
-                  <Td>08:35</Td>
-                  <Td>08:55</Td>
-                </tr>
-                <tr>
-                  <Td>09:35</Td>
-                  <Td>09:55</Td>
-                </tr>
-                <tr>
-                  <Td>10:35</Td>
-                  <Td>10:55</Td>
-                </tr>
-                <tr>
-                  <Td>11:30</Td>
-                  <Td>11:50</Td>
-                </tr>
-                <tr>
-                  <Td>12:35</Td>
-                  <Td>12:55</Td>
-                </tr>
-                <tr>
-                  <Td>13:35</Td>
-                  <Td>13:55</Td>
-                </tr>
-                <tr>
-                  <Td>14:35</Td>
-                  <Td>14:55</Td>
-                </tr>
-                <tr>
-                  <Td>15:30</Td>
-                  <Td>15:50</Td>
-                </tr>
-                <tr>
-                  <Td>16:35</Td>
-                  <Td>16:55</Td>
-                </tr>
-                <tr>
-                  <Td>17:35</Td>
-                  <Td>17:55</Td>
-                </tr>
-                <tr>
-                  <Td>18:35</Td>
-                  <Td>18:55</Td>
-                </tr>
-                <tr>
-                  <Td>19:35</Td>
-                  <Td>19:55</Td>
-                </tr>
-                <tr>
-                  <Td>20:30</Td>
-                  <Td>20:50</Td>
-                </tr>
-                <tr>
-                  <Td>22:05</Td>
-                  <Td>22:25</Td>
-                </tr>
+                 {course.data.koreatech_to_terminal?.map((data,index)=>{
+                  return(<tr>
+                    <Td>{data.departure}</Td>
+                    <Td>{data.arrival}</Td>
+                  </tr>)
+                 })}
                 </tbody>
               </Table>
             }
-            {daesungTimeTableTitle === "야우리 -> 학교" &&
+            {allcourse[allcourseId].name === "야우리->한기대" &&
             <Table>
               <tbody>
               <tr>
                 <Td>출발시간</Td>
                 <Td>도착시간</Td>
               </tr>
-              <tr>
-                <Td>07:00</Td>
-                <Td>07:20</Td>
-              </tr>
-              <tr>
-                <Td>08:00</Td>
-                <Td>08:20</Td>
-              </tr>
-              <tr>
-                <Td>09:00</Td>
-                <Td>09:20</Td>
-              </tr>
-              <tr>
-                <Td>10:00</Td>
-                <Td>10:20</Td>
-              </tr>
-              <tr>
-                <Td>11:00</Td>
-                <Td>11:20</Td>
-              </tr>
-              <tr>
-                <Td>12:00</Td>
-                <Td>12:20</Td>
-              </tr>
-              <tr>
-                <Td>13:00</Td>
-                <Td>13:20</Td>
-              </tr>
-              <tr>
-                <Td>14:00</Td>
-                <Td>14:20</Td>
-              </tr>
-              <tr>
-                <Td>15:00</Td>
-                <Td>15:20</Td>
-              </tr>
-              <tr>
-                <Td>16:00</Td>
-                <Td>16:20</Td>
-              </tr>
-              <tr>
-                <Td>17:00</Td>
-                <Td>17:20</Td>
-              </tr>
-              <tr>
-                <Td>18:00</Td>
-                <Td>18:20</Td>
-              </tr>
-              <tr>
-                <Td>19:00</Td>
-                <Td>19:20</Td>
-              </tr>
-              <tr>
-                <Td>20:30</Td>
-                <Td>20:50</Td>
-              </tr>
+              {course.data.terminal_to_koreatech?.map((data,index)=>{
+                  return(<tr>
+                    <Td>{data.departure}</Td>
+                    <Td>{data.arrival}</Td>
+                  </tr>)
+                 })}
               </tbody>
             </Table>
             }
