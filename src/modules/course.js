@@ -40,7 +40,7 @@ export const getCourses = () => async dispatch => {
     }
   };
 const initialState = {
-    courses:{
+    courses:[{
         loading:false,
         data:{
             "id":null,
@@ -48,31 +48,13 @@ const initialState = {
             "bus_type":null,
         },
         error:null,
-    },
+    }],
     course:{
         loading:false,
         data:{
             "to_school":[
-                {
-                    "route_name":null,
-                    "arrival_info":[
-                        {
-                            "node_name":null,
-                            "arrival_time":null,
-                        }
-                    ],
-                }
             ],
             "from_school":[
-                {
-                    "route_name":null,
-                    "arrival_info":[
-                        {
-                            "node_name":null,
-                            "arrival_time":null,
-                        }
-                    ],
-                }
             ],
         },
         error:null,
