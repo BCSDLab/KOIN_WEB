@@ -67,7 +67,7 @@ export default function BusContainer() {
   const dispatch = useDispatch();
   // const courses = useSelector(state=>state.courseReducer.courses);
   const course = useSelector(state=>state.courseReducer.course);
-  const [allcourseId,setAllCourseId] = useState("0");
+  const [allcourseId,setAllCourseId] = useState(0);
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
   const [daesungTimeTableTitle, setDaesungTimeTableTitle] = useState("학교 -> 야우리");
   const [routeId,setRouteId] = useState(0);
