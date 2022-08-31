@@ -384,7 +384,7 @@ export default React.memo(function IndexBus({
                   <Info>
                     <Time>
                       <LeftTime onClick={() => history.push('/bus')}>
-                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time)}
+                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData?.remain_time)}
                       </LeftTime>
                     </Time>
                     {cityBusData &&
@@ -431,7 +431,7 @@ export default React.memo(function IndexBus({
                   <Info>
                     <Time>
                       <LeftTime onClick={() => history.push('/bus')}>
-                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time)}
+                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData?.remain_time)}
                       </LeftTime>
                     </Time>
                     <Destination>
