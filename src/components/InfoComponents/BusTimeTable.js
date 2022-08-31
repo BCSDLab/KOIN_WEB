@@ -297,6 +297,7 @@ export default function BusTimeTable(
                 {allcourse.filter((data,index)=> index <= 6).map((data,idx)=>{
                   return(
                   <DropDownContent
+                    key={idx}
                     onClick={()=>setAllCourseReset(idx)}>
                     {data.name}
                   </DropDownContent>)
@@ -328,7 +329,7 @@ export default function BusTimeTable(
                 </tr>
                 {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
                   return(
-                    <tr>
+                    <tr key={index}>
                         <Td>{data.node_name}</Td>
                         <Td>{data.arrival_time}</Td>
                     </tr>)  
@@ -343,7 +344,7 @@ export default function BusTimeTable(
                 </tr>
                 {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
                   return(
-                    <tr>
+                    <tr key={index}>
                         <Td>{data.node_name}</Td>
                         <Td>{data.arrival_time}</Td>
                     </tr>)  
@@ -359,21 +360,14 @@ export default function BusTimeTable(
             <SubInfo>
               <DropDown>
                 <DropDownButton>
-                  {/* {daesungTimeTableTitle} */}
                   {allcourse[allcourseId].name}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {/* {daesungTimeTable.map((titles)=> (
-                    <DropDownContent
-                      key={titles}
-                      onClick={setDaesungDropDownTitle(titles)}>
-                      {titles}
-                    </DropDownContent>
-                  ))} */}
                   {allcourse.filter((data,index)=> index > 6).map((data,idx)=>{
                     return(
                       <DropDownContent
+                        key={idx}
                         onClick={()=>setAllCourseReset(idx+7)}>
                         {data.name}
                       </DropDownContent>)
@@ -389,7 +383,7 @@ export default function BusTimeTable(
                   <Td>도착시간</Td>
                 </tr>
                  {course.data.koreatech_to_terminal?.map((data,index)=>{
-                  return(<tr>
+                  return(<tr key={index}>
                     <Td>{data.departure}</Td>
                     <Td>{data.arrival}</Td>
                   </tr>)
@@ -405,7 +399,7 @@ export default function BusTimeTable(
                 <Td>도착시간</Td>
               </tr>
               {course.data.terminal_to_koreatech?.map((data,index)=>{
-                  return(<tr>
+                  return(<tr key={index}>
                     <Td>{data.departure}</Td>
                     <Td>{data.arrival}</Td>
                   </tr>)

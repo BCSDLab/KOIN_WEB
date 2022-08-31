@@ -169,8 +169,6 @@ export default function BusContainer() {
     setDaesungTimeTableTitle(title);
   };
 
-  console.log("allcourseId", allcourseId,"routeId", routeId);
-  
   return (
     <div>
       <BusLookUp
