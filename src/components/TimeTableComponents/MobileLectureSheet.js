@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import styled, { css } from 'styled-components';
-import { FixedSizeList as List } from 'react-window';
-import { useDispatch } from 'react-redux';
-import { updateSheetType, toggleSheetOpen } from '../../modules/timetable';
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
+import { FixedSizeList as List } from "react-window";
+import { useDispatch } from "react-redux";
+import { updateSheetType, toggleSheetOpen } from "../../modules/timetable";
 
 const Container = styled.div`
   width: 100%;
-  height: ${props => props.isOpen ? '310px' : '0'};
+  height: ${(props) => (props.isOpen ? "310px" : "0")};
   position: fixed;
   bottom: 0;
   left: 0;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
-  transition: all .3s;
+  transition: all 0.3s;
   z-index: 15;
   background: #ffffff;
 `;
@@ -110,9 +110,7 @@ const InfoCard = styled.div`
   padding: 14px 16px;
 `;
 
-const ListCard = styled.div`
-
-`;
+const ListCard = styled.div``;
 
 const LectureWrapper = styled.div`
   width: 100%;
@@ -124,7 +122,7 @@ const LectureWrapper = styled.div`
   justify-content: space-between;
   cursor: pointer;
   box-sizing: border-box;
-  background: ${props => props.selected ? 'rgb(246, 246, 246)' : '#ffffff'};
+  background: ${(props) => (props.selected ? "rgb(246, 246, 246)" : "#ffffff")};
 `;
 
 const LectureSelectArea = styled.div`
@@ -219,16 +217,17 @@ const CompleteButton = styled.button`
 `;
 
 const MajorButton = styled.button`
-  background-color: ${props => props.selected ? '#f7941e' : '#ffffff'};
+  background-color: ${(props) => (props.selected ? "#f7941e" : "#ffffff")};
   width: 132px;
   height: 30px;
   border-radius: 20px;
-  border: ${props => props.selected ? '1px solid #f7941e' : '1px solid #d2dae2'};
+  border: ${(props) =>
+    props.selected ? "1px solid #f7941e" : "1px solid #d2dae2"};
   font-size: 12px;
-  font-weight: ${props => props.selected ? 'bold' : 'normal'};
+  font-weight: ${(props) => (props.selected ? "bold" : "normal")};
   line-height: 2;
   text-align: center;
-  color: ${props => props.selected ? '#ffffff' : '#858585'};
+  color: ${(props) => (props.selected ? "#ffffff" : "#858585")};
   margin-bottom: 11px;
   padding: 0;
   cursor: pointer;
@@ -245,51 +244,98 @@ export default function MobileLectureSheet({
   addLectureOnMyTable,
   removeLectureFromMyTable,
   selectLecturesByMajor,
-  searchLecturesByName
+  searchLecturesByName,
 }) {
   const dispatch = useDispatch();
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState("");
   const [modal, setModal] = useState(false);
-  const [selectedMajor, setSelectedMajor] = useState('전체');
+  const [selectedMajor, setSelectedMajor] = useState("전체");
   const days = ["월", "화", "수", "목", "금"];
-  const timeAlias = ["01A", "01B", "02A", "02B", "03A", "03B", "04A", "04B", "05A", "05B", "06A", "06B", "07A", "07B", "08A", "08B", "09A", "09B", "10A", "10B", "11A", "11B"];
-  const majors = ["컴퓨터공학부", "메카트로닉스공학부", "전기ㆍ전자ㆍ통신공학부", "에너지신소재화학공학부", "기계공학부", "디자인ㆍ건축공학부", "산업경영학부", "교양학부", "HRD학과", "융합학과"];
+  const timeAlias = [
+    "01A",
+    "01B",
+    "02A",
+    "02B",
+    "03A",
+    "03B",
+    "04A",
+    "04B",
+    "05A",
+    "05B",
+    "06A",
+    "06B",
+    "07A",
+    "07B",
+    "08A",
+    "08B",
+    "09A",
+    "09B",
+    "10A",
+    "10B",
+    "11A",
+    "11B",
+  ];
+  const majors = [
+    "컴퓨터공학부",
+    "메카트로닉스공학부",
+    "전기ㆍ전자ㆍ통신공학부",
+    "에너지신소재화학공학부",
+    "기계공학부",
+    "디자인ㆍ건축공학부",
+    "산업경영학부",
+    "교양학부",
+    "HRD학과",
+    "융합학과",
+    "고용서비스정책학과",
+  ];
 
-  const onSearchWordChange = e => {
+  const onSearchWordChange = (e) => {
     setSearchWord(e.target.value);
-  }
+  };
 
-  const convertClassTime = times => {
-    if (!times.length) return '미정';
+  const convertClassTime = (times) => {
+    if (!times.length) return "미정";
     for (let i = 0; i < times.length - 1; i++) {
-      if (days[parseInt(times[i] / 100)] !== days[parseInt(times[i + 1] / 100)]) {
+      if (
+        days[parseInt(times[i] / 100)] !== days[parseInt(times[i + 1] / 100)]
+      ) {
         return `
-          ${days[parseInt(times[0] / 100)]} ${timeAlias[parseInt(times[0] % 100)]}~${timeAlias[parseInt(times[i] % 100)]}, 
-          ${days[parseInt(times[i + 1] / 100)]} ${timeAlias[parseInt(times[i + 1] % 100)]}~${timeAlias[parseInt(times[times.length - 1] % 100)]}
+          ${days[parseInt(times[0] / 100)]} ${
+          timeAlias[parseInt(times[0] % 100)]
+        }~${timeAlias[parseInt(times[i] % 100)]}, 
+          ${days[parseInt(times[i + 1] / 100)]} ${
+          timeAlias[parseInt(times[i + 1] % 100)]
+        }~${timeAlias[parseInt(times[times.length - 1] % 100)]}
         `;
       }
     }
-    return `${days[parseInt(times[0] / 100)]} ${timeAlias[parseInt(times[0] % 100)]}~${timeAlias[parseInt(times[times.length - 1] % 100)]}`;
-  }
+    return `${days[parseInt(times[0] / 100)]} ${
+      timeAlias[parseInt(times[0] % 100)]
+    }~${timeAlias[parseInt(times[times.length - 1] % 100)]}`;
+  };
 
-  const isMyLecture = lecture => {
+  const isMyLecture = (lecture) => {
     for (let lec of myLectures) {
-      if (lecture.lecture_class === lec.lecture_class && lecture.name === lec.name) return true;
+      if (
+        lecture.lecture_class === lec.lecture_class &&
+        lecture.name === lec.name
+      )
+        return true;
     }
     return false;
-  }
+  };
 
-  const selectMajor = major => {
+  const selectMajor = (major) => {
     if (selectedMajor === "전체" || selectedMajor !== major) {
-      setSelectedMajor(major)
-      selectLecturesByMajor(major)
+      setSelectedMajor(major);
+      selectLecturesByMajor(major);
     } else if (selectedMajor === major) {
       setSelectedMajor("전체");
       selectLecturesByMajor("전체");
     }
-  }
+  };
 
-  const removeLecture = lecture => {
+  const removeLecture = (lecture) => {
     let index, id, lectureData;
     if (lecture) {
       lectureData = lecture;
@@ -297,68 +343,93 @@ export default function MobileLectureSheet({
       lectureData = selectedMyLecture;
     }
     for (let i = 0; i < myLectures.length; i++) {
-      if (myLectures[i].name === lectureData.name &&
-          JSON.stringify(myLectures[i].class_time) === JSON.stringify(lectureData.class_time) &&
-          myLectures[i].lecture_class === lectureData.lecture_class) 
-        {
-          index = i;
-          id = myLectures[i].id
-          break;
-        }
+      if (
+        myLectures[i].name === lectureData.name &&
+        JSON.stringify(myLectures[i].class_time) ===
+          JSON.stringify(lectureData.class_time) &&
+        myLectures[i].lecture_class === lectureData.lecture_class
+      ) {
+        index = i;
+        id = myLectures[i].id;
+        break;
+      }
     }
-    
+
     removeLectureFromMyTable(index, id);
-    dispatch(updateSheetType({
-      flag: false,
-      lecture: {}
-    }));
-  }
+    dispatch(
+      updateSheetType({
+        flag: false,
+        lecture: {},
+      })
+    );
+  };
 
   return (
     <Container isOpen={isOpen}>
       <Header>
-        {isInfoSheet && <RemoveButton onClick={() => removeLecture()}>삭제</RemoveButton>}
-        <Title>{isInfoSheet ? '수업 상세' : '수업 추가'}</Title>
-        {!isInfoSheet && <CloseButton onClick={() => dispatch(toggleSheetOpen())}>완료</CloseButton>}
+        {isInfoSheet && (
+          <RemoveButton onClick={() => removeLecture()}>삭제</RemoveButton>
+        )}
+        <Title>{isInfoSheet ? "수업 상세" : "수업 추가"}</Title>
+        {!isInfoSheet && (
+          <CloseButton onClick={() => dispatch(toggleSheetOpen())}>
+            완료
+          </CloseButton>
+        )}
       </Header>
-      {!isInfoSheet
-        ?
+      {!isInfoSheet ? (
         <ListCard>
           <HelperSection>
             <ModalOpenButton
               src={"https://static.koreatech.in/assets/img/ic-select.png"}
-              onClick={() => setModal(true)} />
+              onClick={() => setModal(true)}
+            />
             <SearchFieldWrapper>
               <SearchField
                 value={searchWord}
                 placeholder="수업명을 입력해주세요"
                 onChange={onSearchWordChange}
-                onKeyPress={e => e.key === 'Enter' ? searchLecturesByName(searchWord) : null}
+                onKeyPress={(e) =>
+                  e.key === "Enter" ? searchLecturesByName(searchWord) : null
+                }
               />
               <IconImage
                 onClick={() => searchLecturesByName(searchWord)}
-                src={"https://static.koreatech.in/assets/img/ic-search-gray.png"} />
+                src={
+                  "https://static.koreatech.in/assets/img/ic-search-gray.png"
+                }
+              />
             </SearchFieldWrapper>
           </HelperSection>
-          {lectures &&
+          {lectures && (
             <List
-              width={'100%'}
+              width={"100%"}
               height={214}
               itemData={lectures}
               itemCount={lectures.length}
-              itemSize={80}>
+              itemSize={80}
+            >
               {({ index, style }) => (
                 <LectureWrapper
                   style={style}
                   key={index}
-                  selected={nowLectureIdx === index}>
-                  <LectureSelectArea onClick={() => selectLectureInTotalTable(false, lectures[index], index)}>
+                  selected={nowLectureIdx === index}
+                >
+                  <LectureSelectArea
+                    onClick={() =>
+                      selectLectureInTotalTable(false, lectures[index], index)
+                    }
+                  >
                     <LectureName>{lectures[index].name}</LectureName>
                     <LectureInfo>
                       {`${lectures[index].lecture_class}분반 / ${lectures[index].department} / ${lectures[index].target}`}
                     </LectureInfo>
                     <LectureInfo>
-                      { `${convertClassTime(lectures[index].class_time)} / ${lectures[index].professor === " " ? "미배정" : `${lectures[index].professor}`} / ${lectures[index].code}`}
+                      {`${convertClassTime(lectures[index].class_time)} / ${
+                        lectures[index].professor === " "
+                          ? "미배정"
+                          : `${lectures[index].professor}`
+                      } / ${lectures[index].code}`}
                     </LectureInfo>
                   </LectureSelectArea>
                   <Button>
@@ -366,50 +437,60 @@ export default function MobileLectureSheet({
                       src={
                         isMyLecture(lectures[index])
                           ? "https://static.koreatech.in/assets/img/ic-delete.png"
-                          : "https://static.koreatech.in/assets/img/ic-add.png"}
+                          : "https://static.koreatech.in/assets/img/ic-add.png"
+                      }
                       onClick={
                         isMyLecture(lectures[index])
                           ? () => removeLecture(lectures[index])
                           : () => addLectureOnMyTable(lectures[index])
-                      }      
+                      }
                     />
                   </Button>
                 </LectureWrapper>
               )}
             </List>
-          }
+          )}
         </ListCard>
-        :
+      ) : (
         <InfoCard>
-          {selectedMyLecture &&
+          {selectedMyLecture && (
             <>
               <LectureName>{selectedMyLecture.name}</LectureName>
               <LectureInfo>
                 {`${selectedMyLecture.lecture_class}분반 / ${selectedMyLecture.department} / ${selectedMyLecture.target}`}
               </LectureInfo>
               <LectureInfo>
-                { `${convertClassTime(selectedMyLecture.class_time)} / ${selectedMyLecture.professor === " " ? "미배정" : `${selectedMyLecture.professor}`} / ${selectedMyLecture.code}`}
+                {`${convertClassTime(selectedMyLecture.class_time)} / ${
+                  selectedMyLecture.professor === " "
+                    ? "미배정"
+                    : `${selectedMyLecture.professor}`
+                } / ${selectedMyLecture.code}`}
               </LectureInfo>
             </>
-          }
+          )}
         </InfoCard>
-      }
-      {modal && <DarkBackground>
-        <MajorListModal>
-          <ModalTitle>전공 선택</ModalTitle>
-          <ModalBody>
-            {majors.map((major, index) =>
-              <MajorButton
-                selected={selectedMajor === major}
-                onClick={() => selectMajor(major)}
-                key={index}>
-                {major}
-              </MajorButton>  
-            )}
-          </ModalBody>
-          <CompleteButton onClick={() => setModal(false)}>완료</CompleteButton>
-        </MajorListModal>
-      </DarkBackground>}
+      )}
+      {modal && (
+        <DarkBackground>
+          <MajorListModal>
+            <ModalTitle>전공 선택</ModalTitle>
+            <ModalBody>
+              {majors.map((major, index) => (
+                <MajorButton
+                  selected={selectedMajor === major}
+                  onClick={() => selectMajor(major)}
+                  key={index}
+                >
+                  {major}
+                </MajorButton>
+              ))}
+            </ModalBody>
+            <CompleteButton onClick={() => setModal(false)}>
+              완료
+            </CompleteButton>
+          </MajorListModal>
+        </DarkBackground>
+      )}
     </Container>
-  )
+  );
 }
