@@ -133,7 +133,7 @@ export default function SignUpContainer() {
         if (major.codes.includes(majorCode)) {
           break;
         } else {
-          if (major.id === 7) {
+          if (major.id === 8) {
             addToast('올바른 학부코드가 아닙니다.', {
               appearance: 'warning',
               autoDismiss: true
