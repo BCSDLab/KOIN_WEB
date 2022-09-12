@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import IndexCafeteria from "../../components/IndexComponents/IndexCafeteria";
 import {useDispatch, useSelector} from "react-redux";
 import {getCafeteriaMenu} from "../../modules/cafeteriaMenu";
@@ -6,8 +6,8 @@ import {getCafeteriaMenu} from "../../modules/cafeteriaMenu";
 export default function IndexCafeteriaContainer({history}) {
   const [selected, setSelected] = useState(0);
   const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
-  const today = new Date(Date.now() - timezoneOffset);
-  const realTime = new Date;
+  const today = useRef(new Date(Date.now() - timezoneOffset));
+  const realTime = useRef(new Date());
   const { data } = useSelector(state => state.cafeteriaMenuReducer.cafeteriaMenus);
   const dispatch = useDispatch();
   const [allMenus, setAllMenus] = useState([[],[],[],[]]);
@@ -16,8 +16,8 @@ export default function IndexCafeteriaContainer({history}) {
   function getApiDate(dateString) {
     return String(dateString.slice(2,4)) + dateString.slice(5,7) + dateString.slice(8,10)
   }
-  function setTime() {
-    const hour = realTime.getHours()
+  const setTime = useCallback(() => {
+    const hour = realTime.current?.getHours()
     if(hour < 9){
       setType(0)
     }
@@ -25,16 +25,16 @@ export default function IndexCafeteriaContainer({history}) {
       setType(1)
     }
     else setType(2)
-  }
+  }, [])
 
   useEffect(() => {
-    dispatch(getCafeteriaMenu(getApiDate(today.toISOString())));
+    dispatch(getCafeteriaMenu(getApiDate(today.current?.toISOString())));
     setTime();
-  }, [dispatch]);
+  }, [dispatch, setTime]);
 
   useEffect(() => {
     setMenus();
-  },[data])
+  },[data, setMenus])
 
   function setMenuByType (place, menus) {
     if(menus.type === "BREAKFAST"){
@@ -48,7 +48,7 @@ export default function IndexCafeteriaContainer({history}) {
     }
   }
 
-  function setMenus() {
+  const setMenus = useCallback(() => {
     let koreanFood = ["","",""];
     let oneDishFood = ["","",""];
     let westernFood = ["","",""];
@@ -70,7 +70,7 @@ export default function IndexCafeteriaContainer({history}) {
       }
     })
     setAllMenus([koreanFood,oneDishFood,westernFood,specialFood]);
-  }
+  })
 
   useEffect(()=> {
     console.log(allMenus)
