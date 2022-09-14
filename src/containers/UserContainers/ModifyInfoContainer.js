@@ -190,7 +190,11 @@ export default function ModifyInfoContainer() {
           })
           break;
         } else {
-            continue;
+          setUserInfo({
+            ...userInfo,
+            major: ""
+          })
+          continue;
         }
       }
     } else {

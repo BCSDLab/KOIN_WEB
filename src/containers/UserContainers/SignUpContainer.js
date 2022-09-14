@@ -226,8 +226,12 @@ export default function SignUpContainer() {
             major: major.name
           })
           break;
-        } else {         
-            continue;
+        } else {        
+          setUserInfo({
+            ...userInfo,
+            major: ""
+          })
+          continue;
         }
       }
     } else {
