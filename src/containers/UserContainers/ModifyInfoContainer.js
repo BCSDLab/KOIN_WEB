@@ -5,7 +5,7 @@ import ModifyForm from '../../components/UserComponents/ModifyForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { modifyInfo, checkNickname, withdraw } from '../../modules/auth';
 import { useToasts } from 'react-toast-notifications';
-import axios from 'axios';
+import { getStudentNumberList } from '../../api/info';
 
 export default function ModifyInfoContainer() {
   const { addToast } = useToasts();
@@ -33,7 +33,7 @@ export default function ModifyInfoContainer() {
 
   const [dropdown, setDropdown] = useState(false);
   const { data, isAvailable, authInProgress, checkInProgress, error, nicknameCheckError } = useSelector(state => state.authReducer);
-  const studentNumberList = useRef([]);
+  const studentNumberList = useRef(getStudentNumberList());
   
   const onModify = useCallback(e => {
     e.preventDefault();
@@ -231,14 +231,7 @@ export default function ModifyInfoContainer() {
   };
 
   useEffect(() => {
-    if(!localStorage.getItem('student_number')) {
-      axios("https://api.stage.koreatech.in/depts").then(res => {
-      studentNumberList.current = res.data;
-      localStorage.setItem('student_number', JSON.stringify(res.data));
-    }) 
-  } else {
-    studentNumberList.current = JSON.parse(localStorage.getItem('student_number')) 
-  }
+    studentNumberList.current = getStudentNumberList();
   }, [])
 
   useEffect(() => {

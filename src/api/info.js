@@ -161,6 +161,18 @@ const getTerm = () => {
   return axios.get(`${API_PATH}/term`);
 }
 
+// 학번 리스트
+const getStudentNumberList = () => {
+  if(!localStorage.getItem('student_number')) {
+    axios(`${API_PATH}/depts`).then(res => {
+    localStorage.setItem('student_number', JSON.stringify(res.data));
+    return res.data
+  }) 
+} else {
+    return JSON.parse(localStorage.getItem('student_number'));
+  }
+}
+
 export {
   getCourses,
   getTimetable,
@@ -188,5 +200,6 @@ export {
   registerLostComment,
   deleteLostItem,
   getCardNews,
-  getTerm
+  getTerm,
+  getStudentNumberList
 }

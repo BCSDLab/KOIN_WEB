@@ -5,7 +5,7 @@ import SignupForm from '../../components/UserComponents/SignupForm';
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
 import { useToasts } from 'react-toast-notifications';
-import axios from 'axios';
+import { getStudentNumberList } from '../../api/info';
 
 export default function SignUpContainer() {
   const { addToast } = useToasts();
@@ -22,7 +22,7 @@ export default function SignUpContainer() {
     privacy: false,
     all: false
   });
-  const studentNumberList = useRef([]);
+  const studentNumberList = useRef(getStudentNumberList());
   const [userInfo, setUserInfo] = useState({
     userId: "",
     firstPassword: "",
@@ -243,16 +243,9 @@ export default function SignUpContainer() {
   }, [userInfo]);
   
   useEffect(() => {
-    if(!localStorage.getItem('student_number')) {
-      axios("https://api.stage.koreatech.in/depts").then(res => {
-      studentNumberList.current = res.data;
-      localStorage.setItem('student_number', JSON.stringify(res.data));
-    }) 
-  } else {
-    studentNumberList.current = JSON.parse(localStorage.getItem('student_number'))
-  }
+    studentNumberList.current = getStudentNumberList();
   }, [])
-  
+
   useEffect(() => {
     if (data && data.status === 200) {
       addToast('사용가능한 닉네임입니다.', {
