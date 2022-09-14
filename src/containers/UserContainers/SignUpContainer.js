@@ -22,7 +22,7 @@ export default function SignUpContainer() {
     privacy: false,
     all: false
   });
-  const student_number_list = useRef([]);
+  const studentNumberList = useRef([]);
   const [userInfo, setUserInfo] = useState({
     userId: "",
     firstPassword: "",
@@ -128,7 +128,7 @@ export default function SignUpContainer() {
         });
         return;
       }
-      for(let major of student_number_list.current) {
+      for(let major of studentNumberList.current) {
         if (major.dept_nums.includes(majorCode)) {
           break;
         } else {
@@ -219,7 +219,7 @@ export default function SignUpContainer() {
   const setUserMajor = useCallback(() => {
     if (userInfo.studentNumber.length > 6) {
       const majorCode = userInfo.studentNumber.substring(5, 7);
-      for(let major of student_number_list.current) {
+      for(let major of studentNumberList.current) {
         if (major.dept_nums.includes(majorCode)) {
           setUserInfo({
             ...userInfo,
@@ -241,11 +241,11 @@ export default function SignUpContainer() {
   useEffect(() => {
     if(!localStorage.getItem('student_number')) {
       axios("https://api.stage.koreatech.in/depts").then(res => {
-      student_number_list.current = res.data;
+      studentNumberList.current = res.data;
       localStorage.setItem('student_number', JSON.stringify(res.data));
     }) 
   } else {
-    student_number_list.current = JSON.parse(localStorage.getItem('student_number'))
+    studentNumberList.current = JSON.parse(localStorage.getItem('student_number'))
   }
   }, [])
   
