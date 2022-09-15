@@ -207,7 +207,7 @@ const Td = styled.td`
   text-align: center;
   color: #252525;
   border-bottom: ${props => props.rowIdx === 1 && props.index === 0 ? '1px solid #175c8e' : '1px solid #d2dae2'};
-
+  width: 50%;
 `;
 
 const Table = styled.table`
