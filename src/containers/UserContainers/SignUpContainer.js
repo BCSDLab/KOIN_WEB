@@ -22,7 +22,7 @@ export default function SignUpContainer() {
     privacy: false,
     all: false
   });
-  const studentNumberList = useRef(getStudentNumberList());
+  const studentNumberList = useRef([]);
   const [userInfo, setUserInfo] = useState({
     userId: "",
     firstPassword: "",
@@ -243,7 +243,10 @@ export default function SignUpContainer() {
   }, [userInfo]);
   
   useEffect(() => {
-    studentNumberList.current = getStudentNumberList();
+    async function fetchStudentNumberList() {
+      studentNumberList.current = await getStudentNumberList();
+    }
+    fetchStudentNumberList();
   }, [])
 
   useEffect(() => {

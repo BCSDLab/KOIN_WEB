@@ -33,7 +33,7 @@ export default function ModifyInfoContainer() {
 
   const [dropdown, setDropdown] = useState(false);
   const { data, isAvailable, authInProgress, checkInProgress, error, nicknameCheckError } = useSelector(state => state.authReducer);
-  const studentNumberList = useRef(getStudentNumberList());
+  const studentNumberList = useRef([]);
   
   const onModify = useCallback(e => {
     e.preventDefault();
@@ -231,7 +231,10 @@ export default function ModifyInfoContainer() {
   };
 
   useEffect(() => {
-    studentNumberList.current = getStudentNumberList();
+    async function fetchStudentNumberList() {
+      studentNumberList.current = await getStudentNumberList();
+    }
+    fetchStudentNumberList();
   }, [])
 
   useEffect(() => {

@@ -162,13 +162,12 @@ const getTerm = () => {
 }
 
 // 학번 리스트
-const getStudentNumberList = () => {
+const getStudentNumberList = async () => {
   if(!localStorage.getItem('student_number')) {
-    axios(`${API_PATH}/depts`).then(res => {
-    localStorage.setItem('student_number', JSON.stringify(res.data));
-    return res.data
-  }) 
-} else {
+    const res = await axios.get(`${API_PATH}/depts`);
+    localStorage.setItem('student_number', JSON.stringify(res.data))
+    return await res.data
+  } else {
     return JSON.parse(localStorage.getItem('student_number'));
   }
 }
