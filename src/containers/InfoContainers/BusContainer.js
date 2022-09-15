@@ -94,7 +94,7 @@ export default function BusContainer() {
   useEffect(()=>{
     if(selectedTab === "대성고속"){
       setAllCourseId(7); 
-    }else{
+    }else if(selectedTab==="학교셔틀"){
       setAllCourseId(0);
       setRouteId(0);
     }
