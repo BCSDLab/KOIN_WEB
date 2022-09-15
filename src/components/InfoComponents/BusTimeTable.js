@@ -3,9 +3,12 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width:100%;
-  
+  min-height:900px;
+  margin-bottom: 60px;
+
   @media (max-width: 576px) {
     float: left;
+    min-height: 700px
   }
 `;
 
@@ -182,6 +185,16 @@ const SubDesc = styled.div`
   }
 `;
 
+const TimeTableSubTitle = styled.div`
+  float: left;
+  padding-left: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  margin-bottom: 5px;
+`
+
 const Td = styled.td`
   font-size: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? '13px' : '15px'};
   padding-top: 25px;
@@ -193,13 +206,52 @@ const Td = styled.td`
   letter-spacing: -0.8px;
   text-align: center;
   color: #252525;
-  border-bottom: ${props => props.rowIdx === 1 && props.index === 0 ? '1px solid #175c8e' : '1px solid #d2dae2'};;
+  border-bottom: ${props => props.rowIdx === 1 && props.index === 0 ? '1px solid #175c8e' : '1px solid #d2dae2'};
+
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 70px;
+  margin-bottom:67px;
+
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+
+ @keyframes fadein {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
 
   thead {
     margin-bottom: 2%;
@@ -239,7 +291,7 @@ const Table = styled.table`
       padding-bottom: 13px;
       font-size: 12px;
       min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
-}
+    }
   }
 `;
 
@@ -322,6 +374,7 @@ export default function BusTimeTable(
               </DropDown>
             </SubInfo>
             <Table>
+            <TimeTableSubTitle>• 등교</TimeTableSubTitle>
               <tbody>
                 <tr>
                   <Td>승차장소</Td>
@@ -330,13 +383,15 @@ export default function BusTimeTable(
                 {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
                   return(
                     <tr key={index}>
-                        <Td>{data.node_name}</Td>
-                        <Td>{data.arrival_time}</Td>
-                    </tr>)  
-                  })}
+                      <Td>{data.node_name}</Td>
+                      <Td>{data.arrival_time}</Td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </Table>
             <Table>
+            <TimeTableSubTitle>• 하교</TimeTableSubTitle>
               <tbody>
                 <tr>
                   <Td>승차장소</Td>
@@ -345,15 +400,15 @@ export default function BusTimeTable(
                 {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
                   return(
                     <tr key={index}>
-                        <Td>{data.node_name}</Td>
-                        <Td>{data.arrival_time}</Td>
-                    </tr>)  
-                  })}
+                      <Td>{data.node_name}</Td>
+                      <Td>{data.arrival_time}</Td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </Table>
           </div>
         }
-
         {/* 대성고속 */}
         {selectedTab === "대성고속" &&
           <div>
@@ -375,38 +430,29 @@ export default function BusTimeTable(
                 </DropDownContents>
               </DropDown>
             </SubInfo>
-            {allcourse[allcourseId].name==="한기대->야우리" &&
-              <Table>
+            <Table>
                 <tbody>
                 <tr>
                   <Td>출발시간</Td>
                   <Td>도착시간</Td>
                 </tr>
-                 {course.data.koreatech_to_terminal?.map((data,index)=>{
-                  return(<tr key={index}>
-                    <Td>{data.departure}</Td>
-                    <Td>{data.arrival}</Td>
-                  </tr>)
-                 })}
-                </tbody>
-              </Table>
-            }
-            {allcourse[allcourseId].name === "야우리->한기대" &&
-            <Table>
-              <tbody>
-              <tr>
-                <Td>출발시간</Td>
-                <Td>도착시간</Td>
-              </tr>
-              {course.data.terminal_to_koreatech?.map((data,index)=>{
-                  return(<tr key={index}>
-                    <Td>{data.departure}</Td>
-                    <Td>{data.arrival}</Td>
-                  </tr>)
-                 })}
+                {allcourse[allcourseId].name==="한기대->야우리" &&
+                  course.data.koreatech_to_terminal?.map((data,index)=>{
+                    return(<tr key={index}>
+                      <Td>{data.departure}</Td>
+                      <Td>{data.arrival}</Td>
+                    </tr>)
+                  })}
+                {allcourse[allcourseId].name==="야우리->한기대" &&
+                  course.data.terminal_to_koreatech?.map((data,index)=>{
+                    return(<tr key={index}>
+                      <Td>{data.departure}</Td>
+                      <Td>{data.arrival}</Td>
+                    </tr>)
+                  })
+                }
               </tbody>
             </Table>
-            }
           </div>
         }
 
