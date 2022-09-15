@@ -374,7 +374,7 @@ export default function BusTimeTable(
               </DropDown>
             </SubInfo>
             <Table>
-            <TimeTableSubTitle>• 등교</TimeTableSubTitle>
+            <TimeTableSubTitle>• {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; 한기대</TimeTableSubTitle>
               <tbody>
                 <tr>
                   <Td>승차장소</Td>
@@ -391,7 +391,7 @@ export default function BusTimeTable(
               </tbody>
             </Table>
             <Table>
-            <TimeTableSubTitle>• 하교</TimeTableSubTitle>
+            <TimeTableSubTitle>• 한기대 &gt; {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))}</TimeTableSubTitle>
               <tbody>
                 <tr>
                   <Td>승차장소</Td>
