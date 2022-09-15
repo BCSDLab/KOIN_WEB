@@ -98,7 +98,8 @@ const AppWrapper = styled.div`
 `;
 
 const Main = styled.main`
-  min-height: calc(100vh - 84px);
+  /* min-height: calc(100vh - 84px); */
+  min-height:100vh;
   @media (max-width: 576px) {
     height: calc(100% - 130px);
     min-height: calc(100% - 130px);
