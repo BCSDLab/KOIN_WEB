@@ -97,6 +97,9 @@ export default function BusContainer() {
     }else if(selectedTab==="학교셔틀"){
       setAllCourseId(0);
       setRouteId(0);
+    }else{
+      setAllCourseId(1);
+      setRouteId(0);
     }
   },[selectedTab])
 
@@ -162,8 +165,6 @@ export default function BusContainer() {
   // useEffect(() => {
   //   dispatch(getTerm())
   // },[])
-
-
 
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
