@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Container = styled.div`
   width:100%;
@@ -194,26 +195,11 @@ const TimeTableSubTitle = styled.div`
   font-stretch: normal;
   margin-bottom: 5px;
 `
-
-const Td = styled.td`
-  font-size: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? '13px' : '15px'};
-  padding-top: 25px;
-  padding-bottom: 25px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: -0.8px;
-  text-align: center;
-  color: #252525;
-  border-bottom: ${props => props.rowIdx === 1 && props.index === 0 ? '1px solid #175c8e' : '1px solid #d2dae2'};
-  width: 50%;
-`;
-
 const Table = styled.table`
+  border-bottom:1px solid #175c8e; 
   width: 100%;
   border-collapse: collapse;
-  margin-bottom:67px;
+  margin-bottom: 67px;
 
   -moz-animation: fadein 1s; /* Firefox */
   -webkit-animation: fadein 1s; /* Safari and Chrome */
@@ -251,67 +237,85 @@ const Table = styled.table`
       opacity: 1;
   }
 }
+`;
 
-
-  thead {
-    margin-bottom: 2%;
-  }
+const TableHead = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
   
-  th {
-    height: 50px;
-  }
+`;
 
-  tr:first-child ${Td} {
-    padding-top: 13px;
-    padding-bottom: 13px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: -0.8px;
-    text-align: center;
-    color: #175c8e;
-    border-bottom: 1px solid #175c8e;
-    border-top: 2px solid #175c8e;
-  }
+const TableHeadRow = styled.div`
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #175c8e;
+`;
 
-  tr:last-child ${Td} {
-    border-bottom: 1px solid #175c8e;
-  }
-  
-  tr:hover ${Td} {
+const TableHeadContent=styled.div`
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.8px;
+  text-align: center;
+  color: #175c8e;
+  border-bottom: 1px solid #175c8e;
+  border-top: 2px solid #175c8e;
+`;
+
+const TableBodyRow=styled.div`
+  display: flex;
+`;
+const TableBodyContent=styled.div`
+  font-size: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  -webkit-letter-spacing: -0.8px;
+  -moz-letter-spacing: -0.8px;
+  -ms-letter-spacing: -0.8px;
+  letter-spacing: -0.8px;
+  text-align: center;
+  color: #252525;
+  border-bottom: 1px solid #d2dae2;
+
+  &:hover{
     font-weight: 700;
   }
   
   @media (max-width: 576px) {
     overflow-x: scroll;
-    
-    ${Td} {
-      padding-top: 13px;
-      padding-bottom: 13px;
-      font-size: 12px;
-      min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
-    }
+    padding-top: 13px;
+    padding-bottom: 13px;
+    font-size: 12px;
+    min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
   }
-`;
 
+`;
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  min-height:621px;
+`;
 export default function BusTimeTable(
   {
     tabs,
-    vacationFlag,
     selectedTab,
     selectTab,
-    shuttleTimeTable,
-    shuttleTimeTableTitle,
-    setShuttleDropDownTitle,
-    daesungTimeTable,
-    daesungTimeTableTitle,
-    setDaesungDropDownTitle,
     allcourse,
     allcourseId,
     setAllCourseReset,
-    expressId,
-    setExpressId,
     setRouteId,
     routeId,
     course
@@ -373,40 +377,58 @@ export default function BusTimeTable(
                 </DropDownContents>
               </DropDown>
             </SubInfo>
-            <Table>
-            <TimeTableSubTitle>• {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; 한기대</TimeTableSubTitle>
-              <tbody>
-                <tr>
-                  <Td>승차장소</Td>
-                  <Td>시간</Td>
-                </tr>
-                {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
-                  return(
-                    <tr key={index}>
-                      <Td>{data.node_name}</Td>
-                      <Td>{data.arrival_time}</Td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </Table>
-            <Table>
-            <TimeTableSubTitle>• 한기대 &gt; {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))}</TimeTableSubTitle>
-              <tbody>
-                <tr>
-                  <Td>승차장소</Td>
-                  <Td>시간</Td>
-                </tr>
-                {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
-                  return(
-                    <tr key={index}>
-                      <Td>{data.node_name}</Td>
-                      <Td>{data.arrival_time}</Td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </Table>
+            {course.loading &&
+              <SpinnerWrapper>
+                <ClipLoader
+                  size={120}
+                  color={"#175c8e"}
+                  loading={course.loading}
+                />
+              </SpinnerWrapper>
+            }
+            {!course.loading && 
+            <>
+              <TimeTableSubTitle>• {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; 한기대</TimeTableSubTitle>
+              <Table>
+                <TableHead>
+                  <TableHeadRow>
+                    <TableHeadContent style={{width:'50%'}}>승차장소</TableHeadContent>
+                    <TableHeadContent style={{width:'50%'}}>시간</TableHeadContent>
+                  </TableHeadRow>
+                </TableHead>
+                <div>
+                  { course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.node_name}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival_time}</TableBodyContent>
+                      </TableBodyRow>
+                    )
+                  })}
+                </div>
+              </Table>
+              <TimeTableSubTitle>• 한기대 &gt; {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))}</TimeTableSubTitle>
+              <Table>
+                <TableHead>
+                  <TableHeadRow>
+                    <TableHeadContent style={{width:'50%'}}>승차장소</TableHeadContent>
+                    <TableHeadContent style={{width:'50%'}}>시간</TableHeadContent>
+                  </TableHeadRow>
+                </TableHead>
+                <div>
+                  {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.node_name}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival_time}</TableBodyContent>
+                      </TableBodyRow>
+                    )
+                  })
+                  }
+                </div>
+              </Table>
+            </>
+            }
           </div>
         }
         {/* 대성고속 */}
@@ -430,29 +452,44 @@ export default function BusTimeTable(
                 </DropDownContents>
               </DropDown>
             </SubInfo>
-            <Table>
-                <tbody>
-                <tr>
-                  <Td>출발시간</Td>
-                  <Td>도착시간</Td>
-                </tr>
+            {course.loading &&
+              <SpinnerWrapper>
+                <ClipLoader
+                  size={120}
+                  color={"#175c8e"}
+                  loading={course.loading}
+                />
+              </SpinnerWrapper>
+            }
+            {!course.loading && <>
+              <Table>
+              <TableHead>
+                <TableHeadRow>
+                  <TableHeadContent style={{width:'50%'}}>출발시간</TableHeadContent>
+                  <TableHeadContent style={{width:'50%'}}>도착시간</TableHeadContent>
+                </TableHeadRow>
+              </TableHead>
+              <div>
                 {allcourse[allcourseId].name==="한기대->야우리" &&
                   course.data.koreatech_to_terminal?.map((data,index)=>{
-                    return(<tr key={index}>
-                      <Td>{data.departure}</Td>
-                      <Td>{data.arrival}</Td>
-                    </tr>)
-                  })}
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival}</TableBodyContent>
+                      </TableBodyRow>)
+                })}
                 {allcourse[allcourseId].name==="야우리->한기대" &&
                   course.data.terminal_to_koreatech?.map((data,index)=>{
-                    return(<tr key={index}>
-                      <Td>{data.departure}</Td>
-                      <Td>{data.arrival}</Td>
-                    </tr>)
-                  })
-                }
-              </tbody>
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival}</TableBodyContent>
+                      </TableBodyRow>)
+                })}
+            </div>
             </Table>
+              
+            </>}
           </div>
         }
 
@@ -465,24 +502,26 @@ export default function BusTimeTable(
               </SubDesc>
             </SubInfo>
             <Table>
-              <tbody>
-              <tr>
-                <Td>기점</Td>
-                <Td >종합터미널 - 병천</Td>
-              </tr>
-              <tr>
-                <Td>시간표(터미널)</Td>
-                <Td >6:00(첫) - 22:30(막) (10분간격)</Td>
-              </tr>
-              <tr>
-                <Td>시간표(병천)</Td>
-                <Td >6:10(첫) - 22:45(막) (10분간격)</Td>
-              </tr>
-              <tr>
-                <Td>소요시간</Td>
-                <Td >약 40분</Td>
-              </tr>
-              </tbody>
+            <TableHead>
+                <TableHeadRow>
+                  <TableHeadContent style={{width:'50%'}}>기점</TableHeadContent>
+                  <TableHeadContent style={{width:'50%'}}>종합터미널 - 병천</TableHeadContent>
+                </TableHeadRow>
+              </TableHead>
+              <div>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>시간표(터미널)</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>6:00(첫) - 22:30(막) (10분간격)</TableBodyContent>
+                </TableBodyRow>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>시간표(병천)</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>6:10(첫) - 22:45(막) (10분간격)</TableBodyContent>
+                </TableBodyRow>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>소요시간</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>약 40분</TableBodyContent>
+                </TableBodyRow>
+              </div>
             </Table>
           </div>
         }
