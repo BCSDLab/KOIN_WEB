@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { signUp, checkNickname } from '../../modules/auth'
 import SignupForm from '../../components/UserComponents/SignupForm';
-import majorList from '../../static/major';
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
 import { useToasts } from 'react-toast-notifications';
+import { getStudentNumberList } from '../../api/info';
 
 export default function SignUpContainer() {
   const { addToast } = useToasts();
@@ -22,7 +22,7 @@ export default function SignUpContainer() {
     privacy: false,
     all: false
   });
-
+  const studentNumberList = useRef([]);
   const [userInfo, setUserInfo] = useState({
     userId: "",
     firstPassword: "",
@@ -121,7 +121,6 @@ export default function SignUpContainer() {
       }
       const year = studentNumber.substring(0, 4);
       const majorCode = studentNumber.substring(4, 7);
-
       if (year < 1992 || year > new Date().getFullYear()) {
         addToast('올바른 입학년도가 아닙니다.', {
           appearance: 'warning',
@@ -129,8 +128,8 @@ export default function SignUpContainer() {
         });
         return;
       }
-      for(let major of majorList) {
-        if (major.codes.includes(majorCode)) {
+      for(let major of studentNumberList.current) {
+        if (major.dept_nums.includes(majorCode)) {
           break;
         } else {
           if (major.id === 8) {
@@ -219,23 +218,20 @@ export default function SignUpContainer() {
 
   const setUserMajor = useCallback(() => {
     if (userInfo.studentNumber.length > 6) {
-      const majorCode = userInfo.studentNumber.substring(4, 7);
-      for(let major of majorList) {
-        if (major.codes.includes(majorCode)) {
+      const majorCode = userInfo.studentNumber.substring(5, 7);
+      for(let major of studentNumberList.current) {
+        if (major.dept_nums.includes(majorCode)) {
           setUserInfo({
             ...userInfo,
             major: major.name
           })
           break;
-        } else {
-          if (major.id === 7) {
-            setUserInfo({
-              ...userInfo,
-              major: ""
-            })
-          } else {
-            continue;
-          }
+        } else {        
+          setUserInfo({
+            ...userInfo,
+            major: ""
+          })
+          continue;
         }
       }
     } else {
@@ -245,6 +241,13 @@ export default function SignUpContainer() {
       })
     }
   }, [userInfo]);
+  
+  useEffect(() => {
+    async function fetchStudentNumberList() {
+      studentNumberList.current = await getStudentNumberList();
+    }
+    fetchStudentNumberList();
+  }, [])
 
   useEffect(() => {
     if (data && data.status === 200) {
