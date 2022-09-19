@@ -274,14 +274,17 @@ export default React.memo(function IndexCafeteria({
                           <>
                             {menu &&
                               menu.map((dish, id) => {
-                                let a = menu.length;
-                                let len = `${dish}`.length;
-                                if ((len >= 6) & (a <= 5)) {
-                                  len = true;
-                                } else len = false;
+                                let lenOfMenu = menu.length;
+                                let lenOfFoodName = dish.length;
+                                let result;
+                                if ((lenOfFoodName >= 6) & (lenOfMenu <= 5)) {
+                                  result = true;
+                                } else result = false;
                                 return (
                                   <Fragment key={id}>
-                                    {id < 10 && <Menu len={len}>{dish}</Menu>}
+                                    {id < 10 && (
+                                      <Menu len={result}>{dish}</Menu>
+                                    )}
                                     {id === 10 && <Menu>...</Menu>}
                                   </Fragment>
                                 );
