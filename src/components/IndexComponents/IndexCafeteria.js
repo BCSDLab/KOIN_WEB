@@ -1,9 +1,9 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Container = styled.section`
-  @media(max-width: 576px){
+  @media (max-width: 576px) {
     margin-top: 33px;
     max-width: calc(100% - 32px);
     padding: 0 16px;
@@ -25,8 +25,8 @@ const Title = styled.h2`
   text-align: left;
   color: #175c8e;
   margin: 0;
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     font-size: 15px;
     padding-left: 3px;
   }
@@ -39,17 +39,18 @@ const MoreLink = styled(Link)`
   color: #252525;
   text-decoration: none;
   cursor: pointer;
-  
+
   ::after {
     display: inline-block;
     width: 12px;
     height: 8px;
-    background: url("https://static.koreatech.in/assets/img/bus_dropdown.png") center/12px 8px no-repeat;
+    background: url("https://static.koreatech.in/assets/img/bus_dropdown.png")
+      center/12px 8px no-repeat;
     transform: rotate(-90deg);
     content: "";
   }
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     display: none;
   }
 `;
@@ -63,15 +64,16 @@ const CafeteriaCard = styled.div`
   padding: 15px 12px 0 12px;
   border: solid 1px #e4e4e4;
   box-sizing: border-box;
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     grid-template: 27px 156px/ 1fr 28px;
     max-width: 100%;
     width: 544px;
     padding: 11px 15px 0 17px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
     border: solid 1px rgba(216, 216, 216, 0);
-    background-image: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0)), linear-gradient(to bottom, #ffffff, #ffffff);
+    background-image: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0)),
+      linear-gradient(to bottom, #ffffff, #ffffff);
   }
 `;
 
@@ -81,14 +83,14 @@ const CafeteriaContainer = styled.div`
   grid-row: 1 / 3;
   width: 27px;
   height: 100%;
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     flex-direction: row;
     align-items: center;
     grid-row: 1 / 2;
     width: 100%;
   }
-`
+`;
 
 const Cafeteria = styled.div`
   margin-bottom: 24px;
@@ -100,10 +102,10 @@ const Cafeteria = styled.div`
   line-height: 1.2;
   letter-spacing: normal;
   text-align: center;
-  color: ${props => props.selected ? "#175c8e" :"#bbbbbb"};
+  color: ${(props) => (props.selected ? "#175c8e" : "#bbbbbb")};
   cursor: pointer;
-  
-  @media(max-width: 576px) {
+
+  @media (max-width: 576px) {
     margin-right: 16px;
     margin-bottom: 0;
   }
@@ -124,9 +126,9 @@ const Type = styled.div`
   color: #000000;
   letter-spacing: normal;
   text-align: center;
-  
-  @media(max-width: 576px) {
-    font-size: 13px;  
+
+  @media (max-width: 576px) {
+    font-size: 13px;
   }
 `;
 
@@ -136,14 +138,16 @@ const TypeControlButton = styled.button`
   margin: 0 8px;
   padding: 0;
   border: 0;
-  background: url("https://static.koreatech.in/assets/img/ic-more.png") center/26px 26px no-repeat;
-  transform: ${props => props.direction === 'left' ? 'rotate(180deg)' : 'none'};
+  background: url("https://static.koreatech.in/assets/img/ic-more.png")
+    center/26px 26px no-repeat;
+  transform: ${(props) =>
+    props.direction === "left" ? "rotate(180deg)" : "none"};
   cursor: pointer;
-  
-  @media(max-width: 576px) {
+
+  @media (max-width: 576px) {
     display: none;
   }
-`
+`;
 
 const MenuContainer = styled.div`
   display: flex;
@@ -153,8 +157,8 @@ const MenuContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 15px 0 0 19px;
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     grid-column: 1 / 3;
     padding: 27px 0 0 19px;
   }
@@ -174,14 +178,13 @@ const Menu = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 75px;
-  
-  @media(max-width: 576px){
+  width: ${(props) => (props.len ? "100%" : "75px")};
+
+  @media (max-width: 576px) {
     margin-bottom: 10px;
     width: 78px;
   }
 `;
-
 
 const NoMenu = styled.div`
   height: 31px;
@@ -195,22 +198,22 @@ const NoMenu = styled.div`
   color: #252525;
   text-align: center;
   margin: 15px 0 0 -15px;
-  
-  @media(max-width: 576px){
+
+  @media (max-width: 576px) {
     margin: 8px 0 0 -19px;
   }
-`
+`;
 const NoMenuContent = styled.div`
   text-align: center;
   margin-top: 21px;
-`
+`;
 const NoMenuImage = styled.img.attrs({
-  src: "https://static.koreatech.in/assets/img/ic-none.png"
+  src: "https://static.koreatech.in/assets/img/ic-none.png",
 })`
- width: 52px;
- height: 47px;
- margin-left: -19px;
-`
+  width: 52px;
+  height: 47px;
+  margin-left: -19px;
+`;
 
 export default React.memo(function IndexCafeteria({
   history,
@@ -219,17 +222,16 @@ export default React.memo(function IndexCafeteria({
   setSelected,
   type,
   setType,
-  allMenus
+  allMenus,
 }) {
   function getType(type) {
-    if(type === 0) {
-      return "아침"
-    }
-    else if(type === 1) {
-      return "점심"
-    }
-    else return "저녁"
+    if (type === 0) {
+      return "아침";
+    } else if (type === 1) {
+      return "점심";
+    } else return "저녁";
   }
+  console.log(type);
   return (
     <Container>
       <Title>
@@ -243,67 +245,67 @@ export default React.memo(function IndexCafeteria({
               <Cafeteria
                 selected={selected === index}
                 onClick={() => setSelected(index)}
-                key={index}>
+                key={index}
+              >
                 {cafeteria}
               </Cafeteria>
-            )
+            );
           })}
         </CafeteriaContainer>
         <TypeContainer>
           <TypeControlButton
             direction="left"
-            onClick={() => setType(state => state === 0 ? 0 : state - 1)} />
-          <Type>
-            {getType(type)}
-          </Type>
+            onClick={() => setType((state) => (state === 0 ? 0 : state - 1))}
+          />
+          <Type>{getType(type)}</Type>
           <TypeControlButton
-            onClick={() => setType(state => state === 2 ? 2 : state + 1)} />
+            onClick={() => setType((state) => (state === 2 ? 2 : state + 1))}
+          />
         </TypeContainer>
         <MenuContainer>
-          {allMenus.map((menus,idx) => {
+          {allMenus.map((menus, idx) => {
             return (
               <Fragment key={idx}>
                 {selected === idx &&
-                menus.map((menu,index) => {
-                  return (
-                    <Fragment key={index}>
-                      {index === type &&
-                      <>
-                        {menu &&
-                        menu.map((dish,id) => {
-                          return(
-                            <Fragment key={id}>
-                              {id < 10 &&
-                              <Menu>
-                                {dish}
-                              </Menu>
-                              }
-                              {id === 10 &&
-                              <Menu>
-                                ...
-                              </Menu>
-                              }
-                            </Fragment>
-                          )
-                        })}
-                        {!menu &&
-                        <NoMenuContent>
-                          <NoMenuImage/>
-                          <NoMenu>
-                            식단이 제공되지 않아
-                            <br/>
-                            표시할 수 없습니다.
-                          </NoMenu>
-                        </NoMenuContent>
-                        }
-                      </>}
-                    </Fragment>
-                  )})}
+                  menus.map((menu, index) => {
+                    return (
+                      <Fragment key={index}>
+                        {index === type && (
+                          <>
+                            {menu &&
+                              menu.map((dish, id) => {
+                                let a = menu.length;
+                                let len = `${dish}`.length;
+                                if ((len >= 6) & (a <= 5)) {
+                                  len = true;
+                                } else len = false;
+                                return (
+                                  <Fragment key={id}>
+                                    {id < 10 && <Menu len={len}>{dish}</Menu>}
+                                    {id === 10 && <Menu>...</Menu>}
+                                  </Fragment>
+                                );
+                              })}
+                            {!menu && (
+                              <NoMenuContent>
+                                <NoMenuImage />
+                                <NoMenu>
+                                  식단이 제공되지 않아
+                                  <br />
+                                  표시할 수 없습니다.
+                                </NoMenu>
+                              </NoMenuContent>
+                            )}
+                          </>
+                        )}
+                      </Fragment>
+                    );
+                  })}
               </Fragment>
-            )})
-          }
+            );
+          })}
         </MenuContainer>
       </CafeteriaCard>
     </Container>
-  )
-})
+  );
+});
