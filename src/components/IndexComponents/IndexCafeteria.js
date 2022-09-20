@@ -231,7 +231,6 @@ export default React.memo(function IndexCafeteria({
       return "점심";
     } else return "저녁";
   }
-  console.log(type);
   return (
     <Container>
       <Title>
