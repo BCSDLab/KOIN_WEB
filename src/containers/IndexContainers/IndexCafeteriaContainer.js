@@ -49,37 +49,33 @@ export default function IndexCafeteriaContainer({history}) {
   }
 
   const setMenus = useCallback(() => {
-    let koreanFood = ["","",""];
-    let oneDishFood = ["","",""];
-    let westernFood = ["","",""];
-    let specialFood = ["","",""];
+    let corseA = ["","",""];
+    let corseB = ["","",""];
+    let corseC = ["","",""];
+    let neungSu = ["","",""];
 
     data.map((menus)=> {
       console.log(menus)
-      if(menus.place === "한식"){
-        setMenuByType(koreanFood, menus)
+      if(menus.place === "A코너"){
+        setMenuByType(corseA, menus)
       }
-      if(menus.place === "일품식"){
-        setMenuByType(oneDishFood, menus)
+      if(menus.place === "B코너"){
+        setMenuByType(corseB, menus)
       }
-      if(menus.place === "양식"){
-        setMenuByType(westernFood, menus)
+      if(menus.place === "C코너"){
+        setMenuByType(corseC, menus)
       }
-      if(menus.place === "특식"){
-        setMenuByType(specialFood, menus)
+      if(menus.place === "능수관"){
+        setMenuByType(neungSu, menus)
       }
     })
-    setAllMenus([koreanFood,oneDishFood,westernFood,specialFood]);
+    setAllMenus([corseA, corseB, corseC, neungSu]);
   })
-
-  useEffect(()=> {
-    console.log(allMenus)
-  },[allMenus])
 
   return (
     <IndexCafeteria
       history={history}
-      cafeteriaList={["한식","일품","양식","특식"]}
+      cafeteriaList={["A코너","B코너","C코너","능수관"]}
       selected={selected}
       setSelected={setSelected}
       type={type}
