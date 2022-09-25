@@ -195,7 +195,7 @@ const TimeTableSubTitle = styled.div`
   font-stretch: normal;
   margin-bottom: 5px;
 `
-const Table = styled.table`
+const Table = styled.div`
   border-bottom:1px solid #175c8e; 
   width: 100%;
   border-collapse: collapse;
@@ -257,6 +257,7 @@ const TableHeadRow = styled.div`
 `;
 
 const TableHeadContent=styled.div`
+  width: 50%;
   padding-top: 13px;
   padding-bottom: 13px;
   font-weight: bold;
@@ -274,6 +275,7 @@ const TableBodyRow=styled.div`
   display: flex;
 `;
 const TableBodyContent=styled.div`
+  width: 50%;
   font-size: 15px;
   padding-top: 25px;
   padding-bottom: 25px;
@@ -318,7 +320,8 @@ export default function BusTimeTable(
     setAllCourseReset,
     setRouteId,
     routeId,
-    course
+    course,
+    courses
   }) {
   return(
     <Container>
@@ -339,7 +342,11 @@ export default function BusTimeTable(
             )
           })}
         </BusTabs>
-
+        {/* {courses.data.map((data,index)=>{
+          return(<>
+            <div>{data.region}</div>
+          </>)})
+        } */}
         {/* 셔틀버스 */}
         {selectedTab === "학교셔틀" &&
           <div>
@@ -352,30 +359,32 @@ export default function BusTimeTable(
                 <DropDownContents>
                 {allcourse.filter((data,index)=> index <= 6).map((data,idx)=>{
                   return(
-                  <DropDownContent
-                    key={idx}
-                    onClick={()=>setAllCourseReset(idx)}>
-                    {data.name}
-                  </DropDownContent>)
+                    <DropDownContent
+                      key={idx}
+                      onClick={()=>setAllCourseReset(idx)}>
+                      {data.name}
+                    </DropDownContent>)
                 })}
                 </DropDownContents>
               </DropDown>
-              <DropDown>
-                <DropDownButton>
-                  {course.data.to_school?.[routeId]?.route_name}
-                  <ArrowImg/>
-                </DropDownButton>
-                <DropDownContents>
-                  {course.data.to_school?.map((data,index)=>{
-                    return(
-                    <DropDownContent
-                      key={index}
-                      onClick={()=>setRouteId(index)}>
-                      {data.route_name}
-                    </DropDownContent>)
-                  })}
-                </DropDownContents>
-              </DropDown>
+              {!course.loading && 
+                <DropDown>
+                  <DropDownButton>
+                    {course.data.to_school?.[routeId]?.route_name}
+                    <ArrowImg/>
+                  </DropDownButton>
+                  <DropDownContents>
+                    {course.data.to_school?.map((data,index)=>{
+                      return(
+                      <DropDownContent
+                        key={index}
+                        onClick={()=>setRouteId(index)}>
+                        {data.route_name}
+                      </DropDownContent>)
+                    })}
+                  </DropDownContents>
+                </DropDown>
+              }
             </SubInfo>
             {course.loading &&
               <SpinnerWrapper>
@@ -392,16 +401,16 @@ export default function BusTimeTable(
               <Table>
                 <TableHead>
                   <TableHeadRow>
-                    <TableHeadContent style={{width:'50%'}}>승차장소</TableHeadContent>
-                    <TableHeadContent style={{width:'50%'}}>시간</TableHeadContent>
+                    <TableHeadContent>승차장소</TableHeadContent>
+                    <TableHeadContent>시간</TableHeadContent>
                   </TableHeadRow>
                 </TableHead>
                 <div>
-                  { course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
+                  {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
                     return(
                       <TableBodyRow key={index}>
-                        <TableBodyContent style={{width:'50%'}}>{data.node_name}</TableBodyContent>
-                        <TableBodyContent style={{width:'50%'}}>{data.arrival_time}</TableBodyContent>
+                        <TableBodyContent>{data.node_name}</TableBodyContent>
+                        <TableBodyContent>{data.arrival_time}</TableBodyContent>
                       </TableBodyRow>
                     )
                   })}
@@ -411,16 +420,16 @@ export default function BusTimeTable(
               <Table>
                 <TableHead>
                   <TableHeadRow>
-                    <TableHeadContent style={{width:'50%'}}>승차장소</TableHeadContent>
-                    <TableHeadContent style={{width:'50%'}}>시간</TableHeadContent>
+                    <TableHeadContent>승차장소</TableHeadContent>
+                    <TableHeadContent>시간</TableHeadContent>
                   </TableHeadRow>
                 </TableHead>
                 <div>
                   {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
                     return(
                       <TableBodyRow key={index}>
-                        <TableBodyContent style={{width:'50%'}}>{data.node_name}</TableBodyContent>
-                        <TableBodyContent style={{width:'50%'}}>{data.arrival_time}</TableBodyContent>
+                        <TableBodyContent>{data.node_name}</TableBodyContent>
+                        <TableBodyContent>{data.arrival_time}</TableBodyContent>
                       </TableBodyRow>
                     )
                   })

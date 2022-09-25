@@ -65,7 +65,7 @@ export default function BusContainer() {
  
   // BusTimeTable.js
   const dispatch = useDispatch();
-  // const courses = useSelector(state=>state.courseReducer.courses);
+  const courses = useSelector(state=>state.courseReducer.courses);
   const course = useSelector(state=>state.courseReducer.course);
   const [allcourseId,setAllCourseId] = useState(0);
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
@@ -80,8 +80,10 @@ export default function BusContainer() {
 
   useEffect(()=>{
     dispatch(getCourses());
-  },[]);
-
+  },[courses]);
+  // console.log(courses);
+  
+  // console.log(courses.data);
   const setAllCourseReset = (id)=>{
     setAllCourseId(id);
     setRouteId(0);
@@ -169,7 +171,7 @@ export default function BusContainer() {
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
   };
-
+ 
   return (
     <div>
       <BusLookUp
@@ -198,6 +200,7 @@ export default function BusContainer() {
         setRouteId={setRouteId} 
         routeId={routeId}
         course={course}
+        courses={courses}
         />
     {/*  TODO : add mobile! */}
     </div>

@@ -40,7 +40,7 @@ export const getCourses = () => async dispatch => {
     }
   };
 const initialState = {
-    courses:[{
+    courses:{
         loading:false,
         data:{
             "id":null,
@@ -48,7 +48,7 @@ const initialState = {
             "bus_type":null,
         },
         error:null,
-    }],
+    },
     course:{
         loading:false,
         data:{
