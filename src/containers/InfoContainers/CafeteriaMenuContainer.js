@@ -7,7 +7,7 @@ export default function CafeteriaMenuContainer() {
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
   const [today,setToday] = useState(new Date(Date.now() - timezoneOffset));
   const dispatch = useDispatch();
-  const cafeteriaList = ["한식","일품식","양식","특식","능수관","수박여","2캠퍼스"];
+  const cafeteriaList = ["A코너","B코너","C코너","능수관","2캠퍼스"];
   const {data, loading, error} = useSelector(state => state.cafeteriaMenuReducer.cafeteriaMenus);
 
   function getApiDate(dateString) {
