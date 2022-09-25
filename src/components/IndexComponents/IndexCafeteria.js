@@ -93,8 +93,8 @@ const CafeteriaContainer = styled.div`
 `;
 
 const Cafeteria = styled.div`
-  margin-bottom: 24px;
-  width: 26px;
+  margin: 8px 0;
+  width: 42px;
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
@@ -156,7 +156,7 @@ const MenuContainer = styled.div`
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
-  padding: 15px 0 0 19px;
+  padding: 15px 0 0 27px;
 
   @media (max-width: 576px) {
     grid-column: 1 / 3;

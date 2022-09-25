@@ -87,12 +87,17 @@ const Date = styled.span`
   }
 `;
 
-const CafeteriaList = styled.button`
-  width: 158px;
+const CafeteriaList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+`;
+
+const CafeteriaCorseName = styled.button`
+  width: 100%;
   height: 54px;
-  border: solid ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
-  border-width: 3px 0 3px 0;
-  color: ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
+  border: solid ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
+  border-width: 3px 0;
+  color: ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
   padding: 21px auto;
   font-size: 16px;
   font-weight: bold;
@@ -200,7 +205,7 @@ const TimeButton = styled.button`
 
 const CafeteriaSection = styled.span`
   height: 10px;
-  border: solid ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
+  border: solid ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
   border-width: 0 1.5px 0 1.5px;
   font-family: AppleSDGothicNeoSB00,sans-serif;
   font-size: 13px;
@@ -211,7 +216,7 @@ const CafeteriaSection = styled.span`
   text-align: center;
   padding: 0 12px;
   line-height: 1.15;
-  color: ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
+  color: ${(props) => (props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스") ? '#f7941e' : '#175c8e'};
   background-color: #FFFFFF;
   z-index: 1;
   margin: 0 5.5px;
@@ -222,9 +227,9 @@ const CafeteriaSection = styled.span`
     position: absolute;
     height: 1px;
     background-color: rgba(
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 30 : 142 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 30 : 142 },
     0.3);
     left: 0;
     right: 0;
@@ -265,15 +270,17 @@ export default function CafeteriaMenu(
               onClick={clickNext}
               direction="next"/>
           </DateSelector>
+          <CafeteriaList>
           {cafeteriaList.map((cafeteria) => {
             return (
-              <CafeteriaList
+              <CafeteriaCorseName
                 key={cafeteria}
                 cafeteria={cafeteria}>
                 {cafeteria}
-              </CafeteriaList>
+              </CafeteriaCorseName>
             )
           })}
+          </CafeteriaList>
           <Breakfast>
             <TimeSection>
               아침
