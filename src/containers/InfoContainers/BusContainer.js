@@ -80,10 +80,8 @@ export default function BusContainer() {
 
   useEffect(()=>{
     dispatch(getCourses());
-  },[courses]);
-  // console.log(courses);
-  
-  // console.log(courses.data);
+  },[]);
+ 
   const setAllCourseReset = (id)=>{
     setAllCourseId(id);
     setRouteId(0);
