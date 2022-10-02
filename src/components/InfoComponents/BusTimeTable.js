@@ -317,7 +317,6 @@ export default function BusTimeTable(
     selectTab,
     allcourse,
     allcourseId,
-    courseName, 
     setAllCourseReset,
     setRouteId,
     routeId,

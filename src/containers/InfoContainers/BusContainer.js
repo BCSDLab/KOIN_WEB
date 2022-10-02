@@ -8,49 +8,6 @@ import {getCourses, getTimeTable} from "../../modules/course";
 import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
 import useInterval from "../../hooks/useInterval";
 
-const courseName = [
-  { name: '천안 등교/하교',
-  bus_type:'commuting',
-  region: '천안'
-}, 
-{ name: '천안 셔틀 등교/하교',
-  bus_type:'shuttle',
-  region: '천안'
-},
-{ name: '청주 등교/하교',
-  bus_type:'commuting',
-  region: "청주"
-},
-{ name: "청주 셔틀 등교/하교",
-  bus_type:'shuttle',
-  region: "청주"
-},
-{ name: '서울 등교/하교',
-  bus_type:'commuting',
-  region: "서울"
-},
-{ name: '대전 등교/하교',
-  bus_type:'commuting',
-  region: '대전'
-},
-{ name: '세종 등교/하교',
-  bus_type:'commuting',
-  region: '세종'
-},
-{
-  name:'한기대->야우리',
-  bus_type:'express',
-  direction:'from',
-  region:'천안'
-},
-{
-  name:'야우리->한기대',
-  bus_type:'express',
-  direction:'to',
-  region:'천안'
-}
-]
-
 const allcourse = [
   { name: '천안 등교',
     bus_type:'commuting',
@@ -135,79 +92,6 @@ const allcourse = [
     region:'천안'
   }
 ];
-
-const bus_course = [
-  {
-    "bus_type": "shuttle",
-    "direction": "to",
-    "region": "청주"
-  },
-  {
-    "bus_type": "shuttle",
-    "direction": "from",
-    "region": "청주"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "to",
-    "region": "청주"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "from",
-    "region": "청주"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "to",
-    "region": "천안"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "from",
-    "region": "천안"
-  },
-  {
-    "bus_type": "shuttle",
-    "direction": "to",
-    "region": "천안"
-  },
-  {
-    "bus_type": "shuttle",
-    "direction": "from",
-    "region": "천안"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "to",
-    "region": "세종"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "from",
-    "region": "세종"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "to",
-    "region": "대전"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "from",
-    "region": "대전"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "to",
-    "region": "서울"
-  },
-  {
-    "bus_type": "commuting",
-    "direction": "from",
-    "region": "서울"
-  }
-]
 
 export default function BusContainer() {
 
@@ -357,7 +241,6 @@ export default function BusContainer() {
         setDaesungDropDownTitle={setDaesungDropDownTitle}
         allcourse={allcourse}
         allcourseId={allcourseId}
-        courseName={courseName}
         setAllCourseReset={setAllCourseReset}
         setRouteId={setRouteId} 
         routeId={routeId}
