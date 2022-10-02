@@ -8,7 +8,6 @@ const getCourses = ()=> {
 }
 
 const getTimetable = (bus_type, direction, region) =>{
-  console.log("getTimetavle", axios.get(`${API_PATH}/bus/timetable?bus_type=${bus_type}&direction=${direction}&region=${region}`))
   return axios.get(`${API_PATH}/bus/timetable?bus_type=${bus_type}&direction=${direction}&region=${region}`)
 }
 

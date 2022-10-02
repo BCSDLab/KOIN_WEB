@@ -25,6 +25,7 @@ export const getCourses = () => async dispatch => {
   };
 
   export const getTimeTable = (bus_type, direction, region) => async dispatch => {
+    console.log("getTimetable")
     dispatch({ type: GET_TIMETABLE_INFO });
     try {
       const res = await infoAPI.getTimetable(bus_type,direction,region);

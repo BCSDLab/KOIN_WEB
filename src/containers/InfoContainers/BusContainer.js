@@ -5,7 +5,6 @@ import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
 import setBusTime from "../../modules/setBusTime";
 import {getBusInfo, getTerm} from "../../modules/bus";
 import {getCourses, getTimeTable} from "../../modules/course";
-import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
 import useInterval from "../../hooks/useInterval";
 
 const allcourse = [
@@ -126,11 +125,6 @@ export default function BusContainer() {
   useEffect(()=>{
     dispatch(getCourses());
   },[dispatch]);
-
-  // console.log('oucrrrr', courses);
-
-
-  
 
   const setAllCourseReset = (id)=>{
     setAllCourseId(id);
