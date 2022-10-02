@@ -198,17 +198,17 @@ export default function BusContainer() {
   useEffect(() => {
     dispatch(getBusInfo(busTypeList[0], changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
     setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-  }, [departList, arrivalList]);
+  }, [departList, arrivalList, dispatch, busTypeList, term]);
 
   useEffect(() => {
     if(term) {
       setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
     }
-  },[term])
+  },[arrivalList, departList, term])
 
   useEffect(() => {
     dispatch(getTerm())
-  },[])
+  },[dispatch])
 
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
