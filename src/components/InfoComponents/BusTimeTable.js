@@ -317,12 +317,14 @@ export default function BusTimeTable(
     selectTab,
     allcourse,
     allcourseId,
+    courseName, 
     setAllCourseReset,
     setRouteId,
     routeId,
     course,
     courses
   }) {
+    console.log("course", course)
   return(
     <Container>
       <TimeTable>
@@ -342,7 +344,8 @@ export default function BusTimeTable(
             )
           })}
         </BusTabs>
-        {/* {courses.data.map((data,index)=>{
+        {console.log("course!!", course)}
+        {/* {!course.loading && course?.data.map((data,index)=>{
           return(<>
             <div>{data.region}</div>
           </>)})
@@ -357,7 +360,8 @@ export default function BusTimeTable(
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                {allcourse.filter((data,index)=> index <= 6).map((data,idx)=>{
+                  {console.log('allcourse',allcourse)}
+                {allcourse.filter((data,index)=> index <= 13).map((data,idx)=>{
                   return(
                     <DropDownContent
                       key={idx}
@@ -370,11 +374,11 @@ export default function BusTimeTable(
               {!course.loading && 
                 <DropDown>
                   <DropDownButton>
-                    {course.data.to_school?.[routeId]?.route_name}
+                    {course.data?.[routeId]?.route_name}
                     <ArrowImg/>
                   </DropDownButton>
                   <DropDownContents>
-                    {course.data.to_school?.map((data,index)=>{
+                    {course.data.map((data,index)=>{
                       return(
                       <DropDownContent
                         key={index}
@@ -397,27 +401,28 @@ export default function BusTimeTable(
             }
             {!course.loading && 
             <>
-              <TimeTableSubTitle>• {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; 한기대</TimeTableSubTitle>
-              <Table>
-                <TableHead>
-                  <TableHeadRow>
-                    <TableHeadContent>승차장소</TableHeadContent>
-                    <TableHeadContent>시간</TableHeadContent>
-                  </TableHeadRow>
-                </TableHead>
-                <div>
-                  {course.data.to_school?.[routeId]?.arrival_info.map((data,index)=>{
-                    return(
-                      <TableBodyRow key={index}>
-                        <TableBodyContent>{data.node_name}</TableBodyContent>
-                        <TableBodyContent>{data.arrival_time}</TableBodyContent>
-                      </TableBodyRow>
-                    )
-                  })}
-                </div>
+            
+                <Table>
+                  <TableHead>
+                    <TableHeadRow>
+                      <TableHeadContent>승차장소</TableHeadContent>
+                      <TableHeadContent>시간</TableHeadContent>
+                    </TableHeadRow>
+                  </TableHead>
+                  <div>
+                    {course.data[routeId]?.arrival_info?.map((data,index)=>{
+                      return(
+                        <TableBodyRow key={index}>
+                          <TableBodyContent>{data.node_name}</TableBodyContent>
+                          <TableBodyContent>{data.arrival_time}</TableBodyContent>
+                        </TableBodyRow>
+                      )
+                    })}
+                  </div>
               </Table>
-              <TimeTableSubTitle>• 한기대 &gt; {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))}</TimeTableSubTitle>
-              <Table>
+              {/* <TimeTableSubTitle>• 한기대 {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; </TimeTableSubTitle> */}
+
+                {/* <Table>
                 <TableHead>
                   <TableHeadRow>
                     <TableHeadContent>승차장소</TableHeadContent>
@@ -425,7 +430,7 @@ export default function BusTimeTable(
                   </TableHeadRow>
                 </TableHead>
                 <div>
-                  {course.data.from_school?.[routeId]?.arrival_info.map((data,index)=>{
+                  {course.data[routeId]?.arrival_info?.map((data,index)=>{
                     return(
                       <TableBodyRow key={index}>
                         <TableBodyContent>{data.node_name}</TableBodyContent>
@@ -435,7 +440,7 @@ export default function BusTimeTable(
                   })
                   }
                 </div>
-              </Table>
+              </Table> */}
             </>
             }
           </div>
@@ -450,11 +455,11 @@ export default function BusTimeTable(
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {allcourse.filter((data,index)=> index > 6).map((data,idx)=>{
+                  {allcourse.filter((data,index)=> index > 13 && index <= 16).map((data,idx)=>{
                     return(
                       <DropDownContent
                         key={idx}
-                        onClick={()=>setAllCourseReset(idx+7)}>
+                        onClick={()=>setAllCourseReset(idx + 14)}>
                         {data.name}
                       </DropDownContent>)
                   })}
@@ -478,9 +483,9 @@ export default function BusTimeTable(
                   <TableHeadContent style={{width:'50%'}}>도착시간</TableHeadContent>
                 </TableHeadRow>
               </TableHead>
-              <div>
+              <div>              
                 {allcourse[allcourseId].name==="한기대->야우리" &&
-                  course.data.koreatech_to_terminal?.map((data,index)=>{
+                  course.data.map((data,index)=>{
                     return(
                       <TableBodyRow key={index}>
                         <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>
@@ -488,7 +493,7 @@ export default function BusTimeTable(
                       </TableBodyRow>)
                 })}
                 {allcourse[allcourseId].name==="야우리->한기대" &&
-                  course.data.terminal_to_koreatech?.map((data,index)=>{
+                  course.data.map((data,index)=>{
                     return(
                       <TableBodyRow key={index}>
                         <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>

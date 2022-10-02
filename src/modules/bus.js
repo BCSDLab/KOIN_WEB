@@ -7,10 +7,12 @@ const GET_TERM = "GET_TERM";
 const GET_TERM_SUCCESS = "GET_TERM_SUCCESS";
 const GET_TERM_ERROR = "GET_TERM_ERROR";
 
-export const getBusInfo = (depart, arrival) => async dispatch => {
+export const getBusInfo = (bus_type, depart, arrival) => async dispatch => {
   dispatch({ type: GET_BUS_INFO });
   try {
-    const res = await infoAPI.getBusInfo(depart, arrival);
+    console.log('Get bus Info');
+    const res = await infoAPI.getBusInfo(bus_type, depart, arrival);
+    console.log('Get bus Info', res);
     dispatch({
       type: GET_BUS_INFO_SUCCESS,
       res

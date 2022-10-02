@@ -24,10 +24,10 @@ export const getCourses = () => async dispatch => {
     }
   };
 
-  export const getTimeTable = (bus_type,region) => async dispatch => {
+  export const getTimeTable = (bus_type, direction, region) => async dispatch => {
     dispatch({ type: GET_TIMETABLE_INFO });
     try {
-      const res = await infoAPI.getTimetable(bus_type,region);
+      const res = await infoAPI.getTimetable(bus_type,direction,region);
       dispatch({
         type: GET_TIMETABLE_INFO_SUCCESS,
         res
@@ -51,12 +51,7 @@ const initialState = {
     },
     course:{
         loading:false,
-        data:{
-            "to_school":[
-            ],
-            "from_school":[
-            ],
-        },
+        data: [],
         error:null,
     }
 }

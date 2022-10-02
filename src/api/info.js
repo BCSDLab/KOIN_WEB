@@ -7,12 +7,13 @@ const getCourses = ()=> {
   return axios.get(`${API_PATH}/bus/courses`);
 }
 
-const getTimetable = (bus_type,region) =>{
-  return axios.get(`${API_PATH}/bus/timetable/?bus_type=${bus_type}&region=${region}`)
+const getTimetable = (bus_type, direction, region) =>{
+  console.log("getTimetavle", axios.get(`${API_PATH}/bus/timetable?bus_type=${bus_type}&direction=${direction}&region=${region}`))
+  return axios.get(`${API_PATH}/bus/timetable?bus_type=${bus_type}&direction=${direction}&region=${region}`)
 }
 
-const getBusInfo = (depart, arrival) => {
-  return axios.get(`${API_PATH}/buses/?depart=${depart}&arrival=${arrival}`);
+const getBusInfo = (bus_type, depart, arrival) => {
+  return axios.get(`${API_PATH}/bus?bus_type=${bus_type}&depart=${depart}&arrival=${arrival}`);
 }
 
 // 식단
