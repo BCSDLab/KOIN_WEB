@@ -5,46 +5,90 @@ import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
 import setBusTime from "../../modules/setBusTime";
 import {getBusInfo, getTerm} from "../../modules/bus";
 import {getCourses, getTimeTable} from "../../modules/course";
-import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeTable";
 import useInterval from "../../hooks/useInterval";
 
 const allcourse = [
-  { name: '천안 등교/하교',
+  
+  { name: '천안 하교',
     bus_type:'commuting',
+    direction:'from',
     region: '천안'
   }, 
-  { name: '천안 셔틀',
+  { name: '천안 등교',
+    bus_type:'commuting',
+    direction:'to',
+    region: '천안'
+  }, 
+  { name: '천안 셔틀 등교',
     bus_type:'shuttle',
+    direction:'to',
     region: '천안'
   },
-  { name: '청주 등교/하교',
-    bus_type:'commuting',
-    region: "청주"
-  },
-  { name: "청주 셔틀",
+  { name: '천안 셔틀 하교',
     bus_type:'shuttle',
+    direction:'from',
+    region: '천안'
+  },
+  { name: '청주 등교',
+    bus_type:'commuting',
+    direction:'to',
     region: "청주"
   },
-  { name: '서울 등교/하교',
+  { name: '청주 하교',
     bus_type:'commuting',
+    direction:'from',
+    region: "청주"
+  },
+  { name: "청주 셔틀 등교",
+    bus_type:'shuttle',
+    direction:'to',
+    region: "청주"
+  },
+  { name: "청주 셔틀 하교",
+    bus_type:'shuttle',
+    direction:'from',
+    region: "청주"
+  },
+  { name: '서울 등교',
+    bus_type:'commuting',
+    direction:'to',
     region: "서울"
   },
-  { name: '대전 등교/하교',
+  { name: '서울 하교',
     bus_type:'commuting',
+    direction:'from',
+    region: "서울"
+  },
+  { name: '대전 등교',
+    bus_type:'commuting',
+    direction:'to',
     region: '대전'
   },
-  { name: '세종 등교/하교',
+  { name: '대전 하교',
     bus_type:'commuting',
+    direction:'from',
+    region: '대전'
+  },
+  { name: '세종 등교',
+    bus_type:'commuting',
+    direction:'to',
+    region: '세종'
+  },
+  { name: '세종 하교',
+    bus_type:'commuting',
+    direction:'from',
     region: '세종'
   },
   {
     name:'한기대->야우리',
     bus_type:'express',
+    direction:'from',
     region:'천안'
   },
   {
     name:'야우리->한기대',
     bus_type:'express',
+    direction:'to',
     region:'천안'
   }
 ];
@@ -54,6 +98,7 @@ export default function BusContainer() {
   // BusLookUp.js
   const [departList, setDepartList] = useState(["한기대","야우리","천안역"]);
   const [arrivalList, setArrivalList] = useState(["야우리","한기대","천안역"]);
+  const [busTypeList, setBusTypeList] = useState(["city", "express", "shuttle", "commuting"]);
   const [fastestShuttleTime, setFastestShuttleTime] = useState(0);
   const [fastestDaesungTime, setFastestDaesungTime] = useState(0);
   const [nextFastestShuttleTime, setNextFastestShuttleTime] = useState(0);
@@ -74,16 +119,13 @@ export default function BusContainer() {
 
 
   useEffect(()=>{
-    console.log(allcourseId)
-    dispatch(getTimeTable(allcourse[allcourseId].bus_type,allcourse[allcourseId].region))
-  },[allcourseId]);
+    dispatch(getTimeTable(allcourse[allcourseId].bus_type, allcourse[allcourseId].direction, allcourse[allcourseId].region))
+  },[allcourseId, dispatch]);
 
   useEffect(()=>{
     dispatch(getCourses());
-  },[courses]);
-  // console.log(courses);
-  
-  // console.log(courses.data);
+  },[dispatch]);
+
   const setAllCourseReset = (id)=>{
     setAllCourseId(id);
     setRouteId(0);
@@ -95,7 +137,7 @@ export default function BusContainer() {
 
   useEffect(()=>{
     if(selectedTab === "대성고속"){
-      setAllCourseId(7); 
+      setAllCourseId(14); 
     }else if(selectedTab==="학교셔틀"){
       setAllCourseId(0);
       setRouteId(0);
@@ -150,11 +192,11 @@ export default function BusContainer() {
   },1000);
 
   useInterval(() => {
-    dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getBusInfo(busTypeList[0], changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
   }, 60000)
 
   useEffect(() => {
-    dispatch(getBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getBusInfo(busTypeList[0], changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
     setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
   }, [departList, arrivalList]);
 
@@ -164,9 +206,9 @@ export default function BusContainer() {
     }
   },[term])
 
-  // useEffect(() => {
-  //   dispatch(getTerm())
-  // },[])
+  useEffect(() => {
+    dispatch(getTerm())
+  },[])
 
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
