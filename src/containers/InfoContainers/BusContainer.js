@@ -9,14 +9,15 @@ import {semesterTimeTable, vacationTimeTable} from "../../static/shuttleBusTimeT
 import useInterval from "../../hooks/useInterval";
 
 const allcourse = [
-  { name: '천안 등교',
-    bus_type:'commuting',
-    direction:'to',
-    region: '천안'
-  }, 
+  
   { name: '천안 하교',
     bus_type:'commuting',
     direction:'from',
+    region: '천안'
+  }, 
+  { name: '천안 등교',
+    bus_type:'commuting',
+    direction:'to',
     region: '천안'
   }, 
   { name: '천안 셔틀 등교',
@@ -122,12 +123,14 @@ export default function BusContainer() {
     dispatch(getTimeTable(allcourse[allcourseId].bus_type, allcourse[allcourseId].direction, allcourse[allcourseId].region))
   },[allcourseId, dispatch]);
 
-  // useEffect(()=>{
-  //   dispatch(getCourses());
-  // },[courses, dispatch]);
-  // console.log(courses);
+  useEffect(()=>{
+    dispatch(getCourses());
+  },[dispatch]);
+
+  // console.log('oucrrrr', courses);
+
+
   
-  // console.log(courses.data);
 
   const setAllCourseReset = (id)=>{
     setAllCourseId(id);

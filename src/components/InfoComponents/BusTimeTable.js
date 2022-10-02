@@ -323,7 +323,7 @@ export default function BusTimeTable(
     course,
     courses
   }) {
-    console.log("course", course)
+    // console.log("course", course)
   return(
     <Container>
       <TimeTable>
@@ -343,7 +343,7 @@ export default function BusTimeTable(
             )
           })}
         </BusTabs>
-        {console.log("course!!", course)}
+        {/* {console.log("course!!", course)} */}
         {/* {!course.loading && course?.data.map((data,index)=>{
           return(<>
             <div>{data.region}</div>
@@ -356,10 +356,13 @@ export default function BusTimeTable(
               <DropDown>
                 <DropDownButton>
                   {allcourse[allcourseId].name}
+                  {/* {courses.data[allcourseId]?.direction == 'to' ?
+                  `${courses.data[allcourseId]?.region} 등교`
+                  : `${courses.data[allcourseId]?.region} 하교`} */}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {console.log('allcourse',allcourse)}
+                  {/* {console.log('allcourse',allcourse)} */}
                 {allcourse.filter((data,index)=> index <= 13).map((data,idx)=>{
                   return(
                     <DropDownContent
