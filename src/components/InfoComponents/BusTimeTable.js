@@ -105,6 +105,7 @@ const DropDownButton = styled.button`
   
   @media (max-width: 576px) {
     width: 100%;
+    width : 150px
   }
 `;
 
@@ -125,7 +126,7 @@ const DropDownContents = styled.div`
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   
   @media (max-width: 576px) {
-    width: calc(100% - 3px);
+    width: calc(100% - 12px);
   }
 `;
 
