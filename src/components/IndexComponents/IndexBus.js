@@ -312,7 +312,7 @@ const getBusDepartTime = (remain_time) => {
   hours = hours < 10 ? '0' + hours : hours;
   minutes = minutes < 10 ? '0' + minutes : minutes;
 
-  return hours + ":" + minutes;
+  return hours + "시 " + minutes + "분";
 };
 
 export default React.memo(function IndexBus({
@@ -384,7 +384,7 @@ export default React.memo(function IndexBus({
                     </Time>
                     {busType.busData?.now_bus?.remain_time > 0 &&
                       <TimeDetail>
-                        {"(" + getBusDepartTime(busType.busData?.now_bus?.remain_time) + " 출발)"}
+                        {getBusDepartTime(busType.busData?.now_bus?.remain_time) + " 출발"}
                       </TimeDetail>
                     }
                     <Destination>
