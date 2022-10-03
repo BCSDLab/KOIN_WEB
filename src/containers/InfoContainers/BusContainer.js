@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux';
 import BusLookUp from "../../components/InfoComponents/BusLookUp";
 import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
-import setBusTime from "../../modules/setBusTime";
-import {getBusInfo, getTerm} from "../../modules/bus";
+import {getCityBusInfo, getShuttleBusInfo, getExpressBusInfo} from "../../modules/bus";
 import {getCourses, getTimeTable} from "../../modules/course";
 import useInterval from "../../hooks/useInterval";
 
@@ -93,21 +92,17 @@ const allcourse = [
   }
 ];
 
+const BUS_TYPE_LIST = ["city", "shuttle", "express"];
+
 export default function BusContainer() {
 
   // BusLookUp.js
   const [departList, setDepartList] = useState(["한기대","야우리","천안역"]);
   const [arrivalList, setArrivalList] = useState(["야우리","한기대","천안역"]);
-  const [busTypeList, setBusTypeList] = useState(["city", "express", "shuttle", "commuting"]);
-  const [fastestShuttleTime, setFastestShuttleTime] = useState(0);
-  const [fastestDaesungTime, setFastestDaesungTime] = useState(0);
-  const [nextFastestShuttleTime, setNextFastestShuttleTime] = useState(0);
-  const [nextFastestDaesungTime, setNextFastestDaesungTime] = useState(0);
-  const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
-  const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
-  const {data, loading, error} = useSelector(state => state.busReducer.cityBusData);
-  const {term} = useSelector(state => state.busReducer.term);
- 
+  const {data: cityBusData} = useSelector(state => state.busReducer.cityBusData);
+  const {data: shuttleBusData} = useSelector(state => state.busReducer.shuttleBusData);
+  const {data: expressBusData} = useSelector(state => state.busReducer.expressBusData);
+
   // BusTimeTable.js
   const dispatch = useDispatch();
   const courses = useSelector(state=>state.courseReducer.courses);
@@ -161,6 +156,8 @@ export default function BusContainer() {
         setFunction(["천안역","한기대","야우리"]);
         break;
       }
+      default:
+        break;
     }
   }
 
@@ -170,6 +167,7 @@ export default function BusContainer() {
     }
     switchDropDown(depart,setDepartList)
   };
+
   const selectArrival = (arrival) => {
     if(arrival === departList[0]){
       switchDropDown(arrivalList[0],setDepartList)
@@ -185,30 +183,22 @@ export default function BusContainer() {
         return "terminal";
       case '천안역':
         return "station";
+      default:
+        break;
     }
   }
-  useInterval(() => {
-    setBusTime(departList[0]+arrivalList[0],departList[0]+arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-  },1000);
 
   useInterval(() => {
-    dispatch(getBusInfo(busTypeList[0], changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getCityBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getShuttleBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getExpressBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
   }, 60000)
 
   useEffect(() => {
-    dispatch(getBusInfo(busTypeList[0], changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
-    setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-  }, [departList, arrivalList, dispatch, busTypeList, term]);
-
-  useEffect(() => {
-    if(term) {
-      setBusTime(departList[0] + arrivalList[0], departList[0] + arrivalList[0], setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-    }
-  },[arrivalList, departList, term])
-
-  useEffect(() => {
-    dispatch(getTerm())
-  },[dispatch])
+    dispatch(getCityBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getShuttleBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+    dispatch(getExpressBusInfo(changeEnglish(departList[0]), changeEnglish(arrivalList[0])));
+  }, [departList, arrivalList, dispatch]);
 
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
@@ -221,13 +211,9 @@ export default function BusContainer() {
         arrivalList={arrivalList}
         selectDepart={selectDepart}
         selectArrival={selectArrival}
-        fastestShuttleTime={fastestShuttleTime}
-        nextFastestShuttleTime={nextFastestShuttleTime}
-        fastestDaesungTime={fastestDaesungTime}
-        nextFastestDaesungTime={nextFastestDaesungTime}
-        shuttleTime={shuttleTime}
-        daesungTime={daesungTime}
-        cityBusData={data}
+        cityBusData={cityBusData}
+        shuttleBusData={shuttleBusData}
+        expressBusData={expressBusData}
       />
       <BusTimeTable
         tabs={["학교셔틀","대성고속","시내버스"]}
@@ -244,7 +230,6 @@ export default function BusContainer() {
         course={course}
         courses={courses}
         />
-    {/*  TODO : add mobile! */}
     </div>
   )
 }
