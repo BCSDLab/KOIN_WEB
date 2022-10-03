@@ -157,10 +157,6 @@ const deleteLostItem  = (token, id) => {
   })
 }
 
-const getTerm = () => {
-  return axios.get(`${API_PATH}/term`);
-}
-
 // 학번 리스트
 const getStudentNumberList = async () => {
   if(!localStorage.getItem('student_number')) {
@@ -199,6 +195,5 @@ export {
   registerLostComment,
   deleteLostItem,
   getCardNews,
-  getTerm,
   getStudentNumberList
 }

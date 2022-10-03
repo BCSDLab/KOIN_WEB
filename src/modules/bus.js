@@ -1,63 +1,82 @@
 import {infoAPI} from "../api"
 
-const GET_BUS_INFO = "GET_BUS_INFO";
-const GET_BUS_INFO_SUCCESS = "GET_BUS_INFO_SUCCESS";
-const GET_BUS_INFO_ERROR = "GET_BUS_INFO_ERROR";
-const GET_TERM = "GET_TERM";
-const GET_TERM_SUCCESS = "GET_TERM_SUCCESS";
-const GET_TERM_ERROR = "GET_TERM_ERROR";
+const GET_CITY_BUS_INFO = "GET_BUS_INFO";
+const GET_CITY_BUS_INFO_SUCCESS = "GET_BUS_INFO_SUCCESS";
+const GET_CITY_BUS_INFO_ERROR = "GET_BUS_INFO_ERROR";
+const GET_SHUTTLE_BUS_INFO = "GET_SHUTTLE_BUS_INFO";
+const GET_SHUTTLE_BUS_INFO_SUCCESS = "GET_SHUTTLE_BUS_INFO_SUCCESS";
+const GET_SHUTTLE_BUS_INFO_ERROR = "GET_SHUTTLE_BUS_INFO_ERROR";
+const GET_EXPRESS_BUS_INFO = "GET_EXPRESS_BUS_INFO";
+const GET_EXPRESS_BUS_INFO_SUCCESS = "GET_EXPRESS_BUS_INFO_SUCCESS";
+const GET_EXPRESS_BUS_INFO_ERROR = "GET_EXPRESS_BUS_INFO_ERROR";
 
-export const getBusInfo = (bus_type, depart, arrival) => async dispatch => {
-  dispatch({ type: GET_BUS_INFO });
+
+export const getCityBusInfo = (depart, arrival) => async dispatch => {
+  dispatch({ type: GET_CITY_BUS_INFO });
   try {
-    const res = await infoAPI.getBusInfo(bus_type, depart, arrival);
+    const res = await infoAPI.getBusInfo("city", depart, arrival);
     dispatch({
-      type: GET_BUS_INFO_SUCCESS,
+      type: GET_CITY_BUS_INFO_SUCCESS,
       res
     });
   } catch (e) {
     dispatch({
-      type: GET_BUS_INFO_ERROR,
+      type: GET_CITY_BUS_INFO_ERROR,
       error: e
     })
   }
 };
 
-export const getTerm = () => async dispatch => {
-  dispatch({type: GET_TERM});
+export const getShuttleBusInfo = (depart, arrival) => async dispatch => {
+  dispatch({ type: GET_SHUTTLE_BUS_INFO });
   try {
-    const res = await infoAPI.getTerm();
+    const res = await infoAPI.getBusInfo("shuttle", depart, arrival);
     dispatch({
-      type: GET_TERM_SUCCESS,
+      type: GET_SHUTTLE_BUS_INFO_SUCCESS,
       res
     });
   } catch (e) {
     dispatch({
-      type: GET_BUS_INFO_ERROR,
-      e
+      type: GET_SHUTTLE_BUS_INFO_ERROR,
+      error: e
     })
   }
+};
+
+export const getExpressBusInfo = (depart, arrival) => async dispatch => {
+  dispatch({ type: GET_EXPRESS_BUS_INFO });
+  try {
+    const res = await infoAPI.getBusInfo("express", depart, arrival);
+    dispatch({
+      type: GET_EXPRESS_BUS_INFO_SUCCESS,
+      res
+    });
+  } catch (e) {
+    dispatch({
+      type: GET_EXPRESS_BUS_INFO_ERROR,
+      error: e
+    })
+  }
+};
+
+const initBusData = {
+  loading: false,
+  data: {
+    now_bus: null,
+    next_bus: null,
+  },
+  error: null
 }
 
 const initialState = {
-  cityBusData: {
-    loading: false,
-    data: {
-      "next_bus_number": null,
-      "remain_time": null,
-      "bus_number": null,
-      "next_remain_time": null
-    },
-    error: null
-  },
-  term: {
-    term: null
-  }
+  cityBusData: initBusData,
+  shuttleBusData: initBusData,
+  expressBusData: initBusData,
 };
 
 export default function busReducer(state = initialState, action) {
   switch(action.type){
-    case GET_BUS_INFO:
+    case GET_CITY_BUS_INFO:
       return {
         ...state,
         cityBusData: {
@@ -66,7 +85,7 @@ export default function busReducer(state = initialState, action) {
           error: null
         }
       }
-    case GET_BUS_INFO_SUCCESS:
+    case GET_CITY_BUS_INFO_SUCCESS:
       return {
         ...state,
         cityBusData: {
@@ -75,7 +94,7 @@ export default function busReducer(state = initialState, action) {
           error: null
         }
       }
-    case GET_BUS_INFO_ERROR:
+    case GET_CITY_BUS_INFO_ERROR:
       return {
         ...state,
         cityBusData: {
@@ -84,21 +103,60 @@ export default function busReducer(state = initialState, action) {
           error: action.error
         }
       };
-    case GET_TERM:
-      return{
-        ...state,
-        term: state.term
-      }
-    case GET_TERM_SUCCESS:
+    case GET_SHUTTLE_BUS_INFO:
       return {
         ...state,
-        term: action.res.data,
+        shuttleBusData: {
+          loading: true,
+          data: state.shuttleBusData.data,
+          error: null
+        }
       }
-    case GET_TERM_ERROR:
+    case GET_SHUTTLE_BUS_INFO_SUCCESS:
       return {
         ...state,
-        term: action.error,
+        shuttleBusData: {
+          loading: false,
+          data: action.res.data,
+          error: null
+        }
       }
+    case GET_SHUTTLE_BUS_INFO_ERROR:
+      return {
+        ...state,
+        shuttleBusData: {
+          loading: false,
+          data: "미운행",
+          error: action.error
+        }
+      };
+      case GET_EXPRESS_BUS_INFO:
+      return {
+        ...state,
+        expressBusData: {
+          loading: true,
+          data: state.expressBusData.data,
+          error: null
+        }
+      }
+    case GET_EXPRESS_BUS_INFO_SUCCESS:
+      return {
+        ...state,
+        expressBusData: {
+          loading: false,
+          data: action.res.data,
+          error: null
+        }
+      }
+    case GET_EXPRESS_BUS_INFO_ERROR:
+      return {
+        ...state,
+        expressBusData: {
+          loading: false,
+          data: "미운행",
+          error: action.error
+        }
+      };
     default:
       return state;
   }
