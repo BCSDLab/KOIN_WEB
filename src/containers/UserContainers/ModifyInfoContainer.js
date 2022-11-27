@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
 import ModifyForm from '../../components/UserComponents/ModifyForm';
-import majorList from '../../static/major';
 import { useSelector, useDispatch } from 'react-redux';
 import { modifyInfo, checkNickname, withdraw } from '../../modules/auth';
 import { useToasts } from 'react-toast-notifications';
+import { getStudentNumberList } from '../../api/info';
 
 export default function ModifyInfoContainer() {
   const { addToast } = useToasts();
@@ -33,7 +33,8 @@ export default function ModifyInfoContainer() {
 
   const [dropdown, setDropdown] = useState(false);
   const { data, isAvailable, authInProgress, checkInProgress, error, nicknameCheckError } = useSelector(state => state.authReducer);
-
+  const studentNumberList = useRef([]);
+  
   const onModify = useCallback(e => {
     e.preventDefault();
     const { userId, firstPassword, secondPassword, phoneNumber, nickname,
@@ -91,8 +92,8 @@ export default function ModifyInfoContainer() {
         });
         return;
       }
-      for(let major of majorList) {
-        if (major.codes.includes(majorCode)) {
+      for(let major of studentNumberList.current) {
+        if (major.dept_nums.includes(majorCode)) {
           break;
         } else {
           if (major.id === 7) {
@@ -180,23 +181,20 @@ export default function ModifyInfoContainer() {
 
   const setUserMajor = useCallback(() => {
     if (userInfo.studentNumber.length > 6) {
-      const majorCode = userInfo.studentNumber.substring(4, 7);
-      for(let major of majorList) {
-        if (major.codes.includes(majorCode)) {
+      const majorCode = userInfo.studentNumber.substring(5, 7);
+      for(let major of studentNumberList.current) {
+        if (major.dept_nums.includes(majorCode)) {
           setUserInfo({
             ...userInfo,
             major: major.name
           })
           break;
         } else {
-          if (major.id === 7) {
-            setUserInfo({
-              ...userInfo,
-              major: ""
-            })
-          } else {
-            continue;
-          }
+          setUserInfo({
+            ...userInfo,
+            major: ""
+          })
+          continue;
         }
       }
     } else {
@@ -231,6 +229,13 @@ export default function ModifyInfoContainer() {
     }
     dispatch(checkNickname({nickname}));
   };
+
+  useEffect(() => {
+    async function fetchStudentNumberList() {
+      studentNumberList.current = await getStudentNumberList();
+    }
+    fetchStudentNumberList();
+  }, [])
 
   useEffect(() => {
     setUserMajor();

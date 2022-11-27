@@ -1,7 +1,7 @@
 KOIN_WEB_REACT
 ---
 
-This project is KOIN community (ver. React framework)
+This project is KOIN community (ver. React library)
 
 ### Deploy Command
 

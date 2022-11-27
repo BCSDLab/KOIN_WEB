@@ -282,50 +282,36 @@ const Detail = styled.span`
 
 // 시간 반환 함수
 const hour = (val) => {
-  return Math.floor(val / 1000 / 60 / 60) % 24;
+  return Math.floor(val / 60 / 60);
 };
 
 const minute = (val) => {
-  return Math.floor(val / 1000 / 60) % 60;
-};
-
-const second = (val) => {
-  return Math.floor(val / 1000) % 60;
-};
-
-const timeLength = (val) => {
-  return val < 10 ? '0' + val : val;
+  return Math.ceil(val / 60) % 60;
 };
 
 const timeToString = (time) => {
-  if(time === 0){
+  if(!time){
     return "운행정보없음"
   } else if (time === "미운행"){
     return "미운행"
-  } else if(hour(time) === 0){
-    return minute(time) + "분 " + second(time) + "초 남음"
   } else if(hour(time) === 0 && minute(time) === 0){
-    return second(time) + "초 남음"
-  } else return hour(time) + "시간 " + minute(time) + "분 " + second(time) + "초 남음"
+    return "곧 도착"
+  } else if(hour(time) === 0){
+    return minute(time) + "분 전"
+  } else return hour(time) + "시간 " + minute(time) + "분 전"
 };
 
-const cityBusString = (remain_time) => {
-  if(remain_time !== null && remain_time !== undefined) {
-    return "약 "+ Math.ceil(remain_time/60)%60 +"분 남음"
-  }
-  else if(remain_time === undefined || remain_time === null) {
-    return "운행정보없음"
-  }
-};
-
-const getCityBusDepartTime = (val) => {
+const getBusDepartTime = (remain_time) => {
+  let remain_minute = Math.ceil(remain_time / 60);
   let today = new Date();
-  let minutes = today.getMinutes() + val;
+  
+  let minutes = today.getMinutes() + remain_minute;
   let hours = today.getHours();
-  if (minutes >= 60) {
-    hours = hours + 1;
-    minutes = minutes - 60;
-  }
+  
+  hours += Math.floor(minutes / 60);
+  minutes %= 60;
+  hours %= 24;
+  
   hours = hours < 10 ? '0' + hours : hours;
   minutes = minutes < 10 ? '0' + minutes : minutes;
 
@@ -338,13 +324,9 @@ export default function BusLookUp(
     arrivalList,
     selectDepart,
     selectArrival,
-    fastestShuttleTime,
-    nextFastestShuttleTime,
-    fastestDaesungTime,
-    nextFastestDaesungTime,
-    shuttleTime,
-    daesungTime,
-    cityBusData
+    cityBusData,
+    shuttleBusData,
+    expressBusData
   }
 ) {
   return (
@@ -413,11 +395,13 @@ export default function BusLookUp(
                 </CardHeader>
                 <Info>
                   <Time>
-                    {timeToString(fastestShuttleTime)}
+                    {timeToString(shuttleBusData?.now_bus?.remain_time)}
+                    {shuttleBusData?.now_bus?.remain_time > 0 &&
+                      <Detail>
+                        {"(" + getBusDepartTime(shuttleBusData?.now_bus?.remain_time) +" 출발)"}
+                      </Detail>
+                    }
                   </Time>
-                  <Detail>
-                    {shuttleTime[0].hour !== 0 ? "(" + timeLength(shuttleTime[0].hour) + ":"+timeLength(shuttleTime[0].minute) + " 출발)" : ""}
-                  </Detail>
                   <Type>
                     <BusIcon/>
                     학교셔틀
@@ -431,11 +415,13 @@ export default function BusLookUp(
                   다음버스
                 </NextBus>
                 <Time>
-                  {timeToString(nextFastestShuttleTime)}
+                  {timeToString(shuttleBusData?.next_bus?.remain_time)}
+                  {shuttleBusData?.next_bus?.remain_time > 0 &&
+                    <Detail>
+                      {"(" + getBusDepartTime(shuttleBusData?.next_bus?.remain_time) +" 출발)"}
+                    </Detail>
+                  }
                 </Time>
-                <Detail>
-                  {shuttleTime[1].hour !== 0 ? "(" + timeLength(shuttleTime[1].hour) + ":" + timeLength(shuttleTime[1].minute) + " 출발)" : ""}
-                </Detail>
                 <Type>
                   <BusIcon/>
                   학교셔틀
@@ -443,7 +429,7 @@ export default function BusLookUp(
               </LowerCardContainer>
             </LowerCard>
           </Cards>
-
+          
           <Cards>
             <UpperCard type={"daesung"}>
               <UpperCardContainer>
@@ -452,16 +438,6 @@ export default function BusLookUp(
                   <Station>
                     {departList[0]}
                   </Station>
-                  {departList[0] === "한기대"?
-                    <BusName>
-                      안동출발버스
-                    </BusName> :
-                    departList[0] === "야우리"?
-                      <BusName>
-                        야우리출발버스
-                      </BusName>:
-                      ""
-                  }
                 </CardHeader>
                 <CardHeader>
                   <Tag>도착</Tag>
@@ -470,12 +446,20 @@ export default function BusLookUp(
                   </Station>
                 </CardHeader>
                 <Info>
+                  {expressBusData === '미운행' ?
                   <Time>
-                    {timeToString(fastestDaesungTime)}
-                    <Detail>
-                      {daesungTime[0].hour !== 0 ? "(" + timeLength(daesungTime[0].hour) + ":" + timeLength(daesungTime[0].minute) + " 출발)" : ""}
-                    </Detail>
+                    미운행
                   </Time>
+                  :
+                  <Time>
+                    {timeToString(expressBusData?.now_bus?.remain_time)}
+                    {expressBusData?.now_bus?.remain_time > 0 &&
+                      <Detail>
+                        {"(" + getBusDepartTime(expressBusData?.now_bus?.remain_time) +" 출발)"}
+                      </Detail>
+                    }
+                  </Time>
+                }
                   <Type>
                     <BusIcon/>
                     대성고속
@@ -488,12 +472,21 @@ export default function BusLookUp(
                 <NextBus>
                   다음버스
                 </NextBus>
-                <Time>
-                  {timeToString(nextFastestDaesungTime)}
-                  <Detail>
-                    {daesungTime[1].hour !== 0 ? "(" + timeLength(daesungTime[1].hour) + ":" + timeLength(daesungTime[1].minute) + " 출발)" : ""}
-                  </Detail>
-                </Time>
+                {expressBusData === '미운행' ?
+                  <Time>
+                    미운행
+                  </Time>
+                  :
+                  <Time>
+                    {timeToString(expressBusData?.next_bus?.remain_time)}
+                    {expressBusData?.next_bus?.remain_time > 0 &&
+                      <Detail>
+                        {"(" + getBusDepartTime(expressBusData?.next_bus?.remain_time) +" 출발)"}
+                      </Detail>
+                    }
+                  </Time>
+                }
+                
                 <Type>
                   <BusIcon/>
                   대성고속
@@ -502,58 +495,32 @@ export default function BusLookUp(
             </LowerCard>
           </Cards>
 
-          {cityBusData && (
-            <Cards>
-              <UpperCard type={"city"}>
-                <UpperCardContainer>
-                  <CardHeader>
-                    <Tag>출발</Tag>
-                    <Station>
-                      {departList[0]}
-                    </Station>
-                    {cityBusData.remain_time > 0 &&
-                    <BusName>
-                      {cityBusData.bus_number + "번 버스"}
-                    </BusName>
-                    }
-                  </CardHeader>
-                  <CardHeader>
-                    <Tag>도착</Tag>
-                    <Station>
-                      {arrivalList[0]}
-                    </Station>
-                  </CardHeader>
-                  <Info>
-                    <Time>
-                      {cityBusString(cityBusData.remain_time)}
-                      {cityBusData.remain_time > 0 &&
-                      <Detail>
-                        {"(" + getCityBusDepartTime(Math.ceil(cityBusData.remain_time/60)%60) +" 출발)"}
-                      </Detail>
-                      }
-                    </Time>
-                    <Type>
-                      <BusIcon/>
-                      시내버스
-                    </Type>
-                  </Info>
-                </UpperCardContainer>
-              </UpperCard>
-              <LowerCard type={"city"}>
-                <LowerCardContainer>
-                  <NextBus>
-                    다음버스
-                    {cityBusData.next_remain_time > 0 &&
-                    <BusName>
-                      {cityBusData.next_bus_number + "번 버스"}
-                    </BusName>
-                    }
-                  </NextBus>
+          <Cards>
+            <UpperCard type={"city"}>
+              <UpperCardContainer>
+                <CardHeader>
+                  <Tag>출발</Tag>
+                  <Station>
+                    {departList[0]}
+                  </Station>
+                  {cityBusData?.now_bus?.remain_time > 0 &&
+                  <BusName>
+                    {cityBusData?.now_bus?.bus_number + "번 버스"}
+                  </BusName>
+                  }
+                </CardHeader>
+                <CardHeader>
+                  <Tag>도착</Tag>
+                  <Station>
+                    {arrivalList[0]}
+                  </Station>
+                </CardHeader>
+                <Info>
                   <Time>
-                    {cityBusString(cityBusData.next_remain_time)}
-                    {cityBusData.next_remain_time > 0 &&
+                    {timeToString(cityBusData?.now_bus?.remain_time)}
+                    {cityBusData?.now_bus?.bus_number > 0 &&
                     <Detail>
-                      {"(" + getCityBusDepartTime(Math.ceil(cityBusData.next_remain_time/60)%60) +" 출발)"}
+                      {"(" + getBusDepartTime(cityBusData?.now_bus?.remain_time) +" 출발)"}
                     </Detail>
                     }
                   </Time>
@@ -561,10 +528,34 @@ export default function BusLookUp(
                     <BusIcon/>
                     시내버스
                   </Type>
-                </LowerCardContainer>
-              </LowerCard>
-            </Cards>
-          )}
+                </Info>
+              </UpperCardContainer>
+            </UpperCard>
+            <LowerCard type={"city"}>
+              <LowerCardContainer>
+                <NextBus>
+                  다음버스
+                  {cityBusData?.next_bus?.remain_time > 0 &&
+                  <BusName>
+                    {cityBusData?.next_bus?.bus_number + "번 버스"}
+                  </BusName>
+                  }
+                </NextBus>
+                <Time>
+                  {timeToString(cityBusData?.next_bus?.remain_time)}
+                  {cityBusData?.next_bus?.remain_time > 0 &&
+                  <Detail>
+                    {"(" + getBusDepartTime(cityBusData?.next_bus?.remain_time) +" 출발)"}
+                  </Detail>
+                  }
+                </Time>
+                <Type>
+                  <BusIcon/>
+                  시내버스
+                </Type>
+              </LowerCardContainer>
+            </LowerCard>
+          </Cards>
         </CardsContainer>
 
       </LookUp>

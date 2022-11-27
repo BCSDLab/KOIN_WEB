@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const MenusContainer = styled.div`
   display: -ms-grid;
-  -ms-grid-columns: 163px 162px 163px 162px 163px 162px 160px;
+  -ms-grid-columns: repeat(5, 1fr);
   display: grid;
-  grid-template-columns: 163px 162px 163px 162px 163px 162px 160px;
+  grid-template-columns: repeat(5, 1fr);
   position: relative;
   top: -7px;
   z-index: -1;
@@ -22,9 +22,9 @@ const Menus = styled.div`
   height:100%;
   border-radius: 2px;
   background-color: rgba(
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
-    ${props => props.cafeteria === "능수관" || props.cafeteria === "수박여" || props.cafeteria === "2캠퍼스" ? 30 : 142 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 247 : 23 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 148 : 92 },
+    ${props => props.cafeteria === "능수관" || props.cafeteria === "2캠퍼스" ? 30 : 142 },
     ${props => props.time === "BREAKFAST" ? 0.03 : props.time === "LUNCH" ? 0.1 : 0.2 });
   color: black;
   padding-top: 33.8px;

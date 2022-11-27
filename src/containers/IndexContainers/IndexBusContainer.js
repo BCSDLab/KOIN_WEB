@@ -1,37 +1,23 @@
 import React, {useEffect, useRef, useState} from "react";
 import IndexBus from "../../components/IndexComponents/IndexBus";
 import useInterval from "../../hooks/useInterval";
-import setBusTime from "../../modules/setBusTime";
-import {getBusInfo, getTerm} from "../../modules/bus";
+import {getCityBusInfo, getShuttleBusInfo, getExpressBusInfo} from "../../modules/bus";
 import {useDispatch, useSelector} from "react-redux";
 
 export default function IndexBusContainer({history}) {
   const dispatch = useDispatch();
-  const busTypes = ["shuttle","daesung","cityBus"];
   const [depart, setDepart] = useState("한기대");
   const [arrival, setArrival] = useState("야우리");
   const [daesungDepart, setDaesungDepart] = useState("한기대");
   const [daesungArrival, setDaesungArrival] = useState("야우리");
   const [cityDepart, setCityDepart] = useState("한기대");
   const [cityArrival, setCityArrival] = useState("야우리");
-
-  const [fastestShuttleTime, setFastestShuttleTime] = useState(0);
-  const [fastestDaesungTime, setFastestDaesungTime] = useState(0);
-  const [nextFastestShuttleTime, setNextFastestShuttleTime] = useState(0);
-  const [nextFastestDaesungTime, setNextFastestDaesungTime] = useState(0);
-  const [shuttleTime, setShuttleTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
-  const [daesungTime, setDaesungTime] = useState([{ "hour": 0, "minute": 0}, { "hour": 0, "minute": 0}]);
-  const {data} = useSelector(state => state.busReducer.cityBusData);
-  const {term} = useSelector(state => state.busReducer.term);
+  const {data: cityBusData} = useSelector(state => state.busReducer.cityBusData);
+  const {data: shuttleBusData} = useSelector(state => state.busReducer.shuttleBusData);
+  const {data: expressBusData} = useSelector(state => state.busReducer.expressBusData);
 
   const sliderRef = useRef();
   const [mobileTypes, setMobileTypes] = useState(["cityBus","shuttle","daesung"]);
-
-  useInterval(() => {
-    if(term) {
-      setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-    }
-  },1000);
 
   function changeEnglish (place) {
     switch (place) {
@@ -45,7 +31,6 @@ export default function IndexBusContainer({history}) {
   }
 
   const shiftDestination = (type) => {
-    console.log(type)
     switch(type){
       case "shuttle":
         setDepart(arrival);
@@ -59,23 +44,26 @@ export default function IndexBusContainer({history}) {
         setCityDepart(cityArrival);
         setCityArrival(cityDepart);
         break;
+      default:
+        break;
     }
   };
 
-  useEffect(() => {
-    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-  },[arrival, daesungArrival, cityArrival])
+  useEffect(() => {    
+    dispatch(getShuttleBusInfo(changeEnglish(depart), changeEnglish(arrival)));
+  },[dispatch, arrival, depart])
 
   useEffect(() => {
-    if(term) {
-      setBusTime(depart + arrival, daesungDepart + daesungArrival, setFastestShuttleTime, setNextFastestShuttleTime, setFastestDaesungTime, setNextFastestDaesungTime, setShuttleTime, setDaesungTime, term);
-    }
-  }, [term])
+    dispatch(getExpressBusInfo(changeEnglish(daesungDepart), changeEnglish(daesungArrival)));
+  },[dispatch, daesungArrival, daesungDepart])
 
   useEffect(() => {
-    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
-    dispatch(getTerm())
+    dispatch(getCityBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+  },[dispatch, cityArrival, cityDepart])
+  
+
+
+  useEffect(() => {
     sliderRef.current.scrollLeft = (window.innerWidth*0.75 - (window.innerWidth - window.innerWidth*0.75) / 2);
 
     let walk;
@@ -85,7 +73,6 @@ export default function IndexBusContainer({history}) {
     function slideTouchStart (e){
       startX = e.touches[0].pageX - sliderRef.current.offsetLeft;
       scrollValue = sliderRef.current.scrollLeft;
-
     }
 
     function slideTouchEnd (){
@@ -101,7 +88,6 @@ export default function IndexBusContainer({history}) {
           }
         }
       }
-      console.log(walk)
       walk = 0;
     }
 
@@ -133,15 +119,16 @@ export default function IndexBusContainer({history}) {
     sliderRef.current.addEventListener('touchcancel', slideTouchCancel);
 
     return () => {if(sliderRef.current)sliderRef.current.removeEventListener('touchmove',slideTouchMove);}
-  },[]);
+  },[dispatch]);
 
   useInterval(() => {
-    dispatch(getBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    dispatch(getCityBusInfo(changeEnglish(cityDepart), changeEnglish(cityArrival)));
+    dispatch(getShuttleBusInfo(changeEnglish(depart), changeEnglish(arrival)));
+    dispatch(getExpressBusInfo(changeEnglish(daesungDepart), changeEnglish(daesungArrival)));
   }, 60000);
 
   return (
     <IndexBus
-      busTypes={busTypes}
       depart={depart}
       arrival={arrival}
       daesungDepart={daesungDepart}
@@ -149,11 +136,9 @@ export default function IndexBusContainer({history}) {
       cityDepart={cityDepart}
       cityArrival={cityArrival}
       shiftDestination={shiftDestination}
-      shuttleTime={shuttleTime}
-      daesungTime={daesungTime}
-      fastestShuttleTime={fastestShuttleTime}
-      fastestDaesungTime={fastestDaesungTime}
-      cityBusData={data}
+      shuttleBusData={shuttleBusData}
+      expressBusData={expressBusData}
+      cityBusData={cityBusData}
       sliderRef={sliderRef}
       mobileTypes={mobileTypes}
       history={history}/>

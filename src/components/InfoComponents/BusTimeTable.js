@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Container = styled.div`
   width:100%;
-  
+  min-height:900px;
+  margin-bottom: 60px;
+
   @media (max-width: 576px) {
     float: left;
+    min-height: 700px
   }
 `;
 
@@ -72,6 +76,8 @@ const Tab = styled.div`
 `;
 
 const SubInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
   height: 58px;
   
   @media (max-width: 576px) {
@@ -92,21 +98,24 @@ const DropDownButton = styled.button`
   padding: 11px 19px;
   float: left;
   cursor: pointer;
-  width: 195px;
+  width: 225px;
   text-align: left;
   background-color: #ffffff;
+  margin-right: 10px;
   
   @media (max-width: 576px) {
     width: 100%;
+    width : 150px
   }
 `;
 
 const DropDownContents = styled.div`
+  left: 0;
   display: none;
   position: absolute;
   background-color: #ffffff;
   border: 1px #d0d0d0 solid;
-  width: 193px;
+  width: 223px;
   z-index: 1;
   margin-top: 41px;
   font-weight: normal;
@@ -117,12 +126,14 @@ const DropDownContents = styled.div`
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   
   @media (max-width: 576px) {
-    width: calc(100% - 34px);
+    width: calc(100% - 12px);
   }
 `;
 
 const DropDown = styled.div`
-  width: 100%;
+  position: relative;
+  display: inline-block;
+  height: 44px;
   
   &:hover ${DropDownButton}{
     background-color: #efefef;
@@ -176,80 +187,144 @@ const SubDesc = styled.div`
   }
 `;
 
-const Td = styled.td`
-  font-size: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? '13px' : '15px'};
+const TimeTableSubTitle = styled.div`
+  float: left;
+  padding-left: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  margin-bottom: 5px;
+`
+const Table = styled.div`
+  border-bottom:1px solid #175c8e; 
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 67px;
+
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+
+ @keyframes fadein {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+`;
+
+const TableHead = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  
+`;
+
+const TableHeadRow = styled.div`
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #175c8e;
+`;
+
+const TableHeadContent=styled.div`
+  width: 50%;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.8px;
+  text-align: center;
+  color: #175c8e;
+  border-bottom: 1px solid #175c8e;
+  border-top: 2px solid #175c8e;
+`;
+
+const TableBodyRow=styled.div`
+  display: flex;
+`;
+const TableBodyContent=styled.div`
+  width: 50%;
+  font-size: 15px;
   padding-top: 25px;
   padding-bottom: 25px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
+  -webkit-letter-spacing: -0.8px;
+  -moz-letter-spacing: -0.8px;
+  -ms-letter-spacing: -0.8px;
   letter-spacing: -0.8px;
   text-align: center;
   color: #252525;
-  border-bottom: ${props => props.rowIdx === 1 && props.index === 0 ? '1px solid #175c8e' : '1px solid #d2dae2'};;
-`;
+  border-bottom: 1px solid #d2dae2;
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 70px;
-
-  thead {
-    margin-bottom: 2%;
-  }
-  
-  th {
-    height: 50px;
-  }
-
-  tr:first-child ${Td} {
-    padding-top: 13px;
-    padding-bottom: 13px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: -0.8px;
-    text-align: center;
-    color: #175c8e;
-    border-bottom: 1px solid #175c8e;
-    border-top: 2px solid #175c8e;
-  }
-
-  tr:last-child ${Td} {
-    border-bottom: 1px solid #175c8e;
-  }
-  
-  tr:hover ${Td} {
+  &:hover{
     font-weight: 700;
   }
   
   @media (max-width: 576px) {
     overflow-x: scroll;
-    
-    ${Td} {
-      padding-top: 13px;
-      padding-bottom: 13px;
-      font-size: 12px;
-      min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
-}
+    padding-top: 13px;
+    padding-bottom: 13px;
+    font-size: 12px;
+    min-width: ${props => !(props.rowIdx === 1 && props.index === 0) && props.isShuttle ? "" : "80px"}
   }
-`;
 
+`;
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  min-height:621px;
+`;
 export default function BusTimeTable(
   {
     tabs,
-    vacationFlag,
     selectedTab,
     selectTab,
-    shuttleTimeTable,
-    shuttleTimeTableTitle,
-    setShuttleDropDownTitle,
-    daesungTimeTable,
-    daesungTimeTableTitle,
-    setDaesungDropDownTitle
+    allcourse,
+    allcourseId,
+    setAllCourseReset,
+    setRouteId,
+    routeId,
+    course,
+    courses
   }) {
+    // console.log("course", course)
   return(
     <Container>
       <TimeTable>
@@ -269,260 +344,169 @@ export default function BusTimeTable(
             )
           })}
         </BusTabs>
-
+        {/* {console.log("course!!", course)} */}
+        {/* {!course.loading && course?.data.map((data,index)=>{
+          return(<>
+            <div>{data.region}</div>
+          </>)})
+        } */}
         {/* 셔틀버스 */}
         {selectedTab === "학교셔틀" &&
           <div>
             <SubInfo>
               <DropDown>
                 <DropDownButton>
-                  {shuttleTimeTableTitle}
+                  {allcourse[allcourseId].name}
+                  {/* {courses.data[allcourseId]?.direction == 'to' ?
+                  `${courses.data[allcourseId]?.region} 등교`
+                  : `${courses.data[allcourseId]?.region} 하교`} */}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {shuttleTimeTable.filter((timetable, index) => index < (vacationFlag? 9: 6))
-                    .map((timetable, index) =>
-                     (
-                       <DropDownContent
-                         key={index}
-                         onClick={setShuttleDropDownTitle(timetable.title)}>
-                         {timetable.title}
-                       </DropDownContent>
-                      )
-                  )}
+                  {/* {console.log('allcourse',allcourse)} */}
+                {allcourse.filter((data,index)=> index <= 13).map((data,idx)=>{
+                  return(
+                    <DropDownContent
+                      key={idx}
+                      onClick={()=>setAllCourseReset(idx)}>
+                      {data.name}
+                    </DropDownContent>)
+                })}
                 </DropDownContents>
               </DropDown>
-              <SubDesc>
-                천안(터미널/천안역) 등교/하교(18:10)
-              </SubDesc>
+              {!course.loading && 
+                <DropDown>
+                  <DropDownButton>
+                    {course.data?.[routeId]?.route_name}
+                    <ArrowImg/>
+                  </DropDownButton>
+                  <DropDownContents>
+                    {course.data.map((data,index)=>{
+                      return(
+                      <DropDownContent
+                        key={index}
+                        onClick={()=>setRouteId(index)}>
+                        {data.route_name}
+                      </DropDownContent>)
+                    })}
+                  </DropDownContents>
+                </DropDown>
+              }
             </SubInfo>
-            {shuttleTimeTable.filter(timeTable => timeTable.title === shuttleTimeTableTitle).map((timeTable, index) => (
-              vacationFlag ? (
-                <div key={index}>
-                  {/* 방학중 */}
-                  <Table>
-                    <tbody>
-                    {timeTable.timetable.map((times, rowIdx) => {
-                      return (
-                        <tr key={times[0] + rowIdx}>
-                          {times.map((time,index)=> {
-                            return (
-                              <Td
-                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                rowIdx={rowIdx}
-                                index={index}
-                                key={time + index}
-                                isShuttle={true}>
-                                {time}
-                              </Td>
-                            )
-                          })}
-                        </tr>
+            {course.loading &&
+              <SpinnerWrapper>
+                <ClipLoader
+                  size={120}
+                  color={"#175c8e"}
+                  loading={course.loading}
+                />
+              </SpinnerWrapper>
+            }
+            {!course.loading && 
+            <>
+            
+                <Table>
+                  <TableHead>
+                    <TableHeadRow>
+                      <TableHeadContent>승차장소</TableHeadContent>
+                      <TableHeadContent>시간</TableHeadContent>
+                    </TableHeadRow>
+                  </TableHead>
+                  <div>
+                    {course.data[routeId]?.arrival_info?.map((data,index)=>{
+                      return(
+                        <TableBodyRow key={index}>
+                          <TableBodyContent>{data.node_name}</TableBodyContent>
+                          <TableBodyContent>{data.arrival_time}</TableBodyContent>
+                        </TableBodyRow>
                       )
                     })}
-                    </tbody>
-                  </Table>
-                  {timeTable.timetable2 &&
-                  <Table>
-                    <tbody>
-                    {timeTable.timetable2.map((times, rowIdx) => {
-                      return (
-                        <tr key={times[0] + rowIdx}>
-                          {times.map((time,index)=> {
-                            return (
-                              <Td
-                                rowSpan={rowIdx === 1 && index === 0 ? timeTable.rowspan : 1}
-                                rowIdx={rowIdx}
-                                index={index}
-                                key={time + index}
-                                isShuttle={true}>
-                                {time}
-                              </Td>
-                            )
-                          })}
-                        </tr>
-                      )
-                    })}
-                    </tbody>
-                  </Table>
+                  </div>
+              </Table>
+              {/* <TimeTableSubTitle>• 한기대 {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; </TimeTableSubTitle> */}
+
+                {/* <Table>
+                <TableHead>
+                  <TableHeadRow>
+                    <TableHeadContent>승차장소</TableHeadContent>
+                    <TableHeadContent>시간</TableHeadContent>
+                  </TableHeadRow>
+                </TableHead>
+                <div>
+                  {course.data[routeId]?.arrival_info?.map((data,index)=>{
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent>{data.node_name}</TableBodyContent>
+                        <TableBodyContent>{data.arrival_time}</TableBodyContent>
+                      </TableBodyRow>
+                    )
+                  })
                   }
                 </div>
-              ) : (
-                <Table>
-                  {/* 학기중 */}
-                  <tbody>
-                  {timeTable.timetable.map((times, rowIndex) => {
-                    return (
-                      <tr key={times[0] + rowIndex}>
-                        {times.map((time,index)=> {
-                          return (
-                            <Td key={time + index}>
-                              {time}
-                            </Td>
-                          )
-                        })}
-                      </tr>
-                    )
-                  })}
-                  </tbody>
-                </Table>
-              )
-            ))}
+              </Table> */}
+            </>
+            }
           </div>
         }
-
         {/* 대성고속 */}
         {selectedTab === "대성고속" &&
           <div>
             <SubInfo>
               <DropDown>
                 <DropDownButton>
-                  {daesungTimeTableTitle}
+                  {allcourse[allcourseId].name}
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents>
-                  {daesungTimeTable.map((titles)=> (
-                    <DropDownContent
-                      key={titles}
-                      onClick={setDaesungDropDownTitle(titles)}>
-                      {titles}
-                    </DropDownContent>
-                  ))}
+                  {allcourse.filter((data,index)=> index > 13 && index <= 16).map((data,idx)=>{
+                    return(
+                      <DropDownContent
+                        key={idx}
+                        onClick={()=>setAllCourseReset(idx + 14)}>
+                        {data.name}
+                      </DropDownContent>)
+                  })}
                 </DropDownContents>
               </DropDown>
             </SubInfo>
-            {daesungTimeTableTitle === "학교 -> 야우리" &&
+            {course.loading &&
+              <SpinnerWrapper>
+                <ClipLoader
+                  size={120}
+                  color={"#175c8e"}
+                  loading={course.loading}
+                />
+              </SpinnerWrapper>
+            }
+            {!course.loading && <>
               <Table>
-                <tbody>
-                <tr>
-                  <Td>출발시간</Td>
-                  <Td>도착시간</Td>
-                </tr>
-                <tr>
-                  <Td>08:35</Td>
-                  <Td>08:55</Td>
-                </tr>
-                <tr>
-                  <Td>09:35</Td>
-                  <Td>09:55</Td>
-                </tr>
-                <tr>
-                  <Td>10:35</Td>
-                  <Td>10:55</Td>
-                </tr>
-                <tr>
-                  <Td>11:30</Td>
-                  <Td>11:50</Td>
-                </tr>
-                <tr>
-                  <Td>12:35</Td>
-                  <Td>12:55</Td>
-                </tr>
-                <tr>
-                  <Td>13:35</Td>
-                  <Td>13:55</Td>
-                </tr>
-                <tr>
-                  <Td>14:35</Td>
-                  <Td>14:55</Td>
-                </tr>
-                <tr>
-                  <Td>15:30</Td>
-                  <Td>15:50</Td>
-                </tr>
-                <tr>
-                  <Td>16:35</Td>
-                  <Td>16:55</Td>
-                </tr>
-                <tr>
-                  <Td>17:35</Td>
-                  <Td>17:55</Td>
-                </tr>
-                <tr>
-                  <Td>18:35</Td>
-                  <Td>18:55</Td>
-                </tr>
-                <tr>
-                  <Td>19:35</Td>
-                  <Td>19:55</Td>
-                </tr>
-                <tr>
-                  <Td>20:30</Td>
-                  <Td>20:50</Td>
-                </tr>
-                <tr>
-                  <Td>22:05</Td>
-                  <Td>22:25</Td>
-                </tr>
-                </tbody>
-              </Table>
-            }
-            {daesungTimeTableTitle === "야우리 -> 학교" &&
-            <Table>
-              <tbody>
-              <tr>
-                <Td>출발시간</Td>
-                <Td>도착시간</Td>
-              </tr>
-              <tr>
-                <Td>07:00</Td>
-                <Td>07:20</Td>
-              </tr>
-              <tr>
-                <Td>08:00</Td>
-                <Td>08:20</Td>
-              </tr>
-              <tr>
-                <Td>09:00</Td>
-                <Td>09:20</Td>
-              </tr>
-              <tr>
-                <Td>10:00</Td>
-                <Td>10:20</Td>
-              </tr>
-              <tr>
-                <Td>11:00</Td>
-                <Td>11:20</Td>
-              </tr>
-              <tr>
-                <Td>12:00</Td>
-                <Td>12:20</Td>
-              </tr>
-              <tr>
-                <Td>13:00</Td>
-                <Td>13:20</Td>
-              </tr>
-              <tr>
-                <Td>14:00</Td>
-                <Td>14:20</Td>
-              </tr>
-              <tr>
-                <Td>15:00</Td>
-                <Td>15:20</Td>
-              </tr>
-              <tr>
-                <Td>16:00</Td>
-                <Td>16:20</Td>
-              </tr>
-              <tr>
-                <Td>17:00</Td>
-                <Td>17:20</Td>
-              </tr>
-              <tr>
-                <Td>18:00</Td>
-                <Td>18:20</Td>
-              </tr>
-              <tr>
-                <Td>19:00</Td>
-                <Td>19:20</Td>
-              </tr>
-              <tr>
-                <Td>20:30</Td>
-                <Td>20:50</Td>
-              </tr>
-              </tbody>
+              <TableHead>
+                <TableHeadRow>
+                  <TableHeadContent style={{width:'50%'}}>출발시간</TableHeadContent>
+                  <TableHeadContent style={{width:'50%'}}>도착시간</TableHeadContent>
+                </TableHeadRow>
+              </TableHead>
+              <div>              
+                {allcourse[allcourseId].name==="한기대->야우리" &&
+                  course.data.map((data,index)=>{
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival}</TableBodyContent>
+                      </TableBodyRow>)
+                })}
+                {allcourse[allcourseId].name==="야우리->한기대" &&
+                  course.data.map((data,index)=>{
+                    return(
+                      <TableBodyRow key={index}>
+                        <TableBodyContent style={{width:'50%'}}>{data.departure}</TableBodyContent>
+                        <TableBodyContent style={{width:'50%'}}>{data.arrival}</TableBodyContent>
+                      </TableBodyRow>)
+                })}
+            </div>
             </Table>
-            }
+              
+            </>}
           </div>
         }
 
@@ -535,24 +519,26 @@ export default function BusTimeTable(
               </SubDesc>
             </SubInfo>
             <Table>
-              <tbody>
-              <tr>
-                <Td>기점</Td>
-                <Td >종합터미널 - 병천</Td>
-              </tr>
-              <tr>
-                <Td>시간표(터미널)</Td>
-                <Td >6:00(첫) - 22:30(막) (10분간격)</Td>
-              </tr>
-              <tr>
-                <Td>시간표(병천)</Td>
-                <Td >6:10(첫) - 22:45(막) (10분간격)</Td>
-              </tr>
-              <tr>
-                <Td>소요시간</Td>
-                <Td >약 40분</Td>
-              </tr>
-              </tbody>
+            <TableHead>
+                <TableHeadRow>
+                  <TableHeadContent style={{width:'50%'}}>기점</TableHeadContent>
+                  <TableHeadContent style={{width:'50%'}}>종합터미널 - 병천</TableHeadContent>
+                </TableHeadRow>
+              </TableHead>
+              <div>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>시간표(터미널)</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>6:00(첫) - 22:30(막) (10분간격)</TableBodyContent>
+                </TableBodyRow>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>시간표(병천)</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>6:10(첫) - 22:45(막) (10분간격)</TableBodyContent>
+                </TableBodyRow>
+                <TableBodyRow>
+                  <TableBodyContent style={{width:'50%'}}>소요시간</TableBodyContent>
+                  <TableBodyContent style={{width:'50%'}}>약 40분</TableBodyContent>
+                </TableBodyRow>
+              </div>
             </Table>
           </div>
         }

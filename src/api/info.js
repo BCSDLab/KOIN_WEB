@@ -3,8 +3,16 @@ import axios from 'axios';
 const API_PATH = process.env.REACT_APP_API_PATH;
 
 // 버스
-const getBusInfo = (depart, arrival) => {
-  return axios.get(`${API_PATH}/buses/?depart=${depart}&arrival=${arrival}`);
+const getCourses = ()=> {
+  return axios.get(`${API_PATH}/bus/courses`);
+}
+
+const getTimetable = (bus_type, direction, region) =>{
+  return axios.get(`${API_PATH}/bus/timetable?bus_type=${bus_type}&direction=${direction}&region=${region}`)
+}
+
+const getBusInfo = (bus_type, depart, arrival) => {
+  return axios.get(`${API_PATH}/bus?bus_type=${bus_type}&depart=${depart}&arrival=${arrival}`);
 }
 
 // 식단
@@ -149,11 +157,20 @@ const deleteLostItem  = (token, id) => {
   })
 }
 
-const getTerm = () => {
-  return axios.get(`${API_PATH}/term`);
+// 학번 리스트
+const getStudentNumberList = async () => {
+  if(!localStorage.getItem('student_number')) {
+    const res = await axios.get(`${API_PATH}/depts`);
+    localStorage.setItem('student_number', JSON.stringify(res.data))
+    return await res.data
+  } else {
+    return JSON.parse(localStorage.getItem('student_number'));
+  }
 }
 
 export {
+  getCourses,
+  getTimetable,
   getBusInfo,
   getCafeteriaMenu,
   getFaqList,
@@ -178,5 +195,5 @@ export {
   registerLostComment,
   deleteLostItem,
   getCardNews,
-  getTerm
+  getStudentNumberList
 }

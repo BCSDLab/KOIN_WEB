@@ -277,8 +277,45 @@ const MobileSwiper = styled.div`
   }
 `
 
+// 시간 반환 함수
+const hour = (val) => {
+  return Math.floor(val / 60 / 60);
+};
+
+const minute = (val) => {
+  return Math.ceil(val / 60) % 60;
+};
+
+const timeToString = (time) => {
+  if(!time){
+    return "운행정보없음"
+  } else if (time === "미운행"){
+    return "미운행"
+  } else if(hour(time) === 0 && minute(time) === 0){
+    return "곧 도착"
+  } else if(hour(time) === 0){
+    return minute(time) + "분 전"
+  } else return hour(time) + "시간 " + minute(time) + "분 전"
+};
+
+const getBusDepartTime = (remain_time) => {
+  let remain_minute = Math.ceil(remain_time / 60);
+  let today = new Date();
+  
+  let minutes = today.getMinutes() + remain_minute;
+  let hours = today.getHours();
+  
+  hours += Math.floor(minutes / 60);
+  minutes %= 60;
+  hours %= 24;
+  
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+
+  return hours + "시 " + minutes + "분";
+};
+
 export default React.memo(function IndexBus({
-  busTypes,
   depart,
   arrival,
   daesungDepart,
@@ -286,81 +323,39 @@ export default React.memo(function IndexBus({
   cityDepart,
   cityArrival,
   shiftDestination,
-  shuttleTime,
-  daesungTime,
-  fastestShuttleTime,
-  fastestDaesungTime,
+  shuttleBusData,
+  expressBusData,
   cityBusData,
   sliderRef,
   mobileTypes,
   history
 }) {
   const mobileFlag = useMobileFlag();
+  const busTypes = [
+    {
+      busData: shuttleBusData,
+      name: "shuttle",
+      depart: depart,
+      arrival: arrival,
+    },
+    {
+      busData: expressBusData,
+      name: "daesung",
+      depart: daesungDepart,
+      arrival: daesungArrival,
+    },
+    {
+      busData: cityBusData,
+      name: "cityBus",
+      depart: cityDepart,
+      arrival: cityArrival,
+    },
+  ]
 
   function getTypeName(type) {
     if (type === "shuttle") return "셔틀버스";
     else if (type === "daesung") return "대성고속";
     else return "시내버스";
-  }
-
-  // 시간 반환 함수
-  const hour = (val) => {
-    return Math.floor(val / 1000 / 60 / 60) % 24;
-  };
-
-  const minute = (val) => {
-    return Math.floor(val / 1000 / 60) % 60;
-  };
-
-  const second = (val) => {
-    return Math.floor(val / 1000) % 60;
-  };
-  const timeToString = (time) => {
-    if (time === 0) {
-      return "운행정보없음"
-    } else if (time === "미운행") {
-      return "미운행"
-    } else if (hour(time) === 0) {
-      return minute(time) + "분 " + second(time) + "초 남음"
-    } else if (hour(time) === 0 && minute(time) === 0) {
-      return second(time) + "초 남음"
-    } else return hour(time) + "시간 " + minute(time) + "분 " + second(time) + "초 남음"
-  };
-
-  function cityBusString(remain_time) {
-    if (remain_time !== null && remain_time !== undefined) {
-      return "약 " + Math.ceil(remain_time / 60) % 60 + "분 남음"
-    } else if (remain_time === undefined || remain_time === null) {
-      return "운행정보없음"
-    }
-  }
-
-  const timeLength = (val) => {
-    return val < 10 ? '0' + val : val;
-  };
-
-  function detailString(shuttleTime, daesungTime, cityBusTime, type) {
-    switch (type) {
-      case "shuttle":
-        return (shuttleTime[0].hour !== 0 ? timeLength(shuttleTime[0].hour) + "시 " + timeLength(shuttleTime[0].minute) + "분 출발" : "");
-      case "daesung":
-        return (daesungTime[0].hour !== 0 ? timeLength(daesungTime[0].hour) + "시 " + timeLength(daesungTime[0].minute) + "분 출발" : "");
-      case "cityBus":
-        if (cityBusTime === null || cityBusTime === undefined) {
-          return ""
-        }
-        let today = new Date();
-        let minutes = today.getMinutes() + (Math.ceil(cityBusTime / 60) % 60);
-        let hours = today.getHours();
-        if (minutes >= 60) {
-          hours = hours + 1;
-          minutes = minutes - 60;
-        }
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-
-        return hours + "시 " + minutes + "분 출발";
-    }
   }
 
   return (
@@ -371,36 +366,36 @@ export default React.memo(function IndexBus({
           실시간 버스
         </BusTitle>
         <CardContainer>
-          {busTypes.map((type, index) => {
+          {busTypes.map((busType) => {
             return (
-              <div key={type}>
-                <BusCard busType={type}>
-                  <DestinationShiftRow busType={type}>
+              <div key={busType.name}>
+                <BusCard busType={busType.name}>
+                  <DestinationShiftRow busType={busType.name}>
                     <BusIcon/>
                     <BusType>
-                      {getTypeName(type)}
+                      {getTypeName(busType.name)}
                     </BusType>
                   </DestinationShiftRow>
                   <Info>
                     <Time>
                       <LeftTime onClick={() => history.push('/bus')}>
-                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time)}
+                        {timeToString(busType.busData?.now_bus?.remain_time)}
                       </LeftTime>
                     </Time>
-                    {cityBusData &&
-                    <TimeDetail>
-                      {detailString(shuttleTime, daesungTime, cityBusData.remain_time, type)}
-                    </TimeDetail>
+                    {busType.busData?.now_bus?.remain_time > 0 &&
+                      <TimeDetail>
+                        {getBusDepartTime(busType.busData?.now_bus?.remain_time) + " 출발"}
+                      </TimeDetail>
                     }
                     <Destination>
                     <span>
-                      {type === "shuttle" ? depart : type === "daesung" ? daesungDepart : cityDepart}
+                      {busType.depart}
                     </span>
                       <DestinationShiftBtn
                         src={"http://static.koreatech.in/assets/img/reverse_destination.png"}
-                        onClick={() => shiftDestination(type)}/>
+                        onClick={() => shiftDestination(busType.name)}/>
                       <span>
-                      {type === "shuttle" ? arrival : type === "daesung" ? daesungArrival : cityArrival}
+                      {busType.arrival}
                     </span>
                     </Destination>
                   </Info>
@@ -413,7 +408,7 @@ export default React.memo(function IndexBus({
       }
       {mobileFlag &&
         <>
-          <BusTitle>
+          <BusTitle onClick={() => history.push('/bus')}>
             버스/교통
           </BusTitle>
           <MobileSwiper
@@ -431,7 +426,7 @@ export default React.memo(function IndexBus({
                   <Info>
                     <Time>
                       <LeftTime onClick={() => history.push('/bus')}>
-                        {type === "shuttle" ? timeToString(fastestShuttleTime) : type === "daesung" ? timeToString(fastestDaesungTime) : cityBusString(cityBusData.remain_time)}
+                        {type === "shuttle" ? timeToString(shuttleBusData?.now_bus?.remain_time) : type === "daesung" ? timeToString(expressBusData?.now_bus?.remain_time) : timeToString(cityBusData?.now_bus?.remain_time)}
                       </LeftTime>
                     </Time>
                     <Destination>
