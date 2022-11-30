@@ -283,7 +283,7 @@ const hour = (val) => {
 };
 
 const minute = (val) => {
-  return Math.floor(val / 60) % 60;
+  return Math.ceil(val / 60) % 60;
 };
 
 const timeToString = (time) => {
@@ -299,7 +299,7 @@ const timeToString = (time) => {
 };
 
 const getBusDepartTime = (remain_time) => {
-  let remain_minute = Math.floor(remain_time / 60);
+  let remain_minute = Math.ceil(remain_time / 60);
   let today = new Date();
   
   let minutes = today.getMinutes() + remain_minute;
