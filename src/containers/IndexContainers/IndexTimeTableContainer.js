@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {getAllLecture, getAllSemester, getMyIndexLectures} from "../../modules/timetable";
 import IndexTimeTable from "../../components/IndexComponents/IndexTimeTable";
 
-export default function IndexTimeTableContainer() {
+export default function IndexTimeTableContainer({ history }) {
   const {indexLecture: { lectures }, selectedSemester} = useSelector(state => state.timetableReducer);
   const dispatch = useDispatch();
 
@@ -13,7 +13,7 @@ export default function IndexTimeTableContainer() {
     if(token) {
       dispatch(getAllSemester());
     }
-  }, [])
+  }, [dispatch, lectures])
 
   useEffect(() => {
     if (selectedSemester) {
@@ -24,6 +24,6 @@ export default function IndexTimeTableContainer() {
     }
   }, [dispatch, selectedSemester]);
   return (
-    <IndexTimeTable lectures={lectures}/>
+    <IndexTimeTable lectures={lectures} history={history}/>
   )
 }

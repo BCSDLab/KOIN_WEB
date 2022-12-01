@@ -54,8 +54,7 @@ export default function IndexCafeteriaContainer({history}) {
     let corseC = ["","",""];
     let neungSu = ["","",""];
 
-    data.map((menus)=> {
-      console.log(menus)
+    data.forEach((menus) => {
       if(menus.place === "A코너"){
         setMenuByType(corseA, menus)
       }

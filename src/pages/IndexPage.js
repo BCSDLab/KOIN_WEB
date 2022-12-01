@@ -78,7 +78,7 @@ export default function IndexPage({history}) {
             <IndexStoreCategoryContainer history={history}/>
             <IndexBusContainer history={history}/>
           </div>
-          <IndexTimeTableContainer/>
+          <IndexTimeTableContainer history={history}/>
         </CardList>
       </IndexRow>
 

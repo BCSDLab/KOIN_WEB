@@ -104,8 +104,9 @@ const DropDownButton = styled.button`
   margin-right: 10px;
   
   @media (max-width: 576px) {
-    width: 100%;
-    width : 150px
+    width : auto;
+    display: flex;
+    gap: 20px;
   }
 `;
 
@@ -135,12 +136,12 @@ const DropDown = styled.div`
   display: inline-block;
   height: 44px;
   
-  &:hover ${DropDownButton}{
-    background-color: #efefef;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  ${DropDownButton}{
+    background-color: ${props => props.isOpen && "#efefef"};
+    box-shadow: ${props => props.isOpen && "0 8px 16px 0 rgba(0,0,0,0.2)"};
   }
-  &:hover ${DropDownContents}{
-    display: block;
+  ${DropDownContents}{
+    display: ${props => props.isOpen && "block"};
   } 
 `;
 
@@ -322,9 +323,13 @@ export default function BusTimeTable(
     setRouteId,
     routeId,
     course,
-    courses
+    courses,
+    isOpenType,
+    setIsOpenType,
+    isOpenTime,
+    setIsOpenTime,
   }) {
-    // console.log("course", course)
+  
   return(
     <Container>
       <TimeTable>
@@ -354,15 +359,12 @@ export default function BusTimeTable(
         {selectedTab === "학교셔틀" &&
           <div>
             <SubInfo>
-              <DropDown>
-                <DropDownButton>
+              <DropDown isOpen={isOpenType}>
+                <DropDownButton onClick={() => setIsOpenType(prev => !prev)}>
                   {allcourse[allcourseId].name}
-                  {/* {courses.data[allcourseId]?.direction == 'to' ?
-                  `${courses.data[allcourseId]?.region} 등교`
-                  : `${courses.data[allcourseId]?.region} 하교`} */}
                   <ArrowImg/>
                 </DropDownButton>
-                <DropDownContents>
+                <DropDownContents onClick={() => setIsOpenType(false)}>
                   {/* {console.log('allcourse',allcourse)} */}
                 {allcourse.filter((data,index)=> index <= 13).map((data,idx)=>{
                   return(
@@ -375,12 +377,12 @@ export default function BusTimeTable(
                 </DropDownContents>
               </DropDown>
               {!course.loading && 
-                <DropDown>
-                  <DropDownButton>
+                <DropDown isOpen={isOpenTime}>
+                  <DropDownButton onClick={() => setIsOpenTime(prev => !prev)}>
                     {course.data?.[routeId]?.route_name}
                     <ArrowImg/>
                   </DropDownButton>
-                  <DropDownContents>
+                  <DropDownContents onClick={() => setIsOpenTime(false)}>
                     {course.data.map((data,index)=>{
                       return(
                       <DropDownContent

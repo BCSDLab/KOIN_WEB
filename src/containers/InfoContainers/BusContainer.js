@@ -203,6 +203,9 @@ export default function BusContainer() {
   const setDaesungDropDownTitle = (title) => () => {
     setDaesungTimeTableTitle(title);
   };
+
+  const [isOpenType, setIsOpenType] = useState(false);
+  const [isOpenTime, setIsOpenTime] = useState(false);
  
   return (
     <div>
@@ -229,6 +232,10 @@ export default function BusContainer() {
         routeId={routeId}
         course={course}
         courses={courses}
+        isOpenType={isOpenType}
+        setIsOpenType={setIsOpenType}
+        isOpenTime={isOpenTime}
+        setIsOpenTime={setIsOpenTime}
         />
     </div>
   )
