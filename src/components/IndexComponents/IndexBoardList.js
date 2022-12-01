@@ -27,6 +27,7 @@ const BoardName = styled.h2`
   color: ${props => props.isSelected ? "#175c8e" : "#bbbbbb"};
   padding: 0 0 5px 0;
   margin: 0 20px 0 0;
+  cursor: pointer;
 `;
 
 const ShowMore = styled.div`
@@ -254,16 +255,11 @@ export default React.memo(function IndexBoardList({
     <Container>
       <Header>
         <BoardList>
-          {boardList.map((board, idx) => {
-            return (
-              <BoardName
-                onClick={() => selectBoard(idx)}
-                isSelected={selectedBoard === idx}
-                key={idx}>
-                {board}
-              </BoardName>
-            )
-          })}
+          <BoardName
+            onClick={() => history.push('/board/notice')}
+            isSelected={true}>
+            공지사항
+          </BoardName>
         </BoardList>
         <ShowMore onClick={() => clickShowMore(selectedBoard)}>
           <span>더 보기</span>
