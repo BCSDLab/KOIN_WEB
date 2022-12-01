@@ -17,6 +17,7 @@ const Title = styled.div`
   text-align: left;
   color: #175c8e;
   margin-bottom: 16px;
+  cursor: pointer;
 `
 const Timetable = styled.div`
   width: 256px;
@@ -154,13 +155,13 @@ const TimetableNotLogin = styled(Link)`
 `;
 
 export default function IndexTimeTable({
-  lectures
+  lectures, history
 }) {
   let timeAlias = ["01A", "01B", "02A", "02B", "03A", "03B", "04A", "04B", "05A", "05B", "06A", "06B", "07A", "07B", "08A", "08B", "09A", "09B"];
   let times = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"];
   return (
     <Container>
-      <Title>시간표</Title>
+      <Title onClick={() => history.push('/timetable')}>시간표</Title>
       <Timetable>
         <TimetableHead>
           <TimetableHeadCol/>

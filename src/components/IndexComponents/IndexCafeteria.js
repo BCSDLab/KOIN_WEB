@@ -30,6 +30,9 @@ const Title = styled.h2`
     font-size: 15px;
     padding-left: 3px;
   }
+  span {
+    cursor: pointer;
+  }
 `;
 
 const MoreLink = styled(Link)`
@@ -234,7 +237,9 @@ export default React.memo(function IndexCafeteria({
   return (
     <Container>
       <Title>
-        식단
+        <span onClick={() => history.push('/cafeteria')}>
+          식단
+        </span>
         <MoreLink to="/cafeteria">더 보기</MoreLink>
       </Title>
       <CafeteriaCard>
