@@ -328,6 +328,8 @@ export default function BusTimeTable(
     setIsOpenType,
     isOpenTime,
     setIsOpenTime,
+    isOpenExpress,
+    setIsOpenExpress,
   }) {
   
   return(
@@ -454,12 +456,12 @@ export default function BusTimeTable(
         {selectedTab === "대성고속" &&
           <div>
             <SubInfo>
-              <DropDown>
-                <DropDownButton>
+              <DropDown isOpen={isOpenExpress}>
+                <DropDownButton onClick={() => setIsOpenExpress(prev => !prev)}>
                   {allcourse[allcourseId].name}
                   <ArrowImg/>
                 </DropDownButton>
-                <DropDownContents>
+                <DropDownContents onClick={() => setIsOpenExpress(false)}>
                   {allcourse.filter((data,index)=> index > 13 && index <= 16).map((data,idx)=>{
                     return(
                       <DropDownContent
