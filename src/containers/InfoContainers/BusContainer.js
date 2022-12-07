@@ -206,6 +206,7 @@ export default function BusContainer() {
 
   const [isOpenType, setIsOpenType] = useState(false);
   const [isOpenTime, setIsOpenTime] = useState(false);
+  const [isOpenExpress, setIsOpenExpress] = useState(false);
  
   return (
     <div>
@@ -236,6 +237,8 @@ export default function BusContainer() {
         setIsOpenType={setIsOpenType}
         isOpenTime={isOpenTime}
         setIsOpenTime={setIsOpenTime}
+        isOpenExpress={isOpenExpress}
+        setIsOpenExpress={setIsOpenExpress}
         />
     </div>
   )
