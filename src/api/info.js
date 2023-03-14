@@ -158,7 +158,7 @@ const deleteLostItem  = (token, id) => {
 }
 
 // 학번 리스트
-const getStudentNumberList =  () => {
+const getStudentNumberList = () => {
   return axios.get(`${API_PATH}/depts`);
 }
 
