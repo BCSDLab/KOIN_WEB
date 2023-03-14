@@ -5,7 +5,7 @@ import SignupForm from '../../components/UserComponents/SignupForm';
 import Container from '../../components/UserComponents/Container';
 import CopyRight from '../../components/UserComponents/CopyRight';
 import { useToasts } from 'react-toast-notifications';
-import { getStudentNumberList } from '../../api/info';
+import { getMajorList } from '../../modules/major';
 
 export default function SignUpContainer() {
   const { addToast } = useToasts();
@@ -16,13 +16,13 @@ export default function SignUpContainer() {
   const nicknameRegex = /admin|관리자/;
   const dispatch = useDispatch();
   const { data, authInProgress, checkInProgress, isAvailable, error, nicknameCheckError } = useSelector(state => state.authReducer);
+  const {studentNumberList}=useSelector(state=>state.majorReducer);
   const [dropdown, setDropdown] = useState(false);
   const [terms, setTerms] = useState({
     koin: false,
     privacy: false,
     all: false
   });
-  const studentNumberList = useRef([]);
   const [userInfo, setUserInfo] = useState({
     userId: "",
     firstPassword: "",
@@ -128,7 +128,7 @@ export default function SignUpContainer() {
         });
         return;
       }
-      for(let major of studentNumberList.current) {
+      for(let major of studentNumberList.data) {
         if (major.dept_nums.includes(majorCode)) {
           break;
         } else {
@@ -219,7 +219,7 @@ export default function SignUpContainer() {
   const setUserMajor = useCallback(() => {
     if (userInfo.studentNumber.length > 6) {
       const majorCode = userInfo.studentNumber.substring(5, 7);
-      for(let major of studentNumberList.current) {
+      for(let major of studentNumberList.data) {
         if (major.dept_nums.includes(majorCode)) {
           setUserInfo({
             ...userInfo,
@@ -243,10 +243,9 @@ export default function SignUpContainer() {
   }, [userInfo]);
   
   useEffect(() => {
-    async function fetchStudentNumberList() {
-      studentNumberList.current = await getStudentNumberList();
+    if(studentNumberList.data.length===0){
+      dispatch(getMajorList());
     }
-    fetchStudentNumberList();
   }, [])
 
   useEffect(() => {

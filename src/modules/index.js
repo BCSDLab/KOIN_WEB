@@ -8,6 +8,7 @@ import timetableReducer from './timetable';
 import commonReducer from './common';
 import boardReducer from './board';
 import courseReducer from './course';
+import majorReducer from './major';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   timetableReducer,
   commonReducer,
   boardReducer,
+  majorReducer,
 });
 
 export default rootReducer;
