@@ -158,14 +158,8 @@ const deleteLostItem  = (token, id) => {
 }
 
 // 학번 리스트
-const getStudentNumberList = async () => {
-  if(!localStorage.getItem('student_number')) {
-    const res = await axios.get(`${API_PATH}/depts`);
-    localStorage.setItem('student_number', JSON.stringify(res.data))
-    return await res.data
-  } else {
-    return JSON.parse(localStorage.getItem('student_number'));
-  }
+const getStudentNumberList = () => {
+  return axios.get(`${API_PATH}/depts`);
 }
 
 export {
