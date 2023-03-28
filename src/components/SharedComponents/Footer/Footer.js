@@ -360,6 +360,10 @@ export default function Footer({ path }) {
                 개인정보 처리방침
               </Link>
             </LinkButton>
+            <LinkButton
+              onClick={() => window.open('https://forms.gle/hE4VMchTZuff5rLB7')}>
+              문의하기
+            </LinkButton>
           </FooterLinkButtonList>
           <div>
             <FooterLinkFacebook onClick={() => window.open('https://www.facebook.com/koreatech.in/')}/>
@@ -393,6 +397,10 @@ export default function Footer({ path }) {
               개인정보 처리방침
             </span>
           </Link>
+          &nbsp; | &nbsp;
+          <span onClick={() => window.open('https://forms.gle/hE4VMchTZuff5rLB7')}>
+            문의하기
+          </span>
         </MobileFooterLink>
         <MobileFooterLink sequence={2}>
           <Link to='/'>
