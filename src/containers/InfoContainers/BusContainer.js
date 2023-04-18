@@ -120,7 +120,6 @@ export default function BusContainer() {
     dispatch(getShuttleBusVersionInfo())
     dispatch(getExpressBusVersionInfo())
     dispatch(getCityBusVersionInfo())
-    console.log("data" , cityBusVersionData);
   },[])
 
   useEffect(()=>{

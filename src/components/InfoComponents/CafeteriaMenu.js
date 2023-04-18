@@ -353,7 +353,9 @@ export default function CafeteriaMenu(
           </MobileCafeteria>
         </MobileCafeteriaMenu>
       </CafeteriaContainer>
-        {cafeteriaMenus[0]?.updated_at ? <Update>{"최신 업데이트 날짜 : "+cafeteriaMenus[0]?.updated_at.slice(0, 11)}</Update> : <Update></Update>}
+        <Update>
+          {cafeteriaMenus[0]? `최신 업데이트 날짜 : ${cafeteriaMenus[0]?.updated_at.slice(0, 11)}` : ''}
+        </Update>
     </Container>
   )
 }
