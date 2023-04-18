@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import BusLookUp from "../../components/InfoComponents/BusLookUp";
 import BusTimeTable from "../../components/InfoComponents/BusTimeTable";
 import {getCityBusInfo, getShuttleBusInfo, getExpressBusInfo} from "../../modules/bus";
+import {getShuttleBusVersionInfo, getExpressBusVersionInfo, getCityBusVersionInfo} from "../../modules/version";
 import {getCourses, getTimeTable} from "../../modules/course";
 import useInterval from "../../hooks/useInterval";
 
@@ -102,6 +103,9 @@ export default function BusContainer() {
   const {data: cityBusData} = useSelector(state => state.busReducer.cityBusData);
   const {data: shuttleBusData} = useSelector(state => state.busReducer.shuttleBusData);
   const {data: expressBusData} = useSelector(state => state.busReducer.expressBusData);
+  const {data: shuttleBusVersionData} = useSelector(state => state.versionReducer.shuttleBusVersionData);
+  const {data: expressBusVersionData} = useSelector(state => state.versionReducer.expressBusVersionData);
+  const {data: cityBusVersionData} = useSelector(state => state.versionReducer.cityBusVersionData);
 
   // BusTimeTable.js
   const dispatch = useDispatch();
@@ -111,7 +115,13 @@ export default function BusContainer() {
   const [selectedTab, setSelectedTab] = useState("학교셔틀");
   const [daesungTimeTableTitle, setDaesungTimeTableTitle] = useState("학교 -> 야우리");
   const [routeId,setRouteId] = useState(0);
-
+  
+  useEffect(() => {
+    dispatch(getShuttleBusVersionInfo())
+    dispatch(getExpressBusVersionInfo())
+    dispatch(getCityBusVersionInfo())
+    console.log("data" , cityBusVersionData);
+  },[])
 
   useEffect(()=>{
     dispatch(getTimeTable(allcourse[allcourseId].bus_type, allcourse[allcourseId].direction, allcourse[allcourseId].region))
@@ -125,7 +135,7 @@ export default function BusContainer() {
     setAllCourseId(id);
     setRouteId(0);
   }
- 
+
   const selectTab = (tab) => () =>{
     setSelectedTab(tab);
   };
@@ -207,7 +217,7 @@ export default function BusContainer() {
   const [isOpenType, setIsOpenType] = useState(false);
   const [isOpenTime, setIsOpenTime] = useState(false);
   const [isOpenExpress, setIsOpenExpress] = useState(false);
- 
+
   return (
     <div>
       <BusLookUp
@@ -239,6 +249,9 @@ export default function BusContainer() {
         setIsOpenTime={setIsOpenTime}
         isOpenExpress={isOpenExpress}
         setIsOpenExpress={setIsOpenExpress}
+        shuttleBusVersionData={shuttleBusVersionData}
+        expressBusVersionData={expressBusVersionData}
+        cityBusVersionData={cityBusVersionData}
         />
     </div>
   )

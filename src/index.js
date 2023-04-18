@@ -29,7 +29,7 @@ const sagaMiddleware = createSagaMiddleware({
 });
 
 if (process.env.NODE_ENV === 'development') {
-  middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware, logger];
+  middlewares = [...middlewares, ReduxThunk.withExtraArgument({ history: customHistory }), sagaMiddleware, ];
   middlewareWrapper = composeWithDevTools(applyMiddleware(...middlewares));
 } else {
   console.log = () => {}

@@ -9,6 +9,7 @@ import commonReducer from './common';
 import boardReducer from './board';
 import courseReducer from './course';
 import majorReducer from './major';
+import versionReducer from './version';
 
 const rootReducer = combineReducers({
   authReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   commonReducer,
   boardReducer,
   majorReducer,
+  versionReducer
 });
 
 export default rootReducer;

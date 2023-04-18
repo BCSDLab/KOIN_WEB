@@ -374,6 +374,9 @@ export default function StoreDetail ({
                     }
                   </StoreOtherInfoContent>
                 </StoreOtherInfo>
+                <span>업데이트 날짜</span>
+                {store.updated_at.slice(0, 11)}
+                <br/>
               </StoreInfoDetailText>
               <StoreInfoTagWrapper>
                 {store.delivery && <span>#배달가능</span>}
