@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import React from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -318,6 +318,8 @@ const getBusDepartTime = (remain_time) => {
   return hours + ":" + minutes;
 };
 
+
+
 export default function BusLookUp(
   {
     departList,
@@ -326,9 +328,14 @@ export default function BusLookUp(
     selectArrival,
     cityBusData,
     shuttleBusData,
-    expressBusData
+    expressBusData,
+    shuttleBusVersionData,
+    expressBusVersionData,
+    cityBusVersionData
   }
+  
 ) {
+
   return (
     <Container>
       <LookUp>
@@ -342,7 +349,6 @@ export default function BusLookUp(
           <Desc>
             운행수단별로 간단히 비교해드립니다.
           </Desc>
-
           <SelectForm>
             <DropDown>
               <DropDownBtn>
@@ -494,7 +500,6 @@ export default function BusLookUp(
               </LowerCardContainer>
             </LowerCard>
           </Cards>
-
           <Cards>
             <UpperCard type={"city"}>
               <UpperCardContainer>

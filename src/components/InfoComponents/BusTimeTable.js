@@ -312,6 +312,13 @@ const SpinnerWrapper = styled.div`
   align-items:center;
   min-height:621px;
 `;
+
+const Update = styled.div`
+margin: 70px auto 20px auto;
+color: gley;
+font-size: 13px
+`;
+
 export default function BusTimeTable(
   {
     tabs,
@@ -330,6 +337,9 @@ export default function BusTimeTable(
     setIsOpenTime,
     isOpenExpress,
     setIsOpenExpress,
+    shuttleBusVersionData,
+    expressBusVersionData,
+    cityBusVersionData
   }) {
   
   return(
@@ -367,7 +377,6 @@ export default function BusTimeTable(
                   <ArrowImg/>
                 </DropDownButton>
                 <DropDownContents onClick={() => setIsOpenType(false)}>
-                  {/* {console.log('allcourse',allcourse)} */}
                 {allcourse.filter((data,index)=> index <= 13).map((data,idx)=>{
                   return(
                     <DropDownContent
@@ -427,6 +436,7 @@ export default function BusTimeTable(
                     })}
                   </div>
               </Table>
+              <Update>{"최근 업데이트 날짜 : "+shuttleBusVersionData?.updated_at}</Update>
               {/* <TimeTableSubTitle>• 한기대 {allcourse[allcourseId].name.substr(0,allcourse[allcourseId].name.indexOf(' '))} &gt; </TimeTableSubTitle> */}
 
                 {/* <Table>
@@ -509,7 +519,7 @@ export default function BusTimeTable(
                 })}
             </div>
             </Table>
-              
+            <Update>{"최근 업데이트 날짜 : "+expressBusVersionData?.updated_at}</Update>
             </>}
           </div>
         }
@@ -544,6 +554,7 @@ export default function BusTimeTable(
                 </TableBodyRow>
               </div>
             </Table>
+            <Update>{"최근 업데이트 날짜 : "+cityBusVersionData?.updated_at}</Update>
           </div>
         }
       </TimeTable>

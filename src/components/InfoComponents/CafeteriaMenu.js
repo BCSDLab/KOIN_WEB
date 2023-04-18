@@ -243,6 +243,12 @@ const MobileCafeteria = styled.div`
   padding: 0 16px;
 `;
 
+const Update = styled.div`
+  margin: 70px auto 30px auto;
+  color: grey;
+  font-size: 13px
+`;
+
 export default function CafeteriaMenu(
   {
     date,
@@ -251,6 +257,7 @@ export default function CafeteriaMenu(
     cafeteriaList,
     cafeteriaMenus
   }) {
+  console.log(cafeteriaMenus);
 
   return (
     <Container>
@@ -346,6 +353,9 @@ export default function CafeteriaMenu(
           </MobileCafeteria>
         </MobileCafeteriaMenu>
       </CafeteriaContainer>
+        <Update>
+          {cafeteriaMenus[0]? `최신 업데이트 날짜 : ${cafeteriaMenus[0]?.updated_at.slice(0, 11)}` : ''}
+        </Update>
     </Container>
   )
 }

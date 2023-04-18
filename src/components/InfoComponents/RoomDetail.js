@@ -343,6 +343,12 @@ const MapWrapper = styled.div`
   }
 `;
 
+const Update = styled.div`
+margin: 70px auto 50px auto;
+color: grey;
+font-size: 13px
+`;
+
 export default function RoomDetail({
   room,
   loading,
@@ -461,6 +467,7 @@ export default function RoomDetail({
             </NaverMap>
           </MapWrapper>
         </PositionSection>
+        <Update>{"최근 업데이트 날짜 : "+room.updated_at?.slice(0, 11)}</Update>
       </Row>}
       
     </Container>
